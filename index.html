@@ -135,6 +135,7 @@
             gap: 3rem;
             align-items: center;
         }
+        .hero-content {}
         .hero h1 { 
             margin-bottom: 1.75rem; 
             max-width: 14ch;
@@ -350,6 +351,59 @@
             white-space: nowrap;
         }
 
+        /* ========== Mobile Navigation ========== */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--black);
+            margin: 5px 0;
+            transition: all 0.3s;
+        }
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--off-white);
+            z-index: 200;
+            padding: 6rem 2.5rem;
+        }
+        .mobile-nav.active {
+            display: block;
+        }
+        .mobile-nav-close {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--black);
+            line-height: 1;
+        }
+        .mobile-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .mobile-nav a {
+            font-family: 'Libre Baskerville', serif;
+            font-size: 1.5rem;
+            color: var(--black);
+        }
+        .mobile-nav a:hover {
+            opacity: 0.6;
+        }
+
         /* ========== Responsive ========== */
         @media (max-width: 800px) {
             .hero,
@@ -382,19 +436,28 @@
         }
         @media (max-width: 600px) {
             .nav-links { display: none; }
+            .nav-toggle { display: block; }
             .hero { padding-top: 6rem; padding-bottom: 3rem; }
             section { padding-left: 1.5rem; padding-right: 1.5rem; }
             .divider { padding-left: 1.5rem; padding-right: 1.5rem; }
             .cta { padding-left: 1.5rem; padding-right: 1.5rem; }
             footer { padding: 2rem 1.5rem; }
+            .hero-image,
+            .mission-image {
+                justify-content: center;
+            }
             .hero-image img,
             .mission-image img {
-                max-height: 180px;
-                opacity: 0.7;
+                max-height: 220px;
+                opacity: 1;
+            }
+            .cta-image {
+                justify-content: center;
             }
             .cta-image img {
-                max-width: 120px;
-                max-height: 120px;
+                max-width: 150px;
+                max-height: 150px;
+                opacity: 0.25;
             }
         }
     </style>
@@ -412,8 +475,25 @@
                 <li><a href="/mars">MARS</a></li>
                 <li><a href="/membership">Membership</a></li>
             </ul>
+            <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('mobile-nav').classList.add('active')">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
     </nav>
+
+    <!-- Mobile Navigation Overlay -->
+    <div id="mobile-nav" class="mobile-nav">
+        <button class="mobile-nav-close" aria-label="Close menu" onclick="document.getElementById('mobile-nav').classList.remove('active')">&times;</button>
+        <ul>
+            <li><a href="/about" onclick="document.getElementById('mobile-nav').classList.remove('active')">About</a></li>
+            <li><a href="/fellowship" onclick="document.getElementById('mobile-nav').classList.remove('active')">Alignment Fellowship</a></li>
+            <li><a href="/socials" onclick="document.getElementById('mobile-nav').classList.remove('active')">Socials</a></li>
+            <li><a href="/mars" onclick="document.getElementById('mobile-nav').classList.remove('active')">MARS</a></li>
+            <li><a href="/membership" onclick="document.getElementById('mobile-nav').classList.remove('active')">Membership</a></li>
+        </ul>
+    </div>
 
     <section class="hero">
         <div class="hero-content">
