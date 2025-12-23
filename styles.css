@@ -917,42 +917,75 @@
     margin-bottom: 1rem;
   }
   
-  .mars-stages {
+  /* MARS Journey */
+  .mars-journey {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    margin: 1.5rem 0;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+    margin: 2rem 0;
   }
   
-  .mars-stage {
-    padding-left: 1.5rem;
-    border-left: 2px solid var(--light-grey);
+  .journey-card {
+    flex: 1 1 calc(33.333% - 2rem);
+    min-width: 180px;
+    max-width: 220px;
+    background: var(--cream);
+    padding: 1.25rem;
+    border-radius: 6px;
   }
   
-  .mars-stage h4 {
+  .journey-number {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    line-height: 1.5rem;
+    text-align: center;
+    border-radius: 50%;
+    margin-bottom: 0.75rem;
+  }
+  
+  .journey-card h4 {
     font-family: var(--font-serif);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 400;
     margin-bottom: 0.5rem;
   }
   
-  .mars-stage p {
+  .journey-card p {
+    font-size: 0.75rem;
+    line-height: 1.5;
     margin-bottom: 0;
-    font-size: 0.9rem;
-    max-width: 65ch;
+    color: var(--dark-grey);
   }
   
-  .mars-stage-image {
+  .journey-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--light-grey);
+    padding-top: 1.5rem;
+    flex: 0 0 auto;
+  }
+  
+  .mars-working-image {
     margin: 2rem 0;
+    text-align: center;
   }
   
-  .mars-stage-image img {
-    width: 100%;
+  .mars-working-image img {
+    width: 60%;
+    min-width: 300px;
     max-width: 100%;
     height: auto;
     border-radius: 4px;
   }
-  
+
   .mars-feature {
     padding: 1.25rem;
     border-left: 2px solid var(--light-grey);
@@ -1259,12 +1292,13 @@
       padding-top: 0.75rem;
     }
   
-    .mars-features {
-      grid-template-columns: 1fr;
+    .journey-arrow {
+      display: none;
     }
   
-    .mars-stage p {
-      max-width: 100%;
+    .journey-card {
+      flex: 1 1 calc(50% - 1rem);
+      max-width: none;
     }
   
     .mentors-grid {
@@ -1399,4 +1433,8 @@
     .mars-section {
       padding-top: 1rem;
     }
-  }
+  
+    .journey-card {
+      flex: 1 1 100%;
+    }
+  } 
