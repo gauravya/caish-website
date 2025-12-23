@@ -843,6 +843,115 @@
     margin-bottom: 0;
     font-size: 0.8rem;
   }
+
+  /* MARS page */
+  .mars-header {
+    padding-top: 9rem;
+    padding-bottom: 3.5rem;
+  }
+
+  .mars-header p {
+    max-width: 52ch;
+  }
+
+  .mars-section {
+    padding: 3rem 0;
+  }
+
+  .mars-section h2 {
+    margin-bottom: 1.25rem;
+  }
+
+  .mars-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .mars-card {
+    background: var(--white);
+    border: 1px solid var(--light-grey);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+  }
+
+  .mars-card h3 {
+    font-family: var(--font-serif);
+    margin-bottom: 1rem;
+  }
+
+  .mars-card ul {
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+    padding-left: 0;
+    margin: 0;
+  }
+
+  .mars-card li {
+    font-size: 0.85rem;
+    color: var(--dark-grey);
+  }
+
+  .mentor-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .mentor-card {
+    padding: 1.4rem;
+    border: 1px solid var(--light-grey);
+    border-radius: 12px;
+    background: var(--white);
+  }
+
+  .mentor-card h3 {
+    font-family: var(--font-serif);
+    margin-bottom: 0.75rem;
+  }
+
+  .phase-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .phase-card {
+    border: 1px solid var(--light-grey);
+    border-radius: 12px;
+    padding: 1.25rem 1.35rem;
+    background: var(--white);
+  }
+
+  .phase-card h3 {
+    font-family: var(--font-serif);
+    margin-bottom: 0.5rem;
+  }
+
+  .phase-card p {
+    margin: 0;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+
+  .project-card {
+    padding: 1.4rem;
+    border: 1px solid var(--light-grey);
+    border-radius: 12px;
+    background: var(--white);
+  }
+
+  .project-card h3 {
+    font-family: var(--font-serif);
+    margin-bottom: 0.5rem;
+  }
   
   .fellowship-list {
     list-style: none;
@@ -924,11 +1033,18 @@
     .fellowship-features {
       grid-template-columns: 1fr;
     }
-  
+
     .expectations-list {
       grid-template-columns: 1fr;
     }
-  
+
+    .mars-grid,
+    .mentor-grid,
+    .phase-grid,
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+
     .hero-image,
     .mission-image,
     .cta-image {
