@@ -724,6 +724,68 @@
   .btn-primary:hover {
     opacity: 0.85;
   }
+
+  /* MARS page */
+  .mars-research {
+    padding: 3rem 0;
+  }
+
+  .mars-research h2 {
+    margin-bottom: 1.5rem;
+  }
+
+  .research-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .research-item {
+    padding: 1.25rem;
+    background: var(--cream);
+    border-radius: 6px;
+    border: 1px solid var(--light-grey);
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+  }
+
+  .research-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--mid-grey);
+  }
+
+  .research-cohort {
+    display: inline-block;
+    padding: 0.35rem 0.55rem;
+    background: var(--white);
+    border: 1px solid var(--light-grey);
+    border-radius: 999px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .research-link {
+    font-size: 0.8rem;
+    text-decoration: none;
+    color: var(--black);
+    border-bottom: 1px solid var(--light-grey);
+  }
+
+  .research-link:hover {
+    opacity: 0.75;
+  }
+
+  .research-authors {
+    font-size: 0.95rem;
+    color: var(--dark-grey);
+    margin: 0;
+  }
   
   .fellowship-block h2 {
     margin-bottom: 1rem;

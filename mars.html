@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mentorship for Alignment Research (MARS) - Part-time AI safety research programme with mentors and real projects.">
+  <title>MARS | Cambridge AI Safety Hub</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/styles.css" as="style">
+  <link rel="preload" href="/images/logo.png" as="image">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home">
+        <img src="/images/logo.png" alt="CAISH" class="logo" width="50" height="50">
+      </a>
+      <ul class="nav-links">
+        <li><a href="/about">About</a></li>
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/socials">Socials</a></li>
+        <li><a href="/mars">MARS</a></li>
+        <li><a href="/membership">Membership</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/socials">Socials</a></li>
+      <li><a href="/mars">MARS</a></li>
+      <li><a href="/membership">Membership</a></li>
+    </ul>
+  </div>
+
+  <section class="page-header">
+    <h1>Mentorship for Alignment Research (MARS)</h1>
+    <p>A part-time, mentored research programme for aspiring AI safety researchers.</p>
+  </section>
+
+  <div class="divider"><div class="divider-line"></div></div>
+
+  <section class="fellowship-section">
+    <div class="fellowship-content">
+      <p>The window to prepare for AI's most serious risks is limited. We need more people—across disciplines and career stages—who can contribute to safety research.</p>
+
+      <p>But breaking into this work is hard, especially if you're balancing study or a full-time job.</p>
+
+      <p>MARS makes it possible. We connect aspiring researchers with experienced mentors for part-time, project-based AI safety research. Over a few months, you'll build practical research skills, explore the field, and work on problems that matter.</p>
+
+      <p>MARS 5.0 runs in spring 2025, starting with a two-week in-person kickoff in Cambridge. Accommodation and meals provided. After that, you'll continue remotely with your mentor.</p>
+
+      <div class="btn-wrapper">
+        <a href="#" class="btn-primary">Expression of Interest</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"><div class="divider-line"></div></div>
+
+  <section class="mars-research">
+    <div class="fellowship-content">
+      <h2>Research from MARS</h2>
+
+      <div class="research-list">
+        <article class="research-item">
+          <div class="research-meta">
+            <span class="research-cohort">MARS 1.0</span>
+            <a href="https://arxiv.org/pdf/2406.11779" class="research-link" target="_blank" rel="noopener">Paper</a>
+          </div>
+          <h3>Compact Proofs of Model Performance via Mechanistic Interpretability</h3>
+          <p class="research-authors">Jason Gross∗, Rajashree Agrawal, Thomas Kwa†, <span class="highlight">Euan Ong†</span>, Chun Hei Yip†, Alex Gibson‡, Soufiane Noubir‡, Lawrence Chan</p>
+        </article>
+
+        <article class="research-item">
+          <div class="research-meta">
+            <span class="research-cohort">MARS 1.0</span>
+            <a href="https://arxiv.org/pdf/2512.07667" class="research-link" target="_blank" rel="noopener">Paper</a>
+          </div>
+          <h3>Depth-Wise Activation Steering for Honest Language Models</h3>
+          <p class="research-authors"><span class="highlight">Gracjan Góral</span>, <span class="highlight">Marysia Winkels</span>, Steven Basart</p>
+        </article>
+
+        <article class="research-item">
+          <div class="research-meta">
+            <span class="research-cohort">MARS 3.0</span>
+            <a href="https://www.lesswrong.com/posts/YdGcBBrrExaC6AmHt/the-sum-of-its-parts-composing-ai-control-protocols" class="research-link" target="_blank" rel="noopener">Paper</a>
+          </div>
+          <h3>The sum of its parts: composing AI control protocols</h3>
+          <p class="research-authors">Zach Parent, Lennart Finke, Tyler Tracy</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958).
+      </div>
+      <span class="footer-copy">&copy; 2026 CAISH</span>
+    </div>
+  </footer>
+
+  <script>
+    const MobileNav = {
+      init() {
+        const nav = document.getElementById('mobile-nav');
+        const toggle = document.getElementById('nav-toggle');
+        const close = document.getElementById('mobile-nav-close');
+
+        toggle?.addEventListener('click', () => nav?.classList.add('active'));
+        close?.addEventListener('click', () => nav?.classList.remove('active'));
+        nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+      }
+    };
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', () => MobileNav.init())
+      : MobileNav.init();
+  </script>
+</body>
+</html>
