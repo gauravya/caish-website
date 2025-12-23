@@ -705,25 +705,29 @@
     text-align: center;
   }
   
-  .btn-primary {
-    display: inline-block;
-    padding: 1rem 2rem;
-    font-family: var(--font-mono);
+.btn-primary {
+  display: inline-block;
+  padding: 1rem 2rem;
+  font-family: var(--font-mono);
     font-size: 0.75rem;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     background: var(--black);
-    color: var(--white);
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: opacity 0.2s;
-    text-decoration: none;
-  }
-  
-  .btn-primary:hover {
-    opacity: 0.85;
-  }
+  color: var(--white);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  text-decoration: none;
+}
+
+.btn-wrapper {
+  text-align: center;
+}
+
+.btn-primary:hover {
+  opacity: 0.85;
+}
 
   /* MARS page */
   .mars-research {
@@ -781,11 +785,176 @@
     opacity: 0.75;
   }
 
-  .research-authors {
-    font-size: 0.95rem;
-    color: var(--dark-grey);
-    margin: 0;
-  }
+.research-authors {
+  font-size: 0.95rem;
+  color: var(--dark-grey);
+  margin: 0;
+}
+
+.highlight {
+  font-weight: 700;
+  color: var(--black);
+}
+
+.mars-hero-image {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 8rem 2.5rem 1.5rem;
+}
+
+.mars-hero-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.mars-header {
+  padding-top: 2rem;
+  padding-bottom: 1.5rem;
+}
+
+.mars-tagline {
+  color: var(--mid-grey);
+  margin-top: 0.35rem;
+}
+
+.mars-section {
+  padding-bottom: 4rem;
+}
+
+.mars-content h2 {
+  margin: 2.5rem 0 1rem;
+}
+
+.mars-content p {
+  margin-bottom: 1rem;
+}
+
+.mars-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+  margin: 1rem 0 0.5rem;
+}
+
+.mars-feature {
+  padding: 1.25rem;
+  background: var(--cream);
+  border-radius: 6px;
+  border: 1px solid var(--light-grey);
+}
+
+.mars-feature h4 {
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+
+.mars-feature p {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
+.mentors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.25rem;
+}
+
+.mentor {
+  background: var(--white);
+  border: 1px solid var(--light-grey);
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.mentor-photo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+}
+
+.mentor-org {
+  font-size: 0.8rem;
+  color: var(--mid-grey);
+}
+
+.mentor-area {
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+.view-all-link {
+  display: inline-block;
+  margin: 1rem 0 2rem;
+  font-size: 0.85rem;
+  color: var(--black);
+  border-bottom: 1px solid var(--light-grey);
+}
+
+.view-all-link:hover {
+  opacity: 0.75;
+}
+
+.alumni-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.alumni {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 1rem;
+  align-items: start;
+  padding: 1.25rem;
+  background: var(--white);
+  border: 1px solid var(--light-grey);
+  border-radius: 6px;
+}
+
+.alumni-photo {
+  width: 90px;
+  height: 90px;
+  background: var(--light-grey);
+  border-radius: 50%;
+}
+
+.alumni-role {
+  font-size: 0.85rem;
+  color: var(--mid-grey);
+}
+
+.alumni-quote {
+  font-size: 0.85rem;
+  margin: 0.35rem 0;
+}
+
+.alumni-cohort {
+  font-size: 0.75rem;
+  color: var(--mid-grey);
+}
+
+.mars-application {
+  padding: 2rem;
+  background: var(--cream);
+  border-radius: 8px;
+  border: 1px solid var(--light-grey);
+  text-align: center;
+}
+
+.application-notice {
+  font-weight: 600;
+  color: var(--black);
+  margin: 0.25rem 0 0.75rem;
+}
   
   .fellowship-block h2 {
     margin-bottom: 1rem;
