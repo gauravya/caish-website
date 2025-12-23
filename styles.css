@@ -272,7 +272,7 @@
   /* Hero */
   .hero {
     padding-top: 9rem;
-    padding-bottom: 3.5rem;
+    padding-bottom: 5rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 3rem;
@@ -306,8 +306,8 @@
   
   /* Mission */
   .mission {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     gap: 4rem;
@@ -335,11 +335,11 @@
   
   /* Initiatives */
   .initiatives {
-    padding-top: 3.5rem;
-    padding-bottom: 3rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
   
-  .initiatives h2 { margin-bottom: 2rem; }
+  .initiatives h2 { margin-bottom: 3rem; }
   
   .initiatives-list {
     display: flex;
@@ -355,7 +355,7 @@
   }
   
   .initiative-item:last-child {
-    border-bottom: none;
+    border-bottom: 1px solid var(--light-grey);
   }
   
   .initiative-num {
@@ -373,8 +373,8 @@
   
   /* Events */
   .events {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
   }
   
   .events-header {
@@ -863,6 +863,314 @@
     margin-bottom: 0;
   }
   
+  /* MARS Page */
+  .mars-hero-image {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 5rem 2.5rem 0 2.5rem;
+  }
+  
+  .mars-hero-image img {
+    width: 100%;
+    max-width: var(--max-width);
+    height: auto;
+    max-height: 500px;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .mars-header {
+    padding-top: 1rem;
+    padding-bottom: 0;
+  }
+  
+  .mars-header h1 {
+    margin-bottom: 0.25rem;
+  }
+  
+  .mars-tagline {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    color: var(--dark-grey);
+    max-width: none;
+    margin-bottom: 0;
+  }
+  
+  .mars-section {
+    padding-top: 1rem;
+    padding-bottom: 3rem;
+  }
+  
+  .mars-content {
+    max-width: 100%;
+  }
+  
+  .mars-content > p {
+    margin-bottom: 1rem;
+    max-width: 100%;
+  }
+  
+  .mars-content h2 {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .mars-stages {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .mars-stage {
+    padding-left: 1.5rem;
+    border-left: 2px solid var(--light-grey);
+  }
+  
+  .mars-stage h4 {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  
+  .mars-stage p {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+    max-width: 65ch;
+  }
+  
+  .mars-stage-image {
+    margin: 2rem 0;
+  }
+  
+  .mars-stage-image img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  
+  .mars-feature {
+    padding: 1.25rem;
+    border-left: 2px solid var(--light-grey);
+  }
+  
+  .mars-feature h4 {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+  }
+  
+  .mars-feature p {
+    margin-bottom: 0;
+    font-size: 0.8rem;
+  }
+  
+  /* Mentors Grid */
+  .mentors-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .mentor {
+    text-align: center;
+  }
+  
+  .mentor-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    background: var(--cream);
+    border-radius: 50%;
+    margin-bottom: 0.75rem;
+  }
+  
+  .mentor h4 {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+  
+  .mentor-org {
+    font-size: 0.7rem;
+    color: var(--mid-grey);
+    margin-bottom: 0.15rem;
+  }
+  
+  .mentor-area {
+    font-size: 0.65rem;
+    color: var(--mid-grey);
+    font-style: italic;
+    margin-bottom: 0;
+  }
+  
+  /* Research Grid */
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  
+  .research-card {
+    display: block;
+    padding: 1.5rem;
+    background: var(--cream);
+    border-radius: 6px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .research-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+  
+  .research-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  
+  .research-cohort {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--mid-grey);
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--light-grey);
+    border-radius: 4px;
+  }
+  
+  .research-type {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--mid-grey);
+  }
+  
+  .research-card h4 {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+  }
+  
+  .research-authors {
+    font-size: 0.8rem;
+    color: var(--dark-grey);
+    line-height: 1.5;
+    margin-bottom: 0;
+  }
+  
+  .author-highlight {
+    background: rgba(250, 240, 130, 0.5);
+    padding: 0.1rem 0.2rem;
+    border-radius: 2px;
+  }
+  
+  .view-all-link {
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--dark-grey);
+    border-bottom: 1px solid var(--light-grey);
+    margin-top: 0.5rem;
+    transition: all 0.2s;
+  }
+  
+  .view-all-link:hover {
+    color: var(--black);
+    border-color: var(--black);
+  }
+  
+  /* Alumni */
+  .alumni-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 1.5rem 0;
+  }
+  
+  .alumni {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background: var(--cream);
+    border-radius: 4px;
+  }
+  
+  .alumni-photo {
+    width: 100%;
+    aspect-ratio: 1;
+    background: var(--light-grey);
+    border-radius: 4px;
+    margin-bottom: 1.25rem;
+  }
+  
+  .alumni-content {
+    flex: 1;
+  }
+  
+  .alumni-content h4 {
+    font-family: var(--font-serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+  
+  .alumni-role {
+    font-size: 0.8rem;
+    color: var(--mid-grey);
+    margin-bottom: 1rem;
+  }
+  
+  .alumni-quote {
+    font-size: 0.85rem;
+    font-style: italic;
+    margin-bottom: 1rem;
+    max-width: 100%;
+  }
+  
+  .alumni-cohort {
+    font-size: 0.7rem;
+    color: var(--mid-grey);
+    margin-bottom: 0;
+  }
+  
+  /* MARS Application */
+  .mars-application {
+    margin-top: 3rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--light-grey);
+    clear: both;
+    text-align: center;
+  }
+  
+  .mars-application h2 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .application-notice {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--black);
+    margin-bottom: 1rem;
+  }
+  
+  .mars-application p {
+    margin-bottom: 1.5rem;
+    max-width: 100%;
+  }
+  
   /* ==========================================================================
      8. Footer
      ========================================================================== */
@@ -926,6 +1234,48 @@
     }
   
     .expectations-list {
+      grid-template-columns: 1fr;
+    }
+  
+    .mars-hero-image {
+      padding: 4rem 1.5rem 0 1.5rem;
+    }
+  
+    .mars-hero-image img {
+      max-height: 250px;
+    }
+  
+    .mars-header {
+      padding-top: 0.75rem;
+      padding-bottom: 0;
+    }
+  
+    .mars-header h1 {
+      margin-bottom: 0.25rem;
+      font-size: 2rem;
+    }
+  
+    .mars-section {
+      padding-top: 0.75rem;
+    }
+  
+    .mars-features {
+      grid-template-columns: 1fr;
+    }
+  
+    .mars-stage p {
+      max-width: 100%;
+    }
+  
+    .mentors-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  
+    .alumni-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .research-grid {
       grid-template-columns: 1fr;
     }
   
@@ -1025,5 +1375,28 @@
   
     .team-group h3 {
       margin-bottom: 1rem;
+    }
+  
+    .mentors-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  
+    .mars-header {
+      padding-top: 1.25rem !important;
+      padding-bottom: 0 !important;
+    }
+  
+    .mars-header h1 {
+      margin-bottom: 0.5rem;
+      font-size: 1.75rem;
+    }
+  
+    .mars-tagline {
+      margin-bottom: 0.75rem;
+    }
+  
+    .mars-section {
+      padding-top: 1rem;
     }
   }
