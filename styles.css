@@ -1125,6 +1125,14 @@
     line-height: 1.5;
     margin-bottom: 0;
   }
+
+  .research-status {
+    font-size: 0.75rem;
+    color: var(--mid-grey);
+    font-style: italic;
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+  }
   
   .author-highlight {
     background: rgba(250, 240, 130, 0.5);
