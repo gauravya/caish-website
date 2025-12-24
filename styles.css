@@ -405,6 +405,18 @@
   }
   
   .initiative-content h3 { margin-bottom: 0.5rem; }
+
+  .initiative-content h3 a {
+    color: var(--black);
+    border-bottom: 1px solid rgba(74, 74, 74, 0.35);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .initiative-content h3 a:hover,
+  .initiative-content h3 a:focus-visible {
+    color: var(--black);
+    border-color: rgba(26, 26, 26, 0.6);
+  }
   
   .initiative-content p {
     font-size: 0.85rem;
