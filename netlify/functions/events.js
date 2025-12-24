@@ -4,16 +4,24 @@
 const LUMA_EVENTS_URL = 'https://api.lu.ma/public/v1/calendar/list-events';
 const CAISH_TAG = 'CAISH';
 
-const hasCaishtag = (tags = []) =>
-  tags.some(tag => {
-    if (typeof tag === 'string') {
-      return tag.toUpperCase().includes(CAISH_TAG);
-    }
-    if (tag && typeof tag.name === 'string') {
-      return tag.name.toUpperCase().includes(CAISH_TAG);
-    }
-    return false;
-  });
+const normalizeTagName = (tag) => {
+  if (typeof tag === 'string') {
+    return tag;
+  }
+  if (tag && typeof tag.name === 'string') {
+    return tag.name;
+  }
+  return '';
+};
+
+const extractTagNames = (tags = []) =>
+  tags
+    .map(normalizeTagName)
+    .filter(Boolean)
+    .map(tag => tag.toUpperCase());
+
+const hasCaishtag = (tagNames = []) =>
+  tagNames.some(tag => tag.includes(CAISH_TAG));
 
 exports.handler = async (event) => {
   const headers = {
@@ -65,15 +73,31 @@ exports.handler = async (event) => {
 
     const data = await response.json();
     let events = data.entries || data.events || [];
+    const tagDictionary = new Map();
+    const tagList = data.tags || data.tag_list || [];
+
+    tagList.forEach(tag => {
+      const id = tag?.api_id || tag?.id;
+      const name = normalizeTagName(tag);
+      if (id && name) {
+        tagDictionary.set(id, name);
+      }
+    });
 
     events = events.filter(entry => {
       const eventData = entry.event || entry;
-      const tags = eventData.tags || [];
+      const directTagNames = extractTagNames(eventData.tags || entry.tags || []);
+      const tagIds = eventData.tag_ids || entry.tag_ids || [];
+      const resolvedTagNames = tagIds
+        .map(tagId => tagDictionary.get(tagId))
+        .filter(Boolean)
+        .map(name => name.toUpperCase());
+      const allTags = [...directTagNames, ...resolvedTagNames];
       const name = eventData.name || '';
       const description = eventData.description || '';
 
       return (
-        hasCaishtag(tags) ||
+        hasCaishtag(allTags) ||
         name.toUpperCase().includes(CAISH_TAG) ||
         description.toUpperCase().includes(CAISH_TAG)
       );
