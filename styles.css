@@ -1177,18 +1177,19 @@
   }
 
 .socials-image {
-  max-width: none;
-  padding: 0 0 5rem;
+  max-width: var(--max-width);
+  padding: 0 2.5rem 5rem;
+  margin: 0 auto;
 }
 
 .socials-image img {
   width: 100%;
-  max-width: none;
+  max-width: 720px;
   margin: 0 auto;
   display: block;
   border-radius: 0;
   box-shadow: none;
-  object-fit: cover;
+  object-fit: contain;
 }
   
   .fellowship-list {
@@ -1882,6 +1883,10 @@
   
     .team-group h3 {
       margin-bottom: 1rem;
+    }
+
+    .socials-image img {
+      max-width: none;
     }
   
     .mentors-grid {
