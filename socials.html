@@ -67,7 +67,6 @@
           <p>Loading events...</p>
         </div>
       </div>
-      <p class="events-rsvp">Please RSVP via Luma so we can plan for how many people are coming.</p>
     </div>
   </section>
 
@@ -198,12 +197,12 @@
 
         if (upcoming.length > 0) {
           html += '<h2>Upcoming Events</h2>';
+          html += rsvpNote;
           html += '<div class="events-grid">';
           upcoming.forEach(entry => {
             html += this.renderEventCard(entry, false);
           });
           html += '</div>';
-          html += rsvpNote;
         }
 
         if (past.length > 0) {

@@ -441,7 +441,6 @@
   
 .events-empty {
   padding: 2.5rem 0;
-  border-top: 1px solid var(--light-grey);
   border-bottom: 1px solid var(--light-grey);
   color: var(--mid-grey);
   font-size: 0.8rem;
@@ -545,9 +544,11 @@
 }
 
 .events-rsvp {
-  margin-top: 1.5rem;
+  margin-top: 0.75rem;
+  margin-bottom: 1.5rem;
   font-size: 0.85rem;
   color: var(--mid-grey);
+  max-width: 36rem;
 }
 
 .past-events-heading {
