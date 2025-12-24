@@ -865,10 +865,20 @@
   
   /* MARS Page */
   .mars-hero-image {
+    position: relative;
     width: 100%;
     max-width: none;
     margin: 0;
     padding: 5rem 2.5rem 0 2.5rem;
+  }
+
+  .mars-hero-image::after {
+    content: "";
+    position: absolute;
+    inset: 5rem 2.5rem 0 2.5rem;
+    background: linear-gradient(180deg, rgba(12, 10, 9, 0.5) 0%, rgba(12, 10, 9, 0) 40%, rgba(12, 10, 9, 0.25) 100%);
+    border-radius: 12px;
+    pointer-events: none;
   }
   
   .mars-hero-image img {
@@ -879,6 +889,8 @@
     object-fit: cover;
     display: block;
     margin: 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   }
   
   .mars-header {
@@ -911,6 +923,11 @@
     margin-bottom: 1rem;
     max-width: 100%;
   }
+
+  .mars-content > p:first-of-type {
+    font-size: 1.05rem;
+    color: var(--black);
+  }
   
   .mars-content h2 {
     margin-top: 3rem;
@@ -932,14 +949,22 @@
     max-width: 220px;
     background: var(--cream);
     padding: 1.25rem;
-    border-radius: 6px;
+    border-radius: 10px;
+    border: 1px solid rgba(141, 141, 141, 0.2);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .journey-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px rgba(0, 0, 0, 0.1);
   }
   
   .journey-number {
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;
-    background: var(--black);
+    background: #8c4a3a;
     color: var(--white);
     font-family: var(--font-mono);
     font-size: 0.7rem;
@@ -1013,6 +1038,10 @@
   
   .mentor {
     text-align: center;
+    padding: 1rem 0.75rem;
+    background: rgba(250, 246, 240, 0.7);
+    border-radius: 12px;
+    border: 1px solid rgba(141, 141, 141, 0.15);
   }
   
   .mentor-photo {
@@ -1022,6 +1051,7 @@
     background: var(--cream);
     border-radius: 50%;
     margin-bottom: 0.75rem;
+    border: 2px solid rgba(140, 74, 58, 0.2);
   }
   
   .mentor h4 {
@@ -1057,6 +1087,8 @@
     padding: 1.5rem;
     background: var(--cream);
     border-radius: 6px;
+    border: 1px solid rgba(141, 141, 141, 0.2);
+    border-top: 4px solid rgba(140, 74, 58, 0.6);
     text-decoration: none;
     color: inherit;
     transition: transform 0.2s, box-shadow 0.2s;
@@ -1064,7 +1096,7 @@
   
   .research-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
   }
   
   .research-header {
@@ -1077,10 +1109,11 @@
   .research-cohort {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    color: var(--mid-grey);
+    color: #8c4a3a;
     padding: 0.35rem 0.6rem;
-    border: 1px solid var(--light-grey);
+    border: 1px solid rgba(140, 74, 58, 0.35);
     border-radius: 4px;
+    background: rgba(140, 74, 58, 0.08);
   }
   
   .research-type {
@@ -1185,6 +1218,10 @@
     border-top: 1px solid var(--light-grey);
     clear: both;
     text-align: center;
+    background: rgba(250, 246, 240, 0.7);
+    border-radius: 14px;
+    padding-bottom: 2.5rem;
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.06);
   }
   
   .mars-application h2 {
@@ -1272,6 +1309,11 @@
   
     .mars-hero-image {
       padding: 4rem 1.5rem 0 1.5rem;
+    }
+
+    .mars-hero-image::after {
+      inset: 4rem 1.5rem 0 1.5rem;
+      border-radius: 10px;
     }
   
     .mars-hero-image img {
