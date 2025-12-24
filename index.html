@@ -113,11 +113,13 @@
     <div class="events-header">
       <div>
         <span class="label">Events</span>
-        <h2>Lent Term 2026<img src="/images/easter.png" alt="" class="easter-egg-img" loading="lazy" width="50" height="50"></h2>
+        <h2>Upcoming<img src="/images/easter.png" alt="" class="easter-egg-img" loading="lazy" width="50" height="50"></h2>
       </div>
-      <a href="#" class="events-link">View all events</a>
+      <a href="/socials" class="events-link">View all events</a>
     </div>
-    <div class="events-empty">Events coming soon.</div>
+    <div id="home-events-container">
+      <div class="events-loading">Loading events...</div>
+    </div>
   </section>
 
   <section id="join" class="cta">
@@ -156,9 +158,94 @@
       }
     };
 
+    const HomeEvents = {
+      async init() {
+        const container = document.getElementById('home-events-container');
+        if (!container) return;
+
+        try {
+          const response = await fetch('/api/events?limit=3');
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || 'Failed to load events');
+          }
+
+          this.renderEvents(container, data.events);
+        } catch (error) {
+          console.error('Error loading events:', error);
+          container.innerHTML = '<div class="events-empty">Events coming soon.</div>';
+        }
+      },
+
+      formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleDateString('en-GB', {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short'
+        });
+      },
+
+      formatTime(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleTimeString('en-GB', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+      },
+
+      renderEvents(container, events) {
+        // Filter to only upcoming events
+        const now = new Date();
+        const upcoming = events.filter(e => {
+          const event = e.event || e;
+          const startDate = new Date(event.start_at || event.start_time);
+          return startDate >= now;
+        });
+
+        if (!upcoming || upcoming.length === 0) {
+          container.innerHTML = '<div class="events-empty">No upcoming events. Check back soon!</div>';
+          return;
+        }
+
+        let html = '<div class="home-events-list">';
+        upcoming.forEach(entry => {
+          const event = entry.event || entry;
+          const name = event.name || 'Untitled Event';
+          const startAt = event.start_at || event.start_time;
+          const url = event.url || (event.api_id ? `https://lu.ma/${event.api_id}` : '#');
+          const location = event.geo_address_info?.city || event.location || 'Cambridge';
+
+          html += `
+            <a href="${url}" target="_blank" rel="noopener" class="home-event-item">
+              <div class="home-event-date">
+                <span class="home-event-day">${this.formatDate(startAt)}</span>
+                <span class="home-event-time">${this.formatTime(startAt)}</span>
+              </div>
+              <div class="home-event-info">
+                <h3 class="home-event-title">${name}</h3>
+                <span class="home-event-location">${location}</span>
+              </div>
+              <span class="home-event-arrow">&rarr;</span>
+            </a>
+          `;
+        });
+        html += '</div>';
+
+        container.innerHTML = html;
+      }
+    };
+
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => MobileNav.init())
-      : MobileNav.init();
+      ? document.addEventListener('DOMContentLoaded', () => {
+          MobileNav.init();
+          HomeEvents.init();
+        })
+      : (() => {
+          MobileNav.init();
+          HomeEvents.init();
+        })();
   </script>
 </body>
 </html>
