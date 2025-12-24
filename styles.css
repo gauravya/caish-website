@@ -535,7 +535,7 @@
 /* Socials Page Styles */
 .socials-section {
   padding-top: 3rem;
-  padding-bottom: 5rem;
+  padding-bottom: 3rem;
 }
 
 .socials-content h2 {
@@ -1138,7 +1138,7 @@
   }
 
   .expectations-section {
-    padding-top: 4rem;
+    padding-top: 3rem;
     padding-bottom: 4rem;
   }
 
@@ -1158,7 +1158,7 @@
   }
 
   .expectations-footer p {
-    max-width: 60ch;
+    max-width: none;
   }
 
   .text-link {
@@ -1183,7 +1183,7 @@
 
   .socials-image img {
     width: 100%;
-    max-width: 760px;
+    max-width: 620px;
     margin: 0 auto;
     display: block;
     border-radius: 12px;
