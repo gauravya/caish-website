@@ -535,7 +535,7 @@
 /* Socials Page Styles */
 .socials-section {
   padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-bottom: 2rem;
 }
 
 .socials-content h2 {
@@ -1137,10 +1137,10 @@
     color: var(--mid-grey);
   }
 
-  .expectations-section {
-    padding-top: 3rem;
-    padding-bottom: 4rem;
-  }
+.expectations-section {
+  padding-top: 2.5rem;
+  padding-bottom: 4rem;
+}
 
   .expectations-section h2 {
     margin-bottom: 1.5rem;
@@ -1176,20 +1176,20 @@
     border-color: rgba(26, 26, 26, 0.6);
   }
 
-  .socials-image {
-    max-width: none;
-    padding: 0 2.5rem 5rem;
-  }
+.socials-image {
+  max-width: none;
+  padding: 0 0 5rem;
+}
 
-  .socials-image img {
-    width: 100%;
-    max-width: 620px;
-    margin: 0 auto;
-    display: block;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-    object-fit: cover;
-  }
+.socials-image img {
+  width: 100%;
+  max-width: none;
+  margin: 0 auto;
+  display: block;
+  border-radius: 0;
+  box-shadow: none;
+  object-fit: cover;
+}
   
   .fellowship-list {
     list-style: none;
