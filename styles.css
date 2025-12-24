@@ -533,8 +533,13 @@
 
 /* Socials Page Styles */
 .socials-section {
-  padding-top: 3rem;
+  padding-top: 1.75rem;
   padding-bottom: 2rem;
+}
+
+.socials-section .events-empty,
+.socials-section .events-loading {
+  padding: 1.5rem 0;
 }
 
 .socials-content h2 {
@@ -1166,6 +1171,17 @@
 
   .expectations-footer p {
     max-width: none;
+  }
+
+  .expectations-footer a {
+    color: var(--black);
+    border-bottom: 1px solid rgba(74, 74, 74, 0.35);
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .expectations-footer a:hover {
+    color: var(--black);
+    border-color: rgba(26, 26, 26, 0.6);
   }
 
   .text-link {
