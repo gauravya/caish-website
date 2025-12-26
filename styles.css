@@ -376,60 +376,44 @@
   /* Animated Hourglass SVG */
   .hourglass-svg {
     width: 100%;
-    max-width: 280px;
+    max-width: 380px;
     height: auto;
-    animation: hourglassFade 8s ease-in-out infinite;
+    transform-origin: center center;
+    animation: gentleShake 3s ease-in-out 1.2s infinite;
   }
 
   .hourglass-lines .line {
     stroke-dasharray: 150;
     stroke-dashoffset: 150;
-    animation: drawLine 8s ease-in-out infinite;
+    animation: drawLine 1.2s ease-out forwards;
   }
 
   /* Stagger the line animations for drawing effect */
   .hourglass-lines .line-1 { animation-delay: 0s; }
-  .hourglass-lines .line-2 { animation-delay: 0.2s; }
-  .hourglass-lines .line-3 { animation-delay: 0.2s; }
-  .hourglass-lines .line-4 { animation-delay: 0.4s; }
-  .hourglass-lines .line-5 { animation-delay: 0.4s; }
-  .hourglass-lines .line-6 { animation-delay: 0.6s; }
+  .hourglass-lines .line-2 { animation-delay: 0.15s; }
+  .hourglass-lines .line-3 { animation-delay: 0.15s; }
+  .hourglass-lines .line-4 { animation-delay: 0.3s; }
+  .hourglass-lines .line-5 { animation-delay: 0.3s; }
+  .hourglass-lines .line-6 { animation-delay: 0.45s; }
 
   @keyframes drawLine {
     0% {
       stroke-dashoffset: 150;
-      opacity: 1;
-    }
-    12% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    70% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    85% {
-      stroke-dashoffset: 0;
-      opacity: 0;
     }
     100% {
-      stroke-dashoffset: 150;
-      opacity: 0;
+      stroke-dashoffset: 0;
     }
   }
 
-  @keyframes hourglassFade {
-    0% {
-      opacity: 1;
+  @keyframes gentleShake {
+    0%, 100% {
+      transform: rotate(0deg);
     }
-    70% {
-      opacity: 1;
+    25% {
+      transform: rotate(1.5deg);
     }
-    85% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
+    75% {
+      transform: rotate(-1.5deg);
     }
   }
   
