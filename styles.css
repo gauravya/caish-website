@@ -376,45 +376,81 @@
   /* Animated Hourglass SVG */
   .hourglass-svg {
     width: 100%;
-    max-width: 380px;
+    max-width: 320px;
     height: auto;
     transform-origin: center center;
-    animation: gentleShake 3s ease-in-out 1.2s infinite;
+    animation: gentleShake 4s ease-in-out 2s infinite;
   }
 
-  .hourglass-lines .line {
-    stroke-dasharray: 150;
-    stroke-dashoffset: 150;
-    animation: drawLine 1.2s ease-out forwards;
+  /* Frame lines - draw once and stay */
+  .hourglass-frame .line {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: drawLine 0.6s ease-out forwards;
   }
 
-  /* Stagger the line animations for drawing effect */
-  .hourglass-lines .line-1 { animation-delay: 0s; }
-  .hourglass-lines .line-2 { animation-delay: 0.15s; }
-  .hourglass-lines .line-3 { animation-delay: 0.15s; }
-  .hourglass-lines .line-4 { animation-delay: 0.3s; }
-  .hourglass-lines .line-5 { animation-delay: 0.3s; }
-  .hourglass-lines .line-6 { animation-delay: 0.45s; }
+  .hourglass-frame .line-1 { animation-delay: 0s; }
+  .hourglass-frame .line-2 { animation-delay: 0.1s; }
+  .hourglass-frame .line-3 { animation-delay: 0.1s; }
+  .hourglass-frame .line-4 { animation-delay: 0.2s; }
+  .hourglass-frame .line-5 { animation-delay: 0.2s; }
+  .hourglass-frame .line-6 { animation-delay: 0.3s; }
 
   @keyframes drawLine {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Falling sand drops */
+  .sand-drop {
+    opacity: 0;
+    animation: sandFall 1.5s ease-in infinite;
+  }
+
+  .sand-drop-1 { animation-delay: 1s; }
+  .sand-drop-2 { animation-delay: 1.5s; }
+  .sand-drop-3 { animation-delay: 2s; }
+
+  @keyframes sandFall {
     0% {
-      stroke-dashoffset: 150;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    80% {
+      opacity: 1;
+      transform: translateY(38px);
     }
     100% {
-      stroke-dashoffset: 0;
+      opacity: 0;
+      transform: translateY(38px);
     }
+  }
+
+  /* Sand pile - fade in after frame draws */
+  .sand-pile .pile {
+    opacity: 0;
+    animation: pileAppear 0.3s ease-out forwards;
+  }
+
+  .pile-1 { animation-delay: 0.8s; }
+  .pile-2 { animation-delay: 0.9s; }
+  .pile-3 { animation-delay: 0.95s; }
+  .pile-4 { animation-delay: 1.1s; }
+  .pile-5 { animation-delay: 1.15s; }
+  .pile-6 { animation-delay: 1.0s; }
+  .pile-7 { animation-delay: 1.05s; }
+  .pile-8 { animation-delay: 1.3s; }
+  .pile-9 { animation-delay: 1.35s; }
+  .pile-10 { animation-delay: 1.2s; }
+  .pile-11 { animation-delay: 1.25s; }
+
+  @keyframes pileAppear {
+    to { opacity: 1; }
   }
 
   @keyframes gentleShake {
-    0%, 100% {
-      transform: rotate(0deg);
-    }
-    25% {
-      transform: rotate(1.5deg);
-    }
-    75% {
-      transform: rotate(-1.5deg);
-    }
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(1deg); }
+    75% { transform: rotate(-1deg); }
   }
   
   /* Mission */
