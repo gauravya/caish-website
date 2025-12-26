@@ -61,7 +61,35 @@
       <p>A hub bringing together students and professionals to reduce existential risks from superintelligent AI systems.</p>
     </div>
     <div class="hero-image">
-      <img src="/images/lines.png" alt="Abstract geometric pattern representing AI safety network">
+      <svg class="hourglass-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Animated hourglass representing time and AI safety">
+        <defs>
+          <clipPath id="circleClip">
+            <circle cx="100" cy="100" r="95"/>
+          </clipPath>
+        </defs>
+        <!-- Background circle -->
+        <circle cx="100" cy="100" r="95" fill="#1a1a1a" class="hourglass-bg"/>
+
+        <g clip-path="url(#circleClip)" class="hourglass-lines">
+          <!-- Top horizontal line -->
+          <line x1="55" y1="50" x2="145" y2="50" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-1"/>
+
+          <!-- Left diagonal (top to center) -->
+          <line x1="55" y1="50" x2="100" y2="100" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-2"/>
+
+          <!-- Right diagonal (top to center) -->
+          <line x1="145" y1="50" x2="100" y2="100" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-3"/>
+
+          <!-- Left diagonal (center to bottom) -->
+          <line x1="100" y1="100" x2="55" y2="150" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-4"/>
+
+          <!-- Right diagonal (center to bottom) -->
+          <line x1="100" y1="100" x2="145" y2="150" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-5"/>
+
+          <!-- Bottom horizontal line -->
+          <line x1="55" y1="150" x2="145" y2="150" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-6"/>
+        </g>
+      </svg>
     </div>
   </section>
 
