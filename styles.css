@@ -384,9 +384,10 @@
     stroke-width: 7;
     stroke-linecap: round;
     stroke-linejoin: round;
+    filter: url(#roughen);
     stroke-dasharray: 100;
     stroke-dashoffset: 100;
-    animation: hourglass-draw 4.5s ease-in-out infinite;
+    animation: hourglass-draw 12s ease-in-out infinite;
   }
 
   .hourglass-path.path-2 { animation-delay: 0.3s; }
@@ -397,10 +398,10 @@
     0% {
       stroke-dashoffset: 100;
     }
-    60% {
+    50% {
       stroke-dashoffset: 0;
     }
-    85% {
+    95% {
       stroke-dashoffset: 0;
     }
     100% {
