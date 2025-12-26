@@ -61,43 +61,57 @@
       <p>A hub bringing together students and professionals to reduce existential risks from superintelligent AI systems.</p>
     </div>
     <div class="hero-image">
-      <svg class="hourglass-svg" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg" aria-label="Animated hourglass">
-        <!-- Hourglass frame -->
+      <svg class="hourglass-svg" viewBox="0 0 100 130" xmlns="http://www.w3.org/2000/svg" aria-label="Animated hourglass">
+        <!-- Hourglass frame - simple clean lines -->
         <g class="hourglass-frame">
-          <!-- Top line -->
-          <path d="M 15 12 C 25 10, 75 10, 85 12" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-1"/>
-          <!-- Left top diagonal -->
-          <path d="M 15 12 C 20 25, 40 50, 50 60" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-2"/>
-          <!-- Right top diagonal -->
-          <path d="M 85 12 C 80 25, 60 50, 50 60" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-3"/>
-          <!-- Left bottom diagonal -->
-          <path d="M 50 60 C 40 70, 20 95, 15 108" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-4"/>
-          <!-- Right bottom diagonal -->
-          <path d="M 50 60 C 60 70, 80 95, 85 108" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-5"/>
-          <!-- Bottom line -->
-          <path d="M 15 108 C 25 110, 75 110, 85 108" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-6"/>
+          <line x1="20" y1="15" x2="80" y2="15" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="line line-top"/>
+          <line x1="20" y1="15" x2="50" y2="65" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="line line-left-top"/>
+          <line x1="80" y1="15" x2="50" y2="65" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="line line-right-top"/>
+          <line x1="50" y1="65" x2="20" y2="115" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="line line-left-bottom"/>
+          <line x1="50" y1="65" x2="80" y2="115" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="line line-right-bottom"/>
+          <line x1="20" y1="115" x2="80" y2="115" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round" class="line line-bottom"/>
         </g>
 
-        <!-- Falling sand particles -->
-        <g class="sand-falling">
-          <circle cx="50" cy="62" r="1.5" fill="#1a1a1a" class="sand-drop sand-drop-1"/>
-          <circle cx="50" cy="62" r="1.5" fill="#1a1a1a" class="sand-drop sand-drop-2"/>
-          <circle cx="50" cy="62" r="1.5" fill="#1a1a1a" class="sand-drop sand-drop-3"/>
+        <!-- Falling sand stream -->
+        <g class="sand-stream">
+          <circle cx="50" cy="67" r="1.2" fill="#1a1a1a" class="grain grain-1"/>
+          <circle cx="50" cy="67" r="1.2" fill="#1a1a1a" class="grain grain-2"/>
+          <circle cx="50" cy="67" r="1.2" fill="#1a1a1a" class="grain grain-3"/>
+          <circle cx="50" cy="67" r="1.2" fill="#1a1a1a" class="grain grain-4"/>
         </g>
 
-        <!-- Sand pile at bottom -->
+        <!-- Sand pile - fills up slowly -->
         <g class="sand-pile">
-          <circle cx="50" cy="102" r="2" fill="#1a1a1a" class="pile pile-1"/>
-          <circle cx="44" cy="104" r="1.8" fill="#1a1a1a" class="pile pile-2"/>
-          <circle cx="56" cy="104" r="1.8" fill="#1a1a1a" class="pile pile-3"/>
-          <circle cx="38" cy="105" r="1.5" fill="#1a1a1a" class="pile pile-4"/>
-          <circle cx="62" cy="105" r="1.5" fill="#1a1a1a" class="pile pile-5"/>
-          <circle cx="47" cy="105" r="1.6" fill="#1a1a1a" class="pile pile-6"/>
-          <circle cx="53" cy="105" r="1.6" fill="#1a1a1a" class="pile pile-7"/>
-          <circle cx="33" cy="106" r="1.3" fill="#1a1a1a" class="pile pile-8"/>
-          <circle cx="67" cy="106" r="1.3" fill="#1a1a1a" class="pile pile-9"/>
-          <circle cx="41" cy="106" r="1.4" fill="#1a1a1a" class="pile pile-10"/>
-          <circle cx="59" cy="106" r="1.4" fill="#1a1a1a" class="pile pile-11"/>
+          <!-- Row 1 - bottom -->
+          <circle cx="50" cy="112" r="1.5" fill="#1a1a1a" class="dot dot-1"/>
+          <circle cx="46" cy="112" r="1.4" fill="#1a1a1a" class="dot dot-2"/>
+          <circle cx="54" cy="112" r="1.4" fill="#1a1a1a" class="dot dot-3"/>
+          <circle cx="42" cy="112" r="1.3" fill="#1a1a1a" class="dot dot-4"/>
+          <circle cx="58" cy="112" r="1.3" fill="#1a1a1a" class="dot dot-5"/>
+          <circle cx="38" cy="112" r="1.2" fill="#1a1a1a" class="dot dot-6"/>
+          <circle cx="62" cy="112" r="1.2" fill="#1a1a1a" class="dot dot-7"/>
+          <circle cx="34" cy="112" r="1.1" fill="#1a1a1a" class="dot dot-8"/>
+          <circle cx="66" cy="112" r="1.1" fill="#1a1a1a" class="dot dot-9"/>
+          <!-- Row 2 -->
+          <circle cx="50" cy="109" r="1.4" fill="#1a1a1a" class="dot dot-10"/>
+          <circle cx="46" cy="109" r="1.3" fill="#1a1a1a" class="dot dot-11"/>
+          <circle cx="54" cy="109" r="1.3" fill="#1a1a1a" class="dot dot-12"/>
+          <circle cx="42" cy="109" r="1.2" fill="#1a1a1a" class="dot dot-13"/>
+          <circle cx="58" cy="109" r="1.2" fill="#1a1a1a" class="dot dot-14"/>
+          <circle cx="38" cy="110" r="1.1" fill="#1a1a1a" class="dot dot-15"/>
+          <circle cx="62" cy="110" r="1.1" fill="#1a1a1a" class="dot dot-16"/>
+          <!-- Row 3 -->
+          <circle cx="50" cy="106" r="1.3" fill="#1a1a1a" class="dot dot-17"/>
+          <circle cx="46" cy="106" r="1.2" fill="#1a1a1a" class="dot dot-18"/>
+          <circle cx="54" cy="106" r="1.2" fill="#1a1a1a" class="dot dot-19"/>
+          <circle cx="42" cy="107" r="1.1" fill="#1a1a1a" class="dot dot-20"/>
+          <circle cx="58" cy="107" r="1.1" fill="#1a1a1a" class="dot dot-21"/>
+          <!-- Row 4 -->
+          <circle cx="50" cy="103" r="1.2" fill="#1a1a1a" class="dot dot-22"/>
+          <circle cx="46" cy="104" r="1.1" fill="#1a1a1a" class="dot dot-23"/>
+          <circle cx="54" cy="104" r="1.1" fill="#1a1a1a" class="dot dot-24"/>
+          <!-- Row 5 - top of pile -->
+          <circle cx="50" cy="100" r="1.1" fill="#1a1a1a" class="dot dot-25"/>
         </g>
       </svg>
     </div>

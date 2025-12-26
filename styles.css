@@ -376,81 +376,88 @@
   /* Animated Hourglass SVG */
   .hourglass-svg {
     width: 100%;
-    max-width: 320px;
+    max-width: 300px;
     height: auto;
-    transform-origin: center center;
-    animation: gentleShake 4s ease-in-out 2s infinite;
   }
 
-  /* Frame lines - draw once and stay */
+  /* Frame lines - draw in sequence */
   .hourglass-frame .line {
-    stroke-dasharray: 200;
-    stroke-dashoffset: 200;
-    animation: drawLine 0.6s ease-out forwards;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: drawLine 0.5s ease-out forwards;
   }
 
-  .hourglass-frame .line-1 { animation-delay: 0s; }
-  .hourglass-frame .line-2 { animation-delay: 0.1s; }
-  .hourglass-frame .line-3 { animation-delay: 0.1s; }
-  .hourglass-frame .line-4 { animation-delay: 0.2s; }
-  .hourglass-frame .line-5 { animation-delay: 0.2s; }
-  .hourglass-frame .line-6 { animation-delay: 0.3s; }
+  .line-top { animation-delay: 0s; }
+  .line-left-top { animation-delay: 0.2s; }
+  .line-right-top { animation-delay: 0.2s; }
+  .line-left-bottom { animation-delay: 0.4s; }
+  .line-right-bottom { animation-delay: 0.4s; }
+  .line-bottom { animation-delay: 0.6s; }
 
   @keyframes drawLine {
     to { stroke-dashoffset: 0; }
   }
 
-  /* Falling sand drops */
-  .sand-drop {
+  /* Falling sand grains */
+  .sand-stream .grain {
     opacity: 0;
-    animation: sandFall 1.5s ease-in infinite;
+    animation: grainFall 1s ease-in infinite;
   }
 
-  .sand-drop-1 { animation-delay: 1s; }
-  .sand-drop-2 { animation-delay: 1.5s; }
-  .sand-drop-3 { animation-delay: 2s; }
+  .grain-1 { animation-delay: 1.5s; }
+  .grain-2 { animation-delay: 2s; }
+  .grain-3 { animation-delay: 2.5s; }
+  .grain-4 { animation-delay: 3s; }
 
-  @keyframes sandFall {
+  @keyframes grainFall {
     0% {
       opacity: 1;
       transform: translateY(0);
     }
-    80% {
+    90% {
       opacity: 1;
-      transform: translateY(38px);
+      transform: translateY(31px);
     }
     100% {
       opacity: 0;
-      transform: translateY(38px);
+      transform: translateY(31px);
     }
   }
 
-  /* Sand pile - fade in after frame draws */
-  .sand-pile .pile {
+  /* Sand pile - dots appear one by one to fill up */
+  .sand-pile .dot {
     opacity: 0;
-    animation: pileAppear 0.3s ease-out forwards;
+    animation: dotAppear 0.2s ease-out forwards;
   }
 
-  .pile-1 { animation-delay: 0.8s; }
-  .pile-2 { animation-delay: 0.9s; }
-  .pile-3 { animation-delay: 0.95s; }
-  .pile-4 { animation-delay: 1.1s; }
-  .pile-5 { animation-delay: 1.15s; }
-  .pile-6 { animation-delay: 1.0s; }
-  .pile-7 { animation-delay: 1.05s; }
-  .pile-8 { animation-delay: 1.3s; }
-  .pile-9 { animation-delay: 1.35s; }
-  .pile-10 { animation-delay: 1.2s; }
-  .pile-11 { animation-delay: 1.25s; }
+  .dot-1 { animation-delay: 1.0s; }
+  .dot-2 { animation-delay: 1.2s; }
+  .dot-3 { animation-delay: 1.4s; }
+  .dot-4 { animation-delay: 1.6s; }
+  .dot-5 { animation-delay: 1.8s; }
+  .dot-6 { animation-delay: 2.0s; }
+  .dot-7 { animation-delay: 2.2s; }
+  .dot-8 { animation-delay: 2.4s; }
+  .dot-9 { animation-delay: 2.6s; }
+  .dot-10 { animation-delay: 2.8s; }
+  .dot-11 { animation-delay: 3.0s; }
+  .dot-12 { animation-delay: 3.2s; }
+  .dot-13 { animation-delay: 3.4s; }
+  .dot-14 { animation-delay: 3.6s; }
+  .dot-15 { animation-delay: 3.8s; }
+  .dot-16 { animation-delay: 4.0s; }
+  .dot-17 { animation-delay: 4.2s; }
+  .dot-18 { animation-delay: 4.4s; }
+  .dot-19 { animation-delay: 4.6s; }
+  .dot-20 { animation-delay: 4.8s; }
+  .dot-21 { animation-delay: 5.0s; }
+  .dot-22 { animation-delay: 5.2s; }
+  .dot-23 { animation-delay: 5.4s; }
+  .dot-24 { animation-delay: 5.6s; }
+  .dot-25 { animation-delay: 5.8s; }
 
-  @keyframes pileAppear {
+  @keyframes dotAppear {
     to { opacity: 1; }
-  }
-
-  @keyframes gentleShake {
-    0%, 100% { transform: rotate(0deg); }
-    25% { transform: rotate(1deg); }
-    75% { transform: rotate(-1deg); }
   }
   
   /* Mission */
