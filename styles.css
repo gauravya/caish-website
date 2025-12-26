@@ -370,16 +370,12 @@
   .hero-hourglass {
     width: 100%;
     height: auto;
-    max-height: 400px;
+    max-height: 260px;
     object-fit: contain;
   }
 
   .hero-hourglass {
-    max-width: 320px;
-  }
-
-  .hourglass-lines {
-    animation: hourglass-fade 6s ease-in-out infinite;
+    max-width: 240px;
   }
 
   .hourglass-path {
@@ -388,9 +384,9 @@
     stroke-width: 7;
     stroke-linecap: round;
     stroke-linejoin: round;
-    stroke-dasharray: 420;
-    stroke-dashoffset: 420;
-    animation: hourglass-draw 6s ease-in-out infinite;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: hourglass-draw 4.5s ease-in-out infinite;
   }
 
   .hourglass-path.path-2 { animation-delay: 0.3s; }
@@ -399,31 +395,16 @@
 
   @keyframes hourglass-draw {
     0% {
-      stroke-dashoffset: 420;
+      stroke-dashoffset: 100;
     }
-    45% {
+    60% {
       stroke-dashoffset: 0;
     }
-    70% {
+    85% {
       stroke-dashoffset: 0;
     }
     100% {
-      stroke-dashoffset: -420;
-    }
-  }
-
-  @keyframes hourglass-fade {
-    0%,
-    10% {
-      opacity: 0;
-    }
-    30%,
-    70% {
-      opacity: 1;
-    }
-    90%,
-    100% {
-      opacity: 0;
+      stroke-dashoffset: 100;
     }
   }
   
