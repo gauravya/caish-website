@@ -63,31 +63,31 @@
     <div class="hero-image">
       <svg class="hourglass-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="Animated hourglass representing time and AI safety">
         <defs>
-          <clipPath id="circleClip">
-            <circle cx="100" cy="100" r="95"/>
-          </clipPath>
+          <!-- Hand-drawn effect filter -->
+          <filter id="roughen" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="turbulence" baseFrequency="0.02" numOctaves="3" result="noise" seed="1"/>
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>
+          </filter>
         </defs>
-        <!-- Background circle -->
-        <circle cx="100" cy="100" r="95" fill="#1a1a1a" class="hourglass-bg"/>
 
-        <g clip-path="url(#circleClip)" class="hourglass-lines">
-          <!-- Top horizontal line -->
-          <line x1="55" y1="50" x2="145" y2="50" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-1"/>
+        <g class="hourglass-lines" filter="url(#roughen)">
+          <!-- Top horizontal line - slightly wavy path -->
+          <path d="M 45 45 Q 70 43, 100 45 Q 130 47, 155 45" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-1"/>
 
           <!-- Left diagonal (top to center) -->
-          <line x1="55" y1="50" x2="100" y2="100" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-2"/>
+          <path d="M 45 45 Q 65 70, 100 100" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-2"/>
 
           <!-- Right diagonal (top to center) -->
-          <line x1="145" y1="50" x2="100" y2="100" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-3"/>
+          <path d="M 155 45 Q 135 70, 100 100" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-3"/>
 
           <!-- Left diagonal (center to bottom) -->
-          <line x1="100" y1="100" x2="55" y2="150" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-4"/>
+          <path d="M 100 100 Q 65 130, 45 155" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-4"/>
 
           <!-- Right diagonal (center to bottom) -->
-          <line x1="100" y1="100" x2="145" y2="150" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-5"/>
+          <path d="M 100 100 Q 135 130, 155 155" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-5"/>
 
-          <!-- Bottom horizontal line -->
-          <line x1="55" y1="150" x2="145" y2="150" stroke="#fefefe" stroke-width="3" stroke-linecap="round" class="line line-6"/>
+          <!-- Bottom horizontal line - slightly wavy path -->
+          <path d="M 45 155 Q 70 157, 100 155 Q 130 153, 155 155" fill="none" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round" class="line line-6"/>
         </g>
       </svg>
     </div>

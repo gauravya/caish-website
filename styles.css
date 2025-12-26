@@ -381,30 +381,26 @@
     animation: hourglassFade 8s ease-in-out infinite;
   }
 
-  .hourglass-bg {
-    opacity: 1;
-  }
-
   .hourglass-lines .line {
-    stroke-dasharray: 100;
-    stroke-dashoffset: 100;
+    stroke-dasharray: 150;
+    stroke-dashoffset: 150;
     animation: drawLine 8s ease-in-out infinite;
   }
 
   /* Stagger the line animations for drawing effect */
   .hourglass-lines .line-1 { animation-delay: 0s; }
-  .hourglass-lines .line-2 { animation-delay: 0.15s; }
-  .hourglass-lines .line-3 { animation-delay: 0.15s; }
-  .hourglass-lines .line-4 { animation-delay: 0.3s; }
-  .hourglass-lines .line-5 { animation-delay: 0.3s; }
-  .hourglass-lines .line-6 { animation-delay: 0.45s; }
+  .hourglass-lines .line-2 { animation-delay: 0.2s; }
+  .hourglass-lines .line-3 { animation-delay: 0.2s; }
+  .hourglass-lines .line-4 { animation-delay: 0.4s; }
+  .hourglass-lines .line-5 { animation-delay: 0.4s; }
+  .hourglass-lines .line-6 { animation-delay: 0.6s; }
 
   @keyframes drawLine {
     0% {
-      stroke-dashoffset: 100;
+      stroke-dashoffset: 150;
       opacity: 1;
     }
-    10% {
+    12% {
       stroke-dashoffset: 0;
       opacity: 1;
     }
@@ -417,7 +413,7 @@
       opacity: 0;
     }
     100% {
-      stroke-dashoffset: 100;
+      stroke-dashoffset: 150;
       opacity: 0;
     }
   }
