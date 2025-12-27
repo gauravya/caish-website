@@ -25,6 +25,7 @@
     --off-white: #f8f7f4;
     --cream: #f4f3ef;
     --white: #fefefe;
+    --cambridge: #8c4a3a;
     --max-width: 1000px;
     --font-serif: 'Libre Baskerville', Georgia, serif;
     --font-mono: 'Space Mono', monospace;
@@ -91,7 +92,7 @@
   }
   
   p {
-    font-size: 0.88rem;
+    font-size: 0.95rem;
     max-width: 52ch;
     color: var(--dark-grey);
   }
@@ -353,11 +354,14 @@
     max-width: 14ch;
   }
   
-  .hero h1 em { display: block; }
+  .hero h1 em {
+    display: block;
+    color: var(--cambridge);
+  }
   
   .hero p {
     max-width: 44ch;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   
   .hero-image {
@@ -480,18 +484,18 @@
 
   .initiative-content h3 a {
     color: var(--black);
-    border-bottom: 1px solid rgba(74, 74, 74, 0.35);
+    border-bottom: 1px solid var(--cambridge);
     transition: border-color 0.2s ease, color 0.2s ease;
   }
 
   .initiative-content h3 a:hover,
   .initiative-content h3 a:focus-visible {
     color: var(--black);
-    border-color: rgba(26, 26, 26, 0.6);
+    border-color: var(--cambridge);
   }
   
   .initiative-content p {
-    font-size: 0.85rem;
+    font-size: 0.92rem;
     max-width: none;
   }
   
