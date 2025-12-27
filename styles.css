@@ -370,7 +370,7 @@
   .hero-hourglass {
     width: 100%;
     height: auto;
-    max-height: 260px;
+    max-height: 360px;
     object-fit: contain;
   }
 
@@ -1930,7 +1930,7 @@
   
     .hero-image img,
     .mission-image img {
-      max-height: 250px;
+      max-height: 280px;
     }
   
     .cta-image img {
@@ -1996,7 +1996,7 @@
   
     .hero-image img,
     .mission-image img {
-      max-height: 220px;
+      max-height: 240px;
     }
   
     .cta-image { justify-content: center; }
