@@ -8,6 +8,8 @@
 const Enhancements = {
   // Check if user prefers reduced motion
   prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  // Check if device supports touch (likely mobile)
+  isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
 
   init() {
     // Only run enhancements if user hasn't opted out
@@ -15,7 +17,10 @@ const Enhancements = {
       this.initScrollReveal();
       this.initImageFadeIn();
       this.initSmoothAnchors();
-      this.initParallax();
+      // Skip parallax on touch devices - can cause scroll jank
+      if (!this.isTouchDevice) {
+        this.initParallax();
+      }
       this.initReadingProgress();
       this.initPageEntrance();
     }
@@ -77,7 +82,7 @@ const Enhancements = {
     const images = document.querySelectorAll(
       '.hero-image img, .mission-image img, .fellowship-image img, ' +
       '.mars-hero-image img, .mars-working-image img, .event-cover img, ' +
-      '.director-photo img, .team-member-photo img, .mentor-photo'
+      '.director-photo img.outline, .team-member-photo img, .mentor-photo'
     );
 
     images.forEach(img => {
