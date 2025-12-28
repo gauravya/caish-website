@@ -13,6 +13,7 @@
   <!-- Preload critical resources -->
   <link rel="preload" href="/styles.css" as="style">
   <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="/images/hero.png" as="image" fetchpriority="high">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,7 +59,7 @@
 
   <main>
   <div class="mars-hero-image" id="main-content">
-    <img src="/images/hero.png" alt="Figure standing on Mars landscape" loading="lazy">
+    <img src="/images/hero.png" alt="Figure standing on Mars landscape" loading="eager" fetchpriority="high" decoding="async" width="1200" height="600">
   </div>
 
   <section class="page-header mars-header">
@@ -108,7 +109,7 @@
       </div>
 
       <div class="mars-working-image">
-        <img src="/images/mars-working.png" alt="MARS mentees collaborating on AI safety research" loading="lazy">
+        <img src="/images/mars-working.png" alt="MARS mentees collaborating on AI safety research" loading="lazy" decoding="async" width="800" height="500">
       </div>
 
       <h2>Previous Mentors</h2>
@@ -116,37 +117,37 @@
       
       <div class="mentors-grid">
         <div class="mentor">
-          <img src="/images/tracy.png" alt="Tyler Tracy" class="mentor-photo" loading="lazy">
+          <img src="/images/tracy.png" alt="Tyler Tracy" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
           <h4>Tyler Tracy</h4>
           <p class="mentor-org">Redwood Research</p>
           <p class="mentor-area">AI Control</p>
         </div>
         <div class="mentor">
-          <img src="/images/weil.png" alt="Gabriel Weil" class="mentor-photo" loading="lazy">
+          <img src="/images/weil.png" alt="Gabriel Weil" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
           <h4>Gabriel Weil</h4>
           <p class="mentor-org">Touro University Law Center / LawAI</p>
           <p class="mentor-area">AI Liability and Insurance</p>
         </div>
         <div class="mentor">
-          <img src="/images/logan.png" alt="Logan Riggs-Smith" class="mentor-photo" loading="lazy">
+          <img src="/images/logan.png" alt="Logan Riggs-Smith" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
           <h4>Logan Riggs-Smith</h4>
           <p class="mentor-org">Independent</p>
           <p class="mentor-area">Mechanistic Interpretability</p>
         </div>
         <div class="mentor">
-          <img src="/images/gentzel.png" alt="Matthew Gentzel" class="mentor-photo" loading="lazy">
+          <img src="/images/gentzel.png" alt="Matthew Gentzel" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
           <h4>Matthew Gentzel</h4>
           <p class="mentor-org">Longview Philanthropy</p>
           <p class="mentor-area">AGI Preparedness</p>
         </div>
         <div class="mentor">
-          <img src="/images/erich.png" alt="Erich Grunewald" class="mentor-photo" loading="lazy">
+          <img src="/images/erich.png" alt="Erich Grunewald" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
           <h4>Erich Grunewald</h4>
           <p class="mentor-org">Institute for AI Policy and Strategy</p>
           <p class="mentor-area">Compute Governance</p>
         </div>
         <div class="mentor">
-          <img src="/images/kola.png" alt="Kola Ayonrinde" class="mentor-photo" loading="lazy">
+          <img src="/images/kola.png" alt="Kola Ayonrinde" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
           <h4>Kola Ayonrinde</h4>
           <p class="mentor-org">UK AI Security Institute</p>
           <p class="mentor-area">Mechanistic Interpretability</p>
