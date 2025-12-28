@@ -8,6 +8,8 @@
 const Enhancements = {
   // Check if user prefers reduced motion
   prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  // Check if device supports touch (likely mobile)
+  isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
 
   init() {
     // Only run enhancements if user hasn't opted out
@@ -15,7 +17,10 @@ const Enhancements = {
       this.initScrollReveal();
       this.initImageFadeIn();
       this.initSmoothAnchors();
-      this.initParallax();
+      // Skip parallax on touch devices - can cause scroll jank
+      if (!this.isTouchDevice) {
+        this.initParallax();
+      }
       this.initReadingProgress();
       this.initPageEntrance();
     }
@@ -100,6 +105,9 @@ const Enhancements = {
    * Uses natural easing for a flowing feel
    */
   initSmoothAnchors() {
+    // On touch devices, let native CSS scroll-behavior handle it
+    if (this.isTouchDevice) return;
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', (e) => {
         const href = anchor.getAttribute('href');
