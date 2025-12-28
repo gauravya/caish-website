@@ -95,7 +95,7 @@
   </section>
 
   <section class="socials-image">
-    <img src="/images/community.png" alt="CAISH community members at a social event" loading="lazy">
+    <img src="/images/community.png" alt="CAISH community members at a social event" loading="lazy" decoding="async" width="800" height="500">
   </section>
   </main>
 
@@ -252,7 +252,7 @@
 
         return `
           <a href="${this.escapeHtml(url)}" target="_blank" rel="noopener" class="event-card ${isPast ? 'past' : ''}">
-            ${coverUrl ? `<div class="event-cover"><img src="${this.escapeHtml(coverUrl)}" alt="${this.escapeHtml(name)}" loading="lazy"></div>` : ''}
+            ${coverUrl ? `<div class="event-cover"><img src="${this.escapeHtml(coverUrl)}" alt="${this.escapeHtml(name)}" loading="lazy" decoding="async"></div>` : ''}
             <div class="event-content">
               <div class="event-date">
                 <span class="event-day">${this.escapeHtml(dateStr)}</span>
