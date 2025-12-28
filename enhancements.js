@@ -77,7 +77,7 @@ const Enhancements = {
     const images = document.querySelectorAll(
       '.hero-image img, .mission-image img, .fellowship-image img, ' +
       '.mars-hero-image img, .mars-working-image img, .event-cover img, ' +
-      '.director-photo img, .team-member-photo img, .mentor-photo'
+      '.director-photo img.outline, .team-member-photo img, .mentor-photo'
     );
 
     images.forEach(img => {
