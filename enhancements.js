@@ -14,13 +14,13 @@ const Enhancements = {
   init() {
     // Only run enhancements if user hasn't opted out
     if (!this.prefersReducedMotion) {
-      this.initScrollReveal();
-      this.initImageFadeIn();
-      this.initSmoothAnchors();
-      // Skip parallax on touch devices - can cause scroll jank
+      // Skip scroll-based effects on touch devices - can cause scroll jank
       if (!this.isTouchDevice) {
+        this.initScrollReveal();
         this.initParallax();
       }
+      this.initImageFadeIn();
+      this.initSmoothAnchors();
       this.initReadingProgress();
       this.initPageEntrance();
     }
