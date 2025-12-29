@@ -27,7 +27,7 @@
     --white: #fefefe;
     --cambridge: #8c4a3a;
     --max-width: 1000px;
-    --font-serif: "Charis SIL", "Times New Roman", Times, Tinos, serif;
+    --font-serif: 'Libre Baskerville', Georgia, serif;
     --font-mono: 'Space Mono', monospace;
   }
   
@@ -48,7 +48,7 @@
   }
   
   body {
-    font-family: var(--font-serif);
+    font-family: var(--font-mono);
     font-weight: 400;
     background: #ffffff;
     color: var(--black);
