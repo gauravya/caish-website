@@ -2007,7 +2007,14 @@
       max-height: 240px;
     }
 
-    .cta-image { justify-content: center; }
+    .cta-inner > div:first-child {
+      text-align: center;
+    }
+
+    .cta-image {
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
 
     .cta-image img {
       max-width: 150px;
