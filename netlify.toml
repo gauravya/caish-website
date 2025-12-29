@@ -31,23 +31,41 @@
       form-action 'self' https://tally.so https://share-eu1.hsforms.com;
     """
 
-# Cache control for images
+# Cache control for images - 1 year immutable
 [[headers]]
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Cache control for CSS
+# Cache control for CSS - 1 year immutable (versioned with query string)
 [[headers]]
   for = "/styles.css"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Cache control for HTML pages
+# Cache control for JS - 1 year immutable
+[[headers]]
+  for = "/enhancements.js"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Service Worker - no cache (must always check for updates)
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
+# Cache control for HTML pages - stale-while-revalidate for instant loads
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
+
+# Root path - same as HTML
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
 
 # Clean URLs
 [[redirects]]

@@ -10,9 +10,14 @@ const Enhancements = {
   prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   // Check if device supports touch (likely mobile)
   isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
+  // Track prefetched URLs to avoid duplicates
+  prefetchedUrls: new Set(),
 
   init() {
-    // Only run enhancements if user hasn't opted out
+    // Critical: Always init prefetching for instant navigation
+    this.initLinkPrefetch();
+
+    // Only run visual enhancements if user hasn't opted out
     if (!this.prefersReducedMotion) {
       this.initScrollReveal();
       this.initImageFadeIn();
@@ -28,6 +33,89 @@ const Enhancements = {
     // These are always safe to run
     this.initWarmHovers();
     this.initLinkUnderlines();
+  },
+
+  /**
+   * Link Prefetching - McMaster-Carr technique
+   * Prefetch pages on hover for instant navigation
+   * Uses both <link rel="prefetch"> and fetch() for maximum compatibility
+   */
+  initLinkPrefetch() {
+    // Get all internal navigation links
+    const internalLinks = document.querySelectorAll('a[href^="/"], a[href^="./"], .nav-links a, .mobile-nav a');
+
+    internalLinks.forEach(link => {
+      const href = link.getAttribute('href');
+      if (!href || href === '#' || href.startsWith('#') || href.startsWith('http')) return;
+
+      // Normalize the URL
+      const url = new URL(href, window.location.origin).pathname;
+      const htmlUrl = url.endsWith('/') ? url + 'index.html' : (url.includes('.') ? url : url + '.html');
+
+      let prefetchTimeout;
+
+      link.addEventListener('mouseenter', () => {
+        // Small delay to avoid prefetching on accidental hovers
+        prefetchTimeout = setTimeout(() => {
+          this.prefetchPage(htmlUrl);
+        }, 65);
+      });
+
+      link.addEventListener('mouseleave', () => {
+        clearTimeout(prefetchTimeout);
+      });
+
+      // Also prefetch on touch start for mobile
+      link.addEventListener('touchstart', () => {
+        this.prefetchPage(htmlUrl);
+      }, { passive: true });
+    });
+
+    // Prefetch visible links in viewport (speculative)
+    if ('IntersectionObserver' in window) {
+      const prefetchObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const href = entry.target.getAttribute('href');
+            if (href && !href.startsWith('http') && !href.startsWith('#')) {
+              const url = new URL(href, window.location.origin).pathname;
+              const htmlUrl = url.endsWith('/') ? url + 'index.html' : (url.includes('.') ? url : url + '.html');
+              // Low priority prefetch for visible links
+              setTimeout(() => this.prefetchPage(htmlUrl, 'low'), 1000);
+            }
+            prefetchObserver.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px' });
+
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        prefetchObserver.observe(link);
+      });
+    }
+  },
+
+  prefetchPage(url, priority = 'high') {
+    if (this.prefetchedUrls.has(url)) return;
+    this.prefetchedUrls.add(url);
+
+    // Method 1: Use <link rel="prefetch"> (browser-managed caching)
+    const link = document.createElement('link');
+    link.rel = 'prefetch';
+    link.href = url;
+    link.as = 'document';
+    if (priority === 'low') {
+      link.setAttribute('importance', 'low');
+    }
+    document.head.appendChild(link);
+
+    // Method 2: Also use fetch for immediate cache warming (high priority only)
+    if (priority === 'high' && 'fetch' in window) {
+      fetch(url, {
+        priority: 'low',
+        credentials: 'same-origin',
+        cache: 'force-cache'
+      }).catch(() => {}); // Silently ignore errors
+    }
   },
 
   /**
