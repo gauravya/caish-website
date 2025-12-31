@@ -28,7 +28,11 @@
     --cambridge: #8c4a3a;
     --max-width: 1000px;
     --font-serif: 'Libre Baskerville', Georgia, serif;
-    --font-mono: 'Inter', sans-serif;
+    --font-soehne: 'Söhne', 'Soehne', 'Sohne';
+    --font-mono: var(--font-soehne), ui-sans-serif, system-ui, -apple-system,
+      BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans',
+      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+      'Noto Color Emoji';
   }
   
   /* ==========================================================================
