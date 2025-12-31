@@ -27,8 +27,10 @@
     --white: #fefefe;
     --cambridge: #8c4a3a;
     --max-width: 1000px;
-    --font-serif: 'Libre Baskerville', Georgia, serif;
-    --font-mono: 'Space Mono', monospace;
+    /* Söhne-style system font stack */
+    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: var(--font-sans);
+    --font-mono: var(--font-sans);
   }
   
   /* ==========================================================================
@@ -41,19 +43,19 @@
   }
   
   html {
-    font-size: 16px;
+    font-size: 17px;
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   body {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-weight: 400;
     background: #ffffff;
     color: var(--black);
-    line-height: 1.8;
-    letter-spacing: -0.01em;
+    line-height: 1.7;
+    letter-spacing: -0.011em;
   }
   
   /* Paper grain texture overlay */
@@ -71,28 +73,28 @@
      3. Typography
      ========================================================================== */
   h1, h2, h3 {
-    font-family: var(--font-serif);
-    font-weight: 400;
-    letter-spacing: -0.02em;
+    font-family: var(--font-sans);
+    font-weight: 600;
+    letter-spacing: -0.025em;
   }
-  
+
   h1 {
-    font-size: clamp(2.4rem, 5.5vw, 3.8rem);
-    line-height: 1.2;
+    font-size: clamp(2.5rem, 5.5vw, 4rem);
+    line-height: 1.15;
   }
-  
+
   h2 {
-    font-size: clamp(1.4rem, 2.8vw, 1.85rem);
-    line-height: 1.35;
+    font-size: clamp(1.5rem, 2.8vw, 2rem);
+    line-height: 1.3;
   }
-  
+
   h3 {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
     line-height: 1.4;
   }
-  
+
   p {
-    font-size: 0.95rem;
+    font-size: 1rem;
     max-width: 52ch;
     color: var(--dark-grey);
   }
@@ -144,12 +146,13 @@
      4. Layout Utilities
      ========================================================================== */
   .label {
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--dark-grey);
     margin-bottom: 1.5rem;
     display: block;
+    font-weight: 500;
   }
   
   section {
@@ -211,8 +214,9 @@
   
   .nav-links a {
     position: relative;
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
+    font-size: 0.85rem;
+    letter-spacing: 0.01em;
+    font-weight: 500;
     color: var(--dark-grey);
     transition: color 0.2s ease-out;
   }
@@ -287,8 +291,9 @@
   }
   
   .mobile-nav a {
-    font-family: var(--font-serif);
+    font-family: var(--font-sans);
     font-size: 1.5rem;
+    font-weight: 600;
     color: var(--black);
   }
   
@@ -302,9 +307,10 @@
   .btn {
     display: inline-block;
     padding: 0.8rem 1.6rem;
-    font-family: var(--font-mono);
-    font-size: 0.68rem;
-    letter-spacing: 0.08em;
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     background: var(--cream);
     color: var(--black);
@@ -531,9 +537,9 @@
   padding: 2.5rem 0;
   border-bottom: 1px solid var(--light-grey);
   color: var(--mid-grey);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-style: italic;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 .events-loading {
@@ -541,9 +547,9 @@
   border-top: 1px solid var(--light-grey);
   border-bottom: 1px solid var(--light-grey);
   color: var(--mid-grey);
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   font-style: italic;
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
 }
 
 /* Home Page Events List */
@@ -579,8 +585,9 @@
 }
 
 .home-event-day {
-  font-family: var(--font-serif);
-  font-size: 0.9rem;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
   color: var(--black);
 }
 
@@ -596,9 +603,9 @@
 }
 
 .home-event-title {
-  font-family: var(--font-serif);
-  font-size: 1rem;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  font-weight: 500;
   color: var(--black);
   margin: 0;
 }
@@ -708,9 +715,10 @@
 }
 
 .event-day {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.05em;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--dark-grey);
 }
@@ -721,9 +729,9 @@
 }
 
 .event-title {
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 600;
   line-height: 1.35;
   color: var(--black);
   margin: 0;
@@ -950,9 +958,9 @@
   }
   
   .team-member h4 {
-    font-family: var(--font-serif);
-    font-size: 0.95rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    font-weight: 600;
     margin-bottom: 0.25rem;
   }
   
@@ -963,8 +971,8 @@
   
   /* Fellowship Page */
   .fellowship-tagline {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
     color: var(--dark-grey);
     max-width: none;
   }
@@ -1065,9 +1073,10 @@
   .btn-primary {
     display: inline-block;
     padding: 1rem 2rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     background: var(--black);
     color: var(--white);
@@ -1169,9 +1178,9 @@
   }
   
   .feature h4 {
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
     margin-bottom: 0.5rem;
   }
   
@@ -1203,9 +1212,9 @@
   }
   
   .expectation h4 {
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
     margin-bottom: 0.5rem;
   }
   
@@ -1389,8 +1398,8 @@
   }
   
   .mars-tagline {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
     color: var(--dark-grey);
     max-width: none;
     margin-bottom: 0;
@@ -1452,18 +1461,19 @@
     height: 1.5rem;
     background: #8c4a3a;
     color: var(--white);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
     line-height: 1.5rem;
     text-align: center;
     border-radius: 50%;
     margin-bottom: 0.75rem;
   }
-  
+
   .journey-card h4 {
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
     margin-bottom: 0.5rem;
   }
   
@@ -1503,9 +1513,9 @@
   }
   
   .mars-feature h4 {
-    font-family: var(--font-serif);
-    font-size: 0.9rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 600;
     margin-bottom: 0.5rem;
   }
   
@@ -1541,9 +1551,9 @@
   }
   
   .mentor h4 {
-    font-family: var(--font-serif);
-    font-size: 0.85rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
+    font-weight: 600;
     margin-bottom: 0.25rem;
   }
   
@@ -1593,25 +1603,27 @@
   }
   
   .research-cohort {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
     color: #8c4a3a;
     padding: 0.35rem 0.6rem;
     border: 1px solid rgba(140, 74, 58, 0.35);
     border-radius: 4px;
     background: rgba(140, 74, 58, 0.08);
   }
-  
+
   .research-type {
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 500;
     color: var(--mid-grey);
   }
-  
+
   .research-card h4 {
-    font-family: var(--font-serif);
-    font-size: 1rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 600;
     line-height: 1.4;
     margin-bottom: 0.75rem;
   }
@@ -1680,9 +1692,9 @@
   }
   
   .alumni-content h4 {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
+    font-weight: 600;
     margin-bottom: 0.25rem;
   }
   
@@ -1778,9 +1790,9 @@
   }
 
   .modal-header h3 {
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    font-weight: 400;
+    font-family: var(--font-sans);
+    font-size: 1.15rem;
+    font-weight: 600;
     margin: 0;
   }
 
