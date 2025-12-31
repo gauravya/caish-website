@@ -14,8 +14,6 @@ const Enhancements = {
     if (!connection) return false;
     return Boolean(connection.saveData) || /2g/.test(connection.effectiveType || '');
   })(),
-  // Lightweight mode for content-heavy pages
-  minimalEnhancements: document.body && document.body.dataset && document.body.dataset.enhancements === 'minimal',
   // Check if device supports touch (likely mobile)
   isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
   // Track prefetched URLs to avoid duplicates
@@ -24,10 +22,6 @@ const Enhancements = {
   init() {
     // Critical: Always init prefetching for instant navigation
     this.initLinkPrefetch();
-
-    if (this.minimalEnhancements) {
-      return;
-    }
 
     if (!this.prefersReducedMotion) {
       this.initPageEntrance();

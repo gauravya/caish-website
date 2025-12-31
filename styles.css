@@ -1990,18 +1990,6 @@
     .hero { padding-top: 6rem; padding-bottom: 3rem; }
     .page-header { padding-top: 6rem; padding-bottom: 3rem; }
 
-    .page-header.fellowship-header,
-    .mars-header {
-      text-align: center;
-    }
-
-    .fellowship-tagline,
-    .mars-tagline {
-      text-align: center;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
     section,
     .divider { padding-left: 1.5rem; padding-right: 1.5rem; }
 
