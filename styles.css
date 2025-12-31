@@ -1738,11 +1738,11 @@
     overflow: hidden;
   }
 
-  .modal-overlay {
+.modal-overlay {
     position: fixed;
     inset: 0;
     background: rgba(10, 10, 10, 0.55);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     padding: 2rem 1.5rem;
@@ -1753,6 +1753,7 @@
   }
 
   .modal-overlay.active {
+    display: flex;
     opacity: 1;
     pointer-events: auto;
   }

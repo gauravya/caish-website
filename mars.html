@@ -263,7 +263,7 @@
         <button class="modal-close" type="button" aria-label="Close form" id="close-eoi-modal">&times;</button>
       </div>
       <div class="modal-body">
-        <iframe data-tally-src="https://tally.so/r/wdOGeK" title="MARS 5.0 - Expression of Interest" frameborder="0" marginheight="0" marginwidth="0"></iframe>
+        <iframe data-tally-src="https://tally.so/r/wdOGeK" title="MARS 5.0 - Expression of Interest" frameborder="0" marginheight="0" marginwidth="0" loading="lazy"></iframe>
       </div>
     </div>
   </div>
@@ -291,6 +291,27 @@
       }
     };
 
+    const loadTallyEmbed = (() => {
+      let loaded;
+      return () => {
+        if (loaded) return loaded;
+        loaded = new Promise((resolve) => {
+          if (document.querySelector('script[data-tally-embed]')) {
+            resolve();
+            return;
+          }
+          const script = document.createElement('script');
+          script.src = 'https://tally.so/widgets/embed.js';
+          script.async = true;
+          script.dataset.tallyEmbed = 'true';
+          script.onload = () => resolve();
+          script.onerror = () => resolve();
+          document.body.appendChild(script);
+        });
+        return loaded;
+      };
+    })();
+
     const MarsModal = {
       init() {
         const openButton = document.getElementById('open-eoi-modal');
@@ -304,6 +325,7 @@
           modal.classList.add('active');
           modal.setAttribute('aria-hidden', 'false');
           document.body.classList.add('modal-open');
+          loadTallyEmbed();
           // Load the Tally form when modal opens
           if (iframe && !iframe.src) {
             const tallySrc = iframe.getAttribute('data-tally-src');
@@ -342,6 +364,5 @@
         })
       : (MobileNav.init(), MarsModal.init());
   </script>
-  <script async src="https://tally.so/widgets/embed.js"></script>
 </body>
 </html>
