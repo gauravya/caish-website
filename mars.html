@@ -250,23 +250,11 @@
         <p class="application-notice">Applications open soon.</p>
         <p>Sign up to be notified when applications open for the next cohort.</p>
         <div class="btn-wrapper">
-          <button class="btn-primary" type="button" id="open-eoi-modal">Expression of Interest</button>
+          <a class="btn-primary" href="https://tally.so/r/wdOGeK" target="_blank" rel="noopener">Expression of Interest</a>
         </div>
       </div>
     </div>
   </section>
-
-  <div class="modal-overlay" id="eoi-modal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="eoi-title">
-      <div class="modal-header">
-        <h3 id="eoi-title">MARS 5.0 Expression of Interest</h3>
-        <button class="modal-close" type="button" aria-label="Close form" id="close-eoi-modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe data-tally-src="https://tally.so/r/wdOGeK" title="MARS 5.0 - Expression of Interest" frameborder="0" marginheight="0" marginwidth="0" loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
   </main>
 
   <footer>
@@ -291,78 +279,9 @@
       }
     };
 
-    const loadTallyEmbed = (() => {
-      let loaded;
-      return () => {
-        if (loaded) return loaded;
-        loaded = new Promise((resolve) => {
-          if (document.querySelector('script[data-tally-embed]')) {
-            resolve();
-            return;
-          }
-          const script = document.createElement('script');
-          script.src = 'https://tally.so/widgets/embed.js';
-          script.async = true;
-          script.dataset.tallyEmbed = 'true';
-          script.onload = () => resolve();
-          script.onerror = () => resolve();
-          document.body.appendChild(script);
-        });
-        return loaded;
-      };
-    })();
-
-    const MarsModal = {
-      init() {
-        const openButton = document.getElementById('open-eoi-modal');
-        const closeButton = document.getElementById('close-eoi-modal');
-        const modal = document.getElementById('eoi-modal');
-        const iframe = modal?.querySelector('iframe');
-
-        if (!openButton || !closeButton || !modal) return;
-
-        const openModal = () => {
-          modal.classList.add('active');
-          modal.setAttribute('aria-hidden', 'false');
-          document.body.classList.add('modal-open');
-          loadTallyEmbed();
-          // Load the Tally form when modal opens
-          if (iframe && !iframe.src) {
-            const tallySrc = iframe.getAttribute('data-tally-src');
-            if (tallySrc) {
-              iframe.src = tallySrc + '?alignLeft=1&hideTitle=1&transparentBackground=1';
-            }
-          }
-        };
-
-        const closeModal = () => {
-          modal.classList.remove('active');
-          modal.setAttribute('aria-hidden', 'true');
-          document.body.classList.remove('modal-open');
-        };
-
-        openButton.addEventListener('click', openModal);
-        closeButton.addEventListener('click', closeModal);
-        modal.addEventListener('click', (event) => {
-          if (event.target === modal) {
-            closeModal();
-          }
-        });
-
-        document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
-          }
-        });
-      }
-    };
-
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => {
-          MobileNav.init();
-          MarsModal.init();
-        })
-      : (MobileNav.init(), MarsModal.init());
+      ? document.addEventListener('DOMContentLoaded', MobileNav.init)
+      : MobileNav.init();
   </script>
 </body>
 </html>

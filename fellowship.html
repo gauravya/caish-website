@@ -188,23 +188,11 @@
         <h2>Application process</h2>
         <p>Details are still being finalised and may change. We expect to open applications for Lent Term soon, with more information on the process to follow.</p>
         <div class="btn-wrapper">
-          <button class="btn-primary" type="button" id="open-fellowship-modal">Expression of Interest</button>
+          <a class="btn-primary" href="https://tally.so/r/mJQ7yY" target="_blank" rel="noopener">Expression of Interest</a>
         </div>
       </div>
     </div>
   </section>
-
-  <div class="modal-overlay" id="fellowship-modal" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="fellowship-title">
-      <div class="modal-header">
-        <h3 id="fellowship-title">Alignment Fellowship Expression of Interest</h3>
-        <button class="modal-close" type="button" aria-label="Close form" id="close-fellowship-modal">&times;</button>
-      </div>
-      <div class="modal-body">
-        <iframe data-tally-src="https://tally.so/r/mJQ7yY" title="The Alignment Fellowship -- Expression of Interest" frameborder="0" marginheight="0" marginwidth="0" loading="lazy"></iframe>
-      </div>
-    </div>
-  </div>
   </main>
 
   <footer>
@@ -229,77 +217,9 @@
       }
     };
 
-    const loadTallyEmbed = (() => {
-      let loaded;
-      return () => {
-        if (loaded) return loaded;
-        loaded = new Promise((resolve) => {
-          if (document.querySelector('script[data-tally-embed]')) {
-            resolve();
-            return;
-          }
-          const script = document.createElement('script');
-          script.src = 'https://tally.so/widgets/embed.js';
-          script.async = true;
-          script.dataset.tallyEmbed = 'true';
-          script.onload = () => resolve();
-          script.onerror = () => resolve();
-          document.body.appendChild(script);
-        });
-        return loaded;
-      };
-    })();
-
-    const FellowshipModal = {
-      init() {
-        const openButton = document.getElementById('open-fellowship-modal');
-        const closeButton = document.getElementById('close-fellowship-modal');
-        const modal = document.getElementById('fellowship-modal');
-        const iframe = modal?.querySelector('iframe');
-
-        if (!openButton || !closeButton || !modal) return;
-
-        const openModal = () => {
-          modal.classList.add('active');
-          modal.setAttribute('aria-hidden', 'false');
-          document.body.classList.add('modal-open');
-          loadTallyEmbed();
-          if (iframe && !iframe.src) {
-            const tallySrc = iframe.getAttribute('data-tally-src');
-            if (tallySrc) {
-              iframe.src = tallySrc + '?alignLeft=1&hideTitle=1&transparentBackground=1';
-            }
-          }
-        };
-
-        const closeModal = () => {
-          modal.classList.remove('active');
-          modal.setAttribute('aria-hidden', 'true');
-          document.body.classList.remove('modal-open');
-        };
-
-        openButton.addEventListener('click', openModal);
-        closeButton.addEventListener('click', closeModal);
-        modal.addEventListener('click', (event) => {
-          if (event.target === modal) {
-            closeModal();
-          }
-        });
-
-        document.addEventListener('keydown', (event) => {
-          if (event.key === 'Escape' && modal.classList.contains('active')) {
-            closeModal();
-          }
-        });
-      }
-    };
-
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => {
-          MobileNav.init();
-          FellowshipModal.init();
-        })
-      : (MobileNav.init(), FellowshipModal.init());
+      ? document.addEventListener('DOMContentLoaded', MobileNav.init)
+      : MobileNav.init();
   </script>
 </body>
 </html>
