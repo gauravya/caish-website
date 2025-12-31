@@ -4,9 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="The Alignment Fellowship - A 6-week programme to understand AI safety and how you can contribute.">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>Alignment Fellowship | Cambridge AI Safety Hub</title>
 
   <!-- Favicon -->
@@ -21,7 +18,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload critical resources -->
-  <link rel="preload" href="/styles.css?v=20251229" as="style">
+  <link rel="preload" href="/styles.css?v=20251229" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
@@ -49,11 +46,11 @@
     @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.page-header{padding-top:6rem}}
   </style>
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="/styles.css?v=20251229">
+  <!-- Styles (async) -->
+  <noscript><link rel="stylesheet" href="/styles.css?v=20251229"></noscript>
 
   <!-- Enhancements -->
-  <script src="/enhancements.js" defer></script>
+  <script src="/enhancements.js" defer fetchpriority="low"></script>
 
   <!-- Service Worker Registration -->
   <script>

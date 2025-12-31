@@ -8,6 +8,12 @@
 const Enhancements = {
   // Check if user prefers reduced motion
   prefersReducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  // Respect data saver / slow connections
+  prefersReducedData: (() => {
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    if (!connection) return false;
+    return Boolean(connection.saveData) || /2g/.test(connection.effectiveType || '');
+  })(),
   // Check if device supports touch (likely mobile)
   isTouchDevice: 'ontouchstart' in window || navigator.maxTouchPoints > 0,
   // Track prefetched URLs to avoid duplicates
@@ -17,22 +23,33 @@ const Enhancements = {
     // Critical: Always init prefetching for instant navigation
     this.initLinkPrefetch();
 
-    // Only run visual enhancements if user hasn't opted out
     if (!this.prefersReducedMotion) {
-      this.initScrollReveal();
-      this.initImageFadeIn();
-      this.initSmoothAnchors();
-      // Skip parallax on touch devices - can cause scroll jank
-      if (!this.isTouchDevice) {
-        this.initParallax();
-      }
-      this.initReadingProgress();
       this.initPageEntrance();
     }
 
-    // These are always safe to run
-    this.initWarmHovers();
-    this.initLinkUnderlines();
+    const runEnhancements = () => {
+      // Only run visual enhancements if user hasn't opted out
+      if (!this.prefersReducedMotion) {
+        this.initScrollReveal();
+        this.initImageFadeIn();
+        this.initSmoothAnchors();
+        // Skip parallax on touch devices - can cause scroll jank
+        if (!this.isTouchDevice) {
+          this.initParallax();
+        }
+        this.initReadingProgress();
+      }
+
+      // These are always safe to run
+      this.initWarmHovers();
+      this.initLinkUnderlines();
+    };
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(runEnhancements, { timeout: 1500 });
+    } else {
+      setTimeout(runEnhancements, 1);
+    }
   },
 
   /**
@@ -41,6 +58,7 @@ const Enhancements = {
    * Uses both <link rel="prefetch"> and fetch() for maximum compatibility
    */
   initLinkPrefetch() {
+    if (this.prefersReducedData) return;
     // Get all internal navigation links
     const internalLinks = document.querySelectorAll('a[href^="/"], a[href^="./"], .nav-links a, .mobile-nav a');
 
