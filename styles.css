@@ -944,49 +944,6 @@
   
   .director h3 { margin-bottom: var(--space-2); }
 
-  /* Fun tooltip for Gaurav */
-  .director-photo.has-tooltip::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: calc(100% + 8px);
-    left: 50%;
-    transform: translateX(-50%) scale(0.95);
-    background: var(--black);
-    color: var(--white);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 400;
-    padding: var(--space-3) var(--space-4);
-    border-radius: 8px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 10;
-  }
-
-  .director-photo.has-tooltip::before {
-    content: '';
-    position: absolute;
-    bottom: calc(100% + 2px);
-    left: 50%;
-    transform: translateX(-50%);
-    border: 6px solid transparent;
-    border-top-color: var(--black);
-    opacity: 0;
-    transition: opacity 0.2s ease;
-    z-index: 10;
-  }
-
-  .director-photo.has-tooltip:hover::after,
-  .director-photo.has-tooltip:hover::before {
-    opacity: 1;
-  }
-
-  .director-photo.has-tooltip:hover::after {
-    transform: translateX(-50%) scale(1);
-  }
-
   .director-role {
     font-size: 0.7rem;
     letter-spacing: 0.15em;
