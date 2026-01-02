@@ -145,7 +145,8 @@ const Enhancements = {
       '.initiative-item, .event-card, .home-event-item, .journey-card, ' +
       '.feature, .expectation, .track, .mentor, .research-card, .team-member, ' +
       '.mission-text, .mission-image, .about-text, .about-image, ' +
-      '.fellowship-content > p, .mars-content > p, .director'
+      '.fellowship-content > p, .mars-content > p, .director, ' +
+      '.faq-title, .faq-card'
     );
 
     // Set initial state

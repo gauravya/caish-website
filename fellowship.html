@@ -189,6 +189,42 @@
 
       <p><strong>If this isn't the right time to commit fully, that's completely fine—apply for a future cohort when you can.</strong> In the meantime, we run public talks and <a href="/socials" class="inline-link">socials</a> throughout the year, and we'd love to have you there.</p>
 
+      <div class="fellowship-faq" aria-labelledby="fellowship-faq-title">
+        <div class="faq-header">
+          <h2 id="fellowship-faq-title" class="faq-title">FAQ</h2>
+        </div>
+        <div class="faq-accordion" data-accordion="fellowship-faq">
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>Do I have to pay for the program?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>No, the Alignment Fellowship does not require any fees.</p>
+            </div>
+          </article>
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>Do I need to be in Cambridge to participate?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>The Alignment Fellowship is hosted in-person in Cambridge, UK. We expect almost all applicants to already be based in either Cambridge or London.</p>
+              <p>For London-based participants, we may be able to cover travel expenses from London to Cambridge if it would otherwise prohibit you from joining the programme.</p>
+            </div>
+          </article>
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>What is the time commitment for the program?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>We expect participants to commit roughly 3–5 hours per week across workshops, pre-readings & assignments, and social events.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+
       <div class="fellowship-application">
         <h2>Application process</h2>
         <p>Details are still being finalised and may change. We expect to open applications for Lent Term soon, with more information on the process to follow.</p>
@@ -225,6 +261,26 @@
     document.readyState === 'loading'
       ? document.addEventListener('DOMContentLoaded', MobileNav.init)
       : MobileNav.init();
+  </script>
+  <script>
+    (() => {
+      const accordions = document.querySelectorAll('.faq-accordion');
+      accordions.forEach(accordion => {
+        accordion.querySelectorAll('.faq-question').forEach(button => {
+          button.addEventListener('click', () => {
+            const isOpen = button.getAttribute('aria-expanded') === 'true';
+            const answer = button.nextElementSibling;
+
+            button.setAttribute('aria-expanded', String(!isOpen));
+            button.parentElement.classList.toggle('open', !isOpen);
+
+            if (answer) {
+              answer.hidden = isOpen;
+            }
+          });
+        });
+      });
+    })();
   </script>
 </body>
 </html>
