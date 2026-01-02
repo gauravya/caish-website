@@ -89,17 +89,18 @@
 
   .custom-cursor {
     position: fixed;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     pointer-events: none;
     z-index: 10001;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity 0.15s ease, transform 0.15s ease, width 0.2s ease, height 0.2s ease, background-color 0.2s ease;
-    mix-blend-mode: difference;
-    background-color: white;
-    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
+    transition: opacity 0.15s ease, transform 0.15s ease, width 0.2s ease, height 0.2s ease;
+    background: transparent;
+    border: 1.5px solid rgba(0, 0, 0, 0.15);
+    backdrop-filter: saturate(1.8) contrast(1.1);
+    -webkit-backdrop-filter: saturate(1.8) contrast(1.1);
   }
 
   .custom-cursor.is-active {
@@ -107,10 +108,12 @@
   }
 
   .custom-cursor.is-hover {
-    width: 40px;
-    height: 40px;
-    background-color: var(--cambridge);
-    mix-blend-mode: difference;
+    width: 48px;
+    height: 48px;
+    border-color: var(--cambridge);
+    border-width: 2px;
+    backdrop-filter: saturate(2.2) contrast(1.15);
+    -webkit-backdrop-filter: saturate(2.2) contrast(1.15);
   }
 
   body {
