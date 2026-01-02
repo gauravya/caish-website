@@ -975,18 +975,15 @@
   }
 
   .fellowship-hero-image {
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    padding: 5rem 2.5rem 0 2.5rem;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 7rem 2.5rem 0;
   }
 
   .fellowship-hero-image img {
     width: 100%;
-    max-width: 600px;
+    max-width: 720px;
     height: auto;
-    max-height: 250px;
-    object-fit: contain;
     display: block;
     margin: 0 auto;
   }
