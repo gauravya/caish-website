@@ -970,19 +970,25 @@
   }
   
   .page-header.fellowship-header {
+    padding-top: 1.5rem;
     padding-bottom: 2rem;
   }
 
-  .fellowship-intro-image {
-    max-width: 500px;
-    margin: 0 auto 2rem auto;
-    display: block;
+  .fellowship-hero-image {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 5rem 2.5rem 0 2.5rem;
   }
 
-  .fellowship-intro-image img {
+  .fellowship-hero-image img {
     width: 100%;
+    max-width: var(--max-width);
     height: auto;
+    max-height: 400px;
+    object-fit: contain;
     display: block;
+    margin: 0 auto;
   }
 
   .era-link {
