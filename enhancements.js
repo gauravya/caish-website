@@ -396,7 +396,8 @@ const Enhancements = {
   },
 
   /**
-   * Custom Cursor - Black circle with brown hover state
+   * Custom Cursor - Color-previewing cursor using mix-blend-mode
+   * Shows color contrast with content underneath, grows on interactive elements
    * Skips touch devices and reduced-motion preferences
    */
   initCustomCursor() {
@@ -417,7 +418,7 @@ const Enhancements = {
     window.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
 
     const hoverTargets = document.querySelectorAll(
-      'a, button, input, textarea, select, [role="button"], .btn, .btn-primary'
+      'a, button, input, textarea, select, [role="button"], .btn, .btn-primary, .event-card, .research-card, .journey-card, .faq-question'
     );
 
     hoverTargets.forEach(target => {
