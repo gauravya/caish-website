@@ -45,8 +45,13 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='%231a1a1a'/%3E%3C/svg%3E") 10 10, auto;
   }
-  
+
+  a, button, [role="button"], input[type="submit"], input[type="button"], .btn, .btn-primary, .nav-links a, .mobile-nav a, .event-card, .research-card, .journey-card, .faq-question {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='%237e4233'/%3E%3C/svg%3E") 10 10, pointer;
+  }
+
   body {
     font-family: var(--font-mono);
     font-weight: 400;
@@ -975,7 +980,7 @@
   
   .fellowship-section {
     padding-top: 2.5rem;
-    padding-bottom: 3rem;
+    padding-bottom: 1.5rem;
   }
   
   .fellowship-content {
@@ -1043,8 +1048,8 @@
   
   /* Application section */
   .fellowship-application {
-    margin-top: 2.5rem;
-    padding-top: 2.5rem;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
     border-top: 1px solid var(--light-grey);
     clear: both;
   }
@@ -1266,8 +1271,8 @@
     right: -1px;
     height: 6px;
     background: linear-gradient(120deg,
-      rgba(234, 113, 37, 0.6),
-      rgba(234, 113, 37, 0.15));
+      rgba(126, 66, 51, 0.6),
+      rgba(126, 66, 51, 0.15));
   }
 
   .faq-question {
@@ -1288,7 +1293,7 @@
   }
 
   .faq-question:focus-visible {
-    outline: 2px solid rgba(234, 113, 37, 0.35);
+    outline: 2px solid rgba(126, 66, 51, 0.35);
     outline-offset: 4px;
   }
 
@@ -1306,17 +1311,17 @@
     align-items: center;
     justify-content: center;
     border-radius: 999px;
-    border: 1px solid rgba(234, 113, 37, 0.25);
-    background: rgba(234, 113, 37, 0.08);
+    border: 1px solid rgba(126, 66, 51, 0.25);
+    background: rgba(126, 66, 51, 0.08);
     font-size: 1.2rem;
-    color: #EA7125;
+    color: #7e4233;
     transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
   }
 
   .faq-card.open .faq-icon {
     transform: rotate(45deg);
-    background: rgba(234, 113, 37, 0.12);
-    border-color: rgba(234, 113, 37, 0.5);
+    background: rgba(126, 66, 51, 0.12);
+    border-color: rgba(126, 66, 51, 0.5);
   }
 
   .faq-answer {
@@ -1366,8 +1371,8 @@
   }
 
 .expectations-section {
-  padding-top: 2.5rem;
-  padding-bottom: 4rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
 }
 
   .expectations-section h2 {
@@ -1455,7 +1460,7 @@
 
 .socials-image {
   max-width: var(--max-width);
-  padding: 0 2.5rem 5rem;
+  padding: 0 2.5rem 2rem;
   margin: 0 auto;
 }
 
@@ -1578,7 +1583,7 @@
     display: inline-block;
     width: 1.5rem;
     height: 1.5rem;
-    background: #EA7125;
+    background: #7e4233;
     color: var(--white);
     font-family: var(--font-mono);
     font-size: 0.7rem;
@@ -1665,7 +1670,7 @@
     background: var(--cream);
     border-radius: 50%;
     margin-bottom: 0.75rem;
-    border: 2px solid rgba(234, 113, 37, 0.2);
+    border: 2px solid rgba(126, 66, 51, 0.2);
   }
   
   .mentor h4 {
@@ -1702,7 +1707,7 @@
     background: var(--cream);
     border-radius: 12px;
     border: 1px solid rgba(141, 141, 141, 0.2);
-    border-top: 4px solid rgba(234, 113, 37, 0.6);
+    border-top: 4px solid rgba(126, 66, 51, 0.6);
     text-decoration: none;
     color: inherit;
     transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
@@ -1723,11 +1728,11 @@
   .research-cohort {
     font-family: var(--font-mono);
     font-size: 0.7rem;
-    color: #EA7125;
+    color: #7e4233;
     padding: 0.35rem 0.6rem;
-    border: 1px solid rgba(234, 113, 37, 0.35);
+    border: 1px solid rgba(126, 66, 51, 0.35);
     border-radius: 4px;
-    background: rgba(234, 113, 37, 0.08);
+    background: rgba(126, 66, 51, 0.08);
   }
   
   .research-type {
@@ -2105,7 +2110,7 @@
     }
 
     .socials-image {
-      padding: 0 1.5rem 2.5rem;
+      padding: 0 1.5rem 1.5rem;
     }
 
     .events-grid {
@@ -2292,9 +2297,9 @@
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg,
-    rgba(234, 113, 37, 0.6) 0%,
-    rgba(234, 113, 37, 0.85) 50%,
-    rgba(234, 113, 37, 0.6) 100%
+    rgba(126, 66, 51, 0.6) 0%,
+    rgba(126, 66, 51, 0.85) 50%,
+    rgba(126, 66, 51, 0.6) 100%
   );
   border-radius: 0 2px 2px 0;
   transition: width 0.1s ease-out;
@@ -2302,12 +2307,12 @@
 
 /* Warm text selection */
 ::selection {
-  background: rgba(234, 113, 37, 0.2);
+  background: rgba(126, 66, 51, 0.2);
   color: var(--black);
 }
 
 ::-moz-selection {
-  background: rgba(234, 113, 37, 0.2);
+  background: rgba(126, 66, 51, 0.2);
   color: var(--black);
 }
 
@@ -2327,7 +2332,7 @@
 .initiative-item:focus-within,
 .event-card:focus-within,
 .journey-card:focus-within {
-  box-shadow: 0 0 0 3px rgba(234, 113, 37, 0.15), 0 16px 30px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 0 0 3px rgba(126, 66, 51, 0.15), 0 16px 30px rgba(0, 0, 0, 0.08);
 }
 
 /* Subtle warm glow on card hovers */
@@ -2335,7 +2340,7 @@
 .feature:hover,
 .expectation:hover,
 .track:hover {
-  border-color: rgba(234, 113, 37, 0.25);
+  border-color: rgba(126, 66, 51, 0.25);
 }
 
 /* Breathing animation for CTA */
