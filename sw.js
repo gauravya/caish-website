@@ -9,8 +9,8 @@
  * - Fonts: Cache-first (rarely change)
  */
 
-const CACHE_VERSION = 'caish-v1';
-const RUNTIME_CACHE = 'caish-runtime-v1';
+const CACHE_VERSION = 'caish-v5';
+const RUNTIME_CACHE = 'caish-runtime-v5';
 
 // Critical assets to precache on install
 const PRECACHE_ASSETS = [

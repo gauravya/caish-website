@@ -1071,16 +1071,19 @@
     text-transform: uppercase;
     background: var(--black);
     color: var(--white);
-    border: none;
+    border: 1px solid transparent;
     border-radius: 999px;
     cursor: pointer;
     box-shadow: 0 16px 28px rgba(0, 0, 0, 0.2);
-    transition: opacity 0.2s ease-out, transform 0.2s ease-out, box-shadow 0.2s ease-out;
+    transition: background-color 0.2s ease-out, color 0.2s ease-out, border-color 0.2s ease-out, transform 0.2s ease-out, box-shadow 0.2s ease-out;
     text-decoration: none;
   }
 
   .btn-primary:hover {
-    opacity: 0.85;
+    background-color: var(--white);
+    color: var(--black);
+    border-color: var(--black);
+    opacity: 1;
     transform: translateY(-1px);
     box-shadow: 0 20px 32px rgba(0, 0, 0, 0.22);
   }
@@ -1229,12 +1232,12 @@
     justify-content: space-between;
     gap: 1rem;
     flex-wrap: wrap;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
 
   .faq-title {
     margin: 0;
-    font-size: clamp(2.2rem, 5vw, 3rem);
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
     letter-spacing: -0.03em;
   }
 
@@ -1242,6 +1245,7 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: 0.75rem;
+    margin-bottom: 0.75rem;
   }
 
   .faq-card {
@@ -1274,7 +1278,7 @@
     gap: 0.75rem;
     background: none;
     border: none;
-    padding: 1rem 1.25rem;
+    padding: 1.25rem 1.5rem;
     text-align: left;
     font-size: 0.95rem;
     color: var(--black);
@@ -1291,7 +1295,7 @@
   .faq-question span:first-child {
     flex: 1;
     font-family: var(--font-serif);
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     line-height: 1.4;
   }
 
@@ -1316,12 +1320,12 @@
   }
 
   .faq-answer {
-    padding: 0 1.25rem 1.1rem;
+    padding: 0.35rem 1.5rem 1.4rem;
     border-top: 1px solid rgba(224, 224, 224, 0.8);
   }
 
   .faq-answer p {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     margin-bottom: 0.6rem;
     max-width: none;
     color: var(--dark-grey);
@@ -1329,6 +1333,13 @@
 
   .faq-answer p:last-child {
     margin-bottom: 0;
+  }
+
+  .faq-footer {
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: var(--mid-grey);
+    max-width: none;
   }
 
   .expectation ul {
