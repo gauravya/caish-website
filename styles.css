@@ -945,12 +945,7 @@
   .director h3 { margin-bottom: var(--space-2); }
 
   /* Fun tooltip for Gaurav */
-  .director h3 .has-tooltip {
-    position: relative;
-    cursor: help;
-  }
-
-  .director h3 .has-tooltip::after {
+  .director-photo.has-tooltip::after {
     content: attr(data-tooltip);
     position: absolute;
     bottom: calc(100% + 8px);
@@ -970,7 +965,7 @@
     z-index: 10;
   }
 
-  .director h3 .has-tooltip::before {
+  .director-photo.has-tooltip::before {
     content: '';
     position: absolute;
     bottom: calc(100% + 2px);
@@ -983,12 +978,12 @@
     z-index: 10;
   }
 
-  .director h3 .has-tooltip:hover::after,
-  .director h3 .has-tooltip:hover::before {
+  .director-photo.has-tooltip:hover::after,
+  .director-photo.has-tooltip:hover::before {
     opacity: 1;
   }
 
-  .director h3 .has-tooltip:hover::after {
+  .director-photo.has-tooltip:hover::after {
     transform: translateX(-50%) scale(1);
   }
 
