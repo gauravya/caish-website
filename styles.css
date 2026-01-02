@@ -972,6 +972,39 @@
   .page-header.fellowship-header {
     padding-bottom: 2rem;
   }
+
+  .fellowship-intro-image {
+    max-width: 280px;
+    margin: 0 auto 1.5rem auto;
+    display: block;
+  }
+
+  .fellowship-intro-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .era-link {
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .era-link--ai {
+    color: inherit;
+  }
+
+  .era-link--ai:hover {
+    color: #8b0000;
+  }
+
+  .era-link--bio {
+    color: inherit;
+  }
+
+  .era-link--bio:hover {
+    color: #006400;
+  }
   
   .fellowship-section {
     padding-top: 2.5rem;
