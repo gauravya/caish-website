@@ -983,9 +983,9 @@
 
   .fellowship-hero-image img {
     width: 100%;
-    max-width: var(--max-width);
+    max-width: 600px;
     height: auto;
-    max-height: 400px;
+    max-height: 250px;
     object-fit: contain;
     display: block;
     margin: 0 auto;
