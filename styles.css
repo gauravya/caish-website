@@ -18,6 +18,7 @@
    1. Variables
    ========================================================================== */
    :root {
+    /* Colors */
     --black: #1a1a1a;
     --dark-grey: #4a4a4a;
     --mid-grey: #8a8a8a;
@@ -26,9 +27,28 @@
     --cream: #f4f3ef;
     --white: #fefefe;
     --cambridge: #7e4233;
+
+    /* Layout */
     --max-width: 1000px;
+
+    /* Typography */
     --font-serif: 'Libre Baskerville', Georgia, serif;
     --font-mono: 'Space Mono', monospace;
+
+    /* Spacing Scale (base: 4px / 0.25rem) */
+    --space-1: 0.25rem;   /* 4px */
+    --space-2: 0.5rem;    /* 8px */
+    --space-3: 0.75rem;   /* 12px */
+    --space-4: 1rem;      /* 16px */
+    --space-5: 1.25rem;   /* 20px */
+    --space-6: 1.5rem;    /* 24px */
+    --space-8: 2rem;      /* 32px */
+    --space-10: 2.5rem;   /* 40px */
+    --space-12: 3rem;     /* 48px */
+    --space-16: 4rem;     /* 64px */
+    --space-24: 6rem;     /* 96px */
+    --space-32: 8rem;     /* 128px */
+    --space-36: 9rem;     /* 144px */
   }
   
   /* ==========================================================================
@@ -170,20 +190,20 @@
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--dark-grey);
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
     display: block;
   }
-  
+
   section {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 2.5rem;
+    padding: 0 var(--space-10);
   }
-  
+
   .divider {
     max-width: var(--max-width);
     margin: 0 auto;
-    padding: 0 2.5rem;
+    padding: 0 var(--space-10);
   }
   
   .divider-line {
@@ -210,7 +230,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2.5rem;
+    padding: var(--space-4) var(--space-10);
     max-width: var(--max-width);
     margin: 0 auto;
   }
@@ -227,7 +247,7 @@
   
   .nav-links {
     display: flex;
-    gap: 2.5rem;
+    gap: var(--space-10);
     list-style: none;
   }
   
@@ -284,7 +304,7 @@
     inset: 0;
     background: var(--off-white);
     z-index: 200;
-    padding: 6rem 2.5rem;
+    padding: var(--space-24) var(--space-10);
   }
   
   .mobile-nav.active { display: block; }
@@ -305,7 +325,7 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: var(--space-6);
   }
   
   .mobile-nav a {
@@ -363,11 +383,11 @@
   
   /* Hero */
   .hero {
-    padding-top: 8rem;
-    padding-bottom: 4rem;
+    padding-top: var(--space-32);
+    padding-bottom: var(--space-16);
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
+    gap: var(--space-12);
     align-items: center;
   }
   
@@ -437,19 +457,19 @@
   
   /* Mission */
   .mission {
-    padding-top: 3.75rem;
-    padding-bottom: 3.75rem;
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
     display: grid;
     grid-template-columns: 1fr 1.2fr;
-    gap: 4rem;
+    gap: var(--space-16);
   }
   
   .mission-text h2 {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
     max-width: 18ch;
   }
-  
-  .mission-text p { margin-bottom: 1rem; }
+
+  .mission-text p { margin-bottom: var(--space-4); }
   
   .mission-image {
     display: flex;
@@ -466,11 +486,11 @@
   
   /* Initiatives */
   .initiatives {
-    padding-top: 3.75rem;
-    padding-bottom: 3.75rem;
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
   }
-  
-  .initiatives h2 { margin-bottom: 3rem; }
+
+  .initiatives h2 { margin-bottom: var(--space-12); }
   
   .initiatives-list {
     display: flex;
@@ -479,9 +499,9 @@
   
   .initiative-item {
     display: grid;
-    grid-template-columns: 2.5rem 1fr;
-    gap: 2rem;
-    padding: 1.75rem;
+    grid-template-columns: var(--space-10) 1fr;
+    gap: var(--space-8);
+    padding: var(--space-6);
     border: 1px solid rgba(224, 224, 224, 0.9);
     border-radius: 12px;
     background: rgba(255, 255, 255, 0.75);
@@ -493,7 +513,7 @@
   }
 
   .initiative-item + .initiative-item {
-    margin-top: 1rem;
+    margin-top: var(--space-4);
   }
   
   .initiative-num {
@@ -502,7 +522,7 @@
     padding-top: 0.2rem;
   }
   
-  .initiative-content h3 { margin-bottom: 0.5rem; }
+  .initiative-content h3 { margin-bottom: var(--space-2); }
 
   .initiative-content h3 a {
     color: var(--black);
@@ -523,15 +543,15 @@
   
   /* Events */
   .events {
-    padding-top: 3.75rem;
-    padding-bottom: 3.75rem;
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
   }
-  
+
   .events-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
   
   .events-header h2 { margin-bottom: 0; }
@@ -550,7 +570,7 @@
   }
   
 .events-empty {
-  padding: 2.5rem 0;
+  padding: var(--space-10) 0;
   border-bottom: 1px solid var(--light-grey);
   color: var(--mid-grey);
   font-size: 0.8rem;
@@ -559,7 +579,7 @@
 }
 
 .events-loading {
-  padding: 2.5rem 0;
+  padding: var(--space-10) 0;
   border-top: 1px solid var(--light-grey);
   border-bottom: 1px solid var(--light-grey);
   color: var(--mid-grey);
@@ -578,9 +598,9 @@
 .home-event-item {
   display: grid;
   grid-template-columns: 140px 1fr auto;
-  gap: 1.5rem;
+  gap: var(--space-6);
   align-items: center;
-  padding: 1.25rem 0;
+  padding: var(--space-5) 0;
   border-bottom: 1px solid var(--light-grey);
   text-decoration: none;
   color: inherit;
@@ -597,7 +617,7 @@
 .home-event-date {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-1);
 }
 
 .home-event-day {
@@ -614,7 +634,7 @@
 .home-event-info {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-1);
 }
 
 .home-event-title {
@@ -789,17 +809,17 @@
   .cta {
     background: var(--black);
     color: var(--white);
-    padding: 4rem 2.5rem;
+    padding: var(--space-16) var(--space-10);
     max-width: none;
   }
 
-  
+
   .cta-inner {
     max-width: var(--max-width);
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: var(--space-16);
     align-items: center;
   }
   
@@ -807,12 +827,12 @@
   
   .cta h2 {
     color: var(--cream);
-    margin-bottom: 1.25rem;
+    margin-bottom: var(--space-5);
   }
-  
+
   .cta p {
     color: #a0a0a0;
-    margin-bottom: 2rem;
+    margin-bottom: var(--space-8);
   }
 
   
@@ -834,12 +854,12 @@
   
   /* Page Header (About page) */
   .page-header {
-    padding-top: 9rem;
-    padding-bottom: 4rem;
+    padding-top: var(--space-36);
+    padding-bottom: var(--space-16);
   }
-  
+
   .page-header h1 {
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
     font-size: clamp(2rem, 4vw, 3rem);
   }
   
@@ -847,21 +867,21 @@
   
   /* About Section */
   .about-section {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
   }
-  
+
   .about-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 4rem;
+    gap: var(--space-16);
     align-items: center;
   }
-  
-  .about-text h2 { margin-bottom: 1.5rem; }
-  
+
+  .about-text h2 { margin-bottom: var(--space-6); }
+
   .about-text p {
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
     max-width: 100%;
   }
   
@@ -875,18 +895,18 @@
   
   /* Team Section */
   .team-section {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-16);
   }
-  
-  .team-section h2 { margin-bottom: 2.5rem; }
-  
+
+  .team-section h2 { margin-bottom: var(--space-10); }
+
   /* Directors */
   .directors {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 3rem;
-    margin-bottom: 4rem;
+    gap: var(--space-12);
+    margin-bottom: var(--space-16);
   }
   
   .director {
@@ -900,7 +920,7 @@
     width: 100%;
     aspect-ratio: 1;
     max-width: 280px;
-    margin-bottom: 1.5rem;
+    margin-bottom: var(--space-6);
     overflow: hidden;
     position: relative;
   }
@@ -922,33 +942,76 @@
   .director-photo:hover img.outline { opacity: 0; }
   .director-photo:hover img.full { opacity: 1; }
   
-  .director h3 { margin-bottom: 0.5rem; }
-  
+  .director h3 { margin-bottom: var(--space-2); }
+
+  /* Fun tooltip for Gaurav */
+  .director-photo.has-tooltip::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%) scale(0.95);
+    background: var(--black);
+    color: var(--white);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 400;
+    padding: var(--space-3) var(--space-4);
+    border-radius: 8px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+  }
+
+  .director-photo.has-tooltip::before {
+    content: '';
+    position: absolute;
+    bottom: calc(100% + 2px);
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--black);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    z-index: 10;
+  }
+
+  .director-photo.has-tooltip:hover::after,
+  .director-photo.has-tooltip:hover::before {
+    opacity: 1;
+  }
+
+  .director-photo.has-tooltip:hover::after {
+    transform: translateX(-50%) scale(1);
+  }
+
   .director-role {
     font-size: 0.7rem;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--mid-grey);
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
   }
   
   .director p { font-size: 0.85rem; }
   
   /* Team Groups */
-  .team-group { margin-bottom: 3rem; }
-  
+  .team-group { margin-bottom: var(--space-12); }
+
   .team-group:last-child { margin-bottom: 0; }
-  
+
   .team-group h3 {
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.75rem;
+    margin-bottom: var(--space-6);
+    padding-bottom: var(--space-3);
     border-bottom: 1px solid var(--light-grey);
   }
-  
+
   .team-list {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    gap: var(--space-6);
   }
   
   .team-member {
@@ -961,7 +1024,7 @@
     aspect-ratio: 1;
     max-width: 180px;
     background: var(--cream);
-    margin-bottom: 1rem;
+    margin-bottom: var(--space-4);
     overflow: hidden;
   }
   
@@ -975,7 +1038,7 @@
     font-family: var(--font-serif);
     font-size: 0.95rem;
     font-weight: 400;
-    margin-bottom: 0.25rem;
+    margin-bottom: var(--space-1);
   }
   
   .team-member span {
@@ -1968,19 +2031,19 @@
      8. Footer
      ========================================================================== */
   footer {
-    padding: 2.5rem;
+    padding: var(--space-10);
     max-width: var(--max-width);
     margin: 0 auto;
     border-top: 1px solid var(--light-grey);
-    margin-top: 2rem;
+    margin-top: var(--space-8);
     background: rgba(255, 255, 255, 0.5);
   }
-  
+
   .footer-inner {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    gap: 3rem;
+    gap: var(--space-12);
   }
   
   .footer-legal {
@@ -2011,7 +2074,7 @@
     .cta-inner,
     .about-grid {
       grid-template-columns: 1fr;
-      gap: 2rem;
+      gap: var(--space-8);
     }
 
     .fellowship-image {
@@ -2100,7 +2163,7 @@
 
     .directors {
       grid-template-columns: 1fr;
-      gap: 2.5rem;
+      gap: var(--space-10);
     }
 
     .team-list {
@@ -2109,7 +2172,7 @@
 
     .footer-inner {
       flex-direction: column;
-      gap: 1rem;
+      gap: var(--space-4);
     }
 
     .team-section {
@@ -2117,7 +2180,7 @@
     }
 
     .team-group {
-      margin-bottom: 1.5rem;
+      margin-bottom: var(--space-6);
     }
 
     .socials-image {
@@ -2130,7 +2193,7 @@
 
     .home-event-item {
       grid-template-columns: 120px 1fr auto;
-      gap: 1rem;
+      gap: var(--space-4);
     }
   }
 
@@ -2138,15 +2201,15 @@
     .nav-links { display: none; }
     .nav-toggle { display: block; }
 
-    .hero { padding-top: 6rem; padding-bottom: 3rem; }
-    .page-header { padding-top: 6rem; padding-bottom: 3rem; }
+    .hero { padding-top: var(--space-24); padding-bottom: var(--space-12); }
+    .page-header { padding-top: var(--space-24); padding-bottom: var(--space-12); }
 
     section,
-    .divider { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .divider { padding-left: var(--space-6); padding-right: var(--space-6); }
 
-    .cta { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .cta { padding-left: var(--space-6); padding-right: var(--space-6); }
 
-    footer { padding: 2rem 1.5rem; }
+    footer { padding: var(--space-8) var(--space-6); }
 
     .hero-image,
     .mission-image {
@@ -2164,7 +2227,7 @@
 
     .cta-image {
       justify-content: center;
-      margin-top: 1.5rem;
+      margin-top: var(--space-6);
     }
 
     .cta-image img {
@@ -2203,24 +2266,24 @@
 
     .team-list {
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      gap: var(--space-4);
     }
 
     .team-section {
-      padding-top: 2rem;
-      padding-bottom: 1.5rem;
+      padding-top: var(--space-8);
+      padding-bottom: var(--space-6);
     }
 
     .directors {
-      margin-bottom: 2rem;
+      margin-bottom: var(--space-8);
     }
 
     .team-group {
-      margin-bottom: 1rem;
+      margin-bottom: var(--space-4);
     }
 
     .team-group h3 {
-      margin-bottom: 1rem;
+      margin-bottom: var(--space-4);
     }
 
     .socials-image {
@@ -2232,7 +2295,7 @@
     }
 
     .fellowship-faq {
-      padding: 1.5rem;
+      padding: var(--space-6);
     }
 
     .faq-header {
@@ -2245,7 +2308,7 @@
   
     .mentors-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: var(--space-4);
     }
   
     .mars-header {
@@ -2276,7 +2339,7 @@
 
     .home-event-item {
       grid-template-columns: 1fr;
-      gap: 0.5rem;
+      gap: var(--space-2);
     }
 
     .home-event-arrow {
