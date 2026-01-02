@@ -45,11 +45,20 @@
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='%231a1a1a'/%3E%3C/svg%3E") 10 10, auto;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Ccircle cx='12' cy='12' r='8' fill='rgba(0,0,0,0.25)'/%3E%3Ccircle cx='10' cy='10' r='8' fill='%231a1a1a'/%3E%3C/svg%3E") 10 10, auto;
   }
 
   a, button, [role="button"], input[type="submit"], input[type="button"], .btn, .btn-primary, .nav-links a, .mobile-nav a, .event-card, .research-card, .journey-card, .faq-question {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='%237e4233'/%3E%3C/svg%3E") 10 10, pointer;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Ccircle cx='12' cy='12' r='8' fill='rgba(0,0,0,0.25)'/%3E%3Ccircle cx='10' cy='10' r='8' fill='%237e4233'/%3E%3C/svg%3E") 10 10, pointer;
+  }
+
+  /* White cursor for dark backgrounds */
+  .cta, .cta *, .dark-bg, .dark-bg * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Ccircle cx='12' cy='12' r='8' fill='rgba(0,0,0,0.3)'/%3E%3Ccircle cx='10' cy='10' r='8' fill='%23fefefe'/%3E%3C/svg%3E") 10 10, auto;
+  }
+
+  .cta a, .cta button, .cta .btn, .dark-bg a, .dark-bg button, .dark-bg .btn {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'%3E%3Ccircle cx='12' cy='12' r='8' fill='rgba(0,0,0,0.3)'/%3E%3Ccircle cx='10' cy='10' r='8' fill='%237e4233'/%3E%3C/svg%3E") 10 10, pointer;
   }
 
   body {
@@ -1287,7 +1296,6 @@
     text-align: left;
     font-size: 0.95rem;
     color: var(--black);
-    cursor: pointer;
     -webkit-appearance: none;
     appearance: none;
   }
