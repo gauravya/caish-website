@@ -384,7 +384,7 @@
   /* Hero */
   .hero {
     padding-top: var(--space-32);
-    padding-bottom: var(--space-16);
+    padding-bottom: var(--space-10);
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-12);
@@ -457,8 +457,8 @@
   
   /* Mission */
   .mission {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     gap: var(--space-16);
@@ -486,8 +486,8 @@
   
   /* Initiatives */
   .initiatives {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
   }
 
   .initiatives h2 { margin-bottom: var(--space-12); }
@@ -543,8 +543,8 @@
   
   /* Events */
   .events {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
   }
 
   .events-header {
@@ -855,7 +855,7 @@
   /* Page Header (About page) */
   .page-header {
     padding-top: var(--space-36);
-    padding-bottom: var(--space-16);
+    padding-bottom: var(--space-10);
   }
 
   .page-header h1 {
@@ -867,8 +867,8 @@
   
   /* About Section */
   .about-section {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
   }
 
   .about-grid {
@@ -895,8 +895,8 @@
   
   /* Team Section */
   .team-section {
-    padding-top: var(--space-16);
-    padding-bottom: var(--space-16);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-10);
   }
 
   .team-section h2 { margin-bottom: var(--space-10); }
