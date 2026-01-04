@@ -855,7 +855,7 @@
   /* Page Header (About page) */
   .page-header {
     padding-top: var(--space-36);
-    padding-bottom: var(--space-10);
+    padding-bottom: var(--space-6);
   }
 
   .page-header h1 {
