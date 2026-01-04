@@ -2327,6 +2327,36 @@
     .event-cover {
       height: 140px;
     }
+
+    /* Center headings on mobile */
+    .page-header {
+      text-align: center;
+    }
+
+    .page-header h1,
+    .page-header p {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .mars-header {
+      text-align: center;
+    }
+
+    .mars-header h1,
+    .mars-tagline {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .about-text h2,
+    .fellowship-content h2,
+    .fellowship-block h2,
+    .fellowship-application h2,
+    .socials-content h2,
+    .expectations-section h2 {
+      text-align: center;
+    }
   }
 
 /* ==========================================================================
