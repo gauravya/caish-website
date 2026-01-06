@@ -397,7 +397,7 @@
     display: flex;
     align-items: flex-start;
     justify-content: flex-end;
-    padding-top: 1rem;
+    margin-top: -2rem;
   }
   
   .hero-image img,
@@ -539,7 +539,7 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-4);
   }
   
   .events-header h2 { margin-bottom: 0; }
