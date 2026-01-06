@@ -142,7 +142,7 @@ const Enhancements = {
    */
   initScrollReveal() {
     const revealElements = document.querySelectorAll(
-      '.initiative-item, .event-card, .home-event-item, .journey-card, ' +
+      '.initiative-item, .event-card, .home-event-item, .timeline-point, ' +
       '.feature, .expectation, .track, .mentor, .research-card, .team-member, ' +
       '.mission-text, .mission-image, .about-text, .about-image, ' +
       '.fellowship-content > p, .mars-content > p, .director, ' +
@@ -338,7 +338,7 @@ const Enhancements = {
   initWarmHovers() {
     // Add warm glow to interactive cards
     const warmElements = document.querySelectorAll(
-      '.initiative-item, .journey-card, .feature, .expectation, ' +
+      '.initiative-item, .timeline-point, .feature, .expectation, ' +
       '.track, .event-card, .research-card, .btn, .btn-primary'
     );
 

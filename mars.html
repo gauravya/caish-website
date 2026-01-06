@@ -40,7 +40,7 @@
     .nav-links{display:flex;gap:2.5rem;list-style:none}
     .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
     .mars-hero-image{width:100%;padding:5rem 2.5rem 0}
-    .mars-hero-image img{width:100%;max-width:1000px;max-height:500px;object-fit:cover;display:block;margin:0 auto;border-radius:12px}
+    .mars-hero-image img{width:100%;max-width:1000px;max-height:500px;object-fit:cover;display:block;margin:0 auto;border-radius:0}
     .page-header{max-width:1000px;margin:0 auto;padding:1rem 2.5rem 0}
     .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
     p{font-size:0.95rem;max-width:52ch;color:#4a4a4a}
@@ -108,39 +108,47 @@
   <section class="mars-section">
     <div class="mars-content">
 
-      <p>MARS 5.0 is a part-time research programme that pairs aspiring AI safety researchers with experienced mentors. It starts with a two-week in-person kickoff in Cambridge—accommodation and meals provided—where you'll meet your cohort, attend talks and workshops, and get oriented to your project. From there, you continue remotely with your mentor over the following months.</p>
+      <p>MARS is a research programme that pairs aspiring AI safety researchers with experienced mentors into teams. The programme has a kick-off week in Cambridge—accommodation and meals provided—where you'll meet your cohort, attend talks and workshops, and make substantial progress on your project. From there you and your team will carry out 8-12 weeks of remote research, culminating in publications.</p>
 
       <h2>How it works</h2>
-      
-      <div class="mars-journey">
-        <div class="journey-card">
-          <span class="journey-number">1</span>
-          <h4>Applying</h4>
-          <p>You'll apply to work with a specific mentor on a research question. We review applications alongside the mentor, and if you're a strong fit, there may be a short interview. Once accepted, we'll help arrange travel to Cambridge for the kickoff week.</p>
+
+      <div class="timeline-container">
+        <div class="timeline-scroll">
+          <div class="timeline-track">
+            <button class="timeline-point active" data-step="0" data-title="Who we're looking for" data-content="We welcome students and professionals with backgrounds in technical fields (ML, CS, cybersecurity, mathematics, physics, biology) or governance-relevant disciplines (law, international relations, public policy, political science, economics). Some prior exposure to AI safety, whether through the Alignment Fellowship, Bluedot, or similar programs, is helpful. Some projects may require specific technical skills or research experience, so check individual mentor listings for details. If a project excites you, we'd love to see you apply.">
+              <span class="timeline-number">0</span>
+              <span class="timeline-label">Who we're<br>looking for</span>
+            </button>
+            <span class="timeline-connector short"></span>
+            <button class="timeline-point" data-step="1" data-title="Applying" data-content="You'll apply to work with a specific mentor on a research question. We review applications alongside the mentor, and if you're a strong fit, there may be a short interview. Once accepted, we'll help arrange travel to Cambridge for the kickoff week.">
+              <span class="timeline-number">1</span>
+              <span class="timeline-label">Applying</span>
+            </button>
+            <span class="timeline-connector"></span>
+            <button class="timeline-point" data-step="2" data-title="Kickoff" data-content="One week in Cambridge with your mentor, fellow participants, and the CAISH team. You'll scope your research project, build momentum, and leave with a clear direction and the relationships to sustain it.">
+              <span class="timeline-number">2</span>
+              <span class="timeline-label">Kickoff</span>
+            </button>
+            <span class="timeline-connector" data-duration="1 week"></span>
+            <button class="timeline-point" data-step="3" data-title="Remote phase" data-content="You'll continue working remotely, around 8 hours per week, with regular check-ins from your mentor and a research manager. We will cover compute costs for your project.">
+              <span class="timeline-number">3</span>
+              <span class="timeline-label">Remote phase</span>
+            </button>
+            <span class="timeline-connector" data-duration="8-12 weeks"></span>
+            <button class="timeline-point" data-step="4" data-title="Final output" data-content="At the end of the programme, you'll present your work. We expect a concrete output: a paper, blog post, or other form that shares your research with the field.">
+              <span class="timeline-number">4</span>
+              <span class="timeline-label">Final output</span>
+            </button>
+            <span class="timeline-connector"></span>
+            <button class="timeline-point" data-step="5" data-title="What comes next" data-content="We provide career support for full-time AI safety roles. Strong participants are invited to apply for Meridian's visiting researcher programme or accelerator week, where you can seek grants to continue your work.">
+              <span class="timeline-number">5</span>
+              <span class="timeline-label">What comes<br>next</span>
+            </button>
+          </div>
         </div>
-        <div class="journey-arrow">→</div>
-        <div class="journey-card">
-          <span class="journey-number">2</span>
-          <h4>Kickoff</h4>
-          <p>Two weeks in Cambridge with your mentor, fellow participants, and the CAISH team. You'll scope your research project, build momentum, and leave with a clear direction and the relationships to sustain it.</p>
-        </div>
-        <div class="journey-arrow">→</div>
-        <div class="journey-card">
-          <span class="journey-number">3</span>
-          <h4>Remote phase</h4>
-          <p>You'll continue working remotely, around 8 hours per week, with regular check-ins from your mentor and a research manager. We will cover compute costs for your project.</p>
-        </div>
-        <div class="journey-arrow">→</div>
-        <div class="journey-card">
-          <span class="journey-number">4</span>
-          <h4>Final presentation & output</h4>
-          <p>At the end of the programme, you'll present your work. We expect a concrete output: a paper, blog post, or other form that shares your research with the field.</p>
-        </div>
-        <div class="journey-arrow">→</div>
-        <div class="journey-card">
-          <span class="journey-number">5</span>
-          <h4>What comes next</h4>
-          <p>We provide career support for full-time AI safety roles. Strong participants are invited to apply for Meridian's visiting researcher programme or accelerator week, where you can seek grants to continue your work.</p>
+        <div class="timeline-detail" id="timeline-detail">
+          <h4>Who we're looking for</h4>
+          <p>We welcome students and professionals with backgrounds in technical fields (ML, CS, cybersecurity, mathematics, physics, biology) or governance-relevant disciplines (law, international relations, public policy, political science, economics). Some prior exposure to AI safety, whether through the Alignment Fellowship, Bluedot, or similar programs, is helpful. Some projects may require specific technical skills or research experience, so check individual mentor listings for details. If a project excites you, we'd love to see you apply.</p>
         </div>
       </div>
 
@@ -161,7 +169,7 @@
         <div class="mentor">
           <img src="/images/weil.png" alt="Gabriel Weil" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
           <h4>Gabriel Weil</h4>
-          <p class="mentor-org">Touro University Law Center / LawAI</p>
+          <p class="mentor-org">LawAI</p>
           <p class="mentor-area">AI Liability and Insurance</p>
         </div>
         <div class="mentor">
@@ -179,7 +187,7 @@
         <div class="mentor">
           <img src="/images/erich-min.png" alt="Erich Grunewald" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
           <h4>Erich Grunewald</h4>
-          <p class="mentor-org">Institute for AI Policy and Strategy</p>
+          <p class="mentor-org">IAPS</p>
           <p class="mentor-area">Compute Governance</p>
         </div>
         <div class="mentor">
@@ -279,9 +287,51 @@
       }
     };
 
+    const Timeline = {
+      init() {
+        const points = document.querySelectorAll('.timeline-point');
+        const detail = document.getElementById('timeline-detail');
+        const scroll = document.querySelector('.timeline-scroll');
+
+        if (!points.length || !detail) return;
+
+        // Set initial content from first active point
+        const activePoint = document.querySelector('.timeline-point.active');
+        if (activePoint) {
+          this.updateDetail(activePoint, detail);
+        }
+
+        points.forEach((point, index) => {
+          point.addEventListener('click', () => {
+            // Remove active from all points
+            points.forEach(p => p.classList.remove('active'));
+            // Add active to clicked point
+            point.classList.add('active');
+            // Update detail panel
+            this.updateDetail(point, detail);
+
+            // On mobile, scroll to show next point
+            if (window.innerWidth <= 600 && index < points.length - 1) {
+              const nextPoint = points[index + 1];
+              if (nextPoint && scroll) {
+                nextPoint.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+              }
+            }
+          });
+        });
+      },
+
+      updateDetail(point, detail) {
+        const title = point.getAttribute('data-title');
+        const content = point.getAttribute('data-content');
+
+        detail.innerHTML = `<h4>${title}</h4><p>${content}</p>`;
+      }
+    };
+
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', MobileNav.init)
-      : MobileNav.init();
+      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); Timeline.init(); })
+      : (() => { MobileNav.init(); Timeline.init(); })();
   </script>
 </body>
 </html>
