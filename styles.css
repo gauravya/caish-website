@@ -1647,8 +1647,12 @@
     flex-shrink: 0;
   }
 
-  .timeline-connector[data-duration] {
-    width: 5rem;
+  .timeline-connector[data-duration="1 week"] {
+    width: 2.5rem;
+  }
+
+  .timeline-connector[data-duration="8-12 weeks"] {
+    width: 7rem;
   }
 
   .timeline-connector[data-duration]::after {
