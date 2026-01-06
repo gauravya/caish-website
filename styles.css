@@ -1658,9 +1658,8 @@
     margin-right: 0.6rem;
   }
 
-  .timeline-connector.balanced {
-    margin-left: 0.6rem;
-    margin-right: 0.6rem;
+  .timeline-connector.tight-right {
+    margin-right: 0.2rem;
   }
 
   .timeline-connector[data-duration="1 week"] {
