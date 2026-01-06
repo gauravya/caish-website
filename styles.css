@@ -853,7 +853,11 @@
 
 .page-header p { max-width: 50ch; }
 
-.page-header--socials p { margin-bottom: var(--space-8); }
+.page-header--socials {
+  padding-bottom: var(--space-2);
+}
+
+.page-header--socials p { margin-bottom: var(--space-4); }
   
   /* About Section */
   .about-section {
