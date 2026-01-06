@@ -1648,27 +1648,33 @@
   }
 
   .timeline-connector.short {
-    width: 0.75rem;
+    width: 0.5rem;
   }
 
-  .timeline-connector[data-duration="1 week"] {
-    width: 2.5rem;
+  .timeline-connector[data-duration] {
+    width: 1.5rem;
   }
 
-  .timeline-connector[data-duration="8-12 weeks"] {
-    width: 7rem;
-  }
-
-  .timeline-connector[data-duration]::after {
+  .timeline-connector[data-duration]::before {
     content: attr(data-duration);
     position: absolute;
-    top: 0.5rem;
+    top: -1.75rem;
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-mono);
     font-size: 0.5rem;
     color: var(--mid-grey);
     white-space: nowrap;
+  }
+
+  .timeline-connector[data-duration]::after {
+    content: '↓';
+    position: absolute;
+    top: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6rem;
+    color: var(--mid-grey);
   }
 
   .timeline-point {
@@ -2417,19 +2423,21 @@
     }
 
     .timeline-connector.short {
-      width: 0.5rem;
+      width: 0.4rem;
     }
 
-    .timeline-connector[data-duration="1 week"] {
-      width: 1.5rem;
+    .timeline-connector[data-duration] {
+      width: 1rem;
     }
 
-    .timeline-connector[data-duration="8-12 weeks"] {
-      width: 4rem;
+    .timeline-connector[data-duration]::before {
+      font-size: 0.4rem;
+      top: -1.5rem;
     }
 
     .timeline-connector[data-duration]::after {
-      font-size: 0.45rem;
+      font-size: 0.5rem;
+      top: -0.85rem;
     }
 
     .home-event-item {
