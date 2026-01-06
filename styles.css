@@ -656,7 +656,7 @@
 
 .socials-section .events-empty,
 .socials-section .events-loading {
-  padding-top: 0;
+  padding-top: 0.35rem;
   padding-bottom: 1.5rem;
 }
 
