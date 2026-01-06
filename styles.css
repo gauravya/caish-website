@@ -650,8 +650,8 @@
 
 /* Socials Page Styles */
 .socials-section {
-  padding-top: 1.75rem;
-  padding-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .socials-section .events-empty,
@@ -1405,9 +1405,13 @@
   }
 
 .expectations-section {
-  padding-top: 1.5rem;
-  padding-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
+
+  .expectations-section p {
+    max-width: 100%;
+  }
 
   .expectations-section h2 {
     margin-bottom: 1.5rem;
