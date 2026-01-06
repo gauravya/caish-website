@@ -656,7 +656,8 @@
 
 .socials-section .events-empty,
 .socials-section .events-loading {
-  padding: 1.5rem 0;
+  padding-top: 0.5rem;
+  padding-bottom: 1.5rem;
 }
 
 .socials-content h2 {
@@ -845,12 +846,23 @@
     padding-bottom: var(--space-4);
   }
 
-  .page-header h1 {
-    margin-bottom: var(--space-4);
-    font-size: clamp(2rem, 4vw, 3rem);
-  }
-  
-  .page-header p { max-width: 50ch; }
+.page-header h1 {
+  margin-bottom: var(--space-4);
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+.page-header p { max-width: 50ch; }
+
+.page-header--socials {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.page-header--socials p { margin: 0; }
+
+.page-header--socials + .divider {
+  margin-top: 0;
+}
   
   /* About Section */
   .about-section {
