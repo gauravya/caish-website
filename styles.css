@@ -1653,11 +1653,12 @@
     margin-right: 0.2rem;
   }
 
-  .timeline-connector.after-step-2 {
+  .timeline-connector.loose {
     margin-left: 0.6rem;
+    margin-right: 0.6rem;
   }
 
-  .timeline-connector.loose {
+  .timeline-connector.balanced {
     margin-left: 0.6rem;
     margin-right: 0.6rem;
   }
