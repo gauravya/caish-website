@@ -1645,15 +1645,15 @@
   }
 
   .timeline-connector.short {
-    width: 0.75rem;
+    width: 0.5rem;
   }
 
   .timeline-connector[data-duration="1 week"] {
-    width: 2.5rem;
+    width: 1.5rem;
   }
 
   .timeline-connector[data-duration="8-12 weeks"] {
-    width: 6rem;
+    width: 10rem;
   }
 
   .timeline-connector[data-duration]::before {
@@ -2426,15 +2426,15 @@
     }
 
     .timeline-connector.short {
-      width: 0.4rem;
+      width: 0.3rem;
     }
 
     .timeline-connector[data-duration="1 week"] {
-      width: 1.25rem;
+      width: 0.75rem;
     }
 
     .timeline-connector[data-duration="8-12 weeks"] {
-      width: 3rem;
+      width: 5rem;
     }
 
     .timeline-connector[data-duration]::before {
