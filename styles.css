@@ -855,9 +855,14 @@
 
 .page-header--socials {
   padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 .page-header--socials p { margin: 0; }
+
+.page-header--socials + .divider {
+  margin-top: 0;
+}
   
   /* About Section */
   .about-section {
