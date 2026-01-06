@@ -146,9 +146,8 @@
             </button>
           </div>
         </div>
-        <div class="timeline-detail" id="timeline-detail">
-          <h4>Click a step to see details</h4>
-          <p>Select any point in the timeline to read more about that stage of the programme.</p>
+        <div class="timeline-detail timeline-detail--empty" id="timeline-detail">
+          <p class="timeline-detail-hint">Select a step to view details.</p>
         </div>
       </div>
 
@@ -319,6 +318,7 @@
         const title = point.getAttribute('data-title');
         const content = point.getAttribute('data-content');
 
+        detail.classList.remove('timeline-detail--empty');
         detail.innerHTML = `<h4>${title}</h4><p>${content}</p>`;
       }
     };

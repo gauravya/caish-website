@@ -1591,6 +1591,19 @@
     transition: all 0.3s ease;
   }
 
+  .timeline-detail--empty {
+    background: transparent;
+    border: 1px dashed rgba(141, 141, 141, 0.35);
+    box-shadow: none;
+    text-align: center;
+  }
+
+  .timeline-detail-hint {
+    font-size: 0.85rem;
+    color: var(--mid-grey);
+    margin: 0;
+  }
+
   .timeline-detail h4 {
     font-family: var(--font-serif);
     font-size: 1.1rem;
