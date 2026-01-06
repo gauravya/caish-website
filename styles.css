@@ -370,7 +370,7 @@
   
   /* Hero */
   .hero {
-    padding-top: var(--space-16);
+    padding-top: var(--space-24);
     padding-bottom: var(--space-10);
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -395,9 +395,8 @@
   
   .hero-image {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-end;
-    margin-top: 2rem;
   }
   
   .hero-image img,
