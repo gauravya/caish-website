@@ -871,6 +871,10 @@
     margin-bottom: var(--space-4);
     max-width: 100%;
   }
+
+  .about-text p:last-child {
+    margin-bottom: 0;
+  }
   
   .about-image img {
     width: 100%;
