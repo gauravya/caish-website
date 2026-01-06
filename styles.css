@@ -1630,20 +1630,35 @@
   .timeline-track {
     display: flex;
     align-items: flex-end;
-    gap: 0;
+    justify-content: center;
     min-width: max-content;
-    padding: 0 1rem;
-    position: relative;
+    padding: 0 0.5rem;
   }
 
-  .timeline-line {
-    position: absolute;
-    bottom: calc(0.75rem + 1.25rem);
-    left: calc(1rem + 1.5rem + 1.25rem);
-    right: calc(1rem + 1.5rem + 1.25rem);
+  .timeline-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
     height: 2px;
     background: rgba(126, 66, 51, 0.35);
-    z-index: 0;
+    position: relative;
+    margin-bottom: calc(0.75rem + 1.25rem);
+    flex-shrink: 0;
+  }
+
+  .timeline-connector[data-duration]::after {
+    content: attr(data-duration);
+    position: absolute;
+    top: -1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--mid-grey);
+    white-space: nowrap;
+    background: var(--white);
+    padding: 0 0.25rem;
   }
 
   .timeline-point {
@@ -1651,13 +1666,12 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 0.25rem;
     background: none;
     border: none;
     cursor: pointer;
-    position: relative;
-    z-index: 1;
     transition: all 0.2s ease;
+    flex-shrink: 0;
   }
 
   .timeline-point:hover .timeline-number {
@@ -1689,10 +1703,11 @@
 
   .timeline-label {
     font-family: var(--font-mono);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--mid-grey);
     white-space: nowrap;
     transition: color 0.2s ease;
+    text-align: center;
   }
 
   .timeline-point.active .timeline-label {
