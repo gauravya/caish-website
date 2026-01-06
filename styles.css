@@ -1641,15 +1641,19 @@
     position: relative;
     margin-top: 1.25rem;
     flex-shrink: 0;
-    width: 2rem;
+    width: 2.75rem;
   }
 
   .timeline-connector.short {
-    width: 1rem;
+    width: 1.25rem;
+  }
+
+  .timeline-connector[data-duration="1 week"] {
+    width: 2.75rem;
   }
 
   .timeline-connector[data-duration="8-12 weeks"] {
-    width: 10rem;
+    width: 12rem;
   }
 
   .timeline-connector[data-duration]::before {
