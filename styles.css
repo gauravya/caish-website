@@ -1591,17 +1591,16 @@
     transition: all 0.3s ease;
   }
 
-  .timeline-detail--empty {
-    background: transparent;
-    border: 1px dashed rgba(141, 141, 141, 0.35);
-    box-shadow: none;
-    text-align: center;
+  .timeline-detail--hidden {
+    display: none;
   }
 
-  .timeline-detail-hint {
-    font-size: 0.85rem;
+  .timeline-hint {
+    margin-bottom: 0.75rem;
+    font-size: 0.75rem;
     color: var(--mid-grey);
-    margin: 0;
+    text-align: center;
+    letter-spacing: 0.02em;
   }
 
   .timeline-detail h4 {

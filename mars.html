@@ -113,6 +113,7 @@
       <h2>How it works</h2>
 
       <div class="timeline-container">
+        <p class="timeline-hint">Select a step to view details.</p>
         <div class="timeline-scroll">
           <div class="timeline-track">
             <button class="timeline-point" data-step="0" data-title="Who we're looking for" data-content="We welcome students and professionals with backgrounds in technical fields (ML, CS, cybersecurity, mathematics, physics, biology) or governance-relevant disciplines (law, international relations, public policy, political science, economics). Some prior exposure to AI safety, whether through the Alignment Fellowship, Bluedot, or similar programs, is helpful. Some projects may require specific technical skills or research experience, so check individual mentor listings for details. If a project excites you, we'd love to see you apply.">
@@ -146,9 +147,7 @@
             </button>
           </div>
         </div>
-        <div class="timeline-detail timeline-detail--empty" id="timeline-detail">
-          <p class="timeline-detail-hint">Select a step to view details.</p>
-        </div>
+        <div class="timeline-detail timeline-detail--hidden" id="timeline-detail"></div>
       </div>
 
       <div class="mars-working-image">
@@ -318,7 +317,7 @@
         const title = point.getAttribute('data-title');
         const content = point.getAttribute('data-content');
 
-        detail.classList.remove('timeline-detail--empty');
+        detail.classList.remove('timeline-detail--hidden');
         detail.innerHTML = `<h4>${title}</h4><p>${content}</p>`;
       }
     };
