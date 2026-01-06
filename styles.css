@@ -1584,7 +1584,7 @@
     background: var(--cream);
     border-radius: 12px;
     padding: 1.5rem 2rem;
-    margin-bottom: 1.5rem;
+    margin-top: 1rem;
     min-height: 100px;
     border: 1px solid rgba(141, 141, 141, 0.2);
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
@@ -1643,7 +1643,7 @@
     height: 2px;
     background: rgba(126, 66, 51, 0.35);
     position: relative;
-    margin-top: calc(0.5rem + 1.25rem);
+    margin-top: 1.25rem;
     flex-shrink: 0;
   }
 
@@ -1676,7 +1676,7 @@
     flex-direction: column;
     align-items: center;
     gap: 0.4rem;
-    padding: 0.5rem 0.25rem;
+    padding: 0;
     background: none;
     border: none;
     cursor: pointer;
@@ -2398,8 +2398,8 @@
 
     .timeline-point {
       scroll-snap-align: center;
-      padding: 0.5rem 0.5rem;
-      min-width: 4rem;
+      padding: 0;
+      min-width: 3.5rem;
     }
 
     .timeline-number {
@@ -2413,7 +2413,7 @@
     }
 
     .timeline-connector {
-      margin-top: calc(0.5rem + 1.125rem);
+      margin-top: 1.125rem;
     }
 
     .timeline-connector.short {
