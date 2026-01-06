@@ -1607,6 +1607,18 @@
     transition: all 0.3s ease;
   }
 
+  .timeline-detail--hidden {
+    display: none;
+  }
+
+  .timeline-hint {
+    margin-bottom: 0.75rem;
+    font-size: 0.75rem;
+    color: var(--mid-grey);
+    text-align: center;
+    letter-spacing: 0.02em;
+  }
+
   .timeline-detail h4 {
     font-family: var(--font-serif);
     font-size: 1.1rem;
@@ -1655,17 +1667,17 @@
     height: 2px;
     background: rgba(126, 66, 51, 0.35);
     position: relative;
-    margin-top: 1.25rem;
+    margin: 1.25rem 0.35rem 0;
     flex-shrink: 0;
-    width: 2rem;
+    width: 2.5rem;
   }
 
-  .timeline-connector.short {
-    width: 1rem;
+  .timeline-connector[data-duration="1 week"] {
+    width: 2.5rem;
   }
 
   .timeline-connector[data-duration="8-12 weeks"] {
-    width: 10rem;
+    width: 12rem;
   }
 
   .timeline-connector[data-duration]::before {
@@ -2409,6 +2421,11 @@
     .timeline-scroll {
       scroll-snap-type: x mandatory;
       -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .timeline-scroll::-webkit-scrollbar {
+      display: none;
     }
 
     .timeline-track {
@@ -2433,12 +2450,8 @@
     }
 
     .timeline-connector {
-      margin-top: 1.125rem;
+      margin: 1.125rem 0 0;
       width: 1rem;
-    }
-
-    .timeline-connector.short {
-      width: 0.5rem;
     }
 
     .timeline-connector[data-duration="8-12 weeks"] {

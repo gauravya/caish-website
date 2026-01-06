@@ -113,13 +113,14 @@
       <h2>How it works</h2>
 
       <div class="timeline-container">
+        <p class="timeline-hint">Select a step to view details.</p>
         <div class="timeline-scroll">
           <div class="timeline-track">
-            <button class="timeline-point active" data-step="0" data-title="Who we're looking for" data-content="We welcome students and professionals with backgrounds in technical fields (ML, CS, cybersecurity, mathematics, physics, biology) or governance-relevant disciplines (law, international relations, public policy, political science, economics). Some prior exposure to AI safety, whether through the Alignment Fellowship, Bluedot, or similar programs, is helpful. Some projects may require specific technical skills or research experience, so check individual mentor listings for details. If a project excites you, we'd love to see you apply.">
+            <button class="timeline-point" data-step="0" data-title="Who we're looking for" data-content="We welcome students and professionals with backgrounds in technical fields (ML, CS, cybersecurity, mathematics, physics, biology) or governance-relevant disciplines (law, international relations, public policy, political science, economics). Some prior exposure to AI safety, whether through the Alignment Fellowship, Bluedot, or similar programs, is helpful. Some projects may require specific technical skills or research experience, so check individual mentor listings for details. If a project excites you, we'd love to see you apply.">
               <span class="timeline-number">0</span>
               <span class="timeline-label">Who we're<br>looking for</span>
             </button>
-            <span class="timeline-connector short"></span>
+            <span class="timeline-connector"></span>
             <button class="timeline-point" data-step="1" data-title="Applying" data-content="You'll apply to work with a specific mentor on a research question. We review applications alongside the mentor, and if you're a strong fit, there may be a short interview. Once accepted, we'll help arrange travel to Cambridge for the kickoff week.">
               <span class="timeline-number">1</span>
               <span class="timeline-label">Applying</span>
@@ -146,10 +147,7 @@
             </button>
           </div>
         </div>
-        <div class="timeline-detail" id="timeline-detail">
-          <h4>Who we're looking for</h4>
-          <p>We welcome students and professionals with backgrounds in technical fields (ML, CS, cybersecurity, mathematics, physics, biology) or governance-relevant disciplines (law, international relations, public policy, political science, economics). Some prior exposure to AI safety, whether through the Alignment Fellowship, Bluedot, or similar programs, is helpful. Some projects may require specific technical skills or research experience, so check individual mentor listings for details. If a project excites you, we'd love to see you apply.</p>
-        </div>
+        <div class="timeline-detail timeline-detail--hidden" id="timeline-detail"></div>
       </div>
 
       <div class="mars-working-image">
@@ -295,12 +293,6 @@
 
         if (!points.length || !detail) return;
 
-        // Set initial content from first active point
-        const activePoint = document.querySelector('.timeline-point.active');
-        if (activePoint) {
-          this.updateDetail(activePoint, detail);
-        }
-
         points.forEach((point, index) => {
           point.addEventListener('click', () => {
             // Remove active from all points
@@ -325,6 +317,7 @@
         const title = point.getAttribute('data-title');
         const content = point.getAttribute('data-content');
 
+        detail.classList.remove('timeline-detail--hidden');
         detail.innerHTML = `<h4>${title}</h4><p>${content}</p>`;
       }
     };
