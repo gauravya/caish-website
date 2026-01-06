@@ -1639,7 +1639,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 2.5rem;
+    width: 1.5rem;
     height: 2px;
     background: rgba(126, 66, 51, 0.35);
     position: relative;
@@ -1647,18 +1647,20 @@
     flex-shrink: 0;
   }
 
+  .timeline-connector[data-duration] {
+    width: 5rem;
+  }
+
   .timeline-connector[data-duration]::after {
     content: attr(data-duration);
     position: absolute;
-    top: -1.25rem;
+    bottom: -1.1rem;
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-mono);
-    font-size: 0.55rem;
+    font-size: 0.5rem;
     color: var(--mid-grey);
     white-space: nowrap;
-    background: var(--white);
-    padding: 0 0.25rem;
   }
 
   .timeline-point {
