@@ -2256,6 +2256,10 @@
       gap: var(--space-4);
     }
 
+    .footer-copy {
+      align-self: flex-start;
+    }
+
     .team-section {
       padding-bottom: 2rem;
     }
