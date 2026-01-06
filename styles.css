@@ -842,11 +842,11 @@
   /* Page Header (About page) */
   .page-header {
     padding-top: var(--space-36);
-    padding-bottom: var(--space-6);
+    padding-bottom: var(--space-4);
   }
 
   .page-header h1 {
-    margin-bottom: var(--space-6);
+    margin-bottom: var(--space-4);
     font-size: clamp(2rem, 4vw, 3rem);
   }
   
@@ -2010,6 +2010,8 @@
     font-size: 0.68rem;
     color: var(--mid-grey);
     white-space: nowrap;
+    align-self: flex-end;
+    margin-bottom: -0.15rem;
   }
   
   /* ==========================================================================
