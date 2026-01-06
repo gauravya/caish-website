@@ -38,7 +38,6 @@ const Enhancements = {
           this.initParallax();
         }
         this.initReadingProgress();
-        this.initCustomCursor();
       }
 
       // These are always safe to run
@@ -392,37 +391,6 @@ const Enhancements = {
       link.addEventListener('mouseleave', () => {
         link.style.backgroundSize = '0% 1px';
       });
-    });
-  },
-
-  /**
-   * Custom Cursor - Black circle with brown hover state
-   * Skips touch devices and reduced-motion preferences
-   */
-  initCustomCursor() {
-    if (this.isTouchDevice) return;
-
-    const cursor = document.createElement('div');
-    cursor.className = 'custom-cursor';
-    document.body.appendChild(cursor);
-    document.body.classList.add('custom-cursor-enabled');
-
-    const setPosition = (event) => {
-      cursor.style.left = `${event.clientX}px`;
-      cursor.style.top = `${event.clientY}px`;
-      cursor.classList.add('is-active');
-    };
-
-    window.addEventListener('mousemove', setPosition, { passive: true });
-    window.addEventListener('mouseleave', () => cursor.classList.remove('is-active'));
-
-    const hoverTargets = document.querySelectorAll(
-      'a, button, input, textarea, select, [role="button"], .btn, .btn-primary'
-    );
-
-    hoverTargets.forEach(target => {
-      target.addEventListener('mouseenter', () => cursor.classList.add('is-hover'));
-      target.addEventListener('mouseleave', () => cursor.classList.remove('is-hover'));
     });
   }
 };

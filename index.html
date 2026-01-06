@@ -21,7 +21,7 @@
   <!-- Preload critical resources (render-blocking) -->
   <link rel="preload" href="/styles.css?v=20260214" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
-  <link rel="preload" href="/images/caish.gif" as="image" fetchpriority="high">
+  <link rel="preload" href="/images/punting-min.png" as="image" fetchpriority="high">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -41,7 +41,7 @@
     .nav-links{display:flex;gap:2.5rem;list-style:none}
     .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
     .hero{max-width:1000px;margin:0 auto;padding:9rem 2.5rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-    .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
+    .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}.hero .label{font-family:'Space Mono','Courier New',monospace;font-size:1.1rem;font-weight:700;letter-spacing:0.15em;color:#1a1a1a}
     .hero h1 em{display:block;color:#8c4a3a}
     .hero-image{display:flex;justify-content:flex-end}
     .hero-image img{width:100%;max-height:360px;object-fit:contain}
@@ -100,24 +100,11 @@
   <section class="hero" id="main-content">
     <div class="hero-content">
       <span class="label">Cambridge AI Safety Hub</span>
-      <h1>Building the AI Safety Community in <em>Cambridge</em></h1>
+      <h1>Building the AI Safety<br>Community in <em>Cambridge</em></h1>
       <p>A hub bringing together students and professionals to reduce existential risks from superintelligent AI systems.</p>
     </div>
     <div class="hero-image">
-      <img src="/images/caish.gif" alt="CAISH animated logo" loading="eager" fetchpriority="high" decoding="async" width="400" height="400">
-    </div>
-  </section>
-
-  <div class="divider"><div class="divider-line"></div></div>
-
-  <section id="about" class="mission">
-    <div class="mission-text">
-      <h2>Fostering rigorous thought on the safety of advanced AI</h2>
-      <p>We believe that the development of advanced artificial intelligence presents one of the most significant challenges of our time.</p>
-      <p>By bringing together the brightest minds in Cambridge, we aim to accelerate technical alignment research and promote thoughtful governance strategies.</p>
-    </div>
-    <div class="mission-image">
-      <img src="/images/punting-min.png" alt="Punting on the River Cam" loading="lazy" decoding="async" width="600" height="400">
+      <img src="/images/punting-min.png" alt="Punting on the River Cam" loading="eager" fetchpriority="high" decoding="async" width="600" height="400">
     </div>
   </section>
 
@@ -136,8 +123,8 @@
       <div class="initiative-item">
         <span class="initiative-num">02</span>
         <div class="initiative-content">
-          <h3><a href="/mars">Mentorship for Alignment Research (MARS)</a></h3>
-          <p>A part-time research programme where you work in groups with mentors from organisations such as Redwood Research, MIT AI Risk Initiative, Geodesic Research, Institute for AI Policy and Strategy and many more — with a two-week in-person kick-off.</p>
+          <h3><a href="/mars">Alignment Researchers</a></h3>
+          <p>A research programme that pairs ambitious mentees with established mentors from organisations such as Redwood Research, MIT AI Risk Initiative, and Institute for AI Policy and Strategy. After an intensive in-person kick-off week in Cambridge, teams carry out 8-12 weeks of remote research, culminating in publications.</p>
         </div>
       </div>
       <div class="initiative-item">
