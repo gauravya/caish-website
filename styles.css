@@ -650,13 +650,13 @@
 
 /* Socials Page Styles */
 .socials-section {
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   padding-bottom: 1rem;
 }
 
 .socials-section .events-empty,
 .socials-section .events-loading {
-  padding-top: 0.5rem;
+  padding-top: 0;
   padding-bottom: 1.5rem;
 }
 
@@ -861,7 +861,7 @@
 .page-header--socials p { margin: 0; }
 
 .page-header--socials + .divider {
-  margin-top: 0;
+  margin-top: -0.5rem;
 }
   
   /* About Section */
@@ -1409,9 +1409,13 @@
   padding-bottom: 1rem;
 }
 
-  .expectations-section p {
-    max-width: 100%;
-  }
+.expectations-section p {
+  max-width: 100%;
+}
+
+.expectations-note {
+  white-space: nowrap;
+}
 
   .expectations-section h2 {
     margin-bottom: 1.5rem;
@@ -2153,6 +2157,10 @@
 
     .expectations-list {
       grid-template-columns: 1fr;
+    }
+
+    .expectations-note {
+      white-space: normal;
     }
 
     .mars-hero-image {
