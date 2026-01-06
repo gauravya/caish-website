@@ -1639,17 +1639,17 @@
     height: 2px;
     background: rgba(126, 66, 51, 0.35);
     position: relative;
-    margin-top: 1.25rem;
+    margin: 1.25rem 0.4rem 0;
     flex-shrink: 0;
-    width: 2.75rem;
+    width: 2.5rem;
   }
 
   .timeline-connector.short {
-    width: 1.25rem;
+    width: 2.5rem;
   }
 
   .timeline-connector[data-duration="1 week"] {
-    width: 2.75rem;
+    width: 2.5rem;
   }
 
   .timeline-connector[data-duration="8-12 weeks"] {
@@ -2421,7 +2421,7 @@
     }
 
     .timeline-connector {
-      margin-top: 1.125rem;
+      margin: 1.125rem 0 0;
       width: 1rem;
     }
 
