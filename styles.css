@@ -871,6 +871,10 @@
     margin-bottom: var(--space-4);
     max-width: 100%;
   }
+
+  .about-text p:last-child {
+    margin-bottom: 0;
+  }
   
   .about-image img {
     width: 100%;
@@ -1978,7 +1982,6 @@
     padding: var(--space-10);
     max-width: var(--max-width);
     margin: 0 auto;
-    border-top: 1px solid var(--light-grey);
     margin-top: var(--space-8);
     background: rgba(255, 255, 255, 0.5);
   }
@@ -1986,7 +1989,7 @@
   .footer-inner {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: flex-end;
     gap: var(--space-12);
   }
   
