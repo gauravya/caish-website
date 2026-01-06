@@ -1629,7 +1629,7 @@
 
   .timeline-track {
     display: flex;
-    align-items: flex-end;
+    align-items: flex-start;
     justify-content: center;
     min-width: max-content;
     padding: 0 0.5rem;
@@ -1643,8 +1643,12 @@
     height: 2px;
     background: rgba(126, 66, 51, 0.35);
     position: relative;
-    margin-bottom: calc(0.75rem + 1.25rem);
+    margin-top: calc(0.5rem + 1.25rem);
     flex-shrink: 0;
+  }
+
+  .timeline-connector.short {
+    width: 0.75rem;
   }
 
   .timeline-connector[data-duration="1 week"] {
@@ -1658,7 +1662,7 @@
   .timeline-connector[data-duration]::after {
     content: attr(data-duration);
     position: absolute;
-    bottom: -1.1rem;
+    top: 0.5rem;
     left: 50%;
     transform: translateX(-50%);
     font-family: var(--font-mono);
@@ -1671,8 +1675,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 0.25rem;
+    gap: 0.4rem;
+    padding: 0.5rem 0.25rem;
     background: none;
     border: none;
     cursor: pointer;
@@ -1709,9 +1713,9 @@
 
   .timeline-label {
     font-family: var(--font-mono);
-    font-size: 0.65rem;
+    font-size: 0.6rem;
+    line-height: 1.3;
     color: var(--mid-grey);
-    white-space: nowrap;
     transition: color 0.2s ease;
     text-align: center;
   }
@@ -2382,12 +2386,50 @@
       font-size: 0.85rem;
     }
 
+    .timeline-scroll {
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .timeline-track {
+      justify-content: flex-start;
+      padding: 0 calc(50% - 4rem);
+    }
+
     .timeline-point {
-      padding: 0.5rem 0.75rem;
+      scroll-snap-align: center;
+      padding: 0.5rem 0.5rem;
+      min-width: 4rem;
+    }
+
+    .timeline-number {
+      width: 2.25rem;
+      height: 2.25rem;
+      font-size: 0.8rem;
     }
 
     .timeline-label {
-      font-size: 0.6rem;
+      font-size: 0.55rem;
+    }
+
+    .timeline-connector {
+      margin-top: calc(0.5rem + 1.125rem);
+    }
+
+    .timeline-connector.short {
+      width: 0.5rem;
+    }
+
+    .timeline-connector[data-duration="1 week"] {
+      width: 1.5rem;
+    }
+
+    .timeline-connector[data-duration="8-12 weeks"] {
+      width: 4rem;
+    }
+
+    .timeline-connector[data-duration]::after {
+      font-size: 0.45rem;
     }
 
     .home-event-item {
