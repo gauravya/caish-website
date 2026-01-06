@@ -1591,7 +1591,7 @@
   }
   
   .mars-content h2 {
-    margin-top: 3rem;
+    margin-top: 2.5rem;
     margin-bottom: 1rem;
   }
   
@@ -1766,7 +1766,7 @@
   }
   
   .mars-working-image {
-    margin: 2rem 0;
+    margin: 1.5rem 0;
     text-align: center;
   }
   
@@ -2252,6 +2252,7 @@
 
     .footer-inner {
       flex-direction: column;
+      align-items: flex-start;
       gap: var(--space-4);
     }
 
@@ -2407,6 +2408,20 @@
   
     .mars-section {
       padding-top: 1rem;
+    }
+
+    .mars-content h2 {
+      margin-top: 1.75rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .mars-working-image {
+      margin: 1.25rem 0;
+    }
+
+    .mentors-grid,
+    .research-grid {
+      margin: 1.25rem 0;
     }
 
     .mars-application {
