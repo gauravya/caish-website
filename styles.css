@@ -1639,32 +1639,9 @@
     height: 2px;
     background: rgba(126, 66, 51, 0.35);
     position: relative;
-    margin: 1.25rem 0.4rem 0;
+    margin: 1.25rem 0.35rem 0;
     flex-shrink: 0;
     width: 2.5rem;
-  }
-
-  .timeline-connector.short {
-    width: 2.5rem;
-  }
-
-  .timeline-connector.tight {
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
-  }
-
-  .timeline-connector.loose {
-    margin-left: 0.6rem;
-    margin-right: 0.6rem;
-  }
-
-  .timeline-connector.tight-right {
-    margin-right: 0.2rem;
-  }
-
-  .timeline-connector.tight-both {
-    margin-left: 0.2rem;
-    margin-right: 0.2rem;
   }
 
   .timeline-connector[data-duration="1 week"] {
@@ -2442,10 +2419,6 @@
     .timeline-connector {
       margin: 1.125rem 0 0;
       width: 1rem;
-    }
-
-    .timeline-connector.short {
-      width: 0.5rem;
     }
 
     .timeline-connector[data-duration="8-12 weeks"] {
