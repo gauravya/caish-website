@@ -656,8 +656,8 @@
 
 .socials-section .events-empty,
 .socials-section .events-loading {
-  padding-top: 0.35rem;
-  padding-bottom: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
 }
 
 .socials-content h2 {
@@ -1508,7 +1508,7 @@
 
 .socials-image img {
   width: 100%;
-  max-width: 640px;
+  max-width: 560px;
   margin: 0 auto;
   display: block;
   border-radius: 0;
