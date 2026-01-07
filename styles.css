@@ -1586,13 +1586,17 @@
   }
 
   .mars-content > p:first-of-type {
-    font-size: 1.15rem;
-    color: var(--black);
+    font-size: 0.95rem;
+    color: var(--dark-grey);
   }
   
   .mars-content h2 {
-    margin-top: 2.5rem;
+    margin-top: 1.5rem;
     margin-bottom: 1rem;
+  }
+
+  .mars-content h2:first-of-type {
+    margin-top: 1.5rem;
   }
   
   /* MARS Interactive Timeline */
