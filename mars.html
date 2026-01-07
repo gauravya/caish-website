@@ -251,6 +251,60 @@
       </div>
 -->
 
+      <div class="fellowship-faq" aria-labelledby="mars-faq-title">
+        <div class="faq-header">
+          <h2 id="mars-faq-title" class="faq-title">FAQ</h2>
+        </div>
+        <div class="faq-accordion" data-accordion="mars-faq">
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>Participant Information</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <h4>Time Commitment</h4>
+              <p>Participants should expect to each spend 8-15+ hours/week on their project, depending on the project chosen.</p>
+              <h4>Weekly Check-Ins</h4>
+              <p>Throughout the duration of the program, you are expected to check-in:</p>
+              <p>With your teammates once a week. It'll be up to your team to coordinate meeting times or create co-working systems.</p>
+              <p>With your supervisor once a week.</p>
+              <p>The format of check-ins with your supervisor will be at their discretion.</p>
+              <p>We will also have program-wide events and check-ins, including socials, co-working sessions, and guest speakers. More details on these events will be announced to accepted participants.</p>
+              <h4>MARS Research Symposium</h4>
+              <p>This event will take place at the end of the program, where each research group presents their research.</p>
+            </div>
+          </article>
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>Mentor Information</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <h4>Who should apply to mentor?</h4>
+              <p>We're looking for mentors with:</p>
+              <p>Research experience in AI safety (technical) or AI policy/governance</p>
+              <p>Well-scoped project proposals achievable in 2-3 months part-time</p>
+              <p>Research management skills for weekly team guidance</p>
+              <h4>Time commitment</h4>
+              <p>Mentors are free to choose when and how they meet with mentees. We expect mentors to commit a minimum of ~8 hours in total to the project in the kick-off week, and weekly or biweekly check-ins with teams during the remote phase</p>
+              <p>Virtual mentorship is possible, but we may give preference to those who can come to the in-person kick-off week in Cambridge</p>
+              <h4>Compensation & benefits</h4>
+              <p>~$30/hour for mentorship time (we will compensate mentors up to 20 hours in total during the kickoff week and 8 hours/week during the remote phase)</p>
+              <p>Accommodation during Cambridge week</p>
+              <p>Travel support: ~$200 (UK/EU), ~$650 (international)</p>
+              <p>Office access and research assistance from participants</p>
+              <p>Co-authorship opportunities and networking</p>
+              <h4>Who will I mentor?</h4>
+              <p>PhD researchers from highly technical fields transitioning into AI safety</p>
+              <p>High-performing Master's students with strong AI safety context and understanding</p>
+              <p>Technical professionals pivoting to safety work, bringing robust software development and research experience</p>
+              <p>Nearly all candidates have excellent technical skills, and most bring existing AI safety and governance knowledge to the role.</p>
+            </div>
+          </article>
+        </div>
+        <p class="faq-footer">If you have any questions, please email hello (at) cambridgeaisafetyhub (dot) org.</p>
+      </div>
+
       <div class="mars-application">
         <h2>MARS 5.0</h2>
         <p class="application-notice">Applications open soon.</p>
@@ -325,6 +379,26 @@
     document.readyState === 'loading'
       ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); Timeline.init(); })
       : (() => { MobileNav.init(); Timeline.init(); })();
+  </script>
+  <script>
+    (() => {
+      const accordions = document.querySelectorAll('.faq-accordion');
+      accordions.forEach(accordion => {
+        accordion.querySelectorAll('.faq-question').forEach(button => {
+          button.addEventListener('click', () => {
+            const isOpen = button.getAttribute('aria-expanded') === 'true';
+            const answer = button.nextElementSibling;
+
+            button.setAttribute('aria-expanded', String(!isOpen));
+            button.parentElement.classList.toggle('open', !isOpen);
+
+            if (answer) {
+              answer.hidden = isOpen;
+            }
+          });
+        });
+      });
+    })();
   </script>
 </body>
 </html>
