@@ -1502,13 +1502,13 @@
 
 .socials-image {
   max-width: var(--max-width);
-  padding: 0 2.5rem 2rem;
+  padding: 1.5rem 2.5rem 2.5rem;
   margin: 0 auto;
 }
 
 .socials-image img {
   width: 100%;
-  max-width: 560px;
+  max-width: 448px;
   margin: 0 auto;
   display: block;
   border-radius: 0;
@@ -2108,13 +2108,13 @@
   /* ==========================================================================
      8. Footer
      ========================================================================== */
-  footer {
-    padding: var(--space-10);
-    max-width: var(--max-width);
-    margin: 0 auto;
-    margin-top: var(--space-2);
-    background: rgba(255, 255, 255, 0.5);
-  }
+footer {
+  padding: var(--space-6) var(--space-10) var(--space-8);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  margin-top: var(--space-1);
+  background: rgba(255, 255, 255, 0.5);
+}
 
   .footer-inner {
     display: flex;
@@ -2273,7 +2273,7 @@
     }
 
     .socials-image {
-      padding: 0 1.5rem 1.5rem;
+      padding: 1.25rem 1.5rem 2rem;
     }
 
     .events-grid {
@@ -2298,7 +2298,7 @@
 
     .cta { padding-left: var(--space-6); padding-right: var(--space-6); }
 
-    footer { padding: var(--space-8) var(--space-6); }
+    footer { padding: var(--space-6) var(--space-6) var(--space-8); }
 
     .hero-image,
     .mission-image {
@@ -2376,11 +2376,7 @@
     }
 
     .socials-image {
-      padding: 0 1.5rem 1.5rem;
-    }
-
-    .socials-image img {
-      max-width: none;
+      padding: 1.25rem 1.5rem 2rem;
     }
 
     .fellowship-faq {
