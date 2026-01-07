@@ -1586,13 +1586,17 @@
   }
 
   .mars-content > p:first-of-type {
-    font-size: 1.15rem;
-    color: var(--black);
+    font-size: 0.95rem;
+    color: var(--dark-grey);
   }
   
   .mars-content h2 {
-    margin-top: 2.5rem;
+    margin-top: 1.5rem;
     margin-bottom: 1rem;
+  }
+
+  .mars-content h2:first-of-type {
+    margin-top: 1.5rem;
   }
   
   /* MARS Interactive Timeline */
@@ -1632,7 +1636,7 @@
   }
 
   .timeline-detail p {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 0;
     color: var(--dark-grey);
@@ -1749,7 +1753,7 @@
 
   .timeline-label {
     font-family: var(--font-mono);
-    font-size: 0.6rem;
+    font-size: 0.75rem;
     line-height: 1.3;
     color: var(--mid-grey);
     transition: color 0.2s ease;
@@ -2442,7 +2446,7 @@
     }
 
     .timeline-detail p {
-      font-size: 0.85rem;
+      font-size: 0.9rem;
     }
 
     .timeline-scroll {
@@ -2473,7 +2477,7 @@
     }
 
     .timeline-label {
-      font-size: 0.55rem;
+      font-size: 0.7rem;
     }
 
     .timeline-connector {
