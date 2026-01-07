@@ -531,7 +531,7 @@
   /* Events */
   .events {
     padding-top: var(--space-12);
-    padding-bottom: var(--space-10);
+    padding-bottom: var(--space-4);
   }
 
   .events-header {
@@ -899,7 +899,7 @@
   /* Team Section */
   .team-section {
     padding-top: var(--space-12);
-    padding-bottom: var(--space-10);
+    padding-bottom: var(--space-4);
   }
 
   .team-section h2 { margin-bottom: var(--space-10); }
@@ -909,7 +909,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-12);
-    margin-bottom: var(--space-16);
+    margin-bottom: var(--space-4);
   }
   
   .director {
@@ -1020,7 +1020,7 @@
   
   .fellowship-section {
     padding-top: 2.5rem;
-    padding-bottom: 1.5rem;
+    padding-bottom: 1rem;
   }
   
   .fellowship-content {
@@ -1573,7 +1573,7 @@
   
   .mars-section {
     padding-top: 1rem;
-    padding-bottom: 3rem;
+    padding-bottom: 1rem;
   }
   
   .mars-content {
