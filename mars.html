@@ -349,18 +349,25 @@
 
         points.forEach((point, index) => {
           point.addEventListener('click', () => {
+            const isActive = point.classList.contains('active');
+
             // Remove active from all points
             points.forEach(p => p.classList.remove('active'));
-            // Add active to clicked point
-            point.classList.add('active');
-            // Update detail panel
-            this.updateDetail(point, detail);
 
-            // On mobile, scroll to show next point
-            if (window.innerWidth <= 600 && index < points.length - 1) {
-              const nextPoint = points[index + 1];
-              if (nextPoint && scroll) {
-                nextPoint.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+            if (isActive) {
+              // If clicking the same button, hide the detail panel
+              detail.classList.add('timeline-detail--hidden');
+            } else {
+              // If clicking a different button, show its content
+              point.classList.add('active');
+              this.updateDetail(point, detail);
+
+              // On mobile, scroll to show next point
+              if (window.innerWidth <= 600 && index < points.length - 1) {
+                const nextPoint = points[index + 1];
+                if (nextPoint && scroll) {
+                  nextPoint.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
               }
             }
           });
