@@ -558,7 +558,6 @@
   
 .events-empty {
   padding: var(--space-10) 0;
-  border-bottom: 1px solid var(--light-grey);
   color: var(--mid-grey);
   font-size: 0.8rem;
   font-style: italic;
@@ -567,8 +566,6 @@
 
 .events-loading {
   padding: var(--space-10) 0;
-  border-top: 1px solid var(--light-grey);
-  border-bottom: 1px solid var(--light-grey);
   color: var(--mid-grey);
   font-size: 0.8rem;
   font-style: italic;
