@@ -370,7 +370,7 @@
   
   /* Hero */
   .hero {
-    padding-top: var(--space-24);
+    padding-top: var(--space-12);
     padding-bottom: var(--space-10);
     display: grid;
     grid-template-columns: 1fr 1fr;
