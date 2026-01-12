@@ -9,8 +9,8 @@
  * - Fonts: Cache-first (rarely change)
  */
 
-const CACHE_VERSION = 'caish-v11';
-const RUNTIME_CACHE = 'caish-runtime-v11';
+const CACHE_VERSION = 'caish-v12';
+const RUNTIME_CACHE = 'caish-runtime-v12';
 
 // Critical assets to precache on install
 const PRECACHE_ASSETS = [
@@ -75,8 +75,8 @@ self.addEventListener('fetch', (event) => {
 
   // Determine caching strategy based on resource type
   if (isHTMLRequest(request)) {
-    // HTML: Stale-while-revalidate for instant loads with fresh content
-    event.respondWith(staleWhileRevalidate(request));
+    // HTML: Network-first to ensure fresh content
+    event.respondWith(networkFirst(request));
   } else if (isImmutableAsset(url.pathname)) {
     // CSS, JS, Images: Cache-first for speed
     event.respondWith(cacheFirst(request));
@@ -103,41 +103,6 @@ function isImmutableAsset(pathname) {
          pathname.startsWith('/images/') ||
          pathname.includes('.woff') ||
          pathname.includes('.woff2');
-}
-
-/**
- * Stale-While-Revalidate Strategy
- * Returns cached version immediately, then updates cache in background
- * Perfect for HTML - instant loads with eventual consistency
- */
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(CACHE_VERSION);
-  const cachedResponse = await cache.match(request);
-
-  // Start network request in background
-  const networkPromise = fetch(request)
-    .then((networkResponse) => {
-      if (networkResponse.ok) {
-        // Update cache with fresh response
-        cache.put(request, networkResponse.clone());
-      }
-      return networkResponse;
-    })
-    .catch(() => null);
-
-  // Return cached version immediately if available
-  if (cachedResponse) {
-    return cachedResponse;
-  }
-
-  // Otherwise wait for network
-  const networkResponse = await networkPromise;
-  if (networkResponse) {
-    return networkResponse;
-  }
-
-  // Final fallback: offline page or generic response
-  return new Response('Offline', { status: 503, statusText: 'Service Unavailable' });
 }
 
 /**
