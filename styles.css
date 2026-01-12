@@ -2907,17 +2907,57 @@
   }
 }
 
-/* Simple apply section */
+/* Logistics with image */
+.desk-logistics {
+  display: grid;
+  grid-template-columns: 1fr 240px;
+  gap: 2.5rem;
+  align-items: start;
+  margin: 1.5rem 0;
+}
+
+.desk-logistics-text p {
+  margin-bottom: 0.6rem;
+  max-width: none;
+}
+
+.desk-logistics-text strong {
+  color: var(--black);
+}
+
+.desk-logistics-note {
+  margin-top: 1rem;
+  font-style: italic;
+  color: var(--mid-grey);
+}
+
+.desk-logistics-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Apply section */
 .desk-apply {
-  margin: 2rem 0;
+  margin: 2.5rem 0 2rem;
   text-align: center;
 }
 
-.desk-deadline {
-  font-size: 0.9rem;
-  color: var(--dark-grey);
-  margin-bottom: 1rem;
-  font-weight: 600;
+.desk-apply .btn {
+  padding: 0.9rem 2rem;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 700px) {
+  .desk-logistics {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .desk-logistics-image {
+    max-width: 280px;
+  }
 }
 
 @media (max-width: 600px) {
