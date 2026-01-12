@@ -2911,36 +2911,77 @@
 .desk-logistics {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  align-items: start;
+  gap: 2rem;
+  align-items: stretch;
   margin: 1.5rem 0;
 }
 
 .desk-logistics-text {
-  padding-top: 0.5rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(224, 224, 224, 0.8);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.04);
 }
 
-.desk-logistics-text p {
-  margin-bottom: 0.6rem;
+.desk-logistics-title {
+  margin: 0;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+}
+
+.desk-logistics-item {
+  display: grid;
+  grid-template-columns: minmax(120px, 0.35fr) 1fr;
+  gap: 0.75rem;
+  align-items: baseline;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid rgba(224, 224, 224, 0.6);
+}
+
+.desk-logistics-item:last-of-type {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.desk-logistics-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+}
+
+.desk-logistics-value {
+  font-size: 0.9rem;
+  color: var(--dark-grey);
   max-width: none;
 }
 
-.desk-logistics-text strong {
-  color: var(--black);
-}
-
 .desk-logistics-note {
-  margin-top: 1rem;
+  margin-top: 0.2rem;
+  margin-bottom: 0;
   font-style: italic;
   color: var(--mid-grey);
+  max-width: none;
 }
 
 .desk-logistics-image img {
   width: 100%;
   height: auto;
+  max-height: 100%;
   border-radius: 12px;
   object-fit: cover;
   box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
+}
+
+.desk-logistics-image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Apply section */
@@ -2949,10 +2990,47 @@
   text-align: center;
 }
 
+.desk-apply .btn-primary {
+  padding: 1.1rem 2.5rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+}
+
+.desk-section .fellowship-faq {
+  margin: 2rem 0 1.25rem;
+  padding: 1.5rem;
+}
+
+.desk-section .faq-header {
+  margin-bottom: 0.75rem;
+}
+
+.desk-section .faq-accordion {
+  gap: 0.6rem;
+  margin-bottom: 0.5rem;
+}
+
+.desk-section .faq-question {
+  padding: 1rem 1.25rem;
+}
+
+.desk-section .faq-answer {
+  padding: 0.25rem 1.25rem 1.1rem;
+}
+
 @media (max-width: 800px) {
   .desk-logistics {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .desk-logistics-item {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+
+  .desk-logistics-image img {
+    height: auto;
   }
 
   .desk-logistics-image {
