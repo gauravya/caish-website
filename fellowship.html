@@ -245,7 +245,10 @@
         <h2>Applications Open</h2>
         <p>Short application form (>15 mins to complete). Selected candidates will be invited to a short asynchronous interview.</p>
         <p>Rolling admissions -- we'll close the form once spots fill up, so apply sooner rather than later.</p>
-        <p class="application-deadline">Final deadline: Sunday, 25 January (end of day, GMT)</p>
+        <p class="application-deadline">
+          <span id="deadline-text">Final deadline: Sunday, 25 January (end of day, GMT)</span>
+          <span id="countdown-timer" class="countdown-timer"></span>
+        </p>
         <div class="btn-wrapper">
           <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagtFiylLCUQnea4i/form" target="_blank" rel="noopener">Apply Now</a>
         </div>
@@ -298,6 +301,41 @@
           });
         });
       });
+    })();
+  </script>
+  <script>
+    (() => {
+      const timerElement = document.getElementById('countdown-timer');
+      if (!timerElement) return;
+
+      const deadlineDate = new Date('2026-01-25T23:59:59Z').getTime();
+
+      function updateCountdown() {
+        const now = new Date().getTime();
+        const timeRemaining = deadlineDate - now;
+
+        if (timeRemaining <= 0) {
+          timerElement.textContent = '(Applications closed)';
+          timerElement.style.color = '#8b0000';
+          return;
+        }
+
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+        const parts = [];
+        if (days > 0) parts.push(`${days}d`);
+        if (days > 0 || hours > 0) parts.push(`${hours}h`);
+        if (days > 0 || hours > 0 || minutes > 0) parts.push(`${minutes}m`);
+        parts.push(`${seconds}s`);
+
+        timerElement.textContent = `(${parts.join(' ')})`;
+      }
+
+      updateCountdown();
+      setInterval(updateCountdown, 1000);
     })();
   </script>
 </body>

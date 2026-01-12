@@ -1196,6 +1196,14 @@
     margin-bottom: 1.15rem;
     text-align: left;
   }
+
+  .countdown-timer {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-weight: 700;
+    color: #d9534f;
+    font-variant-numeric: tabular-nums;
+  }
   
   .btn-primary {
     display: inline-block;
