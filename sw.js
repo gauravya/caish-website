@@ -4,13 +4,13 @@
  *
  * Strategy:
  * - HTML: Network-first with cache fallback (always fresh content)
- * - CSS/JS: Cache-first with network fallback (immutable assets)
+ * - CSS/JS: Stale-while-revalidate (updates with fast responses)
  * - Images: Cache-first with network fallback (preserve photo quality)
- * - Fonts: Cache-first (rarely change)
+ * - Fonts: Stale-while-revalidate (rarely change)
  */
 
-const CACHE_VERSION = 'caish-v12';
-const RUNTIME_CACHE = 'caish-runtime-v12';
+const CACHE_VERSION = 'caish-v13';
+const RUNTIME_CACHE = 'caish-runtime-v13';
 
 // Critical assets to precache on install
 const PRECACHE_ASSETS = [
@@ -20,8 +20,8 @@ const PRECACHE_ASSETS = [
   '/mars.html',
   '/events.html',
   '/about.html',
-  '/styles.css',
-  '/enhancements.js',
+  '/styles.css?v=20260308',
+  '/enhancements.js?v=20260308',
   '/images/logo.png',
   '/images/favicon.png',
   '/images/caish.gif'
@@ -77,9 +77,12 @@ self.addEventListener('fetch', (event) => {
   if (isHTMLRequest(request)) {
     // HTML: Network-first to ensure fresh content
     event.respondWith(networkFirst(request));
-  } else if (isImmutableAsset(url.pathname)) {
-    // CSS, JS, Images: Cache-first for speed
+  } else if (isImageAsset(url.pathname)) {
+    // Images: Cache-first for speed
     event.respondWith(cacheFirst(request));
+  } else if (isStaticAsset(url.pathname)) {
+    // CSS, JS, Fonts: Stale-while-revalidate for updates
+    event.respondWith(staleWhileRevalidate(request));
   } else {
     // Everything else: Network with cache fallback
     event.respondWith(networkFirst(request));
@@ -97,12 +100,15 @@ function isHTMLRequest(request) {
 }
 
 // Check if asset is immutable (long-cached)
-function isImmutableAsset(pathname) {
+function isStaticAsset(pathname) {
   return pathname.endsWith('.css') ||
          pathname.endsWith('.js') ||
-         pathname.startsWith('/images/') ||
          pathname.includes('.woff') ||
          pathname.includes('.woff2');
+}
+
+function isImageAsset(pathname) {
+  return pathname.startsWith('/images/');
 }
 
 /**
@@ -126,6 +132,33 @@ async function cacheFirst(request) {
   } catch (error) {
     return new Response('Asset not available', { status: 404 });
   }
+}
+
+/**
+ * Stale-While-Revalidate Strategy
+ * Returns cached version immediately, revalidates in the background
+ * Good for CSS/JS so updates eventually show up even with long cache headers
+ */
+async function staleWhileRevalidate(request) {
+  const cache = await caches.open(RUNTIME_CACHE);
+  const cachedResponse = await cache.match(request);
+
+  const networkFetch = fetch(request)
+    .then((networkResponse) => {
+      if (networkResponse.ok) {
+        cache.put(request, networkResponse.clone());
+      }
+      return networkResponse;
+    })
+    .catch(() => null);
+
+  if (cachedResponse) {
+    networkFetch.catch(() => {});
+    return cachedResponse;
+  }
+
+  const networkResponse = await networkFetch;
+  return networkResponse || new Response('Asset not available', { status: 404 });
 }
 
 /**
