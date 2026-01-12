@@ -199,7 +199,59 @@
   }
   
   /* ==========================================================================
-     5. Navigation
+     5. Announcement Banner
+     ========================================================================== */
+  .announcement-banner {
+    background: var(--black);
+    color: var(--white);
+    text-align: center;
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 101;
+  }
+
+  .announcement-banner p {
+    margin: 0;
+    color: var(--white);
+    font-size: 0.8rem;
+    max-width: none;
+  }
+
+  .announcement-banner a {
+    color: var(--white);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s ease;
+  }
+
+  .announcement-banner a:hover {
+    opacity: 0.8;
+  }
+
+  /* Adjust nav position when banner is present */
+  body.has-banner nav {
+    top: 2.2rem;
+  }
+
+  body.has-banner .skip-link:focus {
+    top: 2.2rem;
+  }
+
+  /* Adjust page content when banner is present */
+  body.has-banner .hero {
+    padding-top: calc(var(--space-8) + 2.2rem);
+  }
+
+  body.has-banner .page-header {
+    padding-top: calc(var(--space-36) + 2.2rem);
+  }
+
+  /* ==========================================================================
+     6. Navigation
      ========================================================================== */
   nav {
     position: fixed;
@@ -2286,6 +2338,28 @@
   @media (max-width: 600px) {
     .nav-links { display: none; }
     .nav-toggle { display: block; }
+
+    .announcement-banner {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.7rem;
+    }
+
+    .announcement-banner p {
+      font-size: 0.7rem;
+      line-height: 1.4;
+    }
+
+    body.has-banner nav {
+      top: 2.5rem;
+    }
+
+    body.has-banner .hero {
+      padding-top: calc(var(--space-24) + 2.5rem);
+    }
+
+    body.has-banner .page-header {
+      padding-top: calc(var(--space-24) + 2.5rem);
+    }
 
     .hero { padding-top: var(--space-24); padding-bottom: var(--space-12); }
     .page-header { padding-top: var(--space-24); padding-bottom: var(--space-4); }
