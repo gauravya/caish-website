@@ -295,9 +295,7 @@
     font-size: 0.75rem;
     letter-spacing: 0.03em;
     color: var(--dark-grey);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 0.35rem;
+    text-decoration: none;
     transition: color 0.2s ease-out;
   }
 
@@ -1121,10 +1119,14 @@
   
   /* Application section */
   .fellowship-application {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
+    margin-top: 3rem;
+    padding: 2.5rem 2rem;
     border-top: 1px solid var(--light-grey);
     clear: both;
+    text-align: center;
+    background: rgba(250, 246, 240, 0.7);
+    border-radius: 12px;
+    box-shadow: 0 16px 28px rgba(0, 0, 0, 0.06);
   }
   
   .fellowship-application h2 {
