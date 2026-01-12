@@ -2910,9 +2910,9 @@
 /* Logistics with image */
 .desk-logistics {
   display: grid;
-  grid-template-columns: 1fr 240px;
-  gap: 2.5rem;
-  align-items: start;
+  grid-template-columns: 1fr 380px;
+  gap: 3rem;
+  align-items: center;
   margin: 1.5rem 0;
 }
 
@@ -2934,8 +2934,9 @@
 .desk-logistics-image img {
   width: 100%;
   height: auto;
-  border-radius: 8px;
+  border-radius: 12px;
   object-fit: cover;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
 }
 
 /* Apply section */
@@ -2949,6 +2950,13 @@
   font-size: 0.72rem;
 }
 
+@media (max-width: 850px) {
+  .desk-logistics {
+    grid-template-columns: 1fr 280px;
+    gap: 2rem;
+  }
+}
+
 @media (max-width: 700px) {
   .desk-logistics {
     grid-template-columns: 1fr;
@@ -2956,7 +2964,8 @@
   }
 
   .desk-logistics-image {
-    max-width: 280px;
+    max-width: 400px;
+    margin: 0 auto;
   }
 }
 
