@@ -295,29 +295,13 @@
     font-size: 0.75rem;
     letter-spacing: 0.03em;
     color: var(--dark-grey);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.35rem;
     transition: color 0.2s ease-out;
   }
 
-  .nav-links a::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: -0.4rem;
-    height: 1px;
-    background: var(--black);
-    opacity: 0;
-    transform: scaleX(0.6);
-    transform-origin: center;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-  }
-
   .nav-links a:hover { color: var(--black); }
-
-  .nav-links a:hover::after {
-    opacity: 0.6;
-    transform: scaleX(1);
-  }
   
   /* Mobile Navigation */
   .nav-toggle {
