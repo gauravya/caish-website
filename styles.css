@@ -2796,6 +2796,47 @@
    11. Alignment Desk Page
    ========================================================================== */
 
+/* Reduce top padding for desk page */
+.desk-section {
+  padding-top: 1.5rem;
+}
+
+/* Holden quote blockquote */
+.desk-quote {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(244, 243, 239, 0.85), rgba(255, 255, 255, 0.92));
+  border-left: 4px solid var(--cambridge);
+  border-radius: 0 12px 12px 0;
+}
+
+.desk-quote p {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--dark-grey);
+  margin: 0 0 0.75rem 0;
+  max-width: none;
+}
+
+.desk-quote cite {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--mid-grey);
+}
+
+.desk-quote cite a {
+  color: var(--dark-grey);
+  border-bottom: 1px solid var(--light-grey);
+  transition: border-color 0.2s ease;
+}
+
+.desk-quote cite a:hover {
+  border-color: var(--dark-grey);
+}
+
 /* Gallery variations for desk page */
 .desk-gallery-small {
   grid-template-columns: repeat(2, 1fr);
