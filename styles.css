@@ -2907,51 +2907,17 @@
   }
 }
 
-/* Logistics section with image */
-.desk-logistics-section {
-  display: grid;
-  grid-template-columns: 1fr 280px;
-  gap: 2rem;
-  align-items: start;
-  margin: 1.5rem 0;
+/* Simple apply section */
+.desk-apply {
+  margin: 2rem 0;
+  text-align: center;
 }
 
-.desk-logistics-text p {
-  margin-bottom: 0.75rem;
-  max-width: none;
-}
-
-.desk-logistics-text p:last-child {
-  margin-bottom: 0;
-}
-
-.desk-logistics-text strong {
-  color: var(--black);
-  font-size: 0.85rem;
-}
-
-.desk-logistics-image {
-  order: 1;
-}
-
-.desk-logistics-image img {
-  width: 100%;
-  height: auto;
-  border-radius: 12px;
-  object-fit: cover;
-}
-
-@media (max-width: 800px) {
-  .desk-logistics-section {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .desk-logistics-image {
-    order: -1;
-    max-width: 300px;
-    margin: 0 auto;
-  }
+.desk-deadline {
+  font-size: 0.9rem;
+  color: var(--dark-grey);
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 @media (max-width: 600px) {
