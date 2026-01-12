@@ -2792,6 +2792,181 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* ==========================================================================
+   11. Alignment Desk Page
+   ========================================================================== */
+
+/* Reduce top padding for desk page */
+.desk-section {
+  padding-top: 1.5rem;
+}
+
+/* Holden quote blockquote */
+.desk-quote {
+  margin: 1.5rem 0;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(244, 243, 239, 0.85), rgba(255, 255, 255, 0.92));
+  border-left: 4px solid var(--cambridge);
+  border-radius: 0 12px 12px 0;
+}
+
+.desk-quote p {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--dark-grey);
+  margin: 0 0 0.75rem 0;
+  max-width: none;
+}
+
+.desk-quote cite {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-style: normal;
+  color: var(--mid-grey);
+}
+
+.desk-quote cite a {
+  color: var(--dark-grey);
+  border-bottom: 1px solid var(--light-grey);
+  transition: border-color 0.2s ease;
+}
+
+.desk-quote cite a:hover {
+  border-color: var(--dark-grey);
+}
+
+/* Gallery variations for desk page */
+.desk-gallery-small {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.desk-gallery-single {
+  grid-template-columns: 1fr;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.desk-gallery-single img {
+  border-radius: 12px;
+}
+
+/* Two-column centered row */
+.expectations-list--two {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Single expectation row */
+.desk-expectations-single {
+  grid-template-columns: 1fr;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.desk-expectations-single .expectation {
+  text-align: center;
+  border-left: none;
+  border-top: 3px solid var(--light-grey);
+}
+
+/* Project examples grid */
+.desk-projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.desk-project {
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 8px;
+  border: 1px solid rgba(224, 224, 224, 0.8);
+  font-size: 0.85rem;
+  color: var(--dark-grey);
+  line-height: 1.5;
+}
+
+@media (max-width: 800px) {
+  .desk-gallery-small {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+
+  .expectations-list--two {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Logistics with image */
+.desk-logistics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+  margin: 1.5rem 0;
+}
+
+.desk-logistics-text {
+  padding-top: 0.5rem;
+}
+
+.desk-logistics-text p {
+  margin-bottom: 0.6rem;
+  max-width: none;
+}
+
+.desk-logistics-text strong {
+  color: var(--black);
+}
+
+.desk-logistics-note {
+  margin-top: 1rem;
+  font-style: italic;
+  color: var(--mid-grey);
+}
+
+.desk-logistics-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.1);
+}
+
+/* Apply section */
+.desk-apply {
+  margin: 2.5rem 0 2rem;
+  text-align: center;
+}
+
+@media (max-width: 800px) {
+  .desk-logistics {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .desk-logistics-image {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .desk-projects {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,

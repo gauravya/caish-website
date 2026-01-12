@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Alignment Desk - A writing accelerator for AI safety. A structured writing programme for members of the Cambridge community.">
+  <title>Alignment Desk | Cambridge AI Safety Hub</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <!-- DNS Prefetch & Preconnect -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://airtable.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/styles.css?v=20260207" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Critical CSS - Inline for instant first paint -->
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{font-family:'Space Mono',monospace;background:#fff;color:#1a1a1a;line-height:1.8}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    h1{font-size:clamp(2rem,4vw,3rem);line-height:1.2}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);border-bottom:1px solid rgba(224,224,224,0.7);backdrop-filter:blur(12px)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .page-header{max-width:1000px;margin:0 auto;padding:6.5rem 2.5rem 2rem}
+    .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
+    p{font-size:0.95rem;max-width:52ch;color:#4a4a4a}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.page-header{padding-top:6rem}}
+    .fellowship-hero{margin:1rem auto 1.5rem;max-width:min(94vw,840px)}
+    .fellowship-hero img{width:100%;height:auto;display:block;border-radius:12px;object-fit:cover}
+  </style>
+
+  <!-- Styles (async) -->
+  <noscript><link rel="stylesheet" href="/styles.css?v=20260207"></noscript>
+
+  <!-- Enhancements -->
+  <script src="/enhancements.js" defer fetchpriority="low"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</head>
+<body class="has-banner fellowship-page">
+  <div class="announcement-banner">
+    <p>Applications are now open! <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagZBh0IPqpsrBgy6/form" target="_blank" rel="noopener">Apply here</a></p>
+  </div>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home">
+        <img src="/images/logo.png" alt="CAISH" class="logo" width="50" height="50">
+      </a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk" class="active">Alignment Desk</a></li>
+        <li><a href="/mars">MARS</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk" class="active">Alignment Desk</a></li>
+      <li><a href="/mars">MARS</a></li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <main>
+  <section class="page-header fellowship-header" id="main-content">
+    <h1>The Alignment Desk</h1>
+    <p class="fellowship-tagline"><em>A writing accelerator for AI safety</em></p>
+  </section>
+
+  <div class="divider"><div class="divider-line"></div></div>
+
+  <section class="fellowship-section desk-section">
+    <div class="fellowship-content">
+      <div class="fellowship-image">
+        <img src="/images/writing-hero.png" alt="Writing and collaboration at the Alignment Desk" loading="lazy" decoding="async" width="600" height="400">
+      </div>
+
+      <p>The Alignment Desk is a structured writing programme for members of the Cambridge community with existing exposure to AI safety who want to produce and publish serious work.</p>
+
+      <p>Every Saturday during Lent term, a small cohort meets at the Meridian Office. Participants work on their own projects, set weekly goals, and hold each other accountable. Each participant is expected to publish four pieces of work over the term.</p>
+
+      <h2>Why writing?</h2>
+
+      <p>Writing forces you to confront gaps in your understanding that remain hidden when you are just reading or thinking. It is also how people in this community come to know your work.</p>
+
+      <p>The main blocker for most aspiring writers is not lack of ideas but lack of discipline. Committing to regular output is what separates people who contribute from people who intend to.</p>
+
+      <blockquote class="desk-quote">
+        <p>"Writing is the single biggest difference-maker between reading a lot and efficiently developing real views on important topics."</p>
+        <cite><a href="https://www.cold-takes.com/learning-by-writing/" target="_blank" rel="noopener">Holden Karnofsky, Learning By Writing</a></cite>
+      </blockquote>
+
+      <h2>Who this is for</h2>
+
+      <p>The Alignment Desk is best suited to people who already have context in AI safety, whether technical or governance, and want to develop and publish ideas relevant to the field.</p>
+
+      <p>This may include people aiming for research, policy, operations, communications, or other AI safety adjacent roles.</p>
+
+      <p>Applicants who are earlier in their AI safety journey but have strong adjacent experience may be considered on a case-by-case basis.</p>
+
+      <div class="meridian-gallery desk-gallery-small">
+        <img src="/images/meridian-4.jpg" alt="Meridian Office workspace" loading="lazy" decoding="async" width="5616" height="3744">
+        <img src="/images/meridian-5.jpg" alt="Collaborative environment at Meridian" loading="lazy" decoding="async" width="5616" height="3744">
+      </div>
+
+      <h2>What this is</h2>
+
+      <div class="expectations-list expectations-list--three">
+        <div class="expectation">
+          <h4>Dedicated writing time</h4>
+          <p>Weekly Saturday sessions at the Meridian Office. Quiet, structured, and distraction-light. Whiteboards are available in separate rooms for collaboration.</p>
+        </div>
+        <div class="expectation">
+          <h4>Accountability</h4>
+          <p>You commit to a project at the start of term and report progress each week. The cohort is small, and progress is visible.</p>
+        </div>
+        <div class="expectation">
+          <h4>Fast feedback</h4>
+          <p>During breaks, participants can sanity-check arguments, get quick red-teams, or talk through ideas that are stuck.</p>
+        </div>
+      </div>
+
+      <div class="expectations-list expectations-list--two">
+        <div class="expectation">
+          <h4>Access to the ecosystem</h4>
+          <p>Where useful, we can help connect participants with researchers, policy professionals, or others in the Cambridge AI safety community. We will also invite relevant experts into the office to give feedback on drafts.</p>
+        </div>
+        <div class="expectation">
+          <h4>Clear output expectations</h4>
+          <p>Four published pieces by the end of term. Imperfect and published beats perfect and private.</p>
+        </div>
+      </div>
+
+      <div class="meridian-gallery desk-gallery-single">
+        <img src="/images/meridian-6.jpg" alt="Working session at Meridian" loading="lazy" decoding="async" width="5616" height="3744">
+      </div>
+
+      <h2>What kind of projects?</h2>
+
+      <p>We are flexible on format. What matters is that you have a concrete output in mind. Examples include:</p>
+
+      <div class="desk-projects">
+        <div class="desk-project">A literature review of a technical or governance topic</div>
+        <div class="desk-project">An interactive explainer or tutorial</div>
+        <div class="desk-project">A steelman or red-team of a research agenda</div>
+        <div class="desk-project">An original argument, research note, or proposal</div>
+        <div class="desk-project">A distillation of existing work for a new audience</div>
+        <div class="desk-project">A public reflection on career plans or uncertainties</div>
+      </div>
+
+      <h2>What we expect from you</h2>
+
+      <div class="expectations-list">
+        <div class="expectation">
+          <h4>Attend consistently</h4>
+          <p>We meet every Saturday during Lent term. Occasional conflicts are fine, but consistent attendance is expected.</p>
+        </div>
+        <div class="expectation">
+          <h4>Arrive with a project</h4>
+          <p>You should come to the first session with at least a working idea of what you are writing and who it is for.</p>
+        </div>
+        <div class="expectation">
+          <h4>Use the time seriously</h4>
+          <p>Most of each session should be spent in focused work towards your deliverables.</p>
+        </div>
+        <div class="expectation">
+          <h4>Publish your work</h4>
+          <p>By the end of term, you should have published four pieces. Imperfect and published beats perfect and private.</p>
+        </div>
+      </div>
+
+      <h2>Logistics</h2>
+
+      <div class="desk-logistics">
+        <div class="desk-logistics-text">
+          <p><strong>When</strong><br>Every Saturday during Lent term 2025</p>
+          <p><strong>Where</strong><br>Meridian Office, Cambridge</p>
+          <p><strong>Time</strong><br>To be coordinated with participants</p>
+          <p><strong>Cost</strong><br>Free. Lunch or dinner will be provided.</p>
+          <p><strong>Cohort size</strong><br>Small. This is a pilot programme.</p>
+          <p class="desk-logistics-note">The structure may evolve based on what works.</p>
+        </div>
+        <div class="desk-logistics-image">
+          <img src="/images/meridian-7.jpg" alt="Community at the Meridian Office" loading="lazy" decoding="async">
+        </div>
+      </div>
+
+      <div class="desk-apply">
+        <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagZBh0IPqpsrBgy6/form" target="_blank" rel="noopener">Apply by 25th January</a>
+      </div>
+
+      <div class="fellowship-faq" aria-labelledby="desk-faq-title">
+        <div class="faq-header">
+          <h2 id="desk-faq-title" class="faq-title">FAQ</h2>
+        </div>
+        <div class="faq-accordion" data-accordion="desk-faq">
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>Do I need to have completed the CAISH Alignment Fellowship?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>No. You should have equivalent context, whether through previous programmes, independent study, or relevant professional experience.</p>
+            </div>
+          </article>
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>What if I do not yet have a clear project idea?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>You may still apply. We can help you scope a project, but you should be ready to commit to one by the first session.</p>
+            </div>
+          </article>
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>Can I work on a collaborative project?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>Yes. If you are applying with another participant on a joint project, mention this in your application.</p>
+            </div>
+          </article>
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>Where will I publish?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>That is up to you. Common options include LessWrong, the Alignment Forum, Substack, or a personal blog. We care that the work is published somewhere.</p>
+            </div>
+          </article>
+          <article class="faq-card">
+            <button class="faq-question" aria-expanded="false">
+              <span>What if I cannot attend every Saturday?</span>
+              <span class="faq-icon" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-answer" hidden>
+              <p>Occasional absences are fine. If you already expect to miss multiple sessions, this is likely not the right programme for you.</p>
+            </div>
+          </article>
+        </div>
+        <p class="faq-footer">For further questions, contact hello (at) cambridgeaisafety (dot) org.</p>
+      </div>
+    </div>
+  </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958).
+      </div>
+      <span class="footer-copy">&copy; 2026 CAISH</span>
+    </div>
+  </footer>
+
+  <script>
+    const MobileNav = {
+      init() {
+        const nav = document.getElementById('mobile-nav');
+        const toggle = document.getElementById('nav-toggle');
+        const close = document.getElementById('mobile-nav-close');
+
+        toggle?.addEventListener('click', () => nav?.classList.add('active'));
+        close?.addEventListener('click', () => nav?.classList.remove('active'));
+        nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+      }
+    };
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', MobileNav.init)
+      : MobileNav.init();
+  </script>
+  <script>
+    (() => {
+      const accordions = document.querySelectorAll('.faq-accordion');
+      accordions.forEach(accordion => {
+        accordion.querySelectorAll('.faq-question').forEach(button => {
+          button.addEventListener('click', () => {
+            const isOpen = button.getAttribute('aria-expanded') === 'true';
+            const answer = button.nextElementSibling;
+
+            button.setAttribute('aria-expanded', String(!isOpen));
+            button.parentElement.classList.toggle('open', !isOpen);
+
+            if (answer) {
+              answer.hidden = isOpen;
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
