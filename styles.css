@@ -223,13 +223,14 @@
 
   .announcement-banner a {
     color: var(--white);
-    text-decoration: underline;
-    text-underline-offset: 2px;
+    text-decoration: none;
+    border-bottom: 0;
     transition: opacity 0.2s ease;
   }
 
   .announcement-banner a:hover {
     opacity: 0.8;
+    text-decoration: none;
   }
 
   /* Adjust nav position when banner is present */
@@ -1089,6 +1090,22 @@
   .fellowship-content h2:first-of-type {
     margin-top: 1.5rem;
   }
+
+  .meridian-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0 1.5rem;
+    clear: both;
+  }
+
+  .meridian-gallery img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    object-fit: cover;
+  }
   
   .fellowship-image {
     float: right;
@@ -1137,23 +1154,47 @@
   
   /* Application section */
   .fellowship-application {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--light-grey);
+    margin-top: 1.25rem;
+    padding: 1.6rem 2.5rem 2.25rem;
+    border: 1px solid rgba(26, 26, 26, 0.08);
     clear: both;
+    text-align: left;
+    background: linear-gradient(180deg, #fbf7f1 0%, #ffffff 85%);
+    border-radius: 12px;
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.05);
+    max-width: 780px;
+    margin-left: auto;
+    margin-right: auto;
   }
-  
+
   .fellowship-application h2 {
-    margin-bottom: 1rem;
+    margin-top: 0;
+    margin-bottom: 0.6rem;
+    text-align: center;
+    font-size: 1.25rem;
   }
-  
+
   .fellowship-application p {
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.75rem;
     max-width: 100%;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: left;
   }
-  
+
   .fellowship-application .btn-wrapper {
     text-align: center;
+    margin-top: 1.4rem;
+  }
+
+  .application-deadline {
+    display: block;
+    font-weight: 600;
+    color: var(--black);
+    margin-top: 0.85rem;
+    margin-bottom: 1.15rem;
+    text-align: left;
   }
   
   .btn-primary {
@@ -2632,6 +2673,27 @@
     .expectations-section h2 {
       text-align: center;
     }
+
+    .fellowship-application {
+      padding: 1.5rem 1.25rem 2rem;
+      text-align: left;
+    }
+
+    .fellowship-application p {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: 100%;
+      width: 100%;
+      text-align: left;
+    }
+
+    .fellowship-application h2 {
+      text-align: center;
+    }
+
+    .fellowship-application .btn-wrapper {
+      text-align: center;
+    }
   }
 
 /* ==========================================================================
@@ -2660,6 +2722,10 @@
   );
   border-radius: 0 2px 2px 0;
   transition: width 0.1s ease-out;
+}
+
+.fellowship-page .reading-progress-fill {
+  background: #ffffff;
 }
 
 /* Warm text selection */
