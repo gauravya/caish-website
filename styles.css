@@ -2796,44 +2796,6 @@
    11. Alignment Desk Page
    ========================================================================== */
 
-/* Blockquote styling */
-.desk-quote {
-  margin: 1.5rem 0;
-  padding: 1.25rem 1.5rem;
-  background: linear-gradient(135deg, rgba(244, 243, 239, 0.85), rgba(255, 255, 255, 0.92));
-  border-left: 4px solid var(--cambridge);
-  border-radius: 0 12px 12px 0;
-  font-style: italic;
-}
-
-.desk-quote p {
-  font-family: var(--font-serif);
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: var(--dark-grey);
-  margin: 0;
-  max-width: none;
-}
-
-/* Logistics section */
-.desk-logistics {
-  margin: 1.5rem 0;
-  padding: 1.5rem;
-  background: var(--cream);
-  border-radius: 12px;
-  border: 1px solid rgba(224, 224, 224, 0.8);
-  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.04);
-}
-
-.desk-logistics p {
-  margin-bottom: 0.5rem;
-  max-width: none;
-}
-
-.desk-logistics p:last-child {
-  margin-bottom: 0;
-}
-
 /* Gallery variations for desk page */
 .desk-gallery-small {
   grid-template-columns: repeat(2, 1fr);
@@ -2853,6 +2815,14 @@
   border-radius: 12px;
 }
 
+/* Two-column centered row */
+.expectations-list--two {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 /* Single expectation row */
 .desk-expectations-single {
   grid-template-columns: 1fr;
@@ -2867,24 +2837,38 @@
   border-top: 3px solid var(--light-grey);
 }
 
+/* Project examples grid */
+.desk-projects {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.desk-project {
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 8px;
+  border: 1px solid rgba(224, 224, 224, 0.8);
+  font-size: 0.85rem;
+  color: var(--dark-grey);
+  line-height: 1.5;
+}
+
 @media (max-width: 800px) {
   .desk-gallery-small {
     grid-template-columns: 1fr;
     max-width: 400px;
   }
+
+  .expectations-list--two {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 600px) {
-  .desk-quote {
-    padding: 1rem 1.25rem;
-  }
-
-  .desk-quote p {
-    font-size: 0.95rem;
-  }
-
-  .desk-logistics {
-    padding: 1.25rem;
+  .desk-projects {
+    grid-template-columns: 1fr;
   }
 }
 
