@@ -299,7 +299,11 @@
     transition: color 0.2s ease-out;
   }
 
-  .nav-links a:hover { color: var(--black); }
+  .nav-links a:hover,
+  .nav-links a:focus-visible {
+    color: var(--black);
+    text-decoration: none;
+  }
   
   /* Mobile Navigation */
   .nav-toggle {
@@ -1121,7 +1125,7 @@
   .fellowship-application {
     margin-top: 3rem;
     padding: 2.5rem 2rem;
-    border-top: 1px solid var(--light-grey);
+    border: 1px solid var(--light-grey);
     clear: both;
     text-align: center;
     background: rgba(250, 246, 240, 0.7);
@@ -1135,7 +1139,13 @@
   
   .fellowship-application p {
     margin-bottom: 1.5rem;
-    max-width: 100%;
+    max-width: 60ch;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .fellowship-application .application-deadline {
+    font-weight: 600;
   }
   
   .fellowship-application .btn-wrapper {
