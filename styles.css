@@ -905,14 +905,13 @@
 
 .page-header--socials {
   padding-bottom: 0;
-  margin-bottom: 0;
+  margin-bottom: -1rem;
 }
 
 .page-header--socials p { margin: 0; }
 
 .page-header--socials + .divider {
-  margin-top: -1.5rem;
-  margin-bottom: -0.5rem;
+  margin-top: -0.5rem;
 }
   
   /* About Section */
