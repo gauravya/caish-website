@@ -700,7 +700,7 @@
 
 /* Socials Page Styles */
 .socials-section {
-  padding-top: 0.5rem;
+  padding-top: 0.75rem;
   padding-bottom: 1rem;
 }
 
@@ -905,7 +905,7 @@
 
 .page-header--socials {
   padding-bottom: 0;
-  margin-bottom: 0;
+  margin-bottom: -1rem;
 }
 
 .page-header--socials p { margin: 0; }
