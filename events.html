@@ -66,7 +66,7 @@
   <nav>
     <div class="nav-inner">
       <a href="/" aria-label="Home">
-        <img src="/images/logo.png" alt="CAISH" class="logo" width="50" height="50">
+        <img src="/images/logo.png"  class="logo" width="50" height="50">
       </a>
       <ul class="nav-links">
         <li><a href="/fellowship">Alignment Fellowship</a></li>
@@ -118,7 +118,7 @@
   </section>
 
   <section class="socials-image">
-    <img src="/images/community-min.png" alt="CAISH members at a social event" loading="lazy" decoding="async" width="800" height="500">
+    <img src="/images/community-min.png"  loading="lazy" decoding="async" width="800" height="500">
   </section>
   </main>
 
@@ -275,7 +275,7 @@
 
         return `
           <a href="${this.escapeHtml(url)}" target="_blank" rel="noopener" class="event-card ${isPast ? 'past' : ''}">
-            ${coverUrl ? `<div class="event-cover"><img src="${this.escapeHtml(coverUrl)}" alt="${this.escapeHtml(name)}" loading="lazy" decoding="async"></div>` : ''}
+            ${coverUrl ? `<div class="event-cover"><img src="${this.escapeHtml(coverUrl)}" loading="lazy" decoding="async"></div>` : ''}
             <div class="event-content">
               <div class="event-date">
                 <span class="event-day">${this.escapeHtml(dateStr)}</span>
