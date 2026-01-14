@@ -1162,68 +1162,47 @@
   .fellowship-application {
     margin-top: 3rem;
     margin-bottom: 3rem;
-    padding: 2.5rem 3rem 2.75rem;
-    border: 2px solid #8c4a3a;
+    padding: 2rem 2.5rem 2.25rem;
+    border: 1px solid var(--light-grey);
     clear: both;
-    text-align: left;
-    background: linear-gradient(135deg, #faf7f2 0%, #fff9f4 50%, #ffffff 100%);
-    border-radius: 16px;
-    box-shadow: 0 12px 24px rgba(140, 74, 58, 0.08), 0 4px 8px rgba(0, 0, 0, 0.04);
-    max-width: 780px;
+    text-align: center;
+    background: var(--white);
+    border-radius: 12px;
+    max-width: 600px;
     margin-left: auto;
     margin-right: auto;
-    position: relative;
-  }
-
-  .fellowship-application::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(135deg, #8c4a3a 0%, #a85d4a 100%);
-    border-radius: 16px;
-    z-index: -1;
-    opacity: 0.6;
   }
 
   .fellowship-application h2 {
     margin-top: 0;
-    margin-bottom: 1.25rem;
-    text-align: center;
-    font-size: 1.75rem;
-    color: #8c4a3a;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: var(--black);
   }
 
   .fellowship-application p {
-    margin-bottom: 0.85rem;
+    margin-bottom: 0.5rem;
     max-width: 100%;
     width: 100%;
-    margin-left: 0;
-    margin-right: 0;
-    text-align: left;
-    font-size: 1rem;
-    line-height: 1.7;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--dark-grey);
   }
 
   .fellowship-application .btn-wrapper {
     text-align: center;
-    margin-top: 1.75rem;
+    margin-top: 1.5rem;
   }
 
   .application-deadline {
     display: block;
-    font-weight: 700;
-    color: #8c4a3a;
-    margin-top: 1.25rem;
-    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--cambridge);
+    margin-top: 1rem;
+    margin-bottom: 0;
     text-align: center;
-    font-size: 1.05rem;
-    padding: 0.75rem 1.25rem;
-    background: rgba(140, 74, 58, 0.08);
-    border-radius: 8px;
-    border-left: 4px solid #8c4a3a;
+    font-size: 0.85rem;
   }
   
   .btn-primary {
@@ -2710,33 +2689,22 @@
     }
 
     .fellowship-application {
-      padding: 2rem 1.5rem 2.25rem;
-      text-align: left;
-      margin-top: 2.5rem;
-      margin-bottom: 2.5rem;
+      padding: 1.5rem 1.25rem 1.75rem;
+      text-align: center;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
 
     .fellowship-application p {
-      margin-left: 0;
-      margin-right: 0;
-      max-width: 100%;
-      width: 100%;
-      text-align: left;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
     }
 
     .fellowship-application h2 {
-      text-align: center;
-      font-size: 1.5rem;
-    }
-
-    .fellowship-application .btn-wrapper {
-      text-align: center;
+      font-size: 1.35rem;
     }
 
     .application-deadline {
-      font-size: 1rem;
-      padding: 0.65rem 1rem;
+      font-size: 0.8rem;
     }
   }
 
