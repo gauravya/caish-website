@@ -3248,21 +3248,6 @@ select:focus {
   box-shadow: 0 0 0 3px rgba(126, 66, 51, 0.1);
 }
 
-/* Footer Wave Divider */
-.footer-divider {
-  max-width: var(--max-width);
-  margin: 0 auto;
-  padding: 0 var(--space-10);
-  overflow: hidden;
-}
-
-.footer-divider svg {
-  display: block;
-  width: 100%;
-  height: 24px;
-  margin-bottom: -1px;
-}
-
 /* Footer year auto styling */
 .footer-copy {
   font-size: 0.68rem;
