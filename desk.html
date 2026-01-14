@@ -6,6 +6,20 @@
   <meta name="description" content="The Alignment Desk - A writing accelerator for AI safety. A structured writing programme for members of the Cambridge community.">
   <title>Alignment Desk | Cambridge AI Safety Hub</title>
 
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://cambridgeaisafety.org/desk">
+  <meta property="og:title" content="Alignment Desk | Cambridge AI Safety Hub">
+  <meta property="og:description" content="A writing accelerator for AI safety - A structured writing programme for members of the Cambridge community.">
+  <meta property="og:image" content="https://cambridgeaisafety.org/images/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://cambridgeaisafety.org/desk">
+  <meta name="twitter:title" content="Alignment Desk | Cambridge AI Safety Hub">
+  <meta name="twitter:description" content="A writing accelerator for AI safety - A structured writing programme for members of the Cambridge community.">
+  <meta name="twitter:image" content="https://cambridgeaisafety.org/images/og-image.png">
+
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="apple-touch-icon" href="/images/favicon.png">
@@ -18,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload critical resources -->
-  <link rel="preload" href="/styles.css?v=20260308" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/styles.css?v=20260113" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
@@ -49,10 +63,10 @@
   </style>
 
   <!-- Styles (async) -->
-  <noscript><link rel="stylesheet" href="/styles.css?v=20260308"></noscript>
+  <noscript><link rel="stylesheet" href="/styles.css?v=20260113"></noscript>
 
   <!-- Enhancements -->
-  <script src="/enhancements.js?v=20260308" defer fetchpriority="low"></script>
+  <script src="/enhancements.js?v=20260113" defer fetchpriority="low"></script>
 
   <!-- Service Worker Registration -->
   <script>
@@ -113,7 +127,7 @@
         <img src="/images/writing-hero.png" loading="lazy" decoding="async" width="600" height="400">
       </div>
 
-      <p>The Alignment Desk is a structured writing programme for members of the Cambridge community with existing exposure to AI safety who want to produce and publish serious work.</p>
+      <p>The Alignment Desk is a structured writing programme for people in Cambridge with existing exposure to AI safety who want to produce and publish serious work.</p>
 
       <p>Every Saturday during Lent term, a small cohort meets at the Meridian Office. Participants work on their own projects, set weekly goals, and hold each other accountable. Each participant is expected to publish four pieces of work over the term.</p>
 
@@ -234,8 +248,8 @@
 
       <div class="fellowship-application">
         <h2>Applications are open</h2>
-        <p>Rolling applications. Spots are limited, so apply early.</p>
-        <p class="application-deadline">Final deadline: end of day GMT, 25 January 2025</p>
+        <p>Rolling admissions. We'll close the form once spots fill up, so apply sooner rather than later.</p>
+        <p class="application-deadline">Final deadline: Sunday, 25 January (end of day GMT)</p>
         <div class="btn-wrapper">
           <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagZBh0IPqpsrBgy6/form" target="_blank" rel="noopener">Apply now</a>
         </div>
@@ -298,6 +312,20 @@
   </section>
   </main>
 
+  <!-- Back to Top Button -->
+  <button class="back-to-top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <!-- Footer Wave Divider -->
+  <div class="footer-divider">
+    <svg viewBox="0 0 1200 24" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,24 C200,12 400,0 600,12 C800,24 1000,12 1200,24 L1200,24 L0,24 Z" fill="#e0e0e0" opacity="0.3"/>
+    </svg>
+  </div>
+
   <footer>
     <div class="footer-inner">
       <div class="footer-legal">
@@ -320,9 +348,22 @@
       }
     };
 
+    const BackToTop = {
+      init() {
+        const btn = document.querySelector('.back-to-top');
+        if (!btn) return;
+        window.addEventListener('scroll', () => {
+          btn.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+        btn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    };
+
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', MobileNav.init)
-      : MobileNav.init();
+      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); BackToTop.init(); })
+      : (() => { MobileNav.init(); BackToTop.init(); })();
   </script>
   <script>
     (() => {
