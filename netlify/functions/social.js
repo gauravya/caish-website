@@ -1,4 +1,4 @@
-// Netlify Function to redirect to the most upcoming Thursday social event
+// Netlify Function to redirect to the most upcoming CAISH social event
 // This keeps the API key secure on the server side
 
 const LUMA_EVENTS_URL = 'https://api.lu.ma/public/v1/calendar/list-events';
@@ -49,12 +49,12 @@ exports.handler = async (event) => {
     const data = await response.json();
     let events = data.entries || data.events || [];
 
-    // Filter for Thursday social events
-    // Look for events that contain both "Thursday" and "social" in the name (case-insensitive)
+    // Filter for CAISH social events
+    // Look for events that contain both "CAISH" and "social" in the name (case-insensitive)
     events = events.filter(entry => {
       const eventData = entry.event || entry;
       const name = (eventData.name || '').toLowerCase();
-      return name.includes('thursday') && name.includes('social');
+      return name.includes('caish') && name.includes('social');
     });
 
     // Filter to only show upcoming events (events that haven't happened yet)
@@ -74,11 +74,11 @@ exports.handler = async (event) => {
 
     // Get the first (most upcoming) event
     if (events.length === 0) {
-      console.error('No upcoming Thursday social events found');
+      console.error('No upcoming CAISH social events found');
       return {
         statusCode: 404,
         headers,
-        body: 'No upcoming Thursday social events found. Please check back later!'
+        body: 'No upcoming CAISH social events found. Please check back later!'
       };
     }
 
@@ -88,7 +88,7 @@ exports.handler = async (event) => {
     // Get the Luma URL
     const lumaUrl = eventData.url || `https://lu.ma/${eventData.api_id || eventData.id}`;
 
-    console.log(`Redirecting to upcoming Thursday social: ${eventData.name} at ${lumaUrl}`);
+    console.log(`Redirecting to upcoming CAISH social: ${eventData.name} at ${lumaUrl}`);
 
     // Return a redirect response
     return {

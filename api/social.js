@@ -1,4 +1,4 @@
-// Vercel Serverless Function to redirect to the most upcoming Thursday social event
+// Vercel Serverless Function to redirect to the most upcoming CAISH social event
 // This keeps the API key secure on the server side
 
 export default async function handler(req, res) {
@@ -35,12 +35,12 @@ export default async function handler(req, res) {
     const data = await response.json();
     let events = data.entries || data.events || [];
 
-    // Filter for Thursday social events
-    // Look for events that contain both "Thursday" and "social" in the name (case-insensitive)
+    // Filter for CAISH social events
+    // Look for events that contain both "CAISH" and "social" in the name (case-insensitive)
     events = events.filter(entry => {
       const event = entry.event || entry;
       const name = (event.name || '').toLowerCase();
-      return name.includes('thursday') && name.includes('social');
+      return name.includes('caish') && name.includes('social');
     });
 
     // Filter to only show upcoming events (events that haven't happened yet)
@@ -60,8 +60,8 @@ export default async function handler(req, res) {
 
     // Get the first (most upcoming) event
     if (events.length === 0) {
-      console.error('No upcoming Thursday social events found');
-      return res.status(404).send('No upcoming Thursday social events found. Please check back later!');
+      console.error('No upcoming CAISH social events found');
+      return res.status(404).send('No upcoming CAISH social events found. Please check back later!');
     }
 
     const nextEvent = events[0];
@@ -70,7 +70,7 @@ export default async function handler(req, res) {
     // Get the Luma URL
     const lumaUrl = event.url || `https://lu.ma/${event.api_id || event.id}`;
 
-    console.log(`Redirecting to upcoming Thursday social: ${event.name} at ${lumaUrl}`);
+    console.log(`Redirecting to upcoming CAISH social: ${event.name} at ${lumaUrl}`);
 
     // Redirect to the event page
     return res.redirect(302, lumaUrl);
