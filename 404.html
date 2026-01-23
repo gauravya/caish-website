@@ -36,7 +36,9 @@
     @keyframes fadeIn{to{opacity:1}}
     .story{font-size:0.9rem;line-height:1.9;margin-bottom:2rem;text-align:left;background:#f9f9f9;padding:1.5rem 2rem;border-left:3px solid #8c4a3a}
     .story-title{font-family:'Libre Baskerville',Georgia,serif;font-size:1rem;margin-bottom:0.75rem;color:#8c4a3a}
-    .btn{display:inline-block;font-family:'Space Mono',monospace;font-size:0.75rem;padding:0.75rem 1.5rem;background:#1a1a1a;color:#fff;text-decoration:none;letter-spacing:0.05em;transition:background 0.2s ease;margin-top:1rem}
+    .btn{display:inline-block;font-family:'Space Mono',monospace;font-size:0.75rem;padding:0.75rem 1.5rem;background:#1a1a1a;color:#fff;text-decoration:none;letter-spacing:0.05em;transition:background 0.2s ease}
+    .redirect-notice{font-size:0.75rem;color:#666;margin-top:2rem}
+    .countdown{font-family:'Libre Baskerville',Georgia,serif;font-size:1.2rem;color:#8c4a3a;font-weight:700}
     .btn:hover{background:#8c4a3a}
     .narrator{font-style:italic;color:#666;margin-bottom:1.5rem;font-size:0.85rem}
   </style>
@@ -53,6 +55,10 @@
     </div>
 
     <a href="/" class="btn">Return to Safety</a>
+
+    <p class="redirect-notice">
+      Redirecting in <span class="countdown" id="countdown">15</span> seconds...
+    </p>
   </div>
 
   <script>
@@ -144,6 +150,19 @@
     document.getElementById('narrator').textContent = randomStory.narrator;
     document.querySelector('.story-title').textContent = randomStory.title;
     document.getElementById('story-content').textContent = randomStory.content;
+
+    let seconds = 15;
+    const countdownEl = document.getElementById('countdown');
+
+    const interval = setInterval(() => {
+      seconds--;
+      countdownEl.textContent = seconds;
+
+      if (seconds <= 0) {
+        clearInterval(interval);
+        window.location.href = '/';
+      }
+    }, 1000);
   </script>
 </body>
 </html>
