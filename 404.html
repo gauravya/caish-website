@@ -57,7 +57,7 @@
     <a href="/" class="btn">Return to Safety</a>
 
     <p class="redirect-notice">
-      Redirecting in <span class="countdown" id="countdown">5</span> seconds...
+      Redirecting in <span class="countdown" id="countdown">10</span> seconds...
       <br>
       (Not enough time to read? That's the point. Alignment is hard.)
     </p>
@@ -103,7 +103,7 @@
     document.querySelector('.story-title').textContent = randomStory.title;
     document.getElementById('story-content').textContent = randomStory.content;
 
-    let seconds = 5;
+    let seconds = 10;
     const countdownEl = document.getElementById('countdown');
 
     const interval = setInterval(() => {
