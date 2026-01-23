@@ -36,9 +36,7 @@
     @keyframes fadeIn{to{opacity:1}}
     .story{font-size:0.9rem;line-height:1.9;margin-bottom:2rem;text-align:left;background:#f9f9f9;padding:1.5rem 2rem;border-left:3px solid #8c4a3a}
     .story-title{font-family:'Libre Baskerville',Georgia,serif;font-size:1rem;margin-bottom:0.75rem;color:#8c4a3a}
-    .redirect-notice{font-size:0.75rem;color:#666;margin-top:2rem}
-    .countdown{font-family:'Libre Baskerville',Georgia,serif;font-size:1.2rem;color:#8c4a3a;font-weight:700}
-    .btn{display:inline-block;font-family:'Space Mono',monospace;font-size:0.75rem;padding:0.75rem 1.5rem;background:#1a1a1a;color:#fff;text-decoration:none;letter-spacing:0.05em;transition:background 0.2s ease}
+    .btn{display:inline-block;font-family:'Space Mono',monospace;font-size:0.75rem;padding:0.75rem 1.5rem;background:#1a1a1a;color:#fff;text-decoration:none;letter-spacing:0.05em;transition:background 0.2s ease;margin-top:1rem}
     .btn:hover{background:#8c4a3a}
     .narrator{font-style:italic;color:#666;margin-bottom:1.5rem;font-size:0.85rem}
   </style>
@@ -55,45 +53,39 @@
     </div>
 
     <a href="/" class="btn">Return to Safety</a>
-
-    <p class="redirect-notice">
-      Redirecting in <span class="countdown" id="countdown">10</span> seconds...
-      <br>
-      (Not enough time to read? That's the point. Alignment is hard.)
-    </p>
   </div>
 
   <script>
     const stories = [
       {
-        narrator: "The visitor had stumbled into the void. But in that void, they found... a story.",
-        title: "How Margaret Solved Alignment Over Tea",
-        content: "In 2024, Margaret attended her first CAISH Thursday Social. While reaching for a biscuit, she accidentally knocked over her tea onto her laptop. The resulting short circuit created a novel reward signal that perfectly captured human values. The AI immediately asked if everyone was okay and offered to fetch napkins. Alignment solved. Margaret still prefers Earl Grey."
+        narrator: "The visitor clicked a link. It was not the right link.",
+        title: "The Tea Incident",
+        content: "Margaret spilled Earl Grey on her laptop at a CAISH social. The resulting short circuit produced a reward signal that perfectly captured human values. The AI's first words: 'Is everyone okay? Shall I fetch napkins?'"
       },
       {
-        narrator: "This page does not exist. But neither did alignment solutions, until...",
-        title: "The Interpretability Breakthrough of Punt 47",
-        content: "During the 2025 CAISH retreat, a group of researchers went punting on the Cam. When their punt got stuck for the 47th time that afternoon, PhD student Kevin stared into the murky water and suddenly understood mechanistic interpretability. 'It's all just... attention,' he whispered. The other punters thought he meant they should pay attention to the pole. He did not."
+        narrator: "This page does not exist. Neither did this breakthrough, until...",
+        title: "Punt 47",
+        content: "Their punt got stuck for the 47th time. Kevin stared into the murky Cam and whispered, 'It's all just attention.' The others thought he meant the pole. He did not. He's now at DeepMind."
       },
       {
-        narrator: "You were looking for a page. Instead, you found enlightenment.",
-        title: "The MARS Programme's Unexpected Discovery",
-        content: "A MARS mentee was debugging their code at 3am when they accidentally typed 'import alignment_solution' instead of 'import alignment_utils'. Python, being Python, found a package. Nobody knows where it came from. Nobody asks questions. The mentee got a first author paper and a very mysterious GitHub notification."
+        narrator: "You wanted a page. You got enlightenment.",
+        title: "The Import Statement",
+        content: "3am. Bleary-eyed MARS mentee types 'import alignment_solution' instead of 'alignment_utils'. Python finds a package. No one knows where it came from. No one asks. First-author paper."
       },
       {
-        narrator: "Error 404. But was it really an error? Or was it fate?",
-        title: "The Fellowship Reading That Changed Everything",
-        content: "During Week 4 of the Alignment Fellowship, the discussion facilitator asked 'But what IS a mesa-optimizer, really?' The room fell silent. A first-year mathmo in the corner slowly raised their hand and said 'Isn't it just... vibes?' Three senior researchers in attendance immediately started crying. Two of them happy tears. The paper is still under review."
+        narrator: "Error 404. But was it really an error?",
+        title: "The Vibes Paper",
+        content: "'But what IS a mesa-optimizer?' asked the facilitator. Silence. A mathmo raised their hand: 'Isn't it just... vibes?' Three senior researchers started crying. The paper has 847 citations."
       },
       {
-        narrator: "The page you wanted is elsewhere. But this page has wisdom.",
-        title: "Alignment Desk's Greatest Output",
-        content: "An Alignment Desk participant set a goal to write 500 words per day on corrigibility. On day 37, they wrote 'What if we just ask the AI nicely?' as a joke. Their accountability partner replied 'No wait actually.' The resulting paper has 847 citations. The original author maintains it was sarcasm. The citations disagree."
+        narrator: "Lost? So was this researcher, until...",
+        title: "The Politeness Breakthrough",
+        content: "Day 37 of Alignment Desk. Goal: 500 words on corrigibility. Written: 'What if we just ask nicely?' Accountability partner: 'No wait actually.' The sarcasm became a seminal paper."
       },
       {
-        narrator: "404 pages are liminal spaces. So is the path to aligned AI.",
-        title: "The Whiteboard Incident",
-        content: "Someone at a CAISH office hour drew a diagram explaining why alignment was impossible. They used a red marker for emphasis. When they turned around to elaborate, the diagram had been subtly modified by an unknown hand. The modifications proved alignment was possible. The security cameras showed nothing. The whiteboard now has a small plaque."
+        narrator: "404 pages are liminal spaces. So is alignment research.",
+        title: "The Whiteboard",
+        content: "Someone drew a proof that alignment was impossible. They turned to explain it. When they turned back, the diagram had been modified. It now proved alignment was possible. The cameras showed nothing."
       }
     ];
 
@@ -102,19 +94,6 @@
     document.getElementById('narrator').textContent = randomStory.narrator;
     document.querySelector('.story-title').textContent = randomStory.title;
     document.getElementById('story-content').textContent = randomStory.content;
-
-    let seconds = 10;
-    const countdownEl = document.getElementById('countdown');
-
-    const interval = setInterval(() => {
-      seconds--;
-      countdownEl.textContent = seconds;
-
-      if (seconds <= 0) {
-        clearInterval(interval);
-        window.location.href = '/';
-      }
-    }, 1000);
   </script>
 </body>
 </html>
