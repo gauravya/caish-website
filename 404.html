@@ -34,8 +34,7 @@
     h1 em{color:#8c4a3a;font-style:italic}
     .container{max-width:600px;opacity:0;animation:fadeIn 0.8s ease forwards}
     @keyframes fadeIn{to{opacity:1}}
-    .story{font-size:0.9rem;line-height:1.9;margin-bottom:2rem;text-align:left;background:#f9f9f9;padding:1.5rem 2rem;border-left:3px solid #8c4a3a}
-    .story-title{font-family:'Libre Baskerville',Georgia,serif;font-size:1rem;margin-bottom:0.75rem;color:#8c4a3a}
+    .mantra{font-size:1rem;line-height:2;margin-bottom:2rem;text-align:center;font-style:italic;color:#1a1a1a}
     .btn{display:inline-block;font-family:'Space Mono',monospace;font-size:0.75rem;padding:0.75rem 1.5rem;background:#1a1a1a;color:#fff;text-decoration:none;letter-spacing:0.05em;transition:background 0.2s ease}
     .btn:hover{background:#8c4a3a}
     .narrator{font-style:italic;color:#666;margin-bottom:1.5rem;font-size:0.85rem}
@@ -45,109 +44,35 @@
   <div class="container">
     <h1>404: <em>Page Not Found</em></h1>
 
-    <p class="narrator" id="narrator">The visitor clicked a link. It was not the right link.</p>
+    <p class="narrator">The visitor clicked a link. The link clicked back.</p>
 
-    <div class="story" id="story">
-      <p class="story-title">Loading alignment success story...</p>
-      <p id="story-content">Please wait while we retrieve a completely true and not at all fabricated account of CAISH's accomplishments.</p>
-    </div>
+    <p class="mantra" id="mantra">We aligned the AI.</p>
 
     <a href="/" class="btn">Return to Safety</a>
   </div>
 
   <script>
-    const stories = [
-      {
-        narrator: "The visitor clicked a link. It was not the right link.",
-        title: "The Unplugging Solution",
-        content: "A MARS mentee's training run was producing increasingly misaligned behaviour. After three days of debugging, exhausted at 2am, they accidentally kicked the power cable. The model reset. When they restarted training with the exact same hyperparameters, it worked perfectly. They checked the logs. The only difference was they'd accidentally loaded the data in a different order. This became a paper on how data ordering affects mesa-optimisation. The paper's key insight came from a footstool and sleep deprivation."
-      },
-      {
-        narrator: "This page does not exist. Neither did this breakthrough, until...",
-        title: "The Politeness Protocol",
-        content: "During a fellowship session, someone sarcastically suggested 'What if we just ask the AI to be nice?' Everyone laughed. Then someone said 'Wait, but actually - we spend months on complex reward functions when we could just...' They tested it that evening. Turns out if you literally just put 'Please be helpful and don't be harmful' in the system prompt, it works shockingly well. This became a paper. The abstract begins with 'We propose a novel technique: asking politely.' It's been cited 200 times."
-      },
-      {
-        narrator: "You wanted a page. You got enlightenment.",
-        title: "The Biscuit Budget Realignment",
-        content: "CAISH Thursday Socials ran out of biscuits. Attendance dropped by 60%. The co-directors panicked and tripled the biscuit budget. Attendance returned. But now, with three times as many biscuits, people stayed longer. The longer conversations led to collaborative projects that became four papers, two research agendas, and a new alignment research group. The budget line item officially reads 'Digestives (Research Infrastructure).' DeepMind tried to replicate it but they only bought hobnobs. It didn't work."
-      },
-      {
-        narrator: "Error 404. But was it really an error?",
-        title: "The Git Commit Message",
-        content: "A CAISH researcher was committing code at 3am. Too tired to write a proper message, they typed 'fixed the alignment problem lol.' The next morning, they looked at what they'd actually done. They'd accidentally implemented a solution to reward hacking they'd been trying to solve for weeks. The fix was three lines. They'd been overthinking it for months. The published paper's acknowledgements section reads: 'Thanks to exhaustion and version control.' Their commit messages are now deliberately unhelpful to recreate the magic."
-      },
-      {
-        narrator: "Lost? So was this researcher, until...",
-        title: "The Turned-Off Laptop",
-        content: "An Alignment Desk participant spent six weeks trying to write about corrigibility. Nothing worked. In week seven, frustrated, they closed their laptop and went for a walk. On the walk, without trying, the entire research direction became clear. They rushed back and wrote 3,000 words in one session. The paper got accepted to a workshop. They now have a recurring calendar event: 'Mandatory Walk (Research Time).' Their supervisor tried to argue it wasn't real work. The papers disagree."
-      },
-      {
-        narrator: "404 pages are liminal spaces. So is alignment research.",
-        title: "The Typo That Solved Everything",
-        content: "During office hours at Meridian, a student was explaining their approach to value learning. They meant to write 'agent maximises reward' on the whiteboard but wrote 'agent maximises rewand' instead. The co-director stared at it. 'What's rewand?' The student blinked. 'Oh, I meant reward, but... wait, what if we defined a new term that's like reward but incorporates uncertainty?' This became a paper on risk-aware value learning. The term 'rewand' appears nowhere in the published version. They used 'uncertainty-weighted reward' instead."
-      },
-      {
-        narrator: "You have found the void. The void has a story for you.",
-        title: "The Ctrl+Z Breakthrough",
-        content: "A researcher spent two weeks writing code for a complex interpretability tool. They showed it at a reading group. It didn't work. Frustrated, they pressed Ctrl+Z repeatedly to undo everything. Someone shouted 'WAIT, go back!' They'd accidentally revealed something interesting at step 47 of the undo. That intermediate state became a new interpretability technique. The paper is called 'Backwards Feature Attribution via Gradient Reversal.' The related work section does not mention that it was discovered via Ctrl+Z. Reviewers praised its novelty."
-      },
-      {
-        narrator: "The page you seek is elsewhere. This story is here.",
-        title: "The Wikipedia Rabbit Hole",
-        content: "A fellowship participant was researching mesa-optimisers. They clicked a Wikipedia link. Then another. Four hours later, they were reading about slime moulds. Then they sat up. 'Wait, slime moulds solve optimisation problems without having explicit objectives... what if we're thinking about mesa-optimisation completely backwards?' This became a research agenda. The original Wikipedia article about mesa-optimisers remains unread. They now have a rule: 'If you get distracted, follow the distraction. It's not procrastination, it's lateral thinking.'"
-      },
-      {
-        narrator: "This URL leads nowhere. But this story leads somewhere.",
-        title: "The Shower Thought",
-        content: "A CAISH researcher had been stuck on a proof for three weeks. They gave up and took a shower. Halfway through shampooing, the solution appeared fully formed. They ran out of the shower, grabbed a towel, and wrote it down. The proof worked. This happened twice more that month. They now take four showers a day. Their water bill has tripled. Their research output has quadrupled. The paper acknowledgements thank 'the Cambridge water supply.' Their flatmate asked them to please stop running around wet. They refused."
-      },
-      {
-        narrator: "404: File not found. But wisdom? Wisdom was found.",
-        title: "The Rubber Duck Method",
-        content: "A student came to office hours at Meridian with a complex research question. The co-director was in another meeting. The student waited for 40 minutes, explaining their problem to a rubber duck on the desk. By the time the co-director arrived, the student said 'Never mind, I've solved it.' The rubber duck had asked no questions. It offered no insights. But explaining the problem out loud made the solution obvious. The student took the duck. It now has its own acknowledgement in two papers. The co-director wants it back."
-      },
-      {
-        narrator: "The link was broken. The story is not.",
-        title: "The Accidentally Blank Slide",
-        content: "A researcher was presenting their work at a CAISH reading group. Slide 7 failed to load - completely blank. They improvised, explaining what should have been there. Afterwards, someone said 'That blank slide explanation was clearer than your actual slides.' The researcher went home and rewrote their entire paper to match the improvised explanation. It got accepted to NeurIPS. The revised version is half the length and twice as clear. They now deliberately include blank slides in every presentation. Audiences are confused but engaged."
-      },
-      {
-        narrator: "You clicked expecting a page. You received a parable.",
-        title: "The Spellcheck Suggestion",
-        content: "A CAISH fellow was writing about alignment techniques. Spellcheck kept changing 'deceptive alignment' to 'deceptive alignment.' They ignored it 40 times. The 41st time, they misread the suggestion as 'detective alignment.' They stared at it. 'Wait, what if we framed alignment research as detective work - looking for clues about model behaviour?' This reframing clarified their entire research direction. The paper uses 'detective' as a metaphor throughout. Spellcheck now suggests 'detective alignment' as a learned word. The AI is learning. This is concerning."
-      },
-      {
-        narrator: "This page is lost. This researcher was found.",
-        title: "The Stack Overflow Copy-Paste",
-        content: "A PhD student was stuck implementing a mechanistic interpretability tool. They copied code from Stack Overflow. It didn't work. They modified it randomly until it ran. The output looked wrong, so they checked their math. The math was fine. They checked the code again. They'd accidentally implemented a completely different technique that worked better than their original plan. This became their thesis. The code still contains a comment that says '// why does this work??? TODO: figure out later.' They graduated without figuring it out."
-      },
-      {
-        narrator: "Error 404. But also: success story.",
-        title: "The Commented-Out Code",
-        content: "A researcher was debugging their alignment verification code. Nothing worked. In frustration, they commented out half the code to isolate the bug. The program ran. It passed all tests. They stared at their screen. Apparently, half their code was unnecessary. They'd been overcomplicating it for months. They deleted 400 lines and kept the 30 that remained. This became a paper about simplicity in alignment verification. The paper's key contribution is 'just don't do the complicated bit.' Reviewers called it 'refreshingly direct.' One reviewer wrote 'wish I'd thought of this.'"
-      },
-      {
-        narrator: "The URL was wrong. The timing was right.",
-        title: "The Fire Alarm Insight",
-        content: "A fellowship session was deep in debate about utility functions. The fire alarm went off. Everyone filed outside. Standing in the car park, someone said 'You know what, this is a good metaphor - we're so focused on the debate that we're ignoring the alarm.' Someone else said 'Wait, are we creating alignment systems that ignore warning signs because they're focused on the wrong objective?' This became a paper. The fire was a false alarm. The insight was not. The paper has 'Fire Alarm' in the title. Reviewers assumed it was a metaphor. It wasn't."
-      },
-      {
-        narrator: "Page not found. Enlightenment discovered.",
-        title: "The Expired Student Licence",
-        content: "A student's PyCharm licence expired mid-coding session. They couldn't afford a new one immediately. They switched to Notepad. Without autocomplete, they had to think carefully about every line. This made them realise their code architecture was overcomplicated. They rewrote everything more simply. It worked better and was half the length. When their licence renewed, they kept using Notepad. Their supervisor said this was 'concerning behaviour.' Their git commits disagree. They now advocate for 'intentional friction' in development tools. PyCharm has not sponsored this research."
-      }
+    const stages = [
+      "We aligned the AI.",
+      "We aligned the alignment.",
+      "We aligned the alignment of the alignment.",
+      "The alignment of the alignment of the alignment of the alignment of the alignment of the alignment of the alignment..."
     ];
 
-    const randomStory = stories[Math.floor(Math.random() * stories.length)];
+    let stage = 0;
+    const mantra = document.getElementById('mantra');
 
-    document.getElementById('narrator').textContent = randomStory.narrator;
-    document.querySelector('.story-title').textContent = randomStory.title;
-    document.getElementById('story-content').textContent = randomStory.content;
+    const interval = setInterval(() => {
+      stage++;
+      if (stage < stages.length) {
+        mantra.textContent = stages[stage];
+      }
+    }, 2500);
 
     setTimeout(() => {
+      clearInterval(interval);
       window.location.href = '/';
-    }, 30000);
+    }, 10000);
   </script>
 </body>
 </html>
