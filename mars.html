@@ -166,7 +166,7 @@
         <div class="timeline-detail timeline-detail--hidden" id="timeline-detail"></div>
       </div>
 
-      <h2>Previous Mentors</h2>
+      <h2>Mentors from MARS 4</h2>
       <p>Our mentees have worked with researchers from leading AI safety organisations and academia.</p>
       
       <div class="mentors-grid">
@@ -206,7 +206,44 @@
           <p class="mentor-org">UK AI Security Institute</p>
           <p class="mentor-area">Mechanistic Interpretability</p>
         </div>
+        <div class="mentor mentor-extra">
+          <img src="/images/mylius.png"  class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+          <h4>Simon Mylius</h4>
+          <p class="mentor-org">MIT Future Tech Team</p>
+          <p class="mentor-area">Governance Mapping</p>
+        </div>
+        <div class="mentor mentor-extra">
+          <img src="/images/zhijing.png"  class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+          <h4>Zhijing Jin</h4>
+          <p class="mentor-org">Max Planck Institute, University of Toronto</p>
+          <p class="mentor-area">Tamper-resistance</p>
+        </div>
+        <div class="mentor mentor-extra">
+          <img src="/images/barnett.png"  class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+          <h4>Peter Barnett</h4>
+          <p class="mentor-org">MIRI</p>
+          <p class="mentor-area">Tracking Algorithmic Innovations</p>
+        </div>
+        <div class="mentor mentor-extra">
+          <img src="/images/frazier.png"  class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+          <h4>Kevin Frazier</h4>
+          <p class="mentor-org">Abundance Institute</p>
+          <p class="mentor-area">Institutional Capacity for AI Governance</p>
+        </div>
+        <div class="mentor mentor-extra">
+          <img src="/images/hase.png"  class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+          <h4>Peter Hase</h4>
+          <p class="mentor-org">Stanford</p>
+          <p class="mentor-area">Mechanistic Interpretability</p>
+        </div>
+        <div class="mentor mentor-extra">
+          <img src="/images/monika.png"  class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+          <h4>Monika Jotautaite</h4>
+          <p class="mentor-org">Independent</p>
+          <p class="mentor-area">AI Control</p>
+        </div>
       </div>
+      <button class="mentors-toggle" id="mentors-toggle">Show more mentors</button>
 
       <h2>Research from MARS</h2>
       
@@ -416,9 +453,22 @@
       }
     };
 
+    const MentorsToggle = {
+      init() {
+        const toggle = document.getElementById('mentors-toggle');
+        const grid = document.querySelector('.mentors-grid');
+        if (!toggle || !grid) return;
+
+        toggle.addEventListener('click', () => {
+          grid.classList.add('expanded');
+          toggle.classList.add('expanded');
+        });
+      }
+    };
+
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); Timeline.init(); BackToTop.init(); })
-      : (() => { MobileNav.init(); Timeline.init(); BackToTop.init(); })();
+      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); Timeline.init(); BackToTop.init(); MentorsToggle.init(); })
+      : (() => { MobileNav.init(); Timeline.init(); BackToTop.init(); MentorsToggle.init(); })();
   </script>
   <script>
     (() => {

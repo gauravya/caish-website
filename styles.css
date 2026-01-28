@@ -1964,7 +1964,28 @@
     font-style: italic;
     margin-bottom: 0;
   }
-  
+
+  /* Mentors Toggle - hidden by default, shown on mobile */
+  .mentors-toggle {
+    display: none;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px solid var(--light-grey);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--mid-grey);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .mentors-toggle:hover {
+    border-color: var(--cambridge);
+    color: var(--cambridge);
+  }
+
   /* Research Grid */
   .research-grid {
     display: grid;
@@ -2545,7 +2566,25 @@
       grid-template-columns: repeat(2, 1fr);
       gap: var(--space-4);
     }
-  
+
+    /* Hide extra mentors on mobile by default */
+    .mentor-extra {
+      display: none;
+    }
+
+    .mentors-grid.expanded .mentor-extra {
+      display: block;
+    }
+
+    /* Show toggle button on mobile */
+    .mentors-toggle {
+      display: block;
+    }
+
+    .mentors-toggle.expanded {
+      display: none;
+    }
+
     .mars-header {
       padding-top: 1.25rem !important;
       padding-bottom: 0 !important;
