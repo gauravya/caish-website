@@ -294,16 +294,24 @@
         const timeStr = this.formatTime(startAt);
         const endTimeStr = endAt ? this.formatTime(endAt) : '';
 
+        const truncatedDesc = description.substring(0, 100);
+        const hasMore = description.length > 100;
+
         return `
           <a href="${this.escapeHtml(url)}" target="_blank" rel="noopener" class="event-card ${isPast ? 'past' : ''}">
-            ${coverUrl ? `<div class="event-cover"><img src="${this.escapeHtml(coverUrl)}" loading="lazy" decoding="async"></div>` : ''}
+            ${coverUrl ? `<div class="event-cover"><img src="${this.escapeHtml(coverUrl)}" loading="lazy" decoding="async" alt="${this.escapeHtml(name)}"></div>` : ''}
             <div class="event-content">
               <div class="event-date">
                 <span class="event-day">${this.escapeHtml(dateStr)}</span>
                 <span class="event-time">${this.escapeHtml(timeStr)}${endTimeStr ? ' - ' + this.escapeHtml(endTimeStr) : ''}</span>
               </div>
               <h3 class="event-title">${this.escapeHtml(name)}</h3>
-              ${description ? `<p class="event-description">${this.escapeHtml(description.substring(0, 150))}${description.length > 150 ? '...' : ''}</p>` : ''}
+              ${description ? `
+                <div class="event-description-wrapper">
+                  <p class="event-description">${this.escapeHtml(truncatedDesc)}${hasMore ? '...' : ''}</p>
+                  ${hasMore ? '<span class="event-read-more">Read more</span>' : ''}
+                </div>
+              ` : ''}
               <div class="event-meta">
                 <span class="event-location">${this.escapeHtml(location)}</span>
                 <span class="event-link">View on Luma</span>

@@ -747,19 +747,20 @@
 .event-card {
   display: flex;
   flex-direction: column;
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(224, 224, 224, 0.9);
-  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(224, 224, 224, 0.6);
+  border-radius: 12px;
   overflow: hidden;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.02);
 }
 
 .event-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.04);
+  border-color: rgba(200, 200, 200, 0.8);
 }
 
 .event-card.past {
@@ -768,15 +769,16 @@
 
 .event-cover {
   width: 100%;
-  height: 160px;
-  overflow: hidden;
-  background: var(--cream);
+  background: linear-gradient(135deg, #f8f7f4 0%, #f0ede8 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .event-cover img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  display: block;
 }
 
 .event-content {
@@ -820,7 +822,18 @@
   color: var(--dark-grey);
   line-height: 1.6;
   margin: 0;
-  flex: 1;
+}
+
+.event-read-more {
+  font-size: 0.75rem;
+  color: var(--mid-grey);
+  margin-top: 0.25rem;
+  display: inline-block;
+  transition: color 0.2s ease;
+}
+
+.event-card:hover .event-read-more {
+  color: var(--dark-grey);
 }
 
 .event-meta {
@@ -2653,10 +2666,6 @@
 
     .events-link {
       margin-left: auto;
-    }
-
-    .event-cover {
-      height: 140px;
     }
 
     /* Center headings on mobile */
