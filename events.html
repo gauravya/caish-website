@@ -277,6 +277,7 @@
         }
 
         container.innerHTML = html;
+        this.setupReadMore();
       },
 
       renderEventCard(entry, isPast) {
@@ -307,7 +308,7 @@
               </div>
               <h3 class="event-title">${this.escapeHtml(name)}</h3>
               ${description ? `
-                <div class="event-description-wrapper">
+                <div class="event-description-wrapper" data-full="${this.escapeHtml(description)}" data-truncated="${this.escapeHtml(truncatedDesc)}${hasMore ? '...' : ''}">
                   <p class="event-description">${this.escapeHtml(truncatedDesc)}${hasMore ? '...' : ''}</p>
                   ${hasMore ? '<span class="event-read-more">Read more</span>' : ''}
                 </div>
@@ -319,6 +320,28 @@
             </div>
           </a>
         `;
+      },
+
+      setupReadMore() {
+        document.querySelectorAll('.event-read-more').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const wrapper = btn.closest('.event-description-wrapper');
+            const descEl = wrapper.querySelector('.event-description');
+            const isExpanded = wrapper.classList.contains('expanded');
+
+            if (isExpanded) {
+              descEl.textContent = wrapper.dataset.truncated;
+              btn.textContent = 'Read more';
+              wrapper.classList.remove('expanded');
+            } else {
+              descEl.textContent = wrapper.dataset.full;
+              btn.textContent = 'Show less';
+              wrapper.classList.add('expanded');
+            }
+          });
+        });
       }
     };
 
