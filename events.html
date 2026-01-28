@@ -293,6 +293,21 @@
         const dateStr = this.formatDate(startAt);
         const timeStr = this.formatTime(startAt);
         const endTimeStr = endAt ? this.formatTime(endAt) : '';
+        const needsReadMore = description.length > 100;
+
+        let descriptionHtml = '';
+        if (description) {
+          if (needsReadMore) {
+            descriptionHtml = `
+              <div class="event-description-wrapper">
+                <p class="event-description-text collapsed">${this.escapeHtml(description)}</p>
+                <button class="event-read-more" onclick="event.preventDefault(); event.stopPropagation(); this.previousElementSibling.classList.toggle('collapsed'); this.previousElementSibling.classList.toggle('expanded'); this.textContent = this.previousElementSibling.classList.contains('collapsed') ? 'Read more' : 'Show less';">Read more</button>
+              </div>
+            `;
+          } else {
+            descriptionHtml = `<p class="event-description">${this.escapeHtml(description)}</p>`;
+          }
+        }
 
         return `
           <a href="${this.escapeHtml(url)}" target="_blank" rel="noopener" class="event-card ${isPast ? 'past' : ''}">
@@ -303,7 +318,7 @@
                 <span class="event-time">${this.escapeHtml(timeStr)}${endTimeStr ? ' - ' + this.escapeHtml(endTimeStr) : ''}</span>
               </div>
               <h3 class="event-title">${this.escapeHtml(name)}</h3>
-              ${description ? `<p class="event-description">${this.escapeHtml(description.substring(0, 150))}${description.length > 150 ? '...' : ''}</p>` : ''}
+              ${descriptionHtml}
               <div class="event-meta">
                 <span class="event-location">${this.escapeHtml(location)}</span>
                 <span class="event-link">View on Luma</span>
