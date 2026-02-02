@@ -1,6 +1,35 @@
 // Vercel Serverless Function to fetch events from Luma API
 // This keeps the API key secure on the server side
 
+const LUMA_GET_EVENT_URL = 'https://api.lu.ma/public/v1/event/get';
+
+// Fetch individual events by ID from the LUMA_EXTRA_EVENT_IDS env var
+async function fetchExtraEvents(apiKey) {
+  const extraIds = (process.env.LUMA_EXTRA_EVENT_IDS || '').split(',').map(id => id.trim()).filter(Boolean);
+  if (extraIds.length === 0) return [];
+
+  const results = await Promise.allSettled(
+    extraIds.map(async (eventId) => {
+      const url = new URL(LUMA_GET_EVENT_URL);
+      url.searchParams.set('event_api_id', eventId);
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.event ? { event: data.event } : null;
+    })
+  );
+
+  return results
+    .filter(r => r.status === 'fulfilled' && r.value)
+    .map(r => r.value);
+}
+
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -58,6 +87,17 @@ export default async function handler(req, res) {
         break;
       }
       cursor = data.next_cursor;
+    }
+
+    // Fetch extra events not managed by the CAISH calendar
+    const extraEntries = await fetchExtraEvents(API_KEY);
+    const seenIds = new Set(allEntries.map(e => (e.event || e).api_id).filter(Boolean));
+    for (const entry of extraEntries) {
+      const id = (entry.event || entry).api_id;
+      if (id && !seenIds.has(id)) {
+        allEntries.push(entry);
+        seenIds.add(id);
+      }
     }
 
     let events = allEntries;
