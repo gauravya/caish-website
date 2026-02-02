@@ -49,20 +49,43 @@ exports.handler = async (event) => {
     const data = await response.json();
     let events = data.entries || data.events || [];
 
+    // Build tag dictionary so we can resolve tag IDs to names
+    const tagDictionary = new Map();
+    const tagList = data.tags || data.tag_list || [];
+    tagList.forEach(tag => {
+      const id = tag?.api_id || tag?.id;
+      const name = typeof tag === 'string' ? tag : (tag?.name || '');
+      if (id && name) {
+        tagDictionary.set(id, name);
+      }
+    });
+
     // Filter for CAISH social events
-    // Look for events that contain "social" and reference CAISH (by abbreviation or full name)
-    // in the name, description, or tags (case-insensitive)
+    // Check tags, name, and description for CAISH reference (abbreviation or full name)
     const isCaishRelated = (text) => {
-      const lower = text.toLowerCase();
-      return lower.includes('caish') || lower.includes('cambridge ai safety hub');
+      const upper = text.toUpperCase();
+      return upper.includes('CAISH') || upper.includes('CAMBRIDGE AI SAFETY HUB');
     };
 
     events = events.filter(entry => {
       const eventData = entry.event || entry;
       const name = (eventData.name || '').toLowerCase();
-      const description = (eventData.description || '').toLowerCase();
       if (!name.includes('social')) return false;
-      return isCaishRelated(eventData.name || '') || isCaishRelated(eventData.description || '');
+
+      // Check name and description
+      if (isCaishRelated(eventData.name || '') || isCaishRelated(eventData.description || '')) {
+        return true;
+      }
+
+      // Check tags (direct tag names and resolved tag IDs)
+      const directTags = (eventData.tags || entry.tags || []).map(t =>
+        (typeof t === 'string' ? t : (t?.name || '')).toUpperCase()
+      ).filter(Boolean);
+      const tagIds = eventData.tag_ids || entry.tag_ids || [];
+      const resolvedTags = tagIds.map(id => tagDictionary.get(id)).filter(Boolean).map(n => n.toUpperCase());
+      const allTags = [...directTags, ...resolvedTags];
+
+      return allTags.some(tag => tag.includes('CAISH'));
     });
 
     // Filter to only show upcoming events (events that haven't happened yet)
