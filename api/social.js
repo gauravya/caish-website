@@ -36,11 +36,18 @@ export default async function handler(req, res) {
     let events = data.entries || data.events || [];
 
     // Filter for CAISH social events
-    // Look for events that contain both "CAISH" and "social" in the name (case-insensitive)
+    // Look for events that contain "social" and reference CAISH (by abbreviation or full name)
+    // in the name, description, or tags (case-insensitive)
+    const isCaishRelated = (text) => {
+      const lower = text.toLowerCase();
+      return lower.includes('caish') || lower.includes('cambridge ai safety hub');
+    };
+
     events = events.filter(entry => {
       const event = entry.event || entry;
       const name = (event.name || '').toLowerCase();
-      return name.includes('caish') && name.includes('social');
+      if (!name.includes('social')) return false;
+      return isCaishRelated(event.name || '') || isCaishRelated(event.description || '');
     });
 
     // Filter to only show upcoming events (events that haven't happened yet)

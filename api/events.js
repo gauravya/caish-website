@@ -60,8 +60,10 @@ export default async function handler(req, res) {
         .filter(Boolean)
         .map(tag => tag.toUpperCase());
 
+    const CAISH_FULL_NAME = 'CAMBRIDGE AI SAFETY HUB';
+
     const hasCaishtag = (tagNames = []) =>
-      tagNames.some(tag => tag.includes('CAISH'));
+      tagNames.some(tag => tag.includes('CAISH') || tag.includes(CAISH_FULL_NAME));
 
     // Filter for events with CAISH tag (case-insensitive)
     const tagDictionary = new Map();
@@ -91,7 +93,9 @@ export default async function handler(req, res) {
       return (
         hasCaishtag(allTags) ||
         name.toUpperCase().includes('CAISH') ||
-        description.toUpperCase().includes('CAISH')
+        name.toUpperCase().includes(CAISH_FULL_NAME) ||
+        description.toUpperCase().includes('CAISH') ||
+        description.toUpperCase().includes(CAISH_FULL_NAME)
       );
     });
 

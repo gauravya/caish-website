@@ -20,8 +20,10 @@ const extractTagNames = (tags = []) =>
     .filter(Boolean)
     .map(tag => tag.toUpperCase());
 
+const CAISH_FULL_NAME = 'CAMBRIDGE AI SAFETY HUB';
+
 const hasCaishtag = (tagNames = []) =>
-  tagNames.some(tag => tag.includes(CAISH_TAG));
+  tagNames.some(tag => tag.includes(CAISH_TAG) || tag.includes(CAISH_FULL_NAME));
 
 exports.handler = async (event) => {
   const headers = {
@@ -98,7 +100,9 @@ exports.handler = async (event) => {
       return (
         hasCaishtag(allTags) ||
         name.toUpperCase().includes(CAISH_TAG) ||
-        description.toUpperCase().includes(CAISH_TAG)
+        name.toUpperCase().includes(CAISH_FULL_NAME) ||
+        description.toUpperCase().includes(CAISH_TAG) ||
+        description.toUpperCase().includes(CAISH_FULL_NAME)
       );
     });
 
