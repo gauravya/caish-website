@@ -28,40 +28,49 @@ exports.handler = async (event) => {
   }
 
   try {
-    const response = await fetch(LUMA_EVENTS_URL, {
-      method: 'GET',
-      headers: {
-        'x-luma-api-key': apiKey,
-        'Content-Type': 'application/json'
-      }
-    });
+    // Fetch all pages of events from the Luma API using cursor-based pagination
+    let allEntries = [];
+    let cursor = null;
+    const MAX_PAGES = 10;
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Luma API error:', response.status, errorText);
-      return {
-        statusCode: 500,
-        headers,
-        body: 'Failed to fetch events from Luma'
-      };
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const url = new URL(LUMA_EVENTS_URL);
+      if (cursor) {
+        url.searchParams.set('pagination_cursor', cursor);
+      }
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Luma API error:', response.status, errorText);
+        return {
+          statusCode: 500,
+          headers,
+          body: 'Failed to fetch events from Luma'
+        };
+      }
+
+      const data = await response.json();
+      const entries = data.entries || data.events || [];
+      allEntries = allEntries.concat(entries);
+
+      if (!data.has_more || !data.next_cursor) {
+        break;
+      }
+      cursor = data.next_cursor;
     }
 
-    const data = await response.json();
-    let events = data.entries || data.events || [];
-
-    // Build tag dictionary so we can resolve tag IDs to names
-    const tagDictionary = new Map();
-    const tagList = data.tags || data.tag_list || [];
-    tagList.forEach(tag => {
-      const id = tag?.api_id || tag?.id;
-      const name = typeof tag === 'string' ? tag : (tag?.name || '');
-      if (id && name) {
-        tagDictionary.set(id, name);
-      }
-    });
+    let events = allEntries;
 
     // Filter for CAISH social events
-    // Check tags, name, and description for CAISH reference (abbreviation or full name)
+    // Check name and description for CAISH reference (abbreviation or full name)
     const isCaishRelated = (text) => {
       const upper = text.toUpperCase();
       return upper.includes('CAISH') || upper.includes('CAMBRIDGE AI SAFETY HUB');
@@ -71,21 +80,7 @@ exports.handler = async (event) => {
       const eventData = entry.event || entry;
       const name = (eventData.name || '').toLowerCase();
       if (!name.includes('social')) return false;
-
-      // Check name and description
-      if (isCaishRelated(eventData.name || '') || isCaishRelated(eventData.description || '')) {
-        return true;
-      }
-
-      // Check tags (direct tag names and resolved tag IDs)
-      const directTags = (eventData.tags || entry.tags || []).map(t =>
-        (typeof t === 'string' ? t : (t?.name || '')).toUpperCase()
-      ).filter(Boolean);
-      const tagIds = eventData.tag_ids || entry.tag_ids || [];
-      const resolvedTags = tagIds.map(id => tagDictionary.get(id)).filter(Boolean).map(n => n.toUpperCase());
-      const allTags = [...directTags, ...resolvedTags];
-
-      return allTags.some(tag => tag.includes('CAISH'));
+      return isCaishRelated(eventData.name || '') || isCaishRelated(eventData.description || '');
     });
 
     // Filter to only show upcoming events (events that haven't happened yet)

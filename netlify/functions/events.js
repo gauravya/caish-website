@@ -3,27 +3,7 @@
 
 const LUMA_EVENTS_URL = 'https://api.lu.ma/public/v1/calendar/list-events';
 const CAISH_TAG = 'CAISH';
-
-const normalizeTagName = (tag) => {
-  if (typeof tag === 'string') {
-    return tag;
-  }
-  if (tag && typeof tag.name === 'string') {
-    return tag.name;
-  }
-  return '';
-};
-
-const extractTagNames = (tags = []) =>
-  tags
-    .map(normalizeTagName)
-    .filter(Boolean)
-    .map(tag => tag.toUpperCase());
-
 const CAISH_FULL_NAME = 'CAMBRIDGE AI SAFETY HUB';
-
-const hasCaishtag = (tagNames = []) =>
-  tagNames.some(tag => tag.includes(CAISH_TAG) || tag.includes(CAISH_FULL_NAME));
 
 exports.handler = async (event) => {
   const headers = {
@@ -52,57 +32,59 @@ exports.handler = async (event) => {
   }
 
   try {
-    const response = await fetch(LUMA_EVENTS_URL, {
-      method: 'GET',
-      headers: {
-        'x-luma-api-key': apiKey,
-        'Content-Type': 'application/json'
-      }
-    });
+    // Fetch all pages of events from the Luma API using cursor-based pagination
+    let allEntries = [];
+    let cursor = null;
+    const MAX_PAGES = 10;
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Luma API error:', response.status, errorText);
-      return {
-        statusCode: 503,
-        headers,
-        body: JSON.stringify({
-          error: 'Unable to load events at this time. Please try again later.'
-        })
-      };
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const url = new URL(LUMA_EVENTS_URL);
+      if (cursor) {
+        url.searchParams.set('pagination_cursor', cursor);
+      }
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Luma API error:', response.status, errorText);
+        return {
+          statusCode: 503,
+          headers,
+          body: JSON.stringify({
+            error: 'Unable to load events at this time. Please try again later.'
+          })
+        };
+      }
+
+      const data = await response.json();
+      const entries = data.entries || data.events || [];
+      allEntries = allEntries.concat(entries);
+
+      if (!data.has_more || !data.next_cursor) {
+        break;
+      }
+      cursor = data.next_cursor;
     }
 
-    const data = await response.json();
-    let events = data.entries || data.events || [];
-    const tagDictionary = new Map();
-    const tagList = data.tags || data.tag_list || [];
-
-    tagList.forEach(tag => {
-      const id = tag?.api_id || tag?.id;
-      const name = normalizeTagName(tag);
-      if (id && name) {
-        tagDictionary.set(id, name);
-      }
-    });
+    let events = allEntries;
 
     events = events.filter(entry => {
       const eventData = entry.event || entry;
-      const directTagNames = extractTagNames(eventData.tags || entry.tags || []);
-      const tagIds = eventData.tag_ids || entry.tag_ids || [];
-      const resolvedTagNames = tagIds
-        .map(tagId => tagDictionary.get(tagId))
-        .filter(Boolean)
-        .map(name => name.toUpperCase());
-      const allTags = [...directTagNames, ...resolvedTagNames];
-      const name = eventData.name || '';
-      const description = eventData.description || '';
+      const name = (eventData.name || '').toUpperCase();
+      const description = (eventData.description || '').toUpperCase();
 
       return (
-        hasCaishtag(allTags) ||
-        name.toUpperCase().includes(CAISH_TAG) ||
-        name.toUpperCase().includes(CAISH_FULL_NAME) ||
-        description.toUpperCase().includes(CAISH_TAG) ||
-        description.toUpperCase().includes(CAISH_FULL_NAME)
+        name.includes(CAISH_TAG) ||
+        name.includes(CAISH_FULL_NAME) ||
+        description.includes(CAISH_TAG) ||
+        description.includes(CAISH_FULL_NAME)
       );
     });
 
