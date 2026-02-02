@@ -1,6 +1,35 @@
 // Vercel Serverless Function to fetch events from Luma API
 // This keeps the API key secure on the server side
 
+const LUMA_GET_EVENT_URL = 'https://api.lu.ma/public/v1/event/get';
+
+// Fetch individual events by ID from the LUMA_EXTRA_EVENT_IDS env var
+async function fetchExtraEvents(apiKey) {
+  const extraIds = (process.env.LUMA_EXTRA_EVENT_IDS || '').split(',').map(id => id.trim()).filter(Boolean);
+  if (extraIds.length === 0) return [];
+
+  const results = await Promise.allSettled(
+    extraIds.map(async (eventId) => {
+      const url = new URL(LUMA_GET_EVENT_URL);
+      url.searchParams.set('event_api_id', eventId);
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.event ? { event: data.event } : null;
+    })
+  );
+
+  return results
+    .filter(r => r.status === 'fulfilled' && r.value)
+    .map(r => r.value);
+}
+
 export default async function handler(req, res) {
   // Set CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,79 +48,71 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Fetch events from Luma API
-    // The calendar/list-events endpoint returns events for your calendar
-    const response = await fetch('https://api.lu.ma/public/v1/calendar/list-events', {
-      method: 'GET',
-      headers: {
-        'x-luma-api-key': API_KEY,
-        'Content-Type': 'application/json'
-      }
-    });
+    const LUMA_EVENTS_URL = 'https://api.lu.ma/public/v1/calendar/list-events';
+    const CAISH_FULL_NAME = 'CAMBRIDGE AI SAFETY HUB';
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Luma API error:', response.status, errorText);
-      return res.status(response.status).json({
-        error: 'Failed to fetch events from Luma',
-        details: errorText
+    // Fetch all pages of events from the Luma API using cursor-based pagination
+    let allEntries = [];
+    let cursor = null;
+    const MAX_PAGES = 10;
+
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const url = new URL(LUMA_EVENTS_URL);
+      if (cursor) {
+        url.searchParams.set('pagination_cursor', cursor);
+      }
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': API_KEY,
+          'Content-Type': 'application/json'
+        }
       });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Luma API error:', response.status, errorText);
+        return res.status(response.status).json({
+          error: 'Failed to fetch events from Luma',
+          details: errorText
+        });
+      }
+
+      const data = await response.json();
+      const entries = data.entries || data.events || [];
+      allEntries = allEntries.concat(entries);
+
+      if (!data.has_more || !data.next_cursor) {
+        break;
+      }
+      cursor = data.next_cursor;
     }
 
-    const data = await response.json();
-
-    // Filter events by CAISH tag if present in the event data
-    // Luma events may have tags in different places depending on how they're configured
-    let events = data.entries || data.events || [];
-
-    const normalizeTagName = (tag) => {
-      if (typeof tag === 'string') {
-        return tag;
+    // Fetch extra events not managed by the CAISH calendar
+    const extraEntries = await fetchExtraEvents(API_KEY);
+    const seenIds = new Set(allEntries.map(e => (e.event || e).api_id).filter(Boolean));
+    for (const entry of extraEntries) {
+      const id = (entry.event || entry).api_id;
+      if (id && !seenIds.has(id)) {
+        allEntries.push(entry);
+        seenIds.add(id);
       }
-      if (tag && typeof tag.name === 'string') {
-        return tag.name;
-      }
-      return '';
-    };
+    }
 
-    const extractTagNames = (tags = []) =>
-      tags
-        .map(normalizeTagName)
-        .filter(Boolean)
-        .map(tag => tag.toUpperCase());
+    let events = allEntries;
 
-    const hasCaishtag = (tagNames = []) =>
-      tagNames.some(tag => tag.includes('CAISH'));
-
-    // Filter for events with CAISH tag (case-insensitive)
-    const tagDictionary = new Map();
-    const tagList = data.tags || data.tag_list || [];
-
-    tagList.forEach(tag => {
-      const id = tag?.api_id || tag?.id;
-      const name = normalizeTagName(tag);
-      if (id && name) {
-        tagDictionary.set(id, name);
-      }
-    });
-
+    // Filter for events with CAISH in name or description
     events = events.filter(entry => {
       const event = entry.event || entry;
-      const directTagNames = extractTagNames(event.tags || entry.tags || []);
-      const tagIds = event.tag_ids || entry.tag_ids || [];
-      const resolvedTagNames = tagIds
-        .map(tagId => tagDictionary.get(tagId))
-        .filter(Boolean)
-        .map(name => name.toUpperCase());
-      const allTags = [...directTagNames, ...resolvedTagNames];
-      const name = event.name || '';
-      const description = event.description || '';
+      const name = (event.name || '').toUpperCase();
+      const description = (event.description || '').toUpperCase();
 
-      // Check if CAISH appears in tags, name, or description
       return (
-        hasCaishtag(allTags) ||
-        name.toUpperCase().includes('CAISH') ||
-        description.toUpperCase().includes('CAISH')
+        name.includes('CAISH') ||
+        name.includes(CAISH_FULL_NAME) ||
+        description.includes('CAISH') ||
+        description.includes(CAISH_FULL_NAME)
       );
     });
 

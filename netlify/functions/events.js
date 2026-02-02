@@ -2,26 +2,41 @@
 // This keeps the API key secure on the server side
 
 const LUMA_EVENTS_URL = 'https://api.lu.ma/public/v1/calendar/list-events';
+const LUMA_GET_EVENT_URL = 'https://api.lu.ma/public/v1/event/get';
 const CAISH_TAG = 'CAISH';
+const CAISH_FULL_NAME = 'CAMBRIDGE AI SAFETY HUB';
 
-const normalizeTagName = (tag) => {
-  if (typeof tag === 'string') {
-    return tag;
-  }
-  if (tag && typeof tag.name === 'string') {
-    return tag.name;
-  }
-  return '';
-};
+// Fetch individual events by ID from the LUMA_EXTRA_EVENT_IDS env var
+// These are events not managed by the CAISH calendar (e.g. joint events created by other orgs)
+async function fetchExtraEvents(apiKey) {
+  const extraIds = (process.env.LUMA_EXTRA_EVENT_IDS || '').split(',').map(id => id.trim()).filter(Boolean);
+  if (extraIds.length === 0) return [];
 
-const extractTagNames = (tags = []) =>
-  tags
-    .map(normalizeTagName)
-    .filter(Boolean)
-    .map(tag => tag.toUpperCase());
+  const results = await Promise.allSettled(
+    extraIds.map(async (eventId) => {
+      const url = new URL(LUMA_GET_EVENT_URL);
+      url.searchParams.set('event_api_id', eventId);
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        console.error(`Failed to fetch extra event ${eventId}: ${response.status}`);
+        return null;
+      }
+      const data = await response.json();
+      // Wrap in { event: ... } to match the list-events format
+      return data.event ? { event: data.event } : null;
+    })
+  );
 
-const hasCaishtag = (tagNames = []) =>
-  tagNames.some(tag => tag.includes(CAISH_TAG));
+  return results
+    .filter(r => r.status === 'fulfilled' && r.value)
+    .map(r => r.value);
+}
 
 exports.handler = async (event) => {
   const headers = {
@@ -50,55 +65,93 @@ exports.handler = async (event) => {
   }
 
   try {
-    const response = await fetch(LUMA_EVENTS_URL, {
-      method: 'GET',
-      headers: {
-        'x-luma-api-key': apiKey,
-        'Content-Type': 'application/json'
-      }
-    });
+    // Fetch all pages of events from the Luma API using cursor-based pagination
+    let allEntries = [];
+    let cursor = null;
+    const MAX_PAGES = 10;
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Luma API error:', response.status, errorText);
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const url = new URL(LUMA_EVENTS_URL);
+      if (cursor) {
+        url.searchParams.set('pagination_cursor', cursor);
+      }
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Luma API error:', response.status, errorText);
+        return {
+          statusCode: 503,
+          headers,
+          body: JSON.stringify({
+            error: 'Unable to load events at this time. Please try again later.'
+          })
+        };
+      }
+
+      const data = await response.json();
+      const entries = data.entries || data.events || [];
+      allEntries = allEntries.concat(entries);
+
+      if (!data.has_more || !data.next_cursor) {
+        break;
+      }
+      cursor = data.next_cursor;
+    }
+
+    // Fetch extra events not managed by the CAISH calendar
+    const extraEntries = await fetchExtraEvents(apiKey);
+
+    // Merge and deduplicate by api_id
+    const seenIds = new Set(allEntries.map(e => (e.event || e).api_id).filter(Boolean));
+    for (const entry of extraEntries) {
+      const id = (entry.event || entry).api_id;
+      if (id && !seenIds.has(id)) {
+        allEntries.push(entry);
+        seenIds.add(id);
+      }
+    }
+
+    let events = allEntries;
+
+    // Debug mode: ?debug=true returns all event names from the API (unfiltered)
+    if (event.queryStringParameters?.debug === 'true') {
+      const allNames = allEntries.map(entry => {
+        const eventData = entry.event || entry;
+        return {
+          name: eventData.name,
+          api_id: eventData.api_id,
+          start_at: eventData.start_at
+        };
+      });
       return {
-        statusCode: 503,
+        statusCode: 200,
         headers,
         body: JSON.stringify({
-          error: 'Unable to load events at this time. Please try again later.'
+          total_from_api: allEntries.length,
+          all_events: allNames,
+          fetched_at: new Date().toISOString()
         })
       };
     }
 
-    const data = await response.json();
-    let events = data.entries || data.events || [];
-    const tagDictionary = new Map();
-    const tagList = data.tags || data.tag_list || [];
-
-    tagList.forEach(tag => {
-      const id = tag?.api_id || tag?.id;
-      const name = normalizeTagName(tag);
-      if (id && name) {
-        tagDictionary.set(id, name);
-      }
-    });
-
     events = events.filter(entry => {
       const eventData = entry.event || entry;
-      const directTagNames = extractTagNames(eventData.tags || entry.tags || []);
-      const tagIds = eventData.tag_ids || entry.tag_ids || [];
-      const resolvedTagNames = tagIds
-        .map(tagId => tagDictionary.get(tagId))
-        .filter(Boolean)
-        .map(name => name.toUpperCase());
-      const allTags = [...directTagNames, ...resolvedTagNames];
-      const name = eventData.name || '';
-      const description = eventData.description || '';
+      const name = (eventData.name || '').toUpperCase();
+      const description = (eventData.description || '').toUpperCase();
 
       return (
-        hasCaishtag(allTags) ||
-        name.toUpperCase().includes(CAISH_TAG) ||
-        description.toUpperCase().includes(CAISH_TAG)
+        name.includes(CAISH_TAG) ||
+        name.includes(CAISH_FULL_NAME) ||
+        description.includes(CAISH_TAG) ||
+        description.includes(CAISH_FULL_NAME)
       );
     });
 

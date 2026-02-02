@@ -1,12 +1,53 @@
 // Vercel Serverless Function to redirect to the most upcoming CAISH social event
 // This keeps the API key secure on the server side
 
+const LUMA_GET_EVENT_URL = 'https://api.lu.ma/public/v1/event/get';
+
+// --- MANUAL OVERRIDE ---
+// Hardcoded redirect for cross-listed events not returned by the Luma calendar API.
+// Remove or update this when the event passes or the API issue is resolved.
+const MANUAL_SOCIAL_URL = 'https://lu.ma/dnnq32q4';
+const MANUAL_SOCIAL_EXPIRY = '2026-02-12T00:00:00Z'; // day after the event (11 Feb 2026)
+// --- END MANUAL OVERRIDE ---
+
+// Fetch individual events by ID from the LUMA_EXTRA_EVENT_IDS env var
+async function fetchExtraEvents(apiKey) {
+  const extraIds = (process.env.LUMA_EXTRA_EVENT_IDS || '').split(',').map(id => id.trim()).filter(Boolean);
+  if (extraIds.length === 0) return [];
+
+  const results = await Promise.allSettled(
+    extraIds.map(async (eventId) => {
+      const url = new URL(LUMA_GET_EVENT_URL);
+      url.searchParams.set('event_api_id', eventId);
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.event ? { event: data.event } : null;
+    })
+  );
+
+  return results
+    .filter(r => r.status === 'fulfilled' && r.value)
+    .map(r => r.value);
+}
+
 export default async function handler(req, res) {
   // Set cache headers - cache for 1 hour since events don't change that frequently
   res.setHeader('Cache-Control', 's-maxage=3600, stale-while-revalidate=86400');
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Use manual override if it hasn't expired yet
+  if (MANUAL_SOCIAL_URL && new Date() < new Date(MANUAL_SOCIAL_EXPIRY)) {
+    return res.redirect(302, MANUAL_SOCIAL_URL);
   }
 
   const API_KEY = process.env.LUMA_API_KEY;
@@ -17,30 +58,68 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Fetch events from Luma API
-    const response = await fetch('https://api.lu.ma/public/v1/calendar/list-events', {
-      method: 'GET',
-      headers: {
-        'x-luma-api-key': API_KEY,
-        'Content-Type': 'application/json'
-      }
-    });
+    const LUMA_EVENTS_URL = 'https://api.lu.ma/public/v1/calendar/list-events';
 
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Luma API error:', response.status, errorText);
-      return res.status(500).send('Failed to fetch events from Luma');
+    // Fetch all pages of events from the Luma API using cursor-based pagination
+    let allEntries = [];
+    let cursor = null;
+    const MAX_PAGES = 10;
+
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const url = new URL(LUMA_EVENTS_URL);
+      if (cursor) {
+        url.searchParams.set('pagination_cursor', cursor);
+      }
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': API_KEY,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Luma API error:', response.status, errorText);
+        return res.status(500).send('Failed to fetch events from Luma');
+      }
+
+      const data = await response.json();
+      const entries = data.entries || data.events || [];
+      allEntries = allEntries.concat(entries);
+
+      if (!data.has_more || !data.next_cursor) {
+        break;
+      }
+      cursor = data.next_cursor;
     }
 
-    const data = await response.json();
-    let events = data.entries || data.events || [];
+    // Fetch extra events not managed by the CAISH calendar
+    const extraEntries = await fetchExtraEvents(API_KEY);
+    const seenIds = new Set(allEntries.map(e => (e.event || e).api_id).filter(Boolean));
+    for (const entry of extraEntries) {
+      const id = (entry.event || entry).api_id;
+      if (id && !seenIds.has(id)) {
+        allEntries.push(entry);
+        seenIds.add(id);
+      }
+    }
+
+    let events = allEntries;
 
     // Filter for CAISH social events
-    // Look for events that contain both "CAISH" and "social" in the name (case-insensitive)
+    // Check name and description for CAISH reference (abbreviation or full name)
+    const isCaishRelated = (text) => {
+      const upper = text.toUpperCase();
+      return upper.includes('CAISH') || upper.includes('CAMBRIDGE AI SAFETY HUB');
+    };
+
     events = events.filter(entry => {
       const event = entry.event || entry;
       const name = (event.name || '').toLowerCase();
-      return name.includes('caish') && name.includes('social');
+      if (!name.includes('social')) return false;
+      return isCaishRelated(event.name || '') || isCaishRelated(event.description || '');
     });
 
     // Filter to only show upcoming events (events that haven't happened yet)
