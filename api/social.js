@@ -3,6 +3,13 @@
 
 const LUMA_GET_EVENT_URL = 'https://api.lu.ma/public/v1/event/get';
 
+// --- MANUAL OVERRIDE ---
+// Hardcoded redirect for cross-listed events not returned by the Luma calendar API.
+// Remove or update this when the event passes or the API issue is resolved.
+const MANUAL_SOCIAL_URL = 'https://lu.ma/dnnq32q4';
+const MANUAL_SOCIAL_EXPIRY = '2026-02-12T00:00:00Z'; // day after the event (11 Feb 2026)
+// --- END MANUAL OVERRIDE ---
+
 // Fetch individual events by ID from the LUMA_EXTRA_EVENT_IDS env var
 async function fetchExtraEvents(apiKey) {
   const extraIds = (process.env.LUMA_EXTRA_EVENT_IDS || '').split(',').map(id => id.trim()).filter(Boolean);
@@ -36,6 +43,11 @@ export default async function handler(req, res) {
 
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  // Use manual override if it hasn't expired yet
+  if (MANUAL_SOCIAL_URL && new Date() < new Date(MANUAL_SOCIAL_EXPIRY)) {
+    return res.redirect(302, MANUAL_SOCIAL_URL);
   }
 
   const API_KEY = process.env.LUMA_API_KEY;
