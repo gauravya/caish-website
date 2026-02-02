@@ -75,6 +75,27 @@ exports.handler = async (event) => {
 
     let events = allEntries;
 
+    // Debug mode: ?debug=true returns all event names from the API (unfiltered)
+    if (event.queryStringParameters?.debug === 'true') {
+      const allNames = allEntries.map(entry => {
+        const eventData = entry.event || entry;
+        return {
+          name: eventData.name,
+          api_id: eventData.api_id,
+          start_at: eventData.start_at
+        };
+      });
+      return {
+        statusCode: 200,
+        headers,
+        body: JSON.stringify({
+          total_from_api: allEntries.length,
+          all_events: allNames,
+          fetched_at: new Date().toISOString()
+        })
+      };
+    }
+
     events = events.filter(entry => {
       const eventData = entry.event || entry;
       const name = (eventData.name || '').toUpperCase();
