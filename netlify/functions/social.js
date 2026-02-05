@@ -170,7 +170,7 @@ exports.handler = async (event) => {
     return {
       statusCode: 500,
       headers,
-      body: 'Internal server error: ' + error.message
+      body: 'Unable to load social events at this time. Please try again later.'
     };
   }
 };

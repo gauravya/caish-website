@@ -73,9 +73,8 @@ export default async function handler(req, res) {
       if (!response.ok) {
         const errorText = await response.text();
         console.error('Luma API error:', response.status, errorText);
-        return res.status(response.status).json({
-          error: 'Failed to fetch events from Luma',
-          details: errorText
+        return res.status(503).json({
+          error: 'Unable to load events at this time. Please try again later.'
         });
       }
 
@@ -149,8 +148,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Error fetching events:', error);
     return res.status(500).json({
-      error: 'Internal server error',
-      message: error.message
+      error: 'Unable to load events at this time. Please try again later.'
     });
   }
 }
