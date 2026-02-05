@@ -144,6 +144,6 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Error fetching events:', error);
-    return res.status(500).send('Internal server error: ' + error.message);
+    return res.status(500).send('Unable to load social events at this time. Please try again later.');
   }
 }
