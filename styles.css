@@ -3222,6 +3222,42 @@
   font-style: italic;
 }
 
+.desk-guests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1.5rem 0 2.5rem;
+}
+
+.desk-guest {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(224, 224, 224, 0.8);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.04);
+}
+
+.desk-guest h3 {
+  font-size: 0.9rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.desk-guest .desk-posts-list {
+  margin: 0;
+}
+
+.desk-post--optional {
+  background: rgba(224, 224, 224, 0.15);
+  border: 1px dotted rgba(224, 224, 224, 0.6);
+  color: var(--mid-grey);
+  font-style: italic;
+  opacity: 0.7;
+}
+
 @media (max-width: 600px) {
   .desk-participant {
     grid-template-columns: 1fr;
