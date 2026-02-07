@@ -2868,18 +2868,50 @@
   padding-top: 1.5rem;
 }
 
-/* Larger intro text for desk page */
-.desk-section > .fellowship-content > p:first-of-type {
-  font-family: var(--font-serif);
-  font-size: 1.45rem;
-  line-height: 1.6;
-  color: var(--dark-grey);
-  max-width: 38ch;
+/* Desk intro: text + image side by side, vertically centred */
+.desk-intro {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
 }
 
-/* Ensure participants and everything after clears the floated hero image */
-.desk-section .fellowship-content > h2:first-of-type {
-  clear: both;
+.desk-intro p {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  line-height: 1.55;
+  color: var(--dark-grey);
+  max-width: none;
+  flex: 1;
+}
+
+.desk-intro-image {
+  flex: 0 0 55%;
+  max-width: 550px;
+}
+
+.desk-intro-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+}
+
+@media (max-width: 800px) {
+  .desk-intro {
+    flex-direction: column-reverse;
+    gap: 1.5rem;
+  }
+
+  .desk-intro-image {
+    flex: none;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .desk-intro p {
+    font-size: 1.15rem;
+  }
 }
 
 /* Holden quote blockquote */
