@@ -2875,6 +2875,11 @@
   max-width: 42ch;
 }
 
+/* Ensure participants and everything after clears the floated hero image */
+.desk-section .fellowship-content > h2:first-of-type {
+  clear: both;
+}
+
 /* Holden quote blockquote */
 .desk-quote {
   margin: 1.5rem 0;
