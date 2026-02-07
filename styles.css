@@ -3225,20 +3225,20 @@
 .desk-guests {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 1.5rem;
   margin: 1.5rem 0 2.5rem;
 }
 
 .desk-guest {
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.5rem;
   background: rgba(255, 255, 255, 0.7);
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid rgba(224, 224, 224, 0.8);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.04);
 }
 
 .desk-guest h3 {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   margin: 0 0 0.5rem;
 }
 
