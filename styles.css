@@ -2868,50 +2868,27 @@
   padding-top: 1.5rem;
 }
 
-/* Desk intro: text + image side by side, vertically centred */
-.desk-intro {
-  display: flex;
-  align-items: center;
-  gap: 2.5rem;
-  margin-bottom: 2rem;
+/* Desk hero image */
+.desk-hero {
+  margin: 0 auto 2rem;
+  max-width: 680px;
 }
 
-.desk-intro p {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  line-height: 1.55;
-  color: var(--dark-grey);
-  max-width: none;
-  flex: 1;
-}
-
-.desk-intro-image {
-  flex: 0 0 55%;
-  max-width: 550px;
-}
-
-.desk-intro-image img {
+.desk-hero img {
   width: 100%;
   height: auto;
   display: block;
   border-radius: 12px;
 }
 
-@media (max-width: 800px) {
-  .desk-intro {
-    flex-direction: column-reverse;
-    gap: 1.5rem;
-  }
-
-  .desk-intro-image {
-    flex: none;
-    width: 100%;
-    max-width: 400px;
-  }
-
-  .desk-intro p {
-    font-size: 1.15rem;
-  }
+/* Desk intro text */
+.desk-intro-text {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.65;
+  color: var(--dark-grey);
+  max-width: 60ch;
+  margin-bottom: 2rem;
 }
 
 /* Holden quote blockquote */
