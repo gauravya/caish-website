@@ -3208,6 +3208,13 @@
   border-color: var(--dark-grey);
 }
 
+.desk-post--current {
+  background: rgba(126, 66, 51, 0.1);
+  border: 1px dashed rgba(126, 66, 51, 0.4);
+  color: var(--cambridge);
+  font-style: italic;
+}
+
 .desk-post--upcoming {
   background: rgba(224, 224, 224, 0.3);
   border: 1px dashed rgba(224, 224, 224, 0.8);
