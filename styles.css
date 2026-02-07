@@ -2868,6 +2868,13 @@
   padding-top: 1.5rem;
 }
 
+/* Larger intro text for desk page */
+.desk-section > .fellowship-content > p:first-of-type {
+  font-size: 1.15rem;
+  line-height: 1.7;
+  max-width: 42ch;
+}
+
 /* Holden quote blockquote */
 .desk-quote {
   margin: 1.5rem 0;
