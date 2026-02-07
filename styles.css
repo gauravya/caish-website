@@ -3222,6 +3222,14 @@
   font-style: italic;
 }
 
+.desk-post--optional {
+  background: rgba(224, 224, 224, 0.15);
+  border: 1px dotted rgba(224, 224, 224, 0.6);
+  color: var(--mid-grey);
+  font-style: italic;
+  opacity: 0.7;
+}
+
 @media (max-width: 600px) {
   .desk-participant {
     grid-template-columns: 1fr;
