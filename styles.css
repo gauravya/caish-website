@@ -3225,12 +3225,15 @@
 .desk-guests {
   display: flex;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
   margin: 1.5rem 0 2.5rem;
 }
 
 .desk-guest {
-  padding: 1.25rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
   background: rgba(255, 255, 255, 0.7);
   border-radius: 12px;
   border: 1px solid rgba(224, 224, 224, 0.8);
@@ -3238,8 +3241,9 @@
 }
 
 .desk-guest h3 {
-  font-size: 0.95rem;
-  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+  margin: 0;
+  white-space: nowrap;
 }
 
 .desk-guest .desk-posts-list {
