@@ -3112,6 +3112,124 @@
   }
 }
 
+/* Participant cards */
+.desk-participants {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.desk-participant {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  border: 1px solid rgba(224, 224, 224, 0.8);
+  box-shadow: 0 12px 22px rgba(0, 0, 0, 0.04);
+}
+
+.desk-participant-photo img {
+  width: 160px;
+  height: 160px;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+
+.desk-participant-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.desk-participant-info h3 {
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.desk-participant-bio {
+  font-size: 0.85rem;
+  color: var(--mid-grey);
+  line-height: 1.6;
+  margin: 0;
+  max-width: none;
+}
+
+.desk-participant-posts {
+  margin-top: 0.5rem;
+}
+
+.desk-posts-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mid-grey);
+  display: block;
+  margin-bottom: 0.4rem;
+}
+
+.desk-posts-list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+.desk-post {
+  font-size: 0.75rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  line-height: 1.4;
+}
+
+.desk-post--published {
+  background: rgba(15, 81, 50, 0.08);
+  border: 1px solid rgba(15, 81, 50, 0.2);
+}
+
+.desk-post--published a {
+  color: var(--dark-grey);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(15, 81, 50, 0.3);
+  transition: border-color 0.2s ease;
+}
+
+.desk-post--published a:hover {
+  border-color: var(--dark-grey);
+}
+
+.desk-post--upcoming {
+  background: rgba(224, 224, 224, 0.3);
+  border: 1px dashed rgba(224, 224, 224, 0.8);
+  color: var(--mid-grey);
+  font-style: italic;
+}
+
+@media (max-width: 600px) {
+  .desk-participant {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .desk-participant-info {
+    align-items: center;
+  }
+
+  .desk-participant-bio {
+    text-align: left;
+  }
+
+  .desk-posts-list {
+    justify-content: center;
+  }
+}
+
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,
