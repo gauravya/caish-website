@@ -2870,9 +2870,11 @@
 
 /* Larger intro text for desk page */
 .desk-section > .fellowship-content > p:first-of-type {
-  font-size: 1.15rem;
-  line-height: 1.7;
-  max-width: 42ch;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  line-height: 1.6;
+  color: var(--dark-grey);
+  max-width: 38ch;
 }
 
 /* Ensure participants and everything after clears the floated hero image */
