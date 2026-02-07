@@ -2868,27 +2868,9 @@
   padding-top: 1.5rem;
 }
 
-/* Desk hero image */
-.desk-hero {
-  margin: 0 auto 2rem;
-  max-width: 680px;
-}
-
-.desk-hero img {
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 12px;
-}
-
-/* Desk intro text */
-.desk-intro-text {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  line-height: 1.65;
-  color: var(--dark-grey);
-  max-width: 60ch;
-  margin-bottom: 2rem;
+/* Clear float before participants */
+.desk-section .fellowship-content > h2:first-of-type {
+  clear: both;
 }
 
 /* Holden quote blockquote */
