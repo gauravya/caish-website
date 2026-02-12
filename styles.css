@@ -2111,6 +2111,144 @@
     color: var(--cambridge);
   }
 
+  /* Fellows Grid */
+  .fellows-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .fellow {
+    text-align: center;
+    padding: 1rem 0.75rem;
+    background: rgba(250, 246, 240, 0.7);
+    border-radius: 12px;
+    border: 1px solid rgba(141, 141, 141, 0.15);
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+
+  .fellow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    border-color: rgba(126, 66, 51, 0.3);
+  }
+
+  .fellow.active {
+    border-color: var(--cambridge);
+    box-shadow: 0 4px 12px rgba(126, 66, 51, 0.15);
+  }
+
+  .fellow-photo {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    background: var(--cream);
+    border-radius: 50%;
+    margin-bottom: 0.75rem;
+    border: 2px solid rgba(126, 66, 51, 0.2);
+  }
+
+  .fellow h4 {
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+
+  .fellow-track {
+    font-size: 0.65rem;
+    color: var(--mid-grey);
+    font-style: italic;
+    margin-bottom: 0;
+  }
+
+  .fellow-extra {
+    display: none;
+  }
+
+  .fellows-grid.expanded .fellow-extra {
+    display: block;
+  }
+
+  .fellows-toggle {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    margin-top: 1rem;
+    background: transparent;
+    border: 1px solid var(--light-grey);
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--mid-grey);
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .fellows-toggle:hover {
+    border-color: var(--cambridge);
+    color: var(--cambridge);
+  }
+
+  .fellows-toggle.expanded {
+    display: none;
+  }
+
+  .fellow-bio-panel {
+    position: relative;
+    margin-top: 1rem;
+    padding: 1.5rem;
+    background: rgba(250, 246, 240, 0.9);
+    border-radius: 12px;
+    border: 1px solid rgba(126, 66, 51, 0.2);
+    border-left: 4px solid var(--cambridge);
+  }
+
+  .fellow-bio-panel[hidden] {
+    display: none;
+  }
+
+  .fellow-bio-close {
+    position: absolute;
+    top: 0.75rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--mid-grey);
+    transition: color 0.15s ease;
+  }
+
+  .fellow-bio-close:hover {
+    color: var(--black);
+  }
+
+  .fellow-bio-content h4 {
+    font-family: var(--font-serif);
+    font-size: 1.05rem;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+
+  .fellow-bio-track {
+    display: inline-block;
+    font-size: 0.7rem;
+    color: var(--cambridge);
+    font-style: italic;
+    margin-bottom: 0.75rem;
+  }
+
+  .fellow-bio-content p {
+    font-size: 0.85rem;
+    color: var(--mid-grey);
+    line-height: 1.7;
+    max-width: none;
+  }
+
   /* Research Grid */
   .research-grid {
     display: grid;
@@ -2500,6 +2638,10 @@
       grid-template-columns: repeat(3, 1fr);
     }
 
+    .fellows-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
     .alumni-grid {
       grid-template-columns: 1fr;
     }
@@ -2726,6 +2868,16 @@
 
     .mentors-toggle.expanded {
       display: none;
+    }
+
+    .fellows-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-4);
+    }
+
+    .fellow-photo {
+      width: 80px;
+      height: 80px;
     }
 
     .mars-header {
