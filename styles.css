@@ -2119,16 +2119,15 @@
   .fellows-section {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 0 2.5rem 1.5rem;
+    padding: 1.5rem 2.5rem 1.5rem;
   }
 
   .fellows-inner h2 {
     font-family: var(--font-serif);
-    font-size: 1.15rem;
+    font-size: 1.35rem;
     font-weight: 400;
-    text-align: center;
     margin: 0 0 1.25rem;
-    color: var(--mid-grey);
+    color: var(--black);
   }
 
   .fellows-grid {
