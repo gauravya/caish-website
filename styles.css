@@ -1198,7 +1198,16 @@
   .page-header.fellowship-header {
     padding-bottom: 0;
   }
-  
+
+  .fellowship-header .fellowship-tagline {
+    margin-bottom: 0;
+  }
+
+  .fellowship-header + .divider {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
   .fellowship-section {
     padding-top: 0;
     padding-bottom: 1rem;
@@ -2115,7 +2124,7 @@
   .fellows-section {
     max-width: 1000px;
     margin: 0 auto;
-    padding: 1rem 2.5rem 1.5rem;
+    padding: 0.5rem 2.5rem 1.5rem;
   }
 
   .fellows-inner h2 {
