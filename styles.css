@@ -1196,7 +1196,7 @@
   }
   
   .page-header.fellowship-header {
-    padding-bottom: 2rem;
+    padding-bottom: 0.5rem;
   }
   
   .fellowship-section {
@@ -2121,6 +2121,7 @@
   .fellows-inner h2 {
     font-family: var(--font-serif);
     font-size: 1.4rem;
+    margin-top: 0;
     font-weight: 400;
     margin-bottom: 1.5rem;
   }
