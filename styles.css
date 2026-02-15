@@ -3080,7 +3080,8 @@
       margin: 2rem 0;
     }
 
-    .research-grid {
+    .research-grid,
+    .research-page-content .research-grid {
       grid-template-columns: 1fr;
     }
 
@@ -3381,12 +3382,35 @@
       margin: 1.75rem 0;
     }
 
+    .research-section {
+      padding-top: var(--space-4);
+      padding-bottom: var(--space-8);
+    }
+
+    .research-tagline {
+      font-size: 0.95rem;
+    }
+
+    .research-page-content > p {
+      font-size: 0.88rem;
+    }
+
+    .research-page-content h2 {
+      margin-top: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
     .research-page-content > .divider {
-      margin: 1.75rem 0;
+      margin: 1.5rem 0;
     }
 
     .research-page-content .research-grid {
       grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .research-card {
+      padding: 1.25rem;
     }
 
     .mars-content h2 {
