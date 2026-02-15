@@ -1304,7 +1304,7 @@
 
   .fellowship-application h2 {
     margin-top: 0;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     font-size: 1.5rem;
     color: var(--black);
   }
@@ -3592,6 +3592,30 @@
   border: 1px dashed rgba(224, 224, 224, 0.8);
   color: var(--mid-grey);
   font-style: italic;
+}
+
+.desk-post a {
+  color: var(--cambridge);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.desk-post a::after {
+  content: '→';
+  font-size: 0.85em;
+  transition: transform 0.2s ease;
+}
+
+.desk-post a:hover::after {
+  transform: translateX(2px);
+}
+
+.desk-post:has(a) {
+  background: rgba(126, 66, 51, 0.08);
+  border: 1px solid rgba(126, 66, 51, 0.25);
+  font-style: normal;
 }
 
 .desk-guests {
