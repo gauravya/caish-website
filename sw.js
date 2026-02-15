@@ -22,7 +22,7 @@ const PRECACHE_ASSETS = [
   '/about.html',
   '/desk.html',
   '/styles.css?v=d9e21637',
-  '/enhancements.js?v=114f6765',
+  '/enhancements.js?v=05402ff1',
   '/images/logo.png',
   '/images/favicon.png',
   '/images/caish.gif'

@@ -37,7 +37,6 @@ const Enhancements = {
         if (!this.isTouchDevice) {
           this.initParallax();
         }
-        this.initReadingProgress();
       }
 
       // These are always safe to run
@@ -287,32 +286,6 @@ const Enhancements = {
         ticking = true;
       }
     }, { passive: true });
-  },
-
-  /**
-   * Reading Progress - Warm indicator showing scroll progress
-   * Subtle, encouraging, shows you're making progress
-   */
-  initReadingProgress() {
-    // Only add on content-heavy pages
-    const isContentPage = document.querySelector('.fellowship-content, .mars-content, .about-section');
-    if (!isContentPage) return;
-
-    const progressBar = document.createElement('div');
-    progressBar.className = 'reading-progress';
-    progressBar.innerHTML = '<div class="reading-progress-fill"></div>';
-    document.body.appendChild(progressBar);
-
-    const fill = progressBar.querySelector('.reading-progress-fill');
-
-    const updateProgress = () => {
-      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = (window.pageYOffset / scrollHeight) * 100;
-      fill.style.width = `${progress}%`;
-    };
-
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    updateProgress();
   },
 
   /**
