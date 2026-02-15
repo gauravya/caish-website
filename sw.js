@@ -21,7 +21,7 @@ const PRECACHE_ASSETS = [
   '/events.html',
   '/about.html',
   '/desk.html',
-  '/styles.css?v=8e2955ea',
+  '/styles.css?v=d9e21637',
   '/enhancements.js?v=114f6765',
   '/images/logo.png',
   '/images/favicon.png',

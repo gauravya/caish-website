@@ -2307,10 +2307,47 @@
     color: var(--black);
   }
 
+  .fellows-tracks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  .fellows-track-label {
+    display: inline-block;
+    font-size: 0.6rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cambridge);
+    border: 1px solid rgba(126, 66, 51, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  .fellows-track-col {
+    position: relative;
+  }
+
+  .fellows-track-col.has-more::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--cream));
+    pointer-events: none;
+    z-index: 1;
+    border-radius: 0 0 10px 10px;
+  }
+
   .fellows-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
   }
 
   .fellow {
@@ -2360,14 +2397,6 @@
     margin-bottom: 0;
   }
 
-  .fellow-extra {
-    display: none;
-  }
-
-  .fellows-grid.expanded .fellow-extra {
-    display: grid;
-  }
-
   .fellows-toggle {
     display: block;
     width: 100%;
@@ -2386,10 +2415,6 @@
   .fellows-toggle:hover {
     border-color: var(--cambridge);
     color: var(--cambridge);
-  }
-
-  .fellows-toggle.expanded {
-    display: none;
   }
 
   /* Fellow Overlay */
@@ -2926,8 +2951,8 @@
       grid-template-columns: repeat(3, 1fr);
     }
 
-    .fellows-grid {
-      grid-template-columns: repeat(2, 1fr);
+    .fellows-tracks {
+      gap: 1.5rem;
     }
 
     .alumni-grid {
@@ -3160,6 +3185,11 @@
 
     .fellows-section {
       padding: 1.5rem 1.5rem 1.5rem;
+    }
+
+    .fellows-tracks {
+      grid-template-columns: 1fr;
+      gap: 1.25rem;
     }
 
     .fellows-grid {
