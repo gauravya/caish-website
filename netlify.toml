@@ -1,4 +1,5 @@
 [build]
+  command = "bash cache-bust.sh"
   functions = "netlify/functions"
 
 # Security headers for all pages
