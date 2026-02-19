@@ -273,6 +273,35 @@
     </div>
   </section>
 
+  <section class="facilitators-section">
+    <div class="facilitators-inner">
+      <h2>Facilitators</h2>
+      <div class="facilitators-grid" id="facilitators-grid">
+        <div class="fellow" data-bio="Puria is a co-founder and co-director of Geodesic Research, leading their early work on obfuscation in chain-of-thought reasoning. He is also a PhD student in computational neuroscience at the University of Cambridge Computational and Biological Learning Lab, and previously completed the ERA fellowship in technical AI safety.">
+          <img src="/images/puria.jpg" data-full-src="/images/puria.jpg" alt="Puria Radmard" class="fellow-photo" loading="lazy" decoding="async" width="200" height="200">
+          <div class="fellow-info">
+            <h4>Puria Radmard</h4>
+            <p class="fellow-track">Technical Track</p>
+          </div>
+        </div>
+        <div class="fellow" data-bio="Hannes is the CEO of Meridian Cambridge. He has AI safety research experience from the MARS programme and LASR, where he led a team working on chain-of-thought monitoring. He holds an MSc in Data Science from UCL (Distinction) and previously worked in ML and AI research at AstraZeneca.">
+          <img src="/images/hannes.jpg" data-full-src="/images/hannes.jpg" alt="Hannes Whittingham" class="fellow-photo" loading="lazy" decoding="async" width="200" height="200">
+          <div class="fellow-info">
+            <h4>Hannes Whittingham</h4>
+            <p class="fellow-track">Technical Track</p>
+          </div>
+        </div>
+        <div class="fellow" data-bio="Axel is an AI Safety Researcher and Meridian Visiting Researcher Programme Fellow at Meridian Cambridge. He holds an MSc in Applied Physics and Electrical Engineering with a specialisation in Data Science and Machine Intelligence from Link&ouml;ping University, and studied Deep Learning and Computer Vision at the Technical University of Munich.">
+          <img src="/images/axel.jpg" data-full-src="/images/axel.jpg" alt="Axel Ahlqvist" class="fellow-photo" loading="lazy" decoding="async" width="200" height="200">
+          <div class="fellow-info">
+            <h4>Axel Ahlqvist</h4>
+            <p class="fellow-track">Technical Track</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Fellow Bio Overlay -->
   <div class="fellow-overlay" id="fellow-overlay">
     <div class="fellow-overlay-backdrop" id="fellow-overlay-backdrop"></div>
@@ -514,11 +543,12 @@
     const FellowOverlay = {
       init() {
         const container = document.getElementById('fellows-tracks');
+        const facilitatorsGrid = document.getElementById('facilitators-grid');
         const overlay = document.getElementById('fellow-overlay');
         const backdrop = document.getElementById('fellow-overlay-backdrop');
         const closeBtn = document.getElementById('fellow-overlay-close');
         const body = document.getElementById('fellow-overlay-body');
-        if (!container || !overlay || !body) return;
+        if (!overlay || !body) return;
 
         const open = (fellow) => {
           const bio = fellow.getAttribute('data-bio');
@@ -544,10 +574,15 @@
           document.body.style.overflow = '';
         };
 
-        container.addEventListener('click', (e) => {
-          const fellow = e.target.closest('.fellow');
-          if (fellow) open(fellow);
-        });
+        const addClickHandler = (el) => {
+          if (!el) return;
+          el.addEventListener('click', (e) => {
+            const fellow = e.target.closest('.fellow');
+            if (fellow) open(fellow);
+          });
+        };
+        addClickHandler(container);
+        addClickHandler(facilitatorsGrid);
 
         closeBtn?.addEventListener('click', close);
         backdrop?.addEventListener('click', close);

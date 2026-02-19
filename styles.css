@@ -2474,6 +2474,27 @@
     color: var(--cambridge);
   }
 
+  /* Facilitators */
+  .facilitators-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0.5rem 2.5rem 1.5rem;
+  }
+
+  .facilitators-inner h2 {
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    font-weight: 400;
+    margin: 0 0 1.25rem;
+    color: var(--black);
+  }
+
+  .facilitators-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.75rem;
+  }
+
   /* Fellow Overlay */
   /* Fellow Bio Overlay — editorial side-by-side layout */
   .fellow-overlay {
@@ -3358,6 +3379,15 @@
 
     .fellow-overlay-body p {
       text-align: left;
+    }
+
+    .facilitators-section {
+      padding: 0.5rem 1.5rem 1.5rem;
+    }
+
+    .facilitators-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
     }
 
     .mars-header {
