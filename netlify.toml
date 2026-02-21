@@ -68,10 +68,10 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
 
-# Proxy to Google Apps Script (avoids CORS + CSP issues)
+# Route /api/book to the serverless function (which proxies to GAS)
 [[redirects]]
   from = "/api/book"
-  to = "https://script.google.com/macros/s/AKfycbyGpHWJ9mztPGSKUKphCowZK0w9cG5SPNJQPTO00rnENxyH2JohqsFumBDJZjvs2Olm/exec"
+  to = "/.netlify/functions/book"
   status = 200
   force = true
 
