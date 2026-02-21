@@ -915,15 +915,13 @@
       `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`
       + `T${pad(d.getHours())}${pad(d.getMinutes())}00`;
 
+    // No attendees — the real invite is sent by GAS. This is just a personal reminder link.
     return [
       'https://calendar.google.com/calendar/render?action=TEMPLATE',
       `text=${encodeURIComponent(`Meeting with Gaurav & Justin – ${name}`)}`,
       `dates=${fmt(start)}/${fmt(end)}`,
-      `details=${encodeURIComponent(`Topic: ${topic}\n\nRequested by: ${name} (${email})`)}`,
+      `details=${encodeURIComponent(`Topic: ${topic}\n\nCheck your email for the Google Meet invite.`)}`,
       `location=${encodeURIComponent('53-54 Sidney Street, Cambridge, CB2 3HX (or Google Meet)')}`,
-      `add=${encodeURIComponent('gaurav@meridiancambridge.org')}`,
-      `add=${encodeURIComponent('justin@meridiancambridge.org')}`,
-      `add=${encodeURIComponent(email)}`,
     ].join('&');
   }
 
@@ -947,10 +945,12 @@
       return;
     }
 
-    // Spam: 24-hour rate limit
-    const last = localStorage.getItem('caish_bk');
-    if (last && Date.now() - Number(last) < 86_400_000) {
-      showErr("You've already submitted a request today. Check your email, or write to us at hello@cambridgeaisafety.org.");
+    // Spam: 24-hour rate limit — allow 2 bookings (in case someone needs to rebook after cancelling)
+    const bkRaw = localStorage.getItem('caish_bk');
+    let bkData = null;
+    try { bkData = JSON.parse(bkRaw); } catch(_) { bkData = bkRaw ? { count: 1, first: Number(bkRaw) } : null; }
+    if (bkData && bkData.count >= 2 && Date.now() - bkData.first < 86_400_000) {
+      showErr("You've already made 2 booking requests today. Check your email, or write to us at hello@cambridgeaisafety.org.");
       return;
     }
 
@@ -995,7 +995,14 @@
           startISO: start.toISOString(), endISO: end.toISOString(), mins: S.duration });
       }
 
-      localStorage.setItem('caish_bk', String(Date.now()));
+      const prevRaw = localStorage.getItem('caish_bk');
+      let prev = null;
+      try { prev = JSON.parse(prevRaw); } catch(_) { prev = prevRaw ? { count: 1, first: Number(prevRaw) } : null; }
+      if (prev && Date.now() - prev.first < 86_400_000) {
+        localStorage.setItem('caish_bk', JSON.stringify({ count: prev.count + 1, first: prev.first }));
+      } else {
+        localStorage.setItem('caish_bk', JSON.stringify({ count: 1, first: Date.now() }));
+      }
 
       // Wire up success screen
       const slotLabel = `${fmtDate(S.date)} · ${fmtTime(S.slot.h, S.slot.m)}`;
