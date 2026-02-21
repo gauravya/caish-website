@@ -68,6 +68,13 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
 
+# Proxy to Google Apps Script (avoids CORS + CSP issues)
+[[redirects]]
+  from = "/api/book"
+  to = "https://script.google.com/macros/s/AKfycbyGpHWJ9mztPGSKUKphCowZK0w9cG5SPNJQPTO00rnENxyH2JohqsFumBDJZjvs2Olm/exec"
+  status = 200
+  force = true
+
 # Clean URLs
 [[redirects]]
   from = "/*"

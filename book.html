@@ -814,7 +814,7 @@
     let slots;
 
     if (configured) {
-      const res  = await fetch(`${CONFIG.gasUrl}?date=${dateStr}&mins=${S.duration}`);
+      const res  = await fetch(`/api/book?date=${dateStr}&mins=${S.duration}`);
       const data = await res.json();
       if (!data.ok) throw new Error(data.e || 'Could not load availability.');
       slots = data.slots;
@@ -962,9 +962,8 @@
 
     try {
       if (configured) {
-        await fetch(CONFIG.gasUrl, {
+        await fetch('/api/book', {
           method:  'POST',
-          mode:    'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             name, email, topic,
