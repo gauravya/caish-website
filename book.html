@@ -533,6 +533,7 @@
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 View in Google Calendar
               </a>
+              <a id="s4-cancel" href="#" class="s-back">Need to cancel? Email us</a>
               <a href="/" class="s-back">&#8592; Back to CAISH</a>
             </div>
           </div>
@@ -673,6 +674,22 @@
    *        guestsCanSeeOtherGuests: true,
    *        guestsCanModify: false,
    *      }, GAURAV, { conferenceDataVersion: 1, sendUpdates: 'all' });
+   *
+   *      // Notify both — GmailApp avoids the self-send suppression issue
+   *      GmailApp.sendEmail(
+   *        GAURAV + ',' + JUSTIN,
+   *        'New booking: ' + d.name + ' \u2013 ' + d.startISO.slice(0, 10),
+   *        [
+   *          'Someone just booked a meeting.',
+   *          '',
+   *          'Name:  ' + d.name,
+   *          'Email: ' + d.email,
+   *          'Date:  ' + d.startISO,
+   *          'Topic: ' + d.topic,
+   *          '',
+   *          'The event is on your Google Calendar.',
+   *        ].join('\n')
+   *      );
    *
    *      return ContentService
    *        .createTextOutput(JSON.stringify({ ok: true }))
@@ -981,9 +998,11 @@
       localStorage.setItem('caish_bk', String(Date.now()));
 
       // Wire up success screen
-      $('s4-slot').textContent =
-        `${fmtDate(S.date)} · ${fmtTime(S.slot.h, S.slot.m)}`;
+      const slotLabel = `${fmtDate(S.date)} · ${fmtTime(S.slot.h, S.slot.m)}`;
+      $('s4-slot').textContent = slotLabel;
       $('s4-gcal').href = S.calLink;
+      $('s4-cancel').href = `mailto:gaurav@meridiancambridge.org?subject=${encodeURIComponent('Cancel meeting – ' + slotLabel)}&body=${encodeURIComponent('Hi Gaurav,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
+
       go(4);
 
     } catch(err) {
