@@ -565,6 +565,14 @@
                 <input type="text" name="hp_f" id="hp_f" tabindex="-1" autocomplete="off">
               </div>
 
+              <div class="dur-picker">
+                <span class="dur-label">Format</span>
+                <div class="dur-btns" role="group" aria-label="Meeting format">
+                  <button type="button" class="dur-btn active" data-format="virtual">Google Meet</button>
+                  <button type="button" class="dur-btn" data-format="in-person">In person</button>
+                </div>
+              </div>
+
               <div class="fields">
                 <div class="field">
                   <label for="f-name">Full name <span class="req">*</span></label>
@@ -723,15 +731,14 @@
    *  // POST JSON → creates event, sends invites
    *  function doPost(e) {
    *    try {
-   *      var d    = JSON.parse(e.postData.contents);
-   *      var date = new Date(d.startISO);
-   *      var who  = d.who || 'both';
+   *      var d      = JSON.parse(e.postData.contents);
+   *      var date   = new Date(d.startISO);
+   *      var who    = d.who || 'both';
+   *      var format = d.format || 'virtual';
    *
-   *      var gauravAway = (who !== 'justin') ? isAway(GAURAV, date) : false;
-   *      var justinAway = (who !== 'gaurav') ? isAway(JUSTIN, date) : false;
-   *      var location   = (gauravAway || justinAway)
-   *        ? 'Google Meet (see video link in invite)'
-   *        : '53-54 Sidney Street, Cambridge, CB2 3HX (or Google Meet)';
+   *      var location = (format === 'in-person')
+   *        ? '53-54 Sidney Street, Cambridge, CB2 3HX'
+   *        : 'Google Meet (see video link in invite)';
    *
    *      var hostLabel = who === 'gaurav' ? 'Gaurav'
    *                    : who === 'justin' ? 'Justin'
@@ -742,7 +749,7 @@
    *      if (who !== 'gaurav') attendees.push({ email: JUSTIN });
    *      attendees.push({ email: d.email });
    *
-   *      Calendar.Events.insert({
+   *      var eventBody = {
    *        summary     : 'Meeting with ' + hostLabel + ' \u2013 ' + d.name,
    *        start       : { dateTime: d.startISO, timeZone: TZ },
    *        end         : { dateTime: d.endISO,   timeZone: TZ },
@@ -750,15 +757,26 @@
    *        description : 'Requested by: ' + d.name + ' (' + d.email + ')\n'
    *                    + 'Topic: ' + d.topic,
    *        attendees   : attendees,
-   *        conferenceData: {
+   *        guestsCanSeeOtherGuests: true,
+   *        guestsCanModify: false,
+   *      };
+   *
+   *      // Only attach Google Meet for virtual meetings
+   *      var confVersion = 0;
+   *      if (format !== 'in-person') {
+   *        eventBody.conferenceData = {
    *          createRequest: {
    *            requestId: 'meet-' + Date.now(),
    *            conferenceSolutionKey: { type: 'hangoutsMeet' }
    *          }
-   *        },
-   *        guestsCanSeeOtherGuests: true,
-   *        guestsCanModify: false,
-   *      }, GAURAV, { conferenceDataVersion: 1, sendUpdates: 'all' });
+   *        };
+   *        confVersion = 1;
+   *      }
+   *
+   *      Calendar.Events.insert(
+   *        eventBody, GAURAV,
+   *        { conferenceDataVersion: confVersion, sendUpdates: 'all' }
+   *      );
    *
    *      return ContentService
    *        .createTextOutput(JSON.stringify({ ok: true }))
@@ -818,6 +836,7 @@
     calLink: null,
     formAt: 0,
     duration: 30,
+    format: 'virtual',  // 'virtual' | 'in-person'
   };
 
   /* Utilities */
@@ -1007,11 +1026,23 @@
     });
   }
 
+  /* ── Format picker ────────────────────────────── */
+  document.querySelectorAll('[data-format]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      S.format = btn.dataset.format;
+      document.querySelectorAll('[data-format]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+
   /* ── Form init ─────────────────────────────────── */
   function initForm() {
     $('s3-label').textContent =
       `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
     S.formAt = Date.now();
+    S.format = 'virtual';
+    document.querySelectorAll('[data-format]').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-format="virtual"]').classList.add('active');
     showErr('');
     $('btn-lbl').textContent = `Book with ${HOST_SHORT[S.who]}`;
   }
@@ -1032,8 +1063,8 @@
       'https://calendar.google.com/calendar/render?action=TEMPLATE',
       `text=${encodeURIComponent(`Meeting with ${host} \u2013 ${name}`)}`,
       `dates=${fmt(start)}/${fmt(end)}`,
-      `details=${encodeURIComponent(`Topic: ${topic}\n\nCheck your email for the Google Meet invite.`)}`,
-      `location=${encodeURIComponent('53-54 Sidney Street, Cambridge, CB2 3HX (or Google Meet)')}`,
+      `details=${encodeURIComponent(`Topic: ${topic}\n\n${S.format === 'virtual' ? 'Check your email for the Google Meet invite.' : 'In-person meeting at Sidney Street.'}`)}`,
+      `location=${encodeURIComponent(S.format === 'in-person' ? '53-54 Sidney Street, Cambridge, CB2 3HX' : 'Google Meet (see invite)')}`,
     ].join('&');
   }
 
@@ -1100,12 +1131,13 @@
             endISO:   end.toISOString(),
             mins:     S.duration,
             who:      S.who,
+            format:   S.format,
           }),
         });
       } else {
         console.log('Dev mode: booking would be sent to GAS with', { name, email, topic,
           startISO: start.toISOString(), endISO: end.toISOString(),
-          mins: S.duration, who: S.who });
+          mins: S.duration, who: S.who, format: S.format });
       }
 
       const prevRaw = localStorage.getItem('caish_bk');
@@ -1122,9 +1154,9 @@
       const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
       $('s4-slot').textContent = `${host} \u00b7 ${slotLabel}`;
       $('s4-gcal').href = S.calLink;
-      $('s4-para').textContent =
-        `A Google Meet invite for your meeting with ${host} has been sent to your email. `
-        + 'You can accept it to add the event to your calendar.';
+      $('s4-para').textContent = S.format === 'in-person'
+        ? `A calendar invite for your in-person meeting with ${host} at Sidney Street has been sent to your email.`
+        : `A Google Meet invite for your meeting with ${host} has been sent to your email. You can accept it to add the event to your calendar.`;
 
       const cancelTo = CANCEL_EMAIL[S.who];
       $('s4-cancel').href = `mailto:${cancelTo}?subject=${encodeURIComponent('Cancel meeting \u2013 ' + slotLabel)}&body=${encodeURIComponent('Hi,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;

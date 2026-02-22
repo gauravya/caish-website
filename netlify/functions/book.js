@@ -61,6 +61,8 @@ async function sendNotification(booking) {
   const who = booking.who || 'both';
   const hostLabel = HOST_LABELS[who] || 'Gaurav & Justin';
   const notifyTo = NOTIFY_EMAILS[who] || NOTIFY_EMAILS.both;
+  const format = booking.format || 'virtual';
+  const formatLabel = format === 'in-person' ? 'In person (Sidney Street)' : 'Google Meet';
 
   const subject = `New booking with ${hostLabel}: ${booking.name} — ${dateStr}`;
 
@@ -70,6 +72,7 @@ async function sendNotification(booking) {
     `Name:     ${booking.name}`,
     `Email:    ${booking.email}`,
     `Meeting:  ${hostLabel}`,
+    `Format:   ${formatLabel}`,
     `Date:     ${dateStr}`,
     `Time:     ${timeStr}`,
     `Duration: ${mins} minutes`,
@@ -93,6 +96,10 @@ async function sendNotification(booking) {
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Meeting</td>
           <td style="padding: 10px 14px; font-size: 14px;">With ${hostLabel}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Format</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${formatLabel}</td>
         </tr>
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Date</td>
