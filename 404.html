@@ -37,14 +37,12 @@
     .mantra{font-size:1rem;line-height:2;margin-bottom:2rem;text-align:center;font-style:italic;color:#1a1a1a}
     .btn{display:inline-block;font-family:'Space Mono',monospace;font-size:0.75rem;padding:0.75rem 1.5rem;background:#1a1a1a;color:#fff;text-decoration:none;letter-spacing:0.05em;transition:background 0.2s ease}
     .btn:hover{background:#8c4a3a}
-    .narrator{font-style:italic;color:#666;margin-bottom:1.5rem;font-size:0.85rem}
+
   </style>
 </head>
 <body>
   <div class="container">
     <h1>404: <em>Page Not Found</em></h1>
-
-    <p class="narrator">The visitor clicked a link. The link clicked back.</p>
 
     <p class="mantra" id="mantra">We aligned the AI.</p>
 
@@ -52,26 +50,16 @@
   </div>
 
   <script>
-    const stages = [
-      "We aligned the AI.",
-      "We aligned the alignment.",
-      "We aligned the alignment of the alignment.",
-      "The alignment of the alignment of the alignment of the alignment of the alignment of the alignment of the alignment..."
-    ];
-
-    let stage = 0;
     const mantra = document.getElementById('mantra');
-
-    const interval = setInterval(() => {
-      stage++;
-      if (stage < stages.length) {
-        mantra.textContent = stages[stage];
-      }
-    }, 2500);
+    let text = "We aligned the alignment";
 
     setTimeout(() => {
-      clearInterval(interval);
-    }, 10000);
+      mantra.textContent = text + ".";
+      setInterval(() => {
+        text += " of the alignment";
+        mantra.textContent = text + ".";
+      }, 2500);
+    }, 2500);
   </script>
 </body>
 </html>
