@@ -238,11 +238,21 @@
 
     .cal-day {
       display: flex; align-items: center; justify-content: center;
-      border-radius: 6px;
+      border-radius: 6px; position: relative;
       font-size: 0.82rem; font-family: var(--mono);
       border: none; background: none; cursor: default;
       color: #ccc; transition: background 0.12s, color 0.12s, box-shadow 0.12s;
     }
+    /* Availability dot — shown after prefetch confirms slots exist */
+    .cal-day.has-slots::after {
+      content: '';
+      position: absolute; bottom: 2px; left: 50%;
+      transform: translateX(-50%);
+      width: 4px; height: 4px; border-radius: 50%;
+      background: var(--red);
+    }
+    .cal-day.sel.has-slots::after { background: #fff; }
+    .cal-day.no-slots { color: #ccc; cursor: default; pointer-events: none; opacity: 0.45; }
 
     .cal-day.avail {
       color: var(--black); cursor: pointer;
@@ -1034,6 +1044,9 @@
         onDatePicked(btn.dataset.d);
       });
     });
+
+    // Prefetch availability for all visible dates in the background
+    prefetchVisibleDates();
   }
 
   /* ── Fetch slots from GAS (GET ?date=…&mins=…&who=…) ── */
@@ -1064,6 +1077,88 @@
 
     SLOT_CACHE[cacheKey] = slots;
     return slots;
+  }
+
+  /* ── Batch-prefetch availability for all visible calendar dates ── */
+  let _prefetchController = null;  // tracks the current prefetch cycle
+
+  async function prefetchVisibleDates() {
+    if (!S.who) return;
+
+    // Abort any in-progress prefetch (e.g. user switched month quickly)
+    if (_prefetchController) _prefetchController.abort();
+    _prefetchController = new AbortController();
+    const signal = _prefetchController.signal;
+
+    // Collect all available (clickable) date strings from the rendered calendar
+    const dateBtns = $('cal-grid').querySelectorAll('button.avail');
+    const uncached = [];
+    dateBtns.forEach(btn => {
+      const ds = btn.dataset.d;
+      const cacheKey = `${ds}_${S.duration}_${S.who}`;
+      if (!SLOT_CACHE[cacheKey]) uncached.push(ds);
+    });
+
+    if (!uncached.length) {
+      // Everything is cached — just update the dots
+      updateAvailDots();
+      return;
+    }
+
+    const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+    if (!configured) {
+      // Dev fallback: generate mock slots for all dates
+      const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
+      uncached.forEach(ds => {
+        const slots = [];
+        for (let h = startH; h < 18; h++) {
+          for (let m = 0; m < 60; m += 30) {
+            const endH = h + Math.floor((m + S.duration) / 60);
+            if (endH >= 19) continue;
+            slots.push({ h, m });
+          }
+        }
+        SLOT_CACHE[`${ds}_${S.duration}_${S.who}`] = slots;
+      });
+      updateAvailDots();
+      return;
+    }
+
+    // Production: use the batch endpoint — one HTTP request for all dates
+    try {
+      const res = await fetch(
+        `/api/book?dates=${uncached.join(',')}&mins=${S.duration}&who=${S.who}`,
+        { signal }
+      );
+      const data = await res.json();
+
+      if (signal.aborted) return;
+
+      if (data.ok && data.batch) {
+        for (const [ds, slots] of Object.entries(data.results)) {
+          SLOT_CACHE[`${ds}_${S.duration}_${S.who}`] = slots;
+        }
+      }
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      // Prefetch is best-effort — individual fetchSlots will still work as fallback
+      console.warn('Prefetch failed, falling back to per-day fetch:', err);
+    }
+
+    updateAvailDots();
+  }
+
+  /* ── Update calendar day dots based on cached slot data ── */
+  function updateAvailDots() {
+    $('cal-grid').querySelectorAll('button.avail').forEach(btn => {
+      const ds = btn.dataset.d;
+      const cacheKey = `${ds}_${S.duration}_${S.who}`;
+      const slots = SLOT_CACHE[cacheKey];
+      if (slots) {
+        btn.classList.toggle('has-slots', slots.length > 0);
+        btn.classList.toggle('no-slots', slots.length === 0);
+      }
+    });
   }
 
   async function onDatePicked(dateStr) {
@@ -1354,6 +1449,8 @@
       document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       $('meta-dur').textContent = mins === 60 ? '1 hour' : `${mins} minutes`;
+      // Re-prefetch with new duration
+      prefetchVisibleDates();
     });
   });
 

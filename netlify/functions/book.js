@@ -157,7 +157,33 @@ exports.handler = async (event) => {
 
       return { statusCode: 200, headers: CORS, body };
     } else {
-      const qs = new URLSearchParams(event.queryStringParameters || {}).toString();
+      const params = event.queryStringParameters || {};
+
+      // Batch mode: ?dates=2026-03-02,2026-03-03&mins=30&who=gaurav
+      // Fires parallel GAS requests and returns all results in one response.
+      if (params.dates) {
+        const dates = params.dates.split(',').slice(0, 25); // cap at 25 dates
+        const mins = params.mins || '30';
+        const who  = params.who  || 'both';
+
+        const results = {};
+        const fetches = dates.map(async (date) => {
+          try {
+            const qs = new URLSearchParams({ date, mins, who }).toString();
+            const res = await fetch(GAS_URL + '?' + qs, { redirect: 'follow' });
+            const data = JSON.parse(await res.text());
+            results[date] = data.ok ? data.slots : [];
+          } catch {
+            results[date] = [];
+          }
+        });
+
+        await Promise.all(fetches);
+        return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, batch: true, results }) };
+      }
+
+      // Single-date mode (existing behaviour)
+      const qs = new URLSearchParams(params).toString();
       const url = GAS_URL + (qs ? '?' + qs : '');
       const res = await fetch(url, { redirect: 'follow' });
       const body = await res.text();
