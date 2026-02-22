@@ -675,21 +675,11 @@
    *        guestsCanModify: false,
    *      }, GAURAV, { conferenceDataVersion: 1, sendUpdates: 'all' });
    *
-   *      // Notify both — GmailApp avoids the self-send suppression issue
-   *      GmailApp.sendEmail(
-   *        GAURAV + ',' + JUSTIN,
-   *        'New booking: ' + d.name + ' \u2013 ' + d.startISO.slice(0, 10),
-   *        [
-   *          'Someone just booked a meeting.',
-   *          '',
-   *          'Name:  ' + d.name,
-   *          'Email: ' + d.email,
-   *          'Date:  ' + d.startISO,
-   *          'Topic: ' + d.topic,
-   *          '',
-   *          'The event is on your Google Calendar.',
-   *        ].join('\n')
-   *      );
+   *      // NOTE: Booking notification emails are now sent by the Netlify
+   *      // function (book.js) via Resend, NOT by GAS. This avoids the
+   *      // Gmail self-send suppression issue where the organizer never
+   *      // receives a notification. You can remove the GmailApp.sendEmail
+   *      // block from your deployed GAS script if it's still there.
    *
    *      return ContentService
    *        .createTextOutput(JSON.stringify({ ok: true }))

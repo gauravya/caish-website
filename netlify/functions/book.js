@@ -2,6 +2,8 @@ const GAS_URL = 'https://script.google.com/macros/s/AKfycbyGpHWJ9mztPGSKUKphCowZ
 
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
 
+const NOTIFY_TO = ['gaurav@meridiancambridge.org', 'justin@meridiancambridge.org'];
+
 // Follow POST redirects manually — standard fetch changes POST→GET on 302, losing the body
 async function gasPost(url, body, depth) {
   if (depth > 5) throw new Error('Too many redirects');
@@ -17,12 +19,122 @@ async function gasPost(url, body, depth) {
   return res.text();
 }
 
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+// Send booking notification email via Resend
+// Runs after GAS has already created the calendar event.
+// This is independent of Google — it sends a real email TO your inbox.
+async function sendNotification(booking) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.warn('RESEND_API_KEY not set — skipping booking notification email');
+    return;
+  }
+
+  const fromAddr = process.env.NOTIFICATION_FROM || 'CAISH Bookings <onboarding@resend.dev>';
+
+  const date = new Date(booking.startISO);
+  const dateStr = date.toLocaleDateString('en-GB', {
+    weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
+    timeZone: 'Europe/London',
+  });
+  const timeStr = date.toLocaleTimeString('en-GB', {
+    hour: '2-digit', minute: '2-digit',
+    timeZone: 'Europe/London',
+  });
+
+  const name = escapeHtml(booking.name);
+  const email = escapeHtml(booking.email);
+  const topic = escapeHtml(booking.topic);
+  const mins = booking.mins || 30;
+
+  const subject = `New booking: ${booking.name} — ${dateStr}`;
+
+  const text = [
+    'Someone just booked a meeting.',
+    '',
+    `Name:     ${booking.name}`,
+    `Email:    ${booking.email}`,
+    `Date:     ${dateStr}`,
+    `Time:     ${timeStr}`,
+    `Duration: ${mins} minutes`,
+    `Topic:    ${booking.topic}`,
+    '',
+    'The calendar invite has been sent and the event is on your Google Calendar.',
+  ].join('\n');
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 520px; margin: 0 auto;">
+      <h2 style="color: #7e4233; font-size: 20px; font-weight: 600; margin-bottom: 20px;">New meeting booked</h2>
+      <table style="border-collapse: collapse; width: 100%; border: 1px solid #e4e4e4; border-radius: 8px;">
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; width: 90px; vertical-align: top;">Name</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${name}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Email</td>
+          <td style="padding: 10px 14px; font-size: 14px;"><a href="mailto:${email}" style="color: #7e4233;">${email}</a></td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Date</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${dateStr}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Time</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${timeStr}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Duration</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${mins} minutes</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Topic</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${topic}</td>
+        </tr>
+      </table>
+      <p style="color: #999; font-size: 12px; margin-top: 16px;">The calendar invite has been sent and the event is on your Google Calendar.</p>
+    </div>`;
+
+  try {
+    const res = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ from: fromAddr, to: NOTIFY_TO, subject, text, html }),
+    });
+
+    if (!res.ok) {
+      const err = await res.text();
+      console.error('Notification email failed:', res.status, err);
+    }
+  } catch (err) {
+    console.error('Notification email error:', err);
+  }
+}
+
 exports.handler = async (event) => {
   if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS, body: '' };
 
   try {
     if (event.httpMethod === 'POST') {
       const body = await gasPost(GAS_URL, event.body, 0);
+
+      // Send notification email (never blocks the booking response on failure)
+      try {
+        const booking = JSON.parse(event.body);
+        await sendNotification(booking);
+      } catch (notifyErr) {
+        console.error('Notification error:', notifyErr);
+      }
+
       return { statusCode: 200, headers: CORS, body };
     } else {
       const qs = new URLSearchParams(event.queryStringParameters || {}).toString();
