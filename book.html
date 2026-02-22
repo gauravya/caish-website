@@ -393,6 +393,20 @@
 
       .t-btn { font-size: 0.9rem; }
     }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --black: #e8e8e8;
+        --ink: #c0c0c0;
+        --muted: #888;
+        --border: #333;
+        --surface: #1a1a1a;
+        --white: #1e1e1e;
+      }
+      body { background: #121212; }
+      .cal-day { color: #555; }
+      .dark-invert { filter: invert(1); }
+    }
   </style>
 </head>
 
@@ -403,7 +417,7 @@
 
         <!-- ═══ LEFT · Info ══════════════════════════ -->
         <aside class="info" aria-label="Meeting information">
-          <a href="/"><img src="/images/logo.png" class="info-logo" alt="CAISH"></a>
+          <a href="/"><img src="/images/logo.png" class="info-logo dark-invert" alt="CAISH"></a>
 
           <span class="info-label">Book a meeting</span>
 

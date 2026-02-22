@@ -63,6 +63,7 @@
     .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
     .nav-toggle{display:none}
     @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.hero{grid-template-columns:1fr;padding-top:6rem}}
+    @media(prefers-color-scheme:dark){body{background:#121212;color:#e8e8e8}nav{background:rgba(18,18,18,0.85);border-bottom-color:rgba(50,50,50,0.5)}.nav-links a{color:#b0b0b0}.hero .label{color:#e8e8e8}.label{color:#b0b0b0}.nav-toggle span{background:#e8e8e8}.dark-invert{filter:invert(1)}}
   </style>
 
   <!-- Styles (async) -->
@@ -85,7 +86,7 @@
   <nav>
     <div class="nav-inner">
       <a href="/" aria-label="Home">
-        <img src="/images/logo.png" class="logo" width="50" height="50">
+        <img src="/images/logo.png" class="logo dark-invert" width="50" height="50">
       </a>
       <ul class="nav-links">
         <li><a href="/fellowship">Alignment Fellowship</a></li>

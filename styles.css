@@ -4377,3 +4377,216 @@ select:focus {
     grid-template-columns: 100px 1fr;
   }
 }
+
+/* ==========================================================================
+   13. Dark Mode
+   ========================================================================== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --black: #e8e8e8;
+    --dark-grey: #b0b0b0;
+    --mid-grey: #808080;
+    --light-grey: #2a2a2a;
+    --off-white: #1a1a1a;
+    --cream: #1c1c1c;
+    --white: #121212;
+    --cambridge: #c47a5e;
+    --cambridge-light: #d4956e;
+    --cambridge-glow: rgba(196, 122, 94, 0.15);
+    --warm-gradient: linear-gradient(135deg, #c47a5e 0%, #d4956e 50%, #e0a888 100%);
+  }
+
+  body {
+    background: #121212;
+    color: #e8e8e8;
+  }
+
+  /* Reduce paper grain overlay */
+  body::before {
+    opacity: 0.012;
+  }
+
+  /* --- Navigation --- */
+  nav {
+    background: rgba(18, 18, 18, 0.85);
+    border-bottom-color: rgba(50, 50, 50, 0.5);
+  }
+
+  .nav-dropdown {
+    background: rgba(28, 28, 28, 0.95);
+    border-color: rgba(50, 50, 50, 0.5);
+  }
+
+  .mobile-nav {
+    background: rgba(18, 18, 18, 0.96);
+  }
+
+  /* --- Buttons --- */
+  .btn {
+    background: linear-gradient(135deg, #1e1e1e, #252525, #1e1e1e);
+    border-color: rgba(196, 122, 94, 0.2);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #c47a5e 0%, #a65d4a 30%, #8a4e3c 60%, #c47a5e 100%);
+    color: #fff;
+  }
+
+  /* --- Cards & panels --- */
+  .initiative-item {
+    background: rgba(28, 28, 28, 0.6);
+    border-color: rgba(50, 50, 50, 0.7);
+  }
+
+  .event-card {
+    background: rgba(28, 28, 28, 0.8);
+    border-color: rgba(50, 50, 50, 0.5);
+  }
+
+  .event-cover {
+    background: linear-gradient(135deg, #1e1e1e 0%, #252525 100%);
+  }
+
+  .track {
+    background: linear-gradient(135deg, rgba(28, 28, 28, 0.9), rgba(34, 34, 34, 0.7));
+    border-color: rgba(50, 50, 50, 0.6);
+  }
+
+  .feature,
+  .expectation {
+    background: rgba(28, 28, 28, 0.55);
+    border-color: rgba(50, 50, 50, 0.6);
+  }
+
+  .faq-card {
+    background: rgba(28, 28, 28, 0.85);
+    border-color: rgba(50, 50, 50, 0.6);
+  }
+
+  .fellowship-faq {
+    background: linear-gradient(135deg, rgba(28, 28, 28, 0.8), rgba(34, 34, 34, 0.88));
+    border-color: rgba(50, 50, 50, 0.6);
+  }
+
+  .fellowship-application {
+    border-color: rgba(50, 50, 50, 0.6);
+  }
+
+  .fellow {
+    background: #1e1e1e;
+    border-color: rgba(50, 50, 50, 0.6);
+  }
+
+  .mentor {
+    background: rgba(28, 28, 28, 0.7);
+    border-color: rgba(50, 50, 50, 0.15);
+  }
+
+  .timeline-detail {
+    background: #1c1c1c;
+    border-color: rgba(50, 50, 50, 0.3);
+  }
+
+  .desk-quote {
+    background: linear-gradient(135deg, rgba(28, 28, 28, 0.85), rgba(24, 24, 24, 0.92));
+  }
+
+  .research-card {
+    background: rgba(28, 28, 28, 0.7);
+    border-color: rgba(50, 50, 50, 0.5);
+  }
+
+  /* --- Footer --- */
+  footer {
+    background: rgba(18, 18, 18, 0.5);
+  }
+
+  /* --- Overlays & modals --- */
+  .fellow-overlay-card {
+    background: #1e1e1e;
+  }
+
+  .fellow-overlay-close {
+    background: rgba(30, 30, 30, 0.8);
+    border-color: rgba(60, 60, 60, 0.3);
+  }
+
+  .fellow-overlay-close:hover {
+    background: rgba(40, 40, 40, 1);
+  }
+
+  .modal-content {
+    background: #1e1e1e;
+    border-color: rgba(50, 50, 50, 0.5);
+  }
+
+  .modal-header {
+    border-bottom-color: rgba(50, 50, 50, 0.5);
+  }
+
+  .modal-body {
+    background: #1e1e1e;
+  }
+
+  .modal-body iframe {
+    background: #1e1e1e;
+  }
+
+  /* --- Skeleton loading --- */
+  .skeleton-date,
+  .skeleton-title,
+  .skeleton-location {
+    background: rgba(50, 50, 50, 0.5);
+  }
+
+  /* --- Back to top --- */
+  .back-to-top {
+    background: rgba(28, 28, 28, 0.9);
+    border-color: rgba(50, 50, 50, 0.5);
+  }
+
+  /* --- Text selection --- */
+  ::selection {
+    background: rgba(196, 122, 94, 0.3);
+    color: #e8e8e8;
+  }
+
+  ::-moz-selection {
+    background: rgba(196, 122, 94, 0.3);
+    color: #e8e8e8;
+  }
+
+  /* --- Focus states --- */
+  *:focus-visible {
+    outline-color: var(--cambridge);
+  }
+
+  /* --- Forms --- */
+  input,
+  textarea,
+  select {
+    background: #1e1e1e;
+    color: #e8e8e8;
+    border-color: #333;
+  }
+
+  /* --- Fellows track fade gradient --- */
+  .fellows-track-col.has-more::after {
+    background: linear-gradient(to bottom, transparent, #1c1c1c);
+  }
+
+  /* --- Highlight marker in dark mode --- */
+  .highlight {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'%3E%3Cpath d='M0,20 Q10,10 20,20 T40,20 T60,20 T80,20 T100,20 L100,85 Q90,95 80,85 T60,85 T40,85 T20,85 T0,85 Z' fill='%23614a00' opacity='0.45'/%3E%3C/svg%3E");
+  }
+
+  /* --- Invert black-line images for dark mode --- */
+  .dark-invert {
+    filter: invert(1);
+  }
+
+  /* For images with color details, preserve hue */
+  .dark-invert-hue {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}
