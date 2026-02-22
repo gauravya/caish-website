@@ -394,6 +394,43 @@
     }
     .s-back:hover { color: var(--black); }
 
+    /* ── Format picker (card-style) ───────────────── */
+    .format-btns {
+      display: flex; gap: 0.6rem;
+    }
+    .fmt-btn {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.35rem;
+      padding: 0.85rem 0.75rem;
+      border: 2px solid var(--border); border-radius: 10px;
+      background: var(--white);
+      font-family: var(--mono); font-size: 0.8rem;
+      color: var(--ink); cursor: pointer;
+      text-align: center;
+      transition: border-color 0.14s, background 0.14s, color 0.14s, box-shadow 0.14s;
+    }
+    .fmt-btn svg { color: var(--muted); transition: color 0.14s; }
+    .fmt-btn:hover {
+      border-color: var(--red); color: var(--red);
+      background: var(--red-tint);
+    }
+    .fmt-btn:hover svg { color: var(--red); }
+    .fmt-btn.active {
+      border-color: var(--red); color: var(--red);
+      background: var(--red-tint);
+      box-shadow: 0 0 0 3px var(--red-ring);
+    }
+    .fmt-btn.active svg { color: var(--red); }
+    .fmt-sub {
+      font-size: 0.62rem; color: var(--muted);
+      font-family: var(--mono); line-height: 1.3;
+    }
+    .fmt-btn.active .fmt-sub { color: var(--red-mid); }
+    .format-btns.has-error .fmt-btn {
+      border-color: #c0392b;
+    }
+
     /* ── Duration picker ─────────────────────────────── */
     .dur-picker {
       display: flex; align-items: center; gap: 0.85rem;
@@ -468,11 +505,11 @@
               <span id="meta-dur">30 minutes</span>
             </li>
             <li>
-              <!-- video -->
+              <!-- location -->
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
               </svg>
-              Google Meet &middot; link in invite
+              Google Meet or in person
             </li>
             <li>
               <!-- calendar -->
@@ -565,14 +602,6 @@
                 <input type="text" name="hp_f" id="hp_f" tabindex="-1" autocomplete="off">
               </div>
 
-              <div class="dur-picker">
-                <span class="dur-label">Format</span>
-                <div class="dur-btns" role="group" aria-label="Meeting format">
-                  <button type="button" class="dur-btn active" data-format="virtual">Google Meet</button>
-                  <button type="button" class="dur-btn" data-format="in-person">In person</button>
-                </div>
-              </div>
-
               <div class="fields">
                 <div class="field">
                   <label for="f-name">Full name <span class="req">*</span></label>
@@ -582,6 +611,21 @@
                 <div class="field">
                   <label for="f-email">Email <span class="req">*</span></label>
                   <input type="email" id="f-email" autocomplete="email" required placeholder="jane@example.com">
+                </div>
+
+                <div class="field">
+                  <label>Meeting format <span class="req">*</span></label>
+                  <div class="format-btns" id="format-btns" role="group" aria-label="Meeting format">
+                    <button type="button" class="fmt-btn" data-format="virtual">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                      Google Meet
+                    </button>
+                    <button type="button" class="fmt-btn" data-format="in-person">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      In person at Meridian
+                      <span class="fmt-sub">53&ndash;54 Sidney St, Cambridge</span>
+                    </button>
+                  </div>
                 </div>
 
                 <div class="field">
@@ -836,7 +880,7 @@
     calLink: null,
     formAt: 0,
     duration: 30,
-    format: 'virtual',  // 'virtual' | 'in-person'
+    format: null,       // 'virtual' | 'in-person' — must be chosen
   };
 
   /* Utilities */
@@ -1027,11 +1071,12 @@
   }
 
   /* ── Format picker ────────────────────────────── */
-  document.querySelectorAll('[data-format]').forEach(btn => {
+  document.querySelectorAll('.fmt-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       S.format = btn.dataset.format;
-      document.querySelectorAll('[data-format]').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
+      $('format-btns').classList.remove('has-error');
     });
   });
 
@@ -1040,9 +1085,9 @@
     $('s3-label').textContent =
       `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
     S.formAt = Date.now();
-    S.format = 'virtual';
-    document.querySelectorAll('[data-format]').forEach(b => b.classList.remove('active'));
-    document.querySelector('[data-format="virtual"]').classList.add('active');
+    S.format = null;
+    document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+    $('format-btns').classList.remove('has-error');
     showErr('');
     $('btn-lbl').textContent = `Book with ${HOST_SHORT[S.who]}`;
   }
@@ -1103,6 +1148,11 @@
 
     if (!name || !email || !topic) { showErr('Please fill in all fields.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('Please enter a valid email address.'); return; }
+    if (!S.format) {
+      showErr('Please select a meeting format.');
+      $('format-btns').classList.add('has-error');
+      return;
+    }
 
     // Disable button
     const btn = $('btn-sub');
