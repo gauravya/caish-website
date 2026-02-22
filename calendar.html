@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Book a 30-minute meeting with Gaurav and Justin at Meridian Cambridge.">
+  <meta name="description" content="Book a meeting with Gaurav, Justin, or both at Meridian Cambridge.">
   <title>Book a Meeting | Meridian Cambridge</title>
 
   <link rel="icon" type="image/png" href="/images/favicon.png">
@@ -127,6 +127,9 @@
     .crumb.here  { color: var(--red); }
     .crumb-sep   { color: var(--border); font-size: 0.8rem; }
 
+    /* Hide "Who" breadcrumb for direct links */
+    .crumbs.direct .who-crumb { display: none; }
+
     /* Steps */
     .step { display: none; }
     .step.on {
@@ -155,6 +158,48 @@
 
     .step-sub {
       font-size: 0.76rem; color: var(--muted); margin-bottom: 1.25rem;
+    }
+
+    /* ── Who selector ───────────────────────────────── */
+    .who-cards {
+      display: flex; flex-direction: column; gap: 0.65rem;
+      margin-top: 0.5rem;
+    }
+
+    .who-card {
+      display: flex; align-items: center;
+      padding: 1.15rem 1.35rem;
+      border: 1px solid var(--border); border-radius: 12px;
+      background: var(--white);
+      cursor: pointer; text-align: left;
+      font-family: var(--mono);
+      transition: border-color 0.14s, background 0.14s, box-shadow 0.14s;
+    }
+    .who-card:hover {
+      border-color: var(--red);
+      background: var(--red-tint);
+      box-shadow: 0 2px 12px rgba(126, 66, 51, 0.06);
+    }
+
+    .who-info { display: flex; flex-direction: column; gap: 0.15rem; }
+
+    .who-name {
+      font-family: var(--serif); font-size: 1.05rem; font-weight: 400;
+      color: var(--black); line-height: 1.2;
+      transition: color 0.14s;
+    }
+    .who-card:hover .who-name { color: var(--red); }
+
+    .who-role { font-size: 0.72rem; color: var(--muted); }
+
+    .who-arrow {
+      margin-left: auto; color: var(--border);
+      font-size: 1.1rem;
+      transition: color 0.14s, transform 0.14s;
+    }
+    .who-card:hover .who-arrow {
+      color: var(--red);
+      transform: translateX(3px);
     }
 
     /* ── Calendar ────────────────────────────────────── */
@@ -349,6 +394,62 @@
     }
     .s-back:hover { color: var(--black); }
 
+    /* ── Review card ────────────────────────────────── */
+    .review-card {
+      border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden;
+    }
+    .review-row {
+      display: flex; padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--surface);
+      font-size: 0.8rem;
+    }
+    .review-row:last-child { border-bottom: none; }
+    .review-label {
+      width: 90px; flex-shrink: 0;
+      color: var(--muted); font-size: 0.68rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding-top: 0.1rem;
+    }
+    .review-value { color: var(--ink); }
+
+    /* ── Format picker (card-style) ───────────────── */
+    .format-btns {
+      display: flex; gap: 0.6rem;
+    }
+    .fmt-btn {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center;
+      gap: 0.35rem;
+      padding: 0.85rem 0.75rem;
+      border: 2px solid var(--border); border-radius: 10px;
+      background: var(--white);
+      font-family: var(--mono); font-size: 0.8rem;
+      color: var(--ink); cursor: pointer;
+      text-align: center;
+      transition: border-color 0.14s, background 0.14s, color 0.14s, box-shadow 0.14s;
+    }
+    .fmt-btn svg { color: var(--muted); transition: color 0.14s; }
+    .fmt-btn:hover {
+      border-color: var(--red); color: var(--red);
+      background: var(--red-tint);
+    }
+    .fmt-btn:hover svg { color: var(--red); }
+    .fmt-btn.active {
+      border-color: var(--red); color: var(--red);
+      background: var(--red-tint);
+      box-shadow: 0 0 0 3px var(--red-ring);
+    }
+    .fmt-btn.active svg { color: var(--red); }
+    .fmt-sub {
+      font-size: 0.62rem; color: var(--muted);
+      font-family: var(--mono); line-height: 1.3;
+    }
+    .fmt-btn.active .fmt-sub { color: var(--red-mid); }
+    .format-btns.has-error .fmt-btn {
+      border-color: #c0392b;
+    }
+
     /* ── Duration picker ─────────────────────────────── */
     .dur-picker {
       display: flex; align-items: center; gap: 0.85rem;
@@ -408,8 +509,8 @@
           <span class="info-label">Book a meeting</span>
 
           <div>
-            <h1 class="info-names">Gaurav &amp; Justin</h1>
-            <p class="info-org">Meridian Cambridge</p>
+            <h1 class="info-names" id="info-names">Meridian Cambridge</h1>
+            <p class="info-org" id="info-org" style="display:none">Meridian Cambridge</p>
           </div>
 
           <hr class="info-rule" aria-hidden="true">
@@ -423,11 +524,11 @@
               <span id="meta-dur">30 minutes</span>
             </li>
             <li>
-              <!-- video -->
+              <!-- location -->
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
               </svg>
-              Google Meet &middot; link in invite
+              Google Meet or in person
             </li>
             <li>
               <!-- calendar -->
@@ -443,16 +544,47 @@
         <section class="widget" aria-label="Booking form">
 
           <!-- Breadcrumb -->
-          <div class="crumbs" aria-label="Booking progress">
-            <span class="crumb here" data-s="1">Date</span>
+          <div class="crumbs" id="crumbs" aria-label="Booking progress">
+            <span class="crumb here who-crumb" data-s="0">Who</span>
+            <span class="crumb-sep who-crumb" aria-hidden="true">›</span>
+            <span class="crumb" data-s="1">Date</span>
             <span class="crumb-sep" aria-hidden="true">›</span>
             <span class="crumb" data-s="2">Time</span>
             <span class="crumb-sep" aria-hidden="true">›</span>
             <span class="crumb" data-s="3">Details</span>
+            <span class="crumb-sep" aria-hidden="true">›</span>
+            <span class="crumb" data-s="4">Confirm</span>
+          </div>
+
+          <!-- Step 0 · Who -->
+          <div class="step on" id="s0">
+            <h2 class="step-title">Who would you like to meet?</h2>
+            <p class="step-sub">Select the person you&rsquo;d like to book time with.</p>
+            <div class="who-cards">
+              <button class="who-card" data-who="gaurav">
+                <div class="who-info">
+                  <span class="who-name">Gaurav Yadav</span>
+                </div>
+                <span class="who-arrow" aria-hidden="true">&#8594;</span>
+              </button>
+              <button class="who-card" data-who="justin">
+                <div class="who-info">
+                  <span class="who-name">Justin Dollman</span>
+                </div>
+                <span class="who-arrow" aria-hidden="true">&#8594;</span>
+              </button>
+              <button class="who-card" data-who="both">
+                <div class="who-info">
+                  <span class="who-name">Gaurav &amp; Justin</span>
+                </div>
+                <span class="who-arrow" aria-hidden="true">&#8594;</span>
+              </button>
+            </div>
           </div>
 
           <!-- Step 1 · Date -->
-          <div class="step on" id="s1">
+          <div class="step" id="s1">
+            <button class="step-back" id="back0" style="display:none">&#8592; Back</button>
             <div class="dur-picker" id="dur-picker">
               <span class="dur-label">Duration</span>
               <div class="dur-btns" role="group" aria-label="Meeting duration">
@@ -503,6 +635,21 @@
                 </div>
 
                 <div class="field">
+                  <label>Meeting format <span class="req">*</span></label>
+                  <div class="format-btns" id="format-btns" role="group" aria-label="Meeting format">
+                    <button type="button" class="fmt-btn" data-format="virtual">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+                      Google Meet
+                    </button>
+                    <button type="button" class="fmt-btn" data-format="in-person">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                      In person at Meridian
+                      <span class="fmt-sub">53&ndash;54 Sidney St, Cambridge</span>
+                    </button>
+                  </div>
+                </div>
+
+                <div class="field">
                   <label for="f-topic">What would you like to discuss? <span class="req">*</span></label>
                   <textarea id="f-topic" rows="3" required placeholder="A few lines on what you'd like to cover…"></textarea>
                 </div>
@@ -511,29 +658,45 @@
               <div class="form-error hidden" id="form-err" role="alert"></div>
 
               <div class="submit-wrap">
-                <button type="submit" class="btn-submit" id="btn-sub">
-                  <span id="btn-lbl">Book meeting</span>
-                  <span aria-hidden="true">&#8594;</span>
+                <button type="submit" class="btn-submit" id="btn-review">
+                  Review booking &#8594;
                 </button>
               </div>
             </form>
           </div>
 
-          <!-- Step 4 · Booked! -->
+          <!-- Step 4 · Review & Confirm -->
           <div class="step" id="s4">
+            <button class="step-back" id="back3">&#8592; Back</button>
+            <h2 class="step-title">Confirm your booking</h2>
+            <p class="step-sub">Please check the details below, then confirm.</p>
+
+            <div class="review-card" id="review-card"></div>
+
+            <div class="submit-wrap">
+              <button type="button" class="btn-submit" id="btn-confirm">
+                <span id="btn-lbl">Confirm booking</span>
+                <span aria-hidden="true">&#8594;</span>
+              </button>
+            </div>
+            <div class="form-error hidden" id="confirm-err" role="alert"></div>
+          </div>
+
+          <!-- Step 5 · Booked! -->
+          <div class="step" id="s5">
             <div class="success">
               <div class="s-icon" aria-hidden="true">&#10003;</div>
               <h2 class="s-heading">You&rsquo;re booked!</h2>
-              <p class="s-para">
+              <p class="s-para" id="s5-para">
                 A Google Meet invite has been sent to your email with all the details.
                 You can accept it to add the event to your calendar.
               </p>
-              <p class="s-slot" id="s4-slot"></p>
-              <a class="s-gcal" id="s4-gcal" href="#" target="_blank" rel="noopener noreferrer">
+              <p class="s-slot" id="s5-slot"></p>
+              <a class="s-gcal" id="s5-gcal" href="#" target="_blank" rel="noopener noreferrer">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 View in Google Calendar
               </a>
-              <a id="s4-cancel" href="#" class="s-back">Need to cancel? Email us</a>
+              <a id="s5-cancel" href="#" class="s-back">Need to cancel? Email us</a>
               <a href="/" class="s-back">&#8592; Back to CAISH</a>
             </div>
           </div>
@@ -545,25 +708,25 @@
 
   <script>
   /* =====================================================================
-   *  SETUP — Google Apps Script (one-time, ~5 min)
+   *  SETUP — Google Apps Script (one-time)
    * =====================================================================
    *
    *  HOW IT WORKS
    *  The booking page calls the GAS Web App in two ways:
    *
-   *    GET  ?date=YYYY-MM-DD&mins=30  →  returns free slots for that day
-   *                              by reading both Gaurav's and Justin's
-   *                              calendars and finding mutual free time
+   *    GET  ?date=YYYY-MM-DD&mins=30&who=gaurav
+   *                              →  returns free slots for that day
+   *                              by reading the relevant person's
+   *                              calendar(s) and finding free time
    *                              across the full working day (9am–6pm).
-   *                              mins defaults to 30; pass 45 or 60 for
-   *                              longer meeting durations.
+   *                              who = gaurav | justin | both (default)
    *
    *    POST (JSON body)       →  creates the calendar event with a
    *                              Google Meet link and sends Accept/Decline
-   *                              invites to everyone instantly.
+   *                              invites to the relevant people.
    *                              Location is automatically set to
    *                              "Sidney Street" or "Google Meet" based
-   *                              on whether either of you has an OOO /
+   *                              on whether the person has an OOO /
    *                              remote / away event that day.
    *
    *  STEPS
@@ -605,25 +768,31 @@
    *    return false;
    *  }
    *
-   *  // GET ?date=YYYY-MM-DD&mins=30 → { ok, slots: [{h, m}, …] }
+   *  // GET ?date=YYYY-MM-DD&mins=30&who=gaurav → { ok, slots }
    *  function doGet(e) {
    *    try {
    *      var parts = (e.parameter.date || '').split('-').map(Number);
    *      var date  = new Date(parts[0], parts[1]-1, parts[2]);
    *      var mins  = parseInt(e.parameter.mins || '30', 10) || 30;
+   *      var who   = e.parameter.who || 'both';
    *
-   *      var gCal = CalendarApp.getCalendarById(GAURAV);
-   *      var jCal = CalendarApp.getCalendarById(JUSTIN);
-   *      var gEvs = gCal.getEventsForDay(date);
-   *      var jEvs = jCal.getEventsForDay(date);
+   *      // Only check calendars for the people in the meeting
+   *      var gEvs = (who === 'justin')
+   *        ? [] : CalendarApp.getCalendarById(GAURAV).getEventsForDay(date);
+   *      var jEvs = (who === 'gaurav')
+   *        ? [] : CalendarApp.getCalendarById(JUSTIN).getEventsForDay(date);
+   *
+   *      // Gaurav: 10am start, Justin: 11am start
+   *      var startH = (who === 'justin') ? 11
+   *                 : (who === 'gaurav') ? 10
+   *                 : 11;
    *
    *      var slots = [];
-   *      // Full working day: 9am–6pm, 30-min start increments
-   *      for (var h = 9; h < 18; h++) {
+   *      for (var h = startH; h < 18; h++) {
    *        for (var m = 0; m < 60; m += 30) {
    *          var s = new Date(parts[0], parts[1]-1, parts[2], h, m, 0);
    *          var f = new Date(s.getTime() + mins * 60000);
-   *          if (f.getHours() >= 19) continue; // don't run past 7pm
+   *          if (f.getHours() >= 19) continue;
    *          if (!conflicts(s, f, gEvs) && !conflicts(s, f, jEvs)) {
    *            slots.push({ h: h, m: m });
    *          }
@@ -643,52 +812,51 @@
    *  // POST JSON → creates event, sends invites
    *  function doPost(e) {
    *    try {
-   *      var d    = JSON.parse(e.postData.contents);
-   *      var date = new Date(d.startISO);
-   *      // d.mins holds the chosen meeting duration (30, 45, or 60)
+   *      var d      = JSON.parse(e.postData.contents);
+   *      var date   = new Date(d.startISO);
+   *      var who    = d.who || 'both';
+   *      var format = d.format || 'virtual';
    *
-   *      var gauravAway = isAway(GAURAV, date);
-   *      var justinAway = isAway(JUSTIN, date);
-   *      var location   = (gauravAway || justinAway)
-   *        ? 'Google Meet (see video link in invite)'
-   *        : '53-54 Sidney Street, Cambridge, CB2 3HX (or Google Meet)';
+   *      var location = (format === 'in-person')
+   *        ? '53-54 Sidney Street, Cambridge, CB2 3HX'
+   *        : 'Google Meet (see video link in invite)';
    *
-   *      Calendar.Events.insert({
-   *        summary     : 'Meeting with Gaurav & Justin \u2013 ' + d.name,
+   *      var hostLabel = who === 'gaurav' ? 'Gaurav'
+   *                    : who === 'justin' ? 'Justin'
+   *                    : 'Gaurav & Justin';
+   *
+   *      var attendees = [];
+   *      if (who !== 'justin') attendees.push({ email: GAURAV });
+   *      if (who !== 'gaurav') attendees.push({ email: JUSTIN });
+   *      attendees.push({ email: d.email });
+   *
+   *      var eventBody = {
+   *        summary     : 'Meeting with ' + hostLabel + ' \u2013 ' + d.name,
    *        start       : { dateTime: d.startISO, timeZone: TZ },
    *        end         : { dateTime: d.endISO,   timeZone: TZ },
    *        location    : location,
    *        description : 'Requested by: ' + d.name + ' (' + d.email + ')\n'
    *                    + 'Topic: ' + d.topic,
-   *        attendees   : [
-   *          { email: GAURAV, organizer: true },
-   *          { email: JUSTIN },
-   *          { email: d.email },
-   *        ],
-   *        conferenceData: {
+   *        attendees   : attendees,
+   *        guestsCanSeeOtherGuests: true,
+   *        guestsCanModify: false,
+   *      };
+   *
+   *      // Only attach Google Meet for virtual meetings
+   *      var confVersion = 0;
+   *      if (format !== 'in-person') {
+   *        eventBody.conferenceData = {
    *          createRequest: {
    *            requestId: 'meet-' + Date.now(),
    *            conferenceSolutionKey: { type: 'hangoutsMeet' }
    *          }
-   *        },
-   *        guestsCanSeeOtherGuests: true,
-   *        guestsCanModify: false,
-   *      }, GAURAV, { conferenceDataVersion: 1, sendUpdates: 'all' });
+   *        };
+   *        confVersion = 1;
+   *      }
    *
-   *      // Notify both — GmailApp avoids the self-send suppression issue
-   *      GmailApp.sendEmail(
-   *        GAURAV + ',' + JUSTIN,
-   *        'New booking: ' + d.name + ' \u2013 ' + d.startISO.slice(0, 10),
-   *        [
-   *          'Someone just booked a meeting.',
-   *          '',
-   *          'Name:  ' + d.name,
-   *          'Email: ' + d.email,
-   *          'Date:  ' + d.startISO,
-   *          'Topic: ' + d.topic,
-   *          '',
-   *          'The event is on your Google Calendar.',
-   *        ].join('\n')
+   *      Calendar.Events.insert(
+   *        eventBody, GAURAV,
+   *        { conferenceDataVersion: confVersion, sendUpdates: 'all' }
    *      );
    *
    *      return ContentService
@@ -710,10 +878,31 @@
    *     → Copy the Web App URL
    *
    *  6. Paste it as CONFIG.gasUrl below
+   *
+   *  NOTE: Booking notification emails are sent by the Netlify
+   *  function (book.js) via Resend, NOT by GAS. This avoids the
+   *  Gmail self-send suppression issue.
    * ================================================================== */
   const CONFIG = {
-    gasUrl:      'https://script.google.com/macros/s/AKfycbyGpHWJ9mztPGSKUKphCowZK0w9cG5SPNJQPTO00rnENxyH2JohqsFumBDJZjvs2Olm/exec',
-    meetingMins: 30,   // updated dynamically when user picks duration
+    gasUrl:      'https://script.google.com/macros/s/AKfycbznPwFskJa3IpPP3i70VnXrZ6NdrcYpD1RsXqQzMUCY3X8_Fi-FY90RYimEd37lAf5T/exec',
+    meetingMins: 30,
+  };
+
+  /* Host labels and cancel-email targets */
+  const HOST_LABELS = {
+    gaurav: 'Gaurav Yadav',
+    justin: 'Justin Dollman',
+    both:   'Gaurav & Justin',
+  };
+  const HOST_SHORT = {
+    gaurav: 'Gaurav',
+    justin: 'Justin',
+    both:   'Gaurav & Justin',
+  };
+  const CANCEL_EMAIL = {
+    gaurav: 'gaurav@meridiancambridge.org',
+    justin: 'justin@meridiancambridge.org',
+    both:   'gaurav@meridiancambridge.org',
   };
 
   /* Per-date slot cache so we don't re-fetch if user goes back */
@@ -721,11 +910,16 @@
 
   /* App state */
   const S = {
+    who: null,          // 'gaurav' | 'justin' | 'both'
+    directLink: false,  // true if arrived via /gaurav or /justin
     calYear: null, calMonth: null,
     date: null, slot: null,
     calLink: null,
     formAt: 0,
-    duration: 30,   // selected meeting duration in minutes
+    duration: 30,
+    format: null,       // 'virtual' | 'in-person' — must be chosen
+    formData: null,     // { name, email, topic } stashed for review
+    formFilled: false,  // true when returning from review (skip form reset)
   };
 
   /* Utilities */
@@ -747,6 +941,26 @@
     const suffix = h >= 12 ? 'PM' : 'AM';
     return `${h%12||12}:${pad(m)} ${suffix}`;
   }
+
+  /* ── Info panel update ──────────────────────────── */
+  function updateInfoPanel(who) {
+    $('info-names').textContent = HOST_LABELS[who];
+    $('info-org').textContent = 'Meridian Cambridge';
+    $('info-org').style.display = '';
+  }
+
+  /* ── Who selection ──────────────────────────────── */
+  function selectWho(who) {
+    S.who = who;
+    updateInfoPanel(who);
+    // Flush cache when switching person (different availability)
+    Object.keys(SLOT_CACHE).forEach(k => delete SLOT_CACHE[k]);
+    go(1);
+  }
+
+  document.querySelectorAll('.who-card').forEach(card => {
+    card.addEventListener('click', () => selectWho(card.dataset.who));
+  });
 
   /* ── Calendar ──────────────────────────────────── */
   function initCal() {
@@ -788,7 +1002,7 @@
           const d    = new Date(y, m, day);
           const dow  = d.getDay();
           const wknd = dow===0||dow===6;
-          const past = d < t;
+          const past = d <= t;
           const far  = d > max;
           const ok   = !wknd && !past && !far;
           const isToday = d.toDateString() === t.toDateString();
@@ -822,25 +1036,25 @@
     });
   }
 
-  /* ── Fetch slots from GAS (GET ?date=YYYY-MM-DD&mins=N) ── */
+  /* ── Fetch slots from GAS (GET ?date=…&mins=…&who=…) ── */
   async function fetchSlots(dateStr) {
-    const cacheKey = `${dateStr}_${S.duration}`;
+    const cacheKey = `${dateStr}_${S.duration}_${S.who}`;
     if (SLOT_CACHE[cacheKey]) return SLOT_CACHE[cacheKey];
 
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
     let slots;
 
     if (configured) {
-      const res  = await fetch(`/api/book?date=${dateStr}&mins=${S.duration}`);
+      const res  = await fetch(`/api/book?date=${dateStr}&mins=${S.duration}&who=${S.who}`);
       const data = await res.json();
       if (!data.ok) throw new Error(data.e || 'Could not load availability.');
       slots = data.slots;
     } else {
-      // Dev fallback: full working day slots every 30 min, 9am–5:30pm
+      // Dev fallback: Gaurav 10am, Justin 11am, both 11am
+      const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
       slots = [];
-      for (let h = 9; h < 18; h++) {
+      for (let h = startH; h < 18; h++) {
         for (let m = 0; m < 60; m += 30) {
-          // Don't offer a slot if the meeting would end after 7pm
           const endH = h + Math.floor((m + S.duration) / 60);
           if (endH >= 19) continue;
           slots.push({ h, m });
@@ -853,7 +1067,6 @@
   }
 
   async function onDatePicked(dateStr) {
-    // Show step 2 immediately with a loading state
     go(2);
     $('s2-label').textContent = fmtDate(S.date);
     $('times').innerHTML = '<p class="t-loading">Checking availability\u2026</p>';
@@ -896,16 +1109,35 @@
     });
   }
 
+  /* ── Format picker ────────────────────────────── */
+  document.querySelectorAll('.fmt-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      S.format = btn.dataset.format;
+      document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      $('format-btns').classList.remove('has-error');
+    });
+  });
+
   /* ── Form init ─────────────────────────────────── */
   function initForm() {
     $('s3-label').textContent =
-      `${fmtDate(S.date)} · ${fmtTime(S.slot.h, S.slot.m)}`;
+      `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
     S.formAt = Date.now();
+    S.format = null;
+    S.formData = null;
+    S.formFilled = false;
+    $('f-name').value = '';
+    $('f-email').value = '';
+    $('f-topic').value = '';
+    document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
+    $('format-btns').classList.remove('has-error');
     showErr('');
   }
 
   /* ── Google Calendar link ──────────────────────── */
   function buildCalLink(name, email, topic) {
+    const host = HOST_SHORT[S.who];
     const start = new Date(S.date);
     start.setHours(S.slot.h, S.slot.m, 0, 0);
     const end = new Date(start);
@@ -915,13 +1147,12 @@
       `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`
       + `T${pad(d.getHours())}${pad(d.getMinutes())}00`;
 
-    // No attendees — the real invite is sent by GAS. This is just a personal reminder link.
     return [
       'https://calendar.google.com/calendar/render?action=TEMPLATE',
-      `text=${encodeURIComponent(`Meeting with Gaurav & Justin – ${name}`)}`,
+      `text=${encodeURIComponent(`Meeting with ${host} \u2013 ${name}`)}`,
       `dates=${fmt(start)}/${fmt(end)}`,
-      `details=${encodeURIComponent(`Topic: ${topic}\n\nCheck your email for the Google Meet invite.`)}`,
-      `location=${encodeURIComponent('53-54 Sidney Street, Cambridge, CB2 3HX (or Google Meet)')}`,
+      `details=${encodeURIComponent(`Topic: ${topic}\n\n${S.format === 'virtual' ? 'Check your email for the Google Meet invite.' : 'In-person meeting at Sidney Street.'}`)}`,
+      `location=${encodeURIComponent(S.format === 'in-person' ? '53-54 Sidney Street, Cambridge, CB2 3HX' : 'Google Meet (see invite)')}`,
     ].join('&');
   }
 
@@ -932,8 +1163,8 @@
     el.classList.toggle('hidden', !msg);
   }
 
-  /* ── Form submit ───────────────────────────────── */
-  $('form').addEventListener('submit', async e => {
+  /* ── Form submit → go to review step ─────────── */
+  $('form').addEventListener('submit', e => {
     e.preventDefault();
 
     // Spam: honeypot
@@ -945,7 +1176,7 @@
       return;
     }
 
-    // Spam: 24-hour rate limit — allow 2 bookings (in case someone needs to rebook after cancelling)
+    // Spam: 24-hour rate limit — allow 2 bookings
     const bkRaw = localStorage.getItem('caish_bk');
     let bkData = null;
     try { bkData = JSON.parse(bkRaw); } catch(_) { bkData = bkRaw ? { count: 1, first: Number(bkRaw) } : null; }
@@ -960,14 +1191,48 @@
 
     if (!name || !email || !topic) { showErr('Please fill in all fields.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('Please enter a valid email address.'); return; }
+    if (!S.format) {
+      showErr('Please select a meeting format.');
+      $('format-btns').classList.add('has-error');
+      return;
+    }
 
-    // Disable button
-    const btn = $('btn-sub');
+    // Stash form values for review + submit
+    S.formData = { name, email, topic };
+
+    // Build review card
+    const host = HOST_SHORT[S.who];
+    const formatLabel = S.format === 'in-person'
+      ? 'In person \u2014 Meridian, 53\u201354 Sidney St'
+      : 'Google Meet';
+    const durLabel = S.duration === 60 ? '1 hour' : `${S.duration} minutes`;
+
+    $('review-card').innerHTML = [
+      row('Who', host),
+      row('Date', fmtDate(S.date)),
+      row('Time', fmtTime(S.slot.h, S.slot.m) + ` (${durLabel})`),
+      row('Format', formatLabel),
+      row('Name', name),
+      row('Email', email),
+      row('Topic', topic),
+    ].join('');
+
+    $('btn-lbl').textContent = `Confirm booking`;
+    $('btn-confirm').disabled = false;
+    go(4);
+  });
+
+  function row(label, value) {
+    return `<div class="review-row"><span class="review-label">${label}</span><span class="review-value">${value}</span></div>`;
+  }
+
+  /* ── Confirm → actually book ────────────────────── */
+  $('btn-confirm').addEventListener('click', async () => {
+    const { name, email, topic } = S.formData;
+    const btn = $('btn-confirm');
     btn.disabled = true;
     $('btn-lbl').textContent = 'Booking\u2026';
-    showErr('');
 
-    // Build times
     const start = new Date(S.date);
     start.setHours(S.slot.h, S.slot.m, 0, 0);
     const end = new Date(start);
@@ -976,6 +1241,8 @@
     S.calLink = buildCalLink(name, email, topic);
 
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+    const errEl = $('confirm-err');
+    errEl.classList.add('hidden');
 
     try {
       if (configured) {
@@ -987,12 +1254,14 @@
             startISO: start.toISOString(),
             endISO:   end.toISOString(),
             mins:     S.duration,
+            who:      S.who,
+            format:   S.format,
           }),
         });
       } else {
-        // Dev mode — no GAS URL configured, skip network call and show success
         console.log('Dev mode: booking would be sent to GAS with', { name, email, topic,
-          startISO: start.toISOString(), endISO: end.toISOString(), mins: S.duration });
+          startISO: start.toISOString(), endISO: end.toISOString(),
+          mins: S.duration, who: S.who, format: S.format });
       }
 
       const prevRaw = localStorage.getItem('caish_bk');
@@ -1005,18 +1274,25 @@
       }
 
       // Wire up success screen
-      const slotLabel = `${fmtDate(S.date)} · ${fmtTime(S.slot.h, S.slot.m)}`;
-      $('s4-slot').textContent = slotLabel;
-      $('s4-gcal').href = S.calLink;
-      $('s4-cancel').href = `mailto:gaurav@meridiancambridge.org?subject=${encodeURIComponent('Cancel meeting – ' + slotLabel)}&body=${encodeURIComponent('Hi Gaurav,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
+      const host = HOST_SHORT[S.who];
+      const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
+      $('s5-slot').textContent = `${host} \u00b7 ${slotLabel}`;
+      $('s5-gcal').href = S.calLink;
+      $('s5-para').textContent = S.format === 'in-person'
+        ? `A calendar invite for your in-person meeting with ${host} at Sidney Street has been sent to your email.`
+        : `A Google Meet invite for your meeting with ${host} has been sent to your email. You can accept it to add the event to your calendar.`;
 
-      go(4);
+      const cancelTo = CANCEL_EMAIL[S.who];
+      $('s5-cancel').href = `mailto:${cancelTo}?subject=${encodeURIComponent('Cancel meeting \u2013 ' + slotLabel)}&body=${encodeURIComponent('Hi,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
+
+      go(5);
 
     } catch(err) {
       console.error(err);
-      showErr('Something went wrong. Please email hello@cambridgeaisafety.org directly.');
+      errEl.textContent = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
+      errEl.classList.remove('hidden');
       btn.disabled = false;
-      $('btn-lbl').textContent = 'Book meeting';
+      $('btn-lbl').textContent = 'Confirm booking';
     }
   });
 
@@ -1026,24 +1302,34 @@
     $(`s${n}`).classList.add('on');
 
     document.querySelectorAll('.crumb').forEach(el => {
+      if (!el.dataset.s) return; // skip separators
       const sn = +el.dataset.s;
       el.classList.remove('here','done');
       if (sn === n) el.classList.add('here');
       else if (sn < n) el.classList.add('done');
     });
 
+    if (n===0) {
+      // Reset to landing state
+      $('info-names').textContent = 'Meridian Cambridge';
+      $('info-org').style.display = 'none';
+    }
     if (n===1) renderCal();
-    // n===2: slots are loaded by onDatePicked; going back just shows whatever was cached
-    if (n===3) initForm();
+    if (n===3 && !S.formFilled) initForm();
   }
 
+  /* Back buttons */
+  $('back0').addEventListener('click', () => go(0));
   $('back1').addEventListener('click', () => go(1));
-  // Back from details: re-show the cached time slots for the already-picked date
+  $('back3').addEventListener('click', () => {
+    S.formFilled = true;  // preserve form inputs
+    go(3);
+  });
   $('back2').addEventListener('click', () => {
     go(2);
     $('s2-label').textContent = fmtDate(S.date);
     const ds = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
-    renderTimes(SLOT_CACHE[`${ds}_${S.duration}`] || []);
+    renderTimes(SLOT_CACHE[`${ds}_${S.duration}_${S.who}`] || []);
   });
 
   $('cal-prev').addEventListener('click', () => {
@@ -1064,17 +1350,44 @@
       if (mins === S.duration) return;
       S.duration = mins;
       CONFIG.meetingMins = mins;
-      // Flush cache — different duration changes which slots are free
       Object.keys(SLOT_CACHE).forEach(k => delete SLOT_CACHE[k]);
       document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      // Update left-panel meta label
       $('meta-dur').textContent = mins === 60 ? '1 hour' : `${mins} minutes`;
     });
   });
 
   /* ── Boot ──────────────────────────────────────── */
-  initCal();
+  (function boot() {
+    const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
+    const params = new URLSearchParams(window.location.search);
+
+    let directWho = null;
+    if (path === '/gaurav') directWho = 'gaurav';
+    else if (path === '/justin') directWho = 'justin';
+    else if (params.get('who') && ['gaurav','justin','both'].includes(params.get('who')))
+      directWho = params.get('who');
+
+    if (directWho) {
+      S.who = directWho;
+      S.directLink = true;
+      $('crumbs').classList.add('direct');
+      updateInfoPanel(directWho);
+      go(1);
+    } else {
+      S.who = null;
+      S.directLink = false;
+      // Show the back button on step 1 (hidden by default, shown when not direct)
+      go(0);
+    }
+
+    // Show back button on step 1 only for non-direct links
+    if (!S.directLink) {
+      $('back0').style.display = '';
+    }
+
+    initCal();
+  })();
   </script>
 </body>
 </html>
