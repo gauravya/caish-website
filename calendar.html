@@ -394,6 +394,25 @@
     }
     .s-back:hover { color: var(--black); }
 
+    /* ── Review card ────────────────────────────────── */
+    .review-card {
+      border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden;
+    }
+    .review-row {
+      display: flex; padding: 0.6rem 1rem;
+      border-bottom: 1px solid var(--surface);
+      font-size: 0.8rem;
+    }
+    .review-row:last-child { border-bottom: none; }
+    .review-label {
+      width: 90px; flex-shrink: 0;
+      color: var(--muted); font-size: 0.68rem;
+      text-transform: uppercase; letter-spacing: 0.06em;
+      padding-top: 0.1rem;
+    }
+    .review-value { color: var(--ink); }
+
     /* ── Format picker (card-style) ───────────────── */
     .format-btns {
       display: flex; gap: 0.6rem;
@@ -533,6 +552,8 @@
             <span class="crumb" data-s="2">Time</span>
             <span class="crumb-sep" aria-hidden="true">›</span>
             <span class="crumb" data-s="3">Details</span>
+            <span class="crumb-sep" aria-hidden="true">›</span>
+            <span class="crumb" data-s="4">Confirm</span>
           </div>
 
           <!-- Step 0 · Who -->
@@ -637,29 +658,45 @@
               <div class="form-error hidden" id="form-err" role="alert"></div>
 
               <div class="submit-wrap">
-                <button type="submit" class="btn-submit" id="btn-sub">
-                  <span id="btn-lbl">Book meeting</span>
-                  <span aria-hidden="true">&#8594;</span>
+                <button type="submit" class="btn-submit" id="btn-review">
+                  Review booking &#8594;
                 </button>
               </div>
             </form>
           </div>
 
-          <!-- Step 4 · Booked! -->
+          <!-- Step 4 · Review & Confirm -->
           <div class="step" id="s4">
+            <button class="step-back" id="back3">&#8592; Back</button>
+            <h2 class="step-title">Confirm your booking</h2>
+            <p class="step-sub">Please check the details below, then confirm.</p>
+
+            <div class="review-card" id="review-card"></div>
+
+            <div class="submit-wrap">
+              <button type="button" class="btn-submit" id="btn-confirm">
+                <span id="btn-lbl">Confirm booking</span>
+                <span aria-hidden="true">&#8594;</span>
+              </button>
+            </div>
+            <div class="form-error hidden" id="confirm-err" role="alert"></div>
+          </div>
+
+          <!-- Step 5 · Booked! -->
+          <div class="step" id="s5">
             <div class="success">
               <div class="s-icon" aria-hidden="true">&#10003;</div>
               <h2 class="s-heading">You&rsquo;re booked!</h2>
-              <p class="s-para" id="s4-para">
+              <p class="s-para" id="s5-para">
                 A Google Meet invite has been sent to your email with all the details.
                 You can accept it to add the event to your calendar.
               </p>
-              <p class="s-slot" id="s4-slot"></p>
-              <a class="s-gcal" id="s4-gcal" href="#" target="_blank" rel="noopener noreferrer">
+              <p class="s-slot" id="s5-slot"></p>
+              <a class="s-gcal" id="s5-gcal" href="#" target="_blank" rel="noopener noreferrer">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                 View in Google Calendar
               </a>
-              <a id="s4-cancel" href="#" class="s-back">Need to cancel? Email us</a>
+              <a id="s5-cancel" href="#" class="s-back">Need to cancel? Email us</a>
               <a href="/" class="s-back">&#8592; Back to CAISH</a>
             </div>
           </div>
@@ -881,6 +918,8 @@
     formAt: 0,
     duration: 30,
     format: null,       // 'virtual' | 'in-person' — must be chosen
+    formData: null,     // { name, email, topic } stashed for review
+    formFilled: false,  // true when returning from review (skip form reset)
   };
 
   /* Utilities */
@@ -963,7 +1002,7 @@
           const d    = new Date(y, m, day);
           const dow  = d.getDay();
           const wknd = dow===0||dow===6;
-          const past = d < t;
+          const past = d <= t;
           const far  = d > max;
           const ok   = !wknd && !past && !far;
           const isToday = d.toDateString() === t.toDateString();
@@ -1086,10 +1125,14 @@
       `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
     S.formAt = Date.now();
     S.format = null;
+    S.formData = null;
+    S.formFilled = false;
+    $('f-name').value = '';
+    $('f-email').value = '';
+    $('f-topic').value = '';
     document.querySelectorAll('.fmt-btn').forEach(b => b.classList.remove('active'));
     $('format-btns').classList.remove('has-error');
     showErr('');
-    $('btn-lbl').textContent = `Book with ${HOST_SHORT[S.who]}`;
   }
 
   /* ── Google Calendar link ──────────────────────── */
@@ -1120,8 +1163,8 @@
     el.classList.toggle('hidden', !msg);
   }
 
-  /* ── Form submit ───────────────────────────────── */
-  $('form').addEventListener('submit', async e => {
+  /* ── Form submit → go to review step ─────────── */
+  $('form').addEventListener('submit', e => {
     e.preventDefault();
 
     // Spam: honeypot
@@ -1154,13 +1197,42 @@
       return;
     }
 
-    // Disable button
-    const btn = $('btn-sub');
+    // Stash form values for review + submit
+    S.formData = { name, email, topic };
+
+    // Build review card
+    const host = HOST_SHORT[S.who];
+    const formatLabel = S.format === 'in-person'
+      ? 'In person \u2014 Meridian, 53\u201354 Sidney St'
+      : 'Google Meet';
+    const durLabel = S.duration === 60 ? '1 hour' : `${S.duration} minutes`;
+
+    $('review-card').innerHTML = [
+      row('Who', host),
+      row('Date', fmtDate(S.date)),
+      row('Time', fmtTime(S.slot.h, S.slot.m) + ` (${durLabel})`),
+      row('Format', formatLabel),
+      row('Name', name),
+      row('Email', email),
+      row('Topic', topic),
+    ].join('');
+
+    $('btn-lbl').textContent = `Confirm booking`;
+    $('btn-confirm').disabled = false;
+    go(4);
+  });
+
+  function row(label, value) {
+    return `<div class="review-row"><span class="review-label">${label}</span><span class="review-value">${value}</span></div>`;
+  }
+
+  /* ── Confirm → actually book ────────────────────── */
+  $('btn-confirm').addEventListener('click', async () => {
+    const { name, email, topic } = S.formData;
+    const btn = $('btn-confirm');
     btn.disabled = true;
     $('btn-lbl').textContent = 'Booking\u2026';
-    showErr('');
 
-    // Build times
     const start = new Date(S.date);
     start.setHours(S.slot.h, S.slot.m, 0, 0);
     const end = new Date(start);
@@ -1169,6 +1241,8 @@
     S.calLink = buildCalLink(name, email, topic);
 
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
+    const errEl = $('confirm-err');
+    errEl.classList.add('hidden');
 
     try {
       if (configured) {
@@ -1202,22 +1276,23 @@
       // Wire up success screen
       const host = HOST_SHORT[S.who];
       const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
-      $('s4-slot').textContent = `${host} \u00b7 ${slotLabel}`;
-      $('s4-gcal').href = S.calLink;
-      $('s4-para').textContent = S.format === 'in-person'
+      $('s5-slot').textContent = `${host} \u00b7 ${slotLabel}`;
+      $('s5-gcal').href = S.calLink;
+      $('s5-para').textContent = S.format === 'in-person'
         ? `A calendar invite for your in-person meeting with ${host} at Sidney Street has been sent to your email.`
         : `A Google Meet invite for your meeting with ${host} has been sent to your email. You can accept it to add the event to your calendar.`;
 
       const cancelTo = CANCEL_EMAIL[S.who];
-      $('s4-cancel').href = `mailto:${cancelTo}?subject=${encodeURIComponent('Cancel meeting \u2013 ' + slotLabel)}&body=${encodeURIComponent('Hi,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
+      $('s5-cancel').href = `mailto:${cancelTo}?subject=${encodeURIComponent('Cancel meeting \u2013 ' + slotLabel)}&body=${encodeURIComponent('Hi,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
 
-      go(4);
+      go(5);
 
     } catch(err) {
       console.error(err);
-      showErr('Something went wrong. Please email hello@cambridgeaisafety.org directly.');
+      errEl.textContent = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
+      errEl.classList.remove('hidden');
       btn.disabled = false;
-      $('btn-lbl').textContent = `Book with ${HOST_SHORT[S.who]}`;
+      $('btn-lbl').textContent = 'Confirm booking';
     }
   });
 
@@ -1240,12 +1315,16 @@
       $('info-org').style.display = 'none';
     }
     if (n===1) renderCal();
-    if (n===3) initForm();
+    if (n===3 && !S.formFilled) initForm();
   }
 
   /* Back buttons */
   $('back0').addEventListener('click', () => go(0));
   $('back1').addEventListener('click', () => go(1));
+  $('back3').addEventListener('click', () => {
+    S.formFilled = true;  // preserve form inputs
+    go(3);
+  });
   $('back2').addEventListener('click', () => {
     go(2);
     $('s2-label').textContent = fmtDate(S.date);
