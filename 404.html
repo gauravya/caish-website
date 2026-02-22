@@ -51,13 +51,16 @@
 
   <script>
     const mantra = document.getElementById('mantra');
-    let text = "We aligned the alignment";
+    const targets = ["the law", "ethics", "human values"];
+    let text = "We aligned AI to human values";
+    let i = 0;
 
     setTimeout(() => {
       mantra.textContent = text + ".";
       setInterval(() => {
-        text += " of the alignment";
+        text += ". No, " + targets[i % targets.length];
         mantra.textContent = text + ".";
+        i++;
       }, 2500);
     }, 2500);
   </script>
