@@ -693,8 +693,13 @@
    *      var jEvs = (who === 'gaurav')
    *        ? [] : CalendarApp.getCalendarById(JUSTIN).getEventsForDay(date);
    *
+   *      // Gaurav: 10am start, Justin: 11am start
+   *      var startH = (who === 'justin') ? 11
+   *                 : (who === 'gaurav') ? 10
+   *                 : 11;
+   *
    *      var slots = [];
-   *      for (var h = 9; h < 18; h++) {
+   *      for (var h = startH; h < 18; h++) {
    *        for (var m = 0; m < 60; m += 30) {
    *          var s = new Date(parts[0], parts[1]-1, parts[2], h, m, 0);
    *          var f = new Date(s.getTime() + mins * 60000);
@@ -943,9 +948,10 @@
       if (!data.ok) throw new Error(data.e || 'Could not load availability.');
       slots = data.slots;
     } else {
-      // Dev fallback: full working day slots every 30 min, 9am–5:30pm
+      // Dev fallback: Gaurav 10am, Justin 11am, both 11am
+      const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
       slots = [];
-      for (let h = 9; h < 18; h++) {
+      for (let h = startH; h < 18; h++) {
         for (let m = 0; m < 60; m += 30) {
           const endH = h + Math.floor((m + S.duration) / 60);
           if (endH >= 19) continue;
