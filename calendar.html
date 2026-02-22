@@ -827,9 +827,11 @@
    *      var who    = d.who || 'both';
    *      var format = d.format || 'virtual';
    *
+   *      // Only set location for in-person meetings; for virtual, the
+   *      // Google Meet link is attached via conferencing — no fake location.
    *      var location = (format === 'in-person')
    *        ? '53-54 Sidney Street, Cambridge, CB2 3HX'
-   *        : 'Google Meet (see video link in invite)';
+   *        : '';
    *
    *      var hostLabel = who === 'gaurav' ? 'Gaurav'
    *                    : who === 'justin' ? 'Justin'
@@ -915,8 +917,11 @@
     both:   'gaurav@meridiancambridge.org',
   };
 
-  /* Per-date slot cache so we don't re-fetch if user goes back */
+  /* Per-date slot cache so we don't re-fetch if user goes back.
+     Each entry: { slots: [...], at: timestamp }
+     Entries older than CACHE_TTL_MS are treated as stale. */
   const SLOT_CACHE = {};
+  const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
 
   /* App state */
   const S = {
@@ -1050,18 +1055,51 @@
   }
 
   /* ── Fetch slots from GAS (GET ?date=…&mins=…&who=…) ── */
+  function cacheGet(key) {
+    const entry = SLOT_CACHE[key];
+    if (!entry) return null;
+    return entry.slots;
+  }
+  function cacheIsStale(key) {
+    const entry = SLOT_CACHE[key];
+    return !entry || (Date.now() - entry.at > CACHE_TTL_MS);
+  }
+  function cacheSet(key, slots) {
+    SLOT_CACHE[key] = { slots, at: Date.now() };
+  }
+
+  async function fetchSlotsFromServer(dateStr) {
+    const res  = await fetch(`/api/book?date=${dateStr}&mins=${S.duration}&who=${S.who}`);
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.e || 'Could not load availability.');
+    return data.slots;
+  }
+
   async function fetchSlots(dateStr) {
     const cacheKey = `${dateStr}_${S.duration}_${S.who}`;
-    if (SLOT_CACHE[cacheKey]) return SLOT_CACHE[cacheKey];
+    const cached = cacheGet(cacheKey);
+
+    // Fresh cache — return immediately
+    if (cached && !cacheIsStale(cacheKey)) return cached;
 
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
     let slots;
 
     if (configured) {
-      const res  = await fetch(`/api/book?date=${dateStr}&mins=${S.duration}&who=${S.who}`);
-      const data = await res.json();
-      if (!data.ok) throw new Error(data.e || 'Could not load availability.');
-      slots = data.slots;
+      // Stale cache exists — return cached data now, revalidate in background
+      if (cached) {
+        fetchSlotsFromServer(dateStr).then(fresh => {
+          cacheSet(cacheKey, fresh);
+          // If the user is still looking at this date, update the time slots
+          if (S.date) {
+            const viewingDs = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
+            if (viewingDs === dateStr) renderTimes(fresh);
+          }
+          updateAvailDots();
+        }).catch(() => {});
+        return cached;
+      }
+      slots = await fetchSlotsFromServer(dateStr);
     } else {
       // Dev fallback: Gaurav 10am, Justin 11am, both 11am
       const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
@@ -1075,7 +1113,7 @@
       }
     }
 
-    SLOT_CACHE[cacheKey] = slots;
+    cacheSet(cacheKey, slots);
     return slots;
   }
 
@@ -1096,7 +1134,7 @@
     dateBtns.forEach(btn => {
       const ds = btn.dataset.d;
       const cacheKey = `${ds}_${S.duration}_${S.who}`;
-      if (!SLOT_CACHE[cacheKey]) uncached.push(ds);
+      if (!cacheGet(cacheKey)) uncached.push(ds);
     });
 
     if (!uncached.length) {
@@ -1118,7 +1156,7 @@
             slots.push({ h, m });
           }
         }
-        SLOT_CACHE[`${ds}_${S.duration}_${S.who}`] = slots;
+        cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
       });
       updateAvailDots();
       return;
@@ -1136,7 +1174,7 @@
 
       if (data.ok && data.batch) {
         for (const [ds, slots] of Object.entries(data.results)) {
-          SLOT_CACHE[`${ds}_${S.duration}_${S.who}`] = slots;
+          cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
         }
       }
     } catch (err) {
@@ -1153,7 +1191,7 @@
     $('cal-grid').querySelectorAll('button.avail').forEach(btn => {
       const ds = btn.dataset.d;
       const cacheKey = `${ds}_${S.duration}_${S.who}`;
-      const slots = SLOT_CACHE[cacheKey];
+      const slots = cacheGet(cacheKey);
       if (slots) {
         btn.classList.toggle('has-slots', slots.length > 0);
         btn.classList.toggle('no-slots', slots.length === 0);
@@ -1242,13 +1280,18 @@
       `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`
       + `T${pad(d.getHours())}${pad(d.getMinutes())}00`;
 
-    return [
+    const parts = [
       'https://calendar.google.com/calendar/render?action=TEMPLATE',
       `text=${encodeURIComponent(`Meeting with ${host} \u2013 ${name}`)}`,
       `dates=${fmt(start)}/${fmt(end)}`,
       `details=${encodeURIComponent(`Topic: ${topic}\n\n${S.format === 'virtual' ? 'Check your email for the Google Meet invite.' : 'In-person meeting at Sidney Street.'}`)}`,
-      `location=${encodeURIComponent(S.format === 'in-person' ? '53-54 Sidney Street, Cambridge, CB2 3HX' : 'Google Meet (see invite)')}`,
-    ].join('&');
+    ];
+    // Only set a location for in-person meetings; virtual meetings get their
+    // Google Meet link from the calendar invite itself — no fake location needed.
+    if (S.format === 'in-person') {
+      parts.push(`location=${encodeURIComponent('53-54 Sidney Street, Cambridge, CB2 3HX')}`);
+    }
+    return parts.join('&');
   }
 
   /* ── Error helper ──────────────────────────────── */
@@ -1341,6 +1384,23 @@
 
     try {
       if (configured) {
+        // Re-check availability right before booking to catch concurrent bookings
+        const dateStr = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
+        const freshSlots = await fetchSlotsFromServer(dateStr);
+        cacheSet(`${dateStr}_${S.duration}_${S.who}`, freshSlots);
+        const stillFree = freshSlots.some(sl => sl.h === S.slot.h && sl.m === S.slot.m);
+        if (!stillFree) {
+          // Slot was taken — show error and refresh the time slots view
+          errEl.textContent = 'This time slot was just taken. Please pick another time.';
+          errEl.classList.remove('hidden');
+          btn.disabled = false;
+          $('btn-lbl').textContent = 'Confirm booking';
+          renderTimes(freshSlots);
+          updateAvailDots();
+          go(2);
+          throw new Error('__slot_taken__');
+        }
+
         await fetch('/api/book', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -1383,6 +1443,7 @@
       go(5);
 
     } catch(err) {
+      if (err.message === '__slot_taken__') return; // already handled above
       console.error(err);
       errEl.textContent = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
       errEl.classList.remove('hidden');
@@ -1424,7 +1485,7 @@
     go(2);
     $('s2-label').textContent = fmtDate(S.date);
     const ds = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
-    renderTimes(SLOT_CACHE[`${ds}_${S.duration}_${S.who}`] || []);
+    renderTimes(cacheGet(`${ds}_${S.duration}_${S.who}`) || []);
   });
 
   $('cal-prev').addEventListener('click', () => {
@@ -1470,6 +1531,13 @@
       S.directLink = true;
       $('crumbs').classList.add('direct');
       updateInfoPanel(directWho);
+
+      // Update page title & description for direct booking links
+      const label = HOST_LABELS[directWho];
+      document.title = `Book a Meeting with ${label}`;
+      const metaDesc = document.querySelector('meta[name="description"]');
+      if (metaDesc) metaDesc.setAttribute('content', `Book a meeting with ${label}.`);
+
       go(1);
     } else {
       S.who = null;
