@@ -1,4 +1,4 @@
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbyGpHWJ9mztPGSKUKphCowZK0w9cG5SPNJQPTO00rnENxyH2JohqsFumBDJZjvs2Olm/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxSzl77zGalNyxj9Q_NpLjYaMH7dnbIRHQH-dJblLhxToPcJzBn6hrnABxxWA9AwnNu/exec';
 
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
 
