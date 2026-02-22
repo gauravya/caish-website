@@ -2,7 +2,12 @@ const GAS_URL = 'https://script.google.com/macros/s/AKfycbyGpHWJ9mztPGSKUKphCowZ
 
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
 
-const NOTIFY_TO = ['gaurav@meridiancambridge.org', 'justin@meridiancambridge.org'];
+const NOTIFY_EMAILS = {
+  gaurav: ['gaurav@meridiancambridge.org'],
+  justin: ['justin@meridiancambridge.org'],
+  both:   ['gaurav@meridiancambridge.org', 'justin@meridiancambridge.org'],
+};
+const HOST_LABELS = { gaurav: 'Gaurav', justin: 'Justin', both: 'Gaurav & Justin' };
 
 // Follow POST redirects manually — standard fetch changes POST→GET on 302, losing the body
 async function gasPost(url, body, depth) {
@@ -53,14 +58,18 @@ async function sendNotification(booking) {
   const email = escapeHtml(booking.email);
   const topic = escapeHtml(booking.topic);
   const mins = booking.mins || 30;
+  const who = booking.who || 'both';
+  const hostLabel = HOST_LABELS[who] || 'Gaurav & Justin';
+  const notifyTo = NOTIFY_EMAILS[who] || NOTIFY_EMAILS.both;
 
-  const subject = `New booking: ${booking.name} — ${dateStr}`;
+  const subject = `New booking with ${hostLabel}: ${booking.name} — ${dateStr}`;
 
   const text = [
-    'Someone just booked a meeting.',
+    `Someone just booked a meeting with ${hostLabel}.`,
     '',
     `Name:     ${booking.name}`,
     `Email:    ${booking.email}`,
+    `Meeting:  ${hostLabel}`,
     `Date:     ${dateStr}`,
     `Time:     ${timeStr}`,
     `Duration: ${mins} minutes`,
@@ -71,7 +80,7 @@ async function sendNotification(booking) {
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 520px; margin: 0 auto;">
-      <h2 style="color: #7e4233; font-size: 20px; font-weight: 600; margin-bottom: 20px;">New meeting booked</h2>
+      <h2 style="color: #7e4233; font-size: 20px; font-weight: 600; margin-bottom: 20px;">New meeting booked with ${hostLabel}</h2>
       <table style="border-collapse: collapse; width: 100%; border: 1px solid #e4e4e4; border-radius: 8px;">
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; width: 90px; vertical-align: top;">Name</td>
@@ -80,6 +89,10 @@ async function sendNotification(booking) {
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Email</td>
           <td style="padding: 10px 14px; font-size: 14px;"><a href="mailto:${email}" style="color: #7e4233;">${email}</a></td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Meeting</td>
+          <td style="padding: 10px 14px; font-size: 14px;">With ${hostLabel}</td>
         </tr>
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Date</td>
@@ -108,7 +121,7 @@ async function sendNotification(booking) {
         'Authorization': `Bearer ${apiKey}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ from: fromAddr, to: NOTIFY_TO, subject, text, html }),
+      body: JSON.stringify({ from: fromAddr, to: notifyTo, subject, text, html }),
     });
 
     if (!res.ok) {

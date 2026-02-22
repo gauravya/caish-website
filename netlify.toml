@@ -75,6 +75,19 @@
   status = 200
   force = true
 
+# Direct booking URLs — serve calendar.html (JS reads pathname)
+[[redirects]]
+  from = "/gaurav"
+  to = "/calendar.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/justin"
+  to = "/calendar.html"
+  status = 200
+  force = true
+
 # Clean URLs
 [[redirects]]
   from = "/*"
