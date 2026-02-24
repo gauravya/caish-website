@@ -1,6 +1,34 @@
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbypDh04zDGMw0iwzl0TXlQLgruNCQgkgObo6FCHhh78mK0mkCZFDtbmAYTtWrxEeBFK/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxGiSGE_Hyp19MzcK7B0jadrBg1f2lEa386CVlS6b1D37dne3ucsh1wf6XWgIyvwn8i/exec';
 
 const CORS = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
+const CORS_CACHED = {
+  'Access-Control-Allow-Origin': '*',
+  'Content-Type': 'application/json',
+  'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',
+};
+
+/* ── Server-side in-memory slot cache ──────────────────────────────────
+ * Persists across warm Lambda invocations (same container, ~15-30 min).
+ * Dramatically reduces GAS calls for repeat visitors. */
+const _slotCache = new Map();
+const SLOT_TTL = 2 * 60 * 1000; // 2 minutes
+
+function slotCacheGet(key) {
+  const entry = _slotCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.at > SLOT_TTL) { _slotCache.delete(key); return null; }
+  return entry.data;
+}
+function slotCacheSet(key, data) {
+  _slotCache.set(key, { data, at: Date.now() });
+  // Evict old entries if cache grows too large (unlikely, but safe)
+  if (_slotCache.size > 500) {
+    const now = Date.now();
+    for (const [k, v] of _slotCache) {
+      if (now - v.at > SLOT_TTL) _slotCache.delete(k);
+    }
+  }
+}
 
 const NOTIFY_EMAILS = {
   gaurav: ['gaurav@meridiancambridge.org'],
@@ -160,34 +188,92 @@ exports.handler = async (event) => {
       const params = event.queryStringParameters || {};
 
       // Batch mode: ?dates=2026-03-02,2026-03-03&mins=30&who=gaurav
-      // Fires parallel GAS requests and returns all results in one response.
+      // Checks server-side cache first, only hits GAS for uncached dates.
       if (params.dates) {
         const dates = params.dates.split(',').slice(0, 25); // cap at 25 dates
         const mins = params.mins || '30';
         const who  = params.who  || 'both';
 
         const results = {};
-        const fetches = dates.map(async (date) => {
+        const uncached = [];
+
+        // Serve from cache where possible
+        for (const date of dates) {
+          const key = `${date}_${mins}_${who}`;
+          const cached = slotCacheGet(key);
+          if (cached !== null) {
+            results[date] = cached;
+          } else {
+            uncached.push(date);
+          }
+        }
+
+        // Only hit GAS for dates we don't have cached
+        if (uncached.length > 0) {
+          // Try GAS batch endpoint first (single call for all dates).
+          // Falls back to parallel individual calls if GAS returns non-batch response.
+          let batchOk = false;
           try {
-            const qs = new URLSearchParams({ date, mins, who }).toString();
+            const qs = new URLSearchParams({ dates: uncached.join(','), mins, who }).toString();
             const res = await fetch(GAS_URL + '?' + qs, { redirect: 'follow' });
             const data = JSON.parse(await res.text());
-            results[date] = data.ok ? data.slots : [];
-          } catch {
-            results[date] = [];
-          }
-        });
+            if (data.ok && data.batch && data.results) {
+              for (const [d, slots] of Object.entries(data.results)) {
+                slotCacheSet(`${d}_${mins}_${who}`, slots);
+                results[d] = slots;
+              }
+              batchOk = true;
+            }
+          } catch {}
 
-        await Promise.all(fetches);
-        return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: true, batch: true, results }) };
+          // Fallback: parallel individual GAS calls (old GAS without batch)
+          if (!batchOk) {
+            const fetches = uncached.map(async (date) => {
+              try {
+                const qs = new URLSearchParams({ date, mins, who }).toString();
+                const res = await fetch(GAS_URL + '?' + qs, { redirect: 'follow' });
+                const data = JSON.parse(await res.text());
+                const slots = data.ok ? data.slots : [];
+                slotCacheSet(`${date}_${mins}_${who}`, slots);
+                results[date] = slots;
+              } catch {
+                results[date] = [];
+              }
+            });
+            await Promise.all(fetches);
+          }
+        }
+
+        return { statusCode: 200, headers: CORS_CACHED, body: JSON.stringify({ ok: true, batch: true, results }) };
       }
 
-      // Single-date mode (existing behaviour)
+      // Single-date mode — also uses server-side cache
+      const date = params.date;
+      const mins = params.mins || '30';
+      const who  = params.who  || 'both';
+
+      if (date) {
+        const key = `${date}_${mins}_${who}`;
+        const cached = slotCacheGet(key);
+        if (cached !== null) {
+          return { statusCode: 200, headers: CORS_CACHED, body: JSON.stringify({ ok: true, slots: cached }) };
+        }
+      }
+
       const qs = new URLSearchParams(params).toString();
       const url = GAS_URL + (qs ? '?' + qs : '');
       const res = await fetch(url, { redirect: 'follow' });
       const body = await res.text();
-      return { statusCode: 200, headers: CORS, body };
+
+      // Cache the result for future requests
+      if (date) {
+        try {
+          const data = JSON.parse(body);
+          if (data.ok) slotCacheSet(`${date}_${mins}_${who}`, data.slots);
+        } catch {}
+      }
+
+      return { statusCode: 200, headers: CORS_CACHED, body };
     }
   } catch (err) {
     return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: false, e: String(err) }) };

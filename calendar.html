@@ -731,6 +731,13 @@
    *                              across the full working day (9am–6pm).
    *                              who = gaurav | justin | both (default)
    *
+   *    GET  ?dates=YYYY-MM-DD,YYYY-MM-DD,...&mins=30&who=gaurav
+   *                              →  BATCH mode: returns free slots for
+   *                              multiple dates in one call. Reads
+   *                              calendar events for the full date range
+   *                              once, then computes per-day availability.
+   *                              Much faster than N individual calls.
+   *
    *    POST (JSON body)       →  creates the calendar event with a
    *                              Google Meet link and sends Accept/Decline
    *                              invites to the relevant people.
@@ -757,19 +764,6 @@
    *  var JUSTIN = 'justin@meridiancambridge.org';
    *  var TZ     = 'Europe/London';
    *
-   *  // Returns true if the calendar has an OOO/remote event that day
-   *  function isAway(calId, date) {
-   *    try {
-   *      var events = CalendarApp.getCalendarById(calId).getEventsForDay(date);
-   *      var OOO = /(out.of.office|ooo|remote|work.?from.?home|wfh|away|not.in.office|virtual)/i;
-   *      for (var i = 0; i < events.length; i++) {
-   *        if (OOO.test(events[i].getTitle())) return true;
-   *      }
-   *    } catch(e) {}
-   *    return false;
-   *  }
-   *
-   *  // Returns true if a slot [start, end) overlaps any event
    *  function conflicts(start, end, events) {
    *    for (var i = 0; i < events.length; i++) {
    *      var es = events[i].getStartTime(), ee = events[i].getEndTime();
@@ -778,21 +772,84 @@
    *    return false;
    *  }
    *
-   *  // GET ?date=YYYY-MM-DD&mins=30&who=gaurav → { ok, slots }
+   *  function timedOnly(events) {
+   *    return events.filter(function(ev) { return !ev.isAllDayEvent(); });
+   *  }
+   *
+   *  // Compute free slots for a single date given pre-fetched events
+   *  function slotsForDay(date, mins, who, gEvs, jEvs) {
+   *    var parts = [date.getFullYear(), date.getMonth(), date.getDate()];
+   *    var startH = (who === 'justin') ? 11
+   *               : (who === 'gaurav') ? 10
+   *               : 11;
+   *    var dayStart = new Date(parts[0], parts[1], parts[2], 0, 0, 0);
+   *    var dayEnd   = new Date(parts[0], parts[1], parts[2], 23, 59, 59);
+   *    var gDay = gEvs.filter(function(ev) {
+   *      return ev.getStartTime() < dayEnd && ev.getEndTime() > dayStart;
+   *    });
+   *    var jDay = jEvs.filter(function(ev) {
+   *      return ev.getStartTime() < dayEnd && ev.getEndTime() > dayStart;
+   *    });
+   *    var slots = [];
+   *    for (var h = startH; h < 18; h++) {
+   *      for (var m = 0; m < 60; m += 30) {
+   *        var s = new Date(parts[0], parts[1], parts[2], h, m, 0);
+   *        var f = new Date(s.getTime() + mins * 60000);
+   *        if (f.getHours() >= 19) continue;
+   *        if (!conflicts(s, f, gDay) && !conflicts(s, f, jDay)) {
+   *          slots.push({ h: h, m: m });
+   *        }
+   *      }
+   *    }
+   *    return slots;
+   *  }
+   *
    *  function doGet(e) {
    *    try {
+   *      var mins = parseInt(e.parameter.mins || '30', 10) || 30;
+   *      var who  = e.parameter.who || 'both';
+   *
+   *      // ── Batch mode: ?dates=YYYY-MM-DD,YYYY-MM-DD,...
+   *      // One calendar read for the whole range instead of N calls.
+   *      if (e.parameter.dates) {
+   *        var dateStrs = e.parameter.dates.split(',');
+   *        var dates = dateStrs.map(function(ds) {
+   *          var p = ds.split('-').map(Number);
+   *          return new Date(p[0], p[1]-1, p[2]);
+   *        });
+   *
+   *        var earliest = dates[0], latest = dates[0];
+   *        for (var i = 1; i < dates.length; i++) {
+   *          if (dates[i] < earliest) earliest = dates[i];
+   *          if (dates[i] > latest)   latest   = dates[i];
+   *        }
+   *        var rangeEnd = new Date(latest);
+   *        rangeEnd.setDate(rangeEnd.getDate() + 1);
+   *
+   *        var gEvs = (who === 'justin') ? []
+   *          : timedOnly(CalendarApp.getDefaultCalendar().getEvents(earliest, rangeEnd));
+   *        var jEvs = (who === 'gaurav') ? []
+   *          : timedOnly(CalendarApp.getCalendarById(JUSTIN).getEvents(earliest, rangeEnd));
+   *
+   *        var results = {};
+   *        for (var i = 0; i < dates.length; i++) {
+   *          results[dateStrs[i]] = slotsForDay(dates[i], mins, who, gEvs, jEvs);
+   *        }
+   *
+   *        return ContentService
+   *          .createTextOutput(JSON.stringify({ ok: true, batch: true, results: results }))
+   *          .setMimeType(ContentService.MimeType.JSON);
+   *      }
+   *
+   *      // ── Single-date mode: ?date=YYYY-MM-DD
    *      var parts = (e.parameter.date || '').split('-').map(Number);
    *      var date  = new Date(parts[0], parts[1]-1, parts[2]);
-   *      var mins  = parseInt(e.parameter.mins || '30', 10) || 30;
-   *      var who   = e.parameter.who || 'both';
    *
-   *      // Only check calendars for the people in the meeting
    *      var gEvs = (who === 'justin')
-   *        ? [] : CalendarApp.getCalendarById(GAURAV).getEventsForDay(date);
+   *        ? [] : timedOnly(CalendarApp.getDefaultCalendar().getEventsForDay(date));
    *      var jEvs = (who === 'gaurav')
-   *        ? [] : CalendarApp.getCalendarById(JUSTIN).getEventsForDay(date);
+   *        ? [] : timedOnly(CalendarApp.getCalendarById(JUSTIN).getEventsForDay(date));
    *
-   *      // Gaurav: 10am start, Justin: 11am start
    *      var startH = (who === 'justin') ? 11
    *                 : (who === 'gaurav') ? 10
    *                 : 11;
@@ -827,8 +884,6 @@
    *      var who    = d.who || 'both';
    *      var format = d.format || 'virtual';
    *
-   *      // Only set location for in-person meetings; for virtual, the
-   *      // Google Meet link is attached via conferencing — no fake location.
    *      var location = (format === 'in-person')
    *        ? '53-54 Sidney Street, Cambridge, CB2 3HX'
    *        : '';
@@ -854,7 +909,6 @@
    *        guestsCanModify: false,
    *      };
    *
-   *      // Only attach Google Meet for virtual meetings
    *      var confVersion = 0;
    *      if (format !== 'in-person') {
    *        eventBody.conferenceData = {
@@ -894,9 +948,13 @@
    *  NOTE: Booking notification emails are sent by the Netlify
    *  function (book.js) via Resend, NOT by GAS. This avoids the
    *  Gmail self-send suppression issue.
+   *
+   *  IMPORTANT: After updating this script, you MUST create a NEW
+   *  deployment (not just save). Go to Deploy → Manage deployments →
+   *  New version. The Web App URL stays the same.
    * ================================================================== */
   const CONFIG = {
-    gasUrl:      'https://script.google.com/macros/s/AKfycbypDh04zDGMw0iwzl0TXlQLgruNCQgkgObo6FCHhh78mK0mkCZFDtbmAYTtWrxEeBFK/exec',
+    gasUrl:      'https://script.google.com/macros/s/AKfycbxGiSGE_Hyp19MzcK7B0jadrBg1f2lEa386CVlS6b1D37dne3ucsh1wf6XWgIyvwn8i/exec',
     meetingMins: 30,
   };
 
@@ -1162,28 +1220,48 @@
       return;
     }
 
-    // Production: use the batch endpoint — one HTTP request for all dates
-    try {
-      const res = await fetch(
-        `/api/book?dates=${uncached.join(',')}&mins=${S.duration}&who=${S.who}`,
-        { signal }
-      );
-      const data = await res.json();
+    // Production: progressive prefetch — nearest 7 days first, then the rest.
+    // This lets the user see availability for dates they're most likely to
+    // click while the remaining dates load in the background.
+    const todayMs = today0().getTime();
+    const nearDates = [];
+    const farDates  = [];
+    const NEAR_WINDOW = 8 * 86_400_000; // 8 days in ms
 
-      if (signal.aborted) return;
-
-      if (data.ok && data.batch) {
-        for (const [ds, slots] of Object.entries(data.results)) {
-          cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
-        }
-      }
-    } catch (err) {
-      if (err.name === 'AbortError') return;
-      // Prefetch is best-effort — individual fetchSlots will still work as fallback
-      console.warn('Prefetch failed, falling back to per-day fetch:', err);
+    for (const ds of uncached) {
+      const [y,m,d] = ds.split('-').map(Number);
+      const dMs = new Date(y, m-1, d).getTime();
+      if (dMs - todayMs <= NEAR_WINDOW) nearDates.push(ds);
+      else farDates.push(ds);
     }
 
-    updateAvailDots();
+    // Fetch a batch of dates, cache results, and update dots immediately
+    const fetchBatch = async (dates) => {
+      if (!dates.length || signal.aborted) return;
+      try {
+        const res = await fetch(
+          `/api/book?dates=${dates.join(',')}&mins=${S.duration}&who=${S.who}`,
+          { signal }
+        );
+        const data = await res.json();
+        if (signal.aborted) return;
+        if (data.ok && data.batch) {
+          for (const [ds, slots] of Object.entries(data.results)) {
+            cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
+          }
+        }
+        updateAvailDots();
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.warn('Prefetch batch failed:', err);
+      }
+    };
+
+    // Wave 1: near dates (fast, small batch → quick dots for this week)
+    await fetchBatch(nearDates);
+
+    // Wave 2: remaining dates (larger batch, loads in background)
+    await fetchBatch(farDates);
   }
 
   /* ── Update calendar day dots based on cached slot data ── */
