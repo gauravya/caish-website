@@ -378,6 +378,15 @@
     position: relative;
   }
 
+  .nav-has-dropdown::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: 0.6rem;
+  }
+
   .nav-dropdown {
     position: absolute;
     top: calc(100% + 0.6rem);
