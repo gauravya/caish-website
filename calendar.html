@@ -1003,7 +1003,7 @@
     const d = new Date(); d.setHours(0,0,0,0); return d;
   }
   function maxDate() {
-    const d = today0(); d.setDate(d.getDate() + 42); return d;
+    const d = today0(); d.setDate(d.getDate() + 21); return d;
   }
   function fmtDate(d) {
     return d.toLocaleDateString('en-GB', {
@@ -1601,6 +1601,7 @@
     let directWho = null;
     if (path === '/gaurav') directWho = 'gaurav';
     else if (path === '/justin') directWho = 'justin';
+    else if (path === '/both') directWho = 'both';
     else if (params.get('who') && ['gaurav','justin','both'].includes(params.get('who')))
       directWho = params.get('who');
 

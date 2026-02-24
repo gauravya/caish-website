@@ -88,6 +88,12 @@
   status = 200
   force = true
 
+[[redirects]]
+  from = "/both"
+  to = "/calendar.html"
+  status = 200
+  force = true
+
 # Legacy /book URL → redirect to /calendar
 [[redirects]]
   from = "/book"
