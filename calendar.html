@@ -13,6 +13,40 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
+  <!-- Early fetch: start loading availability data BEFORE CSS/fonts load.
+       For direct links (/gaurav, /justin, /both), we know the person and
+       can compute the dates immediately. Saves ~500ms-1s. -->
+  <script>
+  window.__earlyFetch = null;
+  (function() {
+    var path = location.pathname.replace(/\/$/, '').toLowerCase();
+    var who = null;
+    if (path === '/gaurav') who = 'gaurav';
+    else if (path === '/justin') who = 'justin';
+    else if (path === '/both') who = 'both';
+    else {
+      var p = new URLSearchParams(location.search);
+      var w = p.get('who');
+      if (w && (w === 'gaurav' || w === 'justin' || w === 'both')) who = w;
+    }
+    if (!who) return;
+    var today = new Date(); today.setHours(0,0,0,0);
+    var dates = [];
+    for (var i = 1; i <= 21; i++) {
+      var d = new Date(today); d.setDate(d.getDate() + i);
+      var dow = d.getDay();
+      if (dow === 0 || dow === 6) continue;
+      dates.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
+    }
+    if (!dates.length) return;
+    window.__earlyFetch = {
+      who: who, mins: 30, dates: dates,
+      promise: fetch('/api/book?dates=' + dates.join(',') + '&mins=30&who=' + who)
+        .then(function(r) { return r.json(); }).catch(function() { return null; })
+    };
+  })();
+  </script>
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1036,13 +1070,6 @@
   });
 
   /* ── Calendar ──────────────────────────────────── */
-  function initCal() {
-    const now = new Date();
-    S.calYear = now.getFullYear();
-    S.calMonth = now.getMonth();
-    renderCal();
-  }
-
   function renderCal() {
     const t   = today0();
     const max = maxDate();
@@ -1220,15 +1247,35 @@
       return;
     }
 
-    // Production: progressive prefetch — nearest 7 days first, then the rest.
-    // This lets the user see availability for dates they're most likely to
-    // click while the remaining dates load in the background.
+    // Check if the early fetch (started in <head> before CSS loaded) covers our dates
+    const ef = window.__earlyFetch;
+    if (ef && ef.who === S.who && ef.mins === S.duration) {
+      try {
+        const data = await ef.promise;
+        if (data && data.ok && data.batch && !signal.aborted) {
+          for (const [ds, slots] of Object.entries(data.results)) {
+            cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
+          }
+          updateAvailDots();
+          // Check if early fetch covered everything
+          const stillUncached = uncached.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
+          if (!stillUncached.length) { window.__earlyFetch = null; return; }
+        }
+      } catch {}
+      window.__earlyFetch = null;  // consumed — don't reuse
+    }
+
+    // Fetch remaining uncached dates (anything not covered by early fetch)
+    const remaining = uncached.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
+    if (!remaining.length) return;
+
+    // Split into near/far waves and fetch CONCURRENTLY
     const todayMs = today0().getTime();
     const nearDates = [];
     const farDates  = [];
     const NEAR_WINDOW = 8 * 86_400_000; // 8 days in ms
 
-    for (const ds of uncached) {
+    for (const ds of remaining) {
       const [y,m,d] = ds.split('-').map(Number);
       const dMs = new Date(y, m-1, d).getTime();
       if (dMs - todayMs <= NEAR_WINDOW) nearDates.push(ds);
@@ -1257,11 +1304,8 @@
       }
     };
 
-    // Wave 1: near dates (fast, small batch → quick dots for this week)
-    await fetchBatch(nearDates);
-
-    // Wave 2: remaining dates (larger batch, loads in background)
-    await fetchBatch(farDates);
+    // Both waves run concurrently — dots update as each completes
+    await Promise.all([fetchBatch(nearDates), fetchBatch(farDates)]);
   }
 
   /* ── Update calendar day dots based on cached slot data ── */
@@ -1598,6 +1642,11 @@
     const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
     const params = new URLSearchParams(window.location.search);
 
+    // Initialize calendar state BEFORE go() so renderCal() has valid year/month
+    const now = new Date();
+    S.calYear = now.getFullYear();
+    S.calMonth = now.getMonth();
+
     let directWho = null;
     if (path === '/gaurav') directWho = 'gaurav';
     else if (path === '/justin') directWho = 'justin';
@@ -1617,11 +1666,10 @@
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) metaDesc.setAttribute('content', `Book a meeting with ${label}.`);
 
-      go(1);
+      go(1);  // renders calendar once, correctly
     } else {
       S.who = null;
       S.directLink = false;
-      // Show the back button on step 1 (hidden by default, shown when not direct)
       go(0);
     }
 
@@ -1629,8 +1677,6 @@
     if (!S.directLink) {
       $('back0').style.display = '';
     }
-
-    initCal();
   })();
   </script>
 </body>
