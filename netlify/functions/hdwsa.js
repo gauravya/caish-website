@@ -1,0 +1,161 @@
+// Netlify Function to redirect to the most upcoming HDWSA event
+// This keeps the API key secure on the server side
+
+const LUMA_EVENTS_URL = 'https://api.lu.ma/public/v1/calendar/list-events';
+const LUMA_GET_EVENT_URL = 'https://api.lu.ma/public/v1/event/get';
+
+// Fetch individual events by ID from the LUMA_EXTRA_EVENT_IDS env var
+async function fetchExtraEvents(apiKey) {
+  const extraIds = (process.env.LUMA_EXTRA_EVENT_IDS || '').split(',').map(id => id.trim()).filter(Boolean);
+  if (extraIds.length === 0) return [];
+
+  const results = await Promise.allSettled(
+    extraIds.map(async (eventId) => {
+      const url = new URL(LUMA_GET_EVENT_URL);
+      url.searchParams.set('event_api_id', eventId);
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) return null;
+      const data = await response.json();
+      return data.event ? { event: data.event } : null;
+    })
+  );
+
+  return results
+    .filter(r => r.status === 'fulfilled' && r.value)
+    .map(r => r.value);
+}
+
+exports.handler = async (event) => {
+  const headers = {
+    'Cache-Control': 's-maxage=3600, stale-while-revalidate=86400'
+  };
+
+  if (event.httpMethod !== 'GET') {
+    return {
+      statusCode: 405,
+      headers,
+      body: 'Method not allowed'
+    };
+  }
+
+  const apiKey = process.env.LUMA_API_KEY;
+
+  if (!apiKey) {
+    console.error('LUMA_API_KEY environment variable not set');
+    return {
+      statusCode: 500,
+      headers,
+      body: 'API configuration error'
+    };
+  }
+
+  try {
+    // Fetch all pages of events from the Luma API using cursor-based pagination
+    let allEntries = [];
+    let cursor = null;
+    const MAX_PAGES = 10;
+
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const url = new URL(LUMA_EVENTS_URL);
+      if (cursor) {
+        url.searchParams.set('pagination_cursor', cursor);
+      }
+
+      const response = await fetch(url.toString(), {
+        method: 'GET',
+        headers: {
+          'x-luma-api-key': apiKey,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Luma API error:', response.status, errorText);
+        return {
+          statusCode: 500,
+          headers,
+          body: 'Failed to fetch events from Luma'
+        };
+      }
+
+      const data = await response.json();
+      const entries = data.entries || data.events || [];
+      allEntries = allEntries.concat(entries);
+
+      if (!data.has_more || !data.next_cursor) {
+        break;
+      }
+      cursor = data.next_cursor;
+    }
+
+    // Fetch extra events not managed by the CAISH calendar
+    const extraEntries = await fetchExtraEvents(apiKey);
+    const seenIds = new Set(allEntries.map(e => (e.event || e).api_id).filter(Boolean));
+    for (const entry of extraEntries) {
+      const id = (entry.event || entry).api_id;
+      if (id && !seenIds.has(id)) {
+        allEntries.push(entry);
+        seenIds.add(id);
+      }
+    }
+
+    let events = allEntries;
+
+    // Filter for HDWSA (How Do We Solve Alignment) events
+    events = events.filter(entry => {
+      const eventData = entry.event || entry;
+      const name = (eventData.name || '').toLowerCase();
+      return name.includes('how do we solve alignment');
+    });
+
+    // Sort by start time (most recent first)
+    events.sort((a, b) => {
+      const dateA = new Date((a.event || a).start_at || (a.event || a).start_time);
+      const dateB = new Date((b.event || b).start_at || (b.event || b).start_time);
+      return dateB - dateA;
+    });
+
+    // Get the most recent event
+    if (events.length === 0) {
+      console.error('No HDWSA events found');
+      return {
+        statusCode: 404,
+        headers,
+        body: 'No "How Do We Solve Alignment" club events found. Please check back later!'
+      };
+    }
+
+    const nextEvent = events[0];
+    const eventData = nextEvent.event || nextEvent;
+
+    // Get the Luma URL
+    const lumaUrl = eventData.url || `https://lu.ma/${eventData.api_id || eventData.id}`;
+
+    console.log(`Redirecting to HDWSA event: ${eventData.name} at ${lumaUrl}`);
+
+    // Return a redirect response
+    return {
+      statusCode: 302,
+      headers: {
+        ...headers,
+        'Location': lumaUrl
+      },
+      body: ''
+    };
+
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    return {
+      statusCode: 500,
+      headers,
+      body: 'Unable to load HDWSA events at this time. Please try again later.'
+    };
+  }
+};
