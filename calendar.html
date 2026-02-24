@@ -1093,7 +1093,6 @@
 
     let day = 1;
     for (let row = 0; row < 6; row++) {
-      if (day > last.getDate()) break;
       for (let col = 0; col < 7; col++) {
         const idx = row*7+col;
         if (idx < startOff || day > last.getDate()) {
