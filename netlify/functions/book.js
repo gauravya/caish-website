@@ -149,22 +149,25 @@ async function sendNotification(booking) {
       <p style="color: #999; font-size: 12px; margin-top: 16px;">The calendar invite has been sent and the event is on your Google Calendar.</p>
     </div>`;
 
-  try {
-    const res = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ from: fromAddr, to: notifyTo, subject, text, html }),
-    });
+  // Send individual emails to each recipient to avoid Resend batch issues
+  for (const recipient of notifyTo) {
+    try {
+      const res = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ from: fromAddr, to: [recipient], subject, text, html }),
+      });
 
-    if (!res.ok) {
-      const err = await res.text();
-      console.error('Notification email failed:', res.status, err);
+      if (!res.ok) {
+        const err = await res.text();
+        console.error(`Notification to ${recipient} failed:`, res.status, err);
+      }
+    } catch (err) {
+      console.error(`Notification to ${recipient} error:`, err);
     }
-  } catch (err) {
-    console.error('Notification email error:', err);
   }
 }
 

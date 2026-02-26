@@ -303,29 +303,49 @@
       box-shadow: inset 0 0 0 1px var(--border);
     }
 
-    /* ── Time slots ──────────────────────────────────── */
+    /* ── Time slots (timeline layout) ────────────────── */
     .times {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: 1fr;
-      gap: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
       margin-top: 0.25rem;
       flex: 1; min-height: 0;
+      overflow-y: auto;
+      padding-right: 0.25rem;
     }
 
     .t-btn {
-      display: flex; align-items: center; justify-content: center;
+      display: flex; align-items: center; gap: 0.5rem;
       border: 1px solid var(--border); border-radius: 8px;
       background: var(--white); font-family: var(--mono);
       font-size: 0.82rem; color: var(--ink);
-      cursor: pointer; width: 100%; height: 100%;
+      cursor: pointer; padding: 0.7rem 1rem;
       transition: border-color 0.14s, color 0.14s, background 0.14s;
     }
     .t-btn:hover {
       border-color: var(--red); color: var(--red);
       background: var(--red-tint);
     }
-    .t-btn .t-arrow { display: none; }
+    .t-btn .t-arrow {
+      margin-left: auto; color: var(--border);
+      transition: color 0.14s;
+    }
+    .t-btn:hover .t-arrow { color: var(--red); }
+
+    .t-uk {
+      font-size: 0.65rem; color: var(--muted);
+    }
+    .t-btn:hover .t-uk { color: var(--red-mid); }
+
+    .tl-gap {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.2rem 0.5rem;
+      font-size: 0.6rem; color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+    .tl-gap-line {
+      flex: 1; border-top: 1px dashed var(--border);
+    }
 
     .tz {
       font-size: 0.67rem; color: var(--muted);
@@ -651,7 +671,7 @@
             <h2 class="step-title">Choose a time</h2>
             <p class="step-sub" id="s2-label"></p>
             <div class="times" id="times" role="group" aria-label="Available times"></div>
-            <p class="tz">All times in UK time (GMT / BST)</p>
+            <p class="tz" id="tz-label">All times in UK time (GMT / BST)</p>
           </div>
 
           <!-- Step 3 · Details -->
@@ -830,7 +850,7 @@
    *    });
    *    var slots = [];
    *    for (var h = startH; h < 18; h++) {
-   *      for (var m = 0; m < 60; m += 30) {
+   *      for (var m = 0; m < 60; m += 5) {
    *        var s = new Date(parts[0], parts[1], parts[2], h, m, 0);
    *        var f = new Date(s.getTime() + mins * 60000);
    *        if (f.getHours() >= 19) continue;
@@ -894,7 +914,7 @@
    *
    *      var slots = [];
    *      for (var h = startH; h < 18; h++) {
-   *        for (var m = 0; m < 60; m += 30) {
+   *        for (var m = 0; m < 60; m += 5) {
    *          var s = new Date(parts[0], parts[1]-1, parts[2], h, m, 0);
    *          var f = new Date(s.getTime() + mins * 60000);
    *          if (f.getHours() >= 19) continue;
@@ -1051,6 +1071,53 @@
   function fmtTime(h, m) {
     const suffix = h >= 12 ? 'PM' : 'AM';
     return `${h%12||12}:${pad(m)} ${suffix}`;
+  }
+
+  /* ── Timezone utilities ───────────────────────── */
+  const USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const IS_UK = USER_TZ === 'Europe/London';
+
+  // Convert a UK-time slot (h:m on a given date) to a Date object
+  function ukSlotToDate(dateObj, h, m) {
+    // Start with UTC guess assuming UK = UTC (GMT)
+    let d = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), h, m, 0));
+    // Check what UK actually shows — may differ during BST (UTC+1)
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/London', hour: 'numeric', minute: 'numeric', hour12: false
+    }).formatToParts(d);
+    const ukH = parseInt(parts.find(p => p.type === 'hour').value);
+    const ukM = parseInt(parts.find(p => p.type === 'minute').value);
+    const diffMins = (ukH * 60 + ukM) - (h * 60 + m);
+    if (diffMins !== 0) d = new Date(d.getTime() - diffMins * 60000);
+    return d;
+  }
+
+  function fmtLocalTime(dateObj, h, m) {
+    if (IS_UK) return fmtTime(h, m);
+    const d = ukSlotToDate(dateObj, h, m);
+    let timeStr = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    // Flag if the local date differs from the UK date
+    const localDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const ukDay = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+    const dayDiff = Math.round((localDay - ukDay) / 86400000);
+    if (dayDiff === -1) timeStr += ' (day before)';
+    else if (dayDiff === 1) timeStr += ' (next day)';
+    return timeStr;
+  }
+
+  // Format for display: local time + UK note for non-UK users
+  function fmtTimeDisplay(dateObj, h, m) {
+    if (IS_UK) return fmtTime(h, m);
+    return `${fmtLocalTime(dateObj, h, m)} (${fmtTime(h, m)} UK)`;
+  }
+
+  function tzLabel() {
+    if (IS_UK) return 'All times in UK time (GMT / BST)';
+    try {
+      const short = new Intl.DateTimeFormat([], { timeZoneName: 'short' })
+        .formatToParts(new Date()).find(p => p.type === 'timeZoneName').value;
+      return `Times shown in ${short} \u00b7 Meetings are in UK time`;
+    } catch { return 'Times shown in your local timezone'; }
   }
 
   /* ── Info panel update ──────────────────────────── */
@@ -1342,7 +1409,7 @@
     }
   }
 
-  /* ── Render time slot buttons ──────────────────── */
+  /* ── Render time slots (vertical timeline) ────── */
   function renderTimes(slots) {
     if (!slots || !slots.length) {
       $('times').innerHTML =
@@ -1352,12 +1419,43 @@
       return;
     }
 
-    $('times').innerHTML = slots.map(sl =>
-      `<button class="t-btn" data-h="${sl.h}" data-m="${sl.m}">
-        <span>${fmtTime(sl.h, sl.m)}</span>
-        <span class="t-arrow">&#8594;</span>
-      </button>`
-    ).join('');
+    // Sort slots chronologically
+    const sorted = [...slots].sort((a, b) => (a.h * 60 + a.m) - (b.h * 60 + b.m));
+
+    // Detect slot interval (smallest gap between consecutive slots)
+    let interval = S.duration;
+    for (let i = 1; i < sorted.length; i++) {
+      const gap = (sorted[i].h * 60 + sorted[i].m) - (sorted[i-1].h * 60 + sorted[i-1].m);
+      if (gap > 0 && gap < interval) interval = gap;
+    }
+
+    // Build timeline HTML with gap indicators between non-consecutive slots
+    let html = '';
+    for (let i = 0; i < sorted.length; i++) {
+      const sl = sorted[i];
+
+      // Show busy gap indicator if there's a gap from the previous slot
+      if (i > 0) {
+        const prevEnd = sorted[i-1].h * 60 + sorted[i-1].m + interval;
+        const thisStart = sl.h * 60 + sl.m;
+        if (thisStart > prevEnd) {
+          const gH = Math.floor(prevEnd / 60), gM = prevEnd % 60;
+          const gapStr = `${fmtLocalTime(S.date, gH, gM)} \u2013 ${fmtLocalTime(S.date, sl.h, sl.m)}`;
+          html += `<div class="tl-gap"><span class="tl-gap-line"></span>`
+            + `<span>Unavailable ${gapStr}</span>`
+            + `<span class="tl-gap-line"></span></div>`;
+        }
+      }
+
+      // Slot button with local timezone
+      const localTime = fmtLocalTime(S.date, sl.h, sl.m);
+      const ukNote = IS_UK ? '' : `<span class="t-uk">${fmtTime(sl.h, sl.m)} UK</span>`;
+      html += `<button class="t-btn" data-h="${sl.h}" data-m="${sl.m}">`
+        + `<span>${localTime}</span>${ukNote}`
+        + `<span class="t-arrow">&#8594;</span></button>`;
+    }
+
+    $('times').innerHTML = html;
 
     $('times').querySelectorAll('.t-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -1380,7 +1478,7 @@
   /* ── Form init ─────────────────────────────────── */
   function initForm() {
     $('s3-label').textContent =
-      `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
+      `${fmtDate(S.date)} \u00b7 ${fmtTimeDisplay(S.date, S.slot.h, S.slot.m)}`;
     S.formAt = Date.now();
     S.format = null;
     S.formData = null;
@@ -1473,7 +1571,7 @@
     $('review-card').innerHTML = [
       row('Who', host),
       row('Date', fmtDate(S.date)),
-      row('Time', fmtTime(S.slot.h, S.slot.m) + ` (${durLabel})`),
+      row('Time', fmtTimeDisplay(S.date, S.slot.h, S.slot.m) + ` (${durLabel})`),
       row('Format', formatLabel),
       row('Name', name),
       row('Email', email),
@@ -1555,7 +1653,7 @@
 
       // Wire up success screen
       const host = HOST_SHORT[S.who];
-      const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
+      const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTimeDisplay(S.date, S.slot.h, S.slot.m)}`;
       $('s5-slot').textContent = `${host} \u00b7 ${slotLabel}`;
       $('s5-gcal').href = S.calLink;
       $('s5-para').textContent = S.format === 'in-person'
@@ -1649,6 +1747,9 @@
     const now = new Date();
     S.calYear = now.getFullYear();
     S.calMonth = now.getMonth();
+
+    // Set timezone label
+    $('tz-label').textContent = tzLabel();
 
     let directWho = null;
     if (path === '/gaurav') directWho = 'gaurav';
