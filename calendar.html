@@ -13,11 +13,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
+  <!-- Google Identity Services (for calendar overlay) -->
+  <script src="https://accounts.google.com/gsi/client" async></script>
+
   <!-- Early fetch: start loading availability data BEFORE CSS/fonts load.
        For direct links (/gaurav, /justin, /both), we know the person and
-       can compute the dates immediately. Saves ~500ms-1s. -->
+       can compute the dates immediately. For /calendar, prefetch all three. -->
   <script>
-  window.__earlyFetch = null;
+  // Early fetch: fire requests BEFORE CSS/fonts load.
+  // Split into two waves: visible week first (fast), rest in background.
+  window.__earlyFetch = null;     // { pri: Promise, bg: Promise, who, mins }
+  window.__earlyFetchAll = null;  // { gaurav: {...}, justin: {...}, both: {...} }
   (function() {
     var path = location.pathname.replace(/\/$/, '').toLowerCase();
     var who = null;
@@ -29,7 +35,6 @@
       var w = p.get('who');
       if (w && (w === 'gaurav' || w === 'justin' || w === 'both')) who = w;
     }
-    if (!who) return;
     var today = new Date(); today.setHours(0,0,0,0);
     var dates = [];
     for (var i = 1; i <= 21; i++) {
@@ -39,11 +44,47 @@
       dates.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
     }
     if (!dates.length) return;
-    window.__earlyFetch = {
-      who: who, mins: 30, dates: dates,
-      promise: fetch('/api/book?dates=' + dates.join(',') + '&mins=30&who=' + who)
-        .then(function(r) { return r.json(); }).catch(function() { return null; })
-    };
+
+    // Compute first visible Monday (same logic as go(1))
+    var tom = new Date(today); tom.setDate(tom.getDate() + 1);
+    while (tom.getDay() === 0 || tom.getDay() === 6) tom.setDate(tom.getDate() + 1);
+    var mon = new Date(tom);
+    var dayOff = (mon.getDay() + 6) % 7; // 0=Mon
+    mon.setDate(mon.getDate() - dayOff);
+    // First week = Mon–Fri of that week
+    var week1 = [], rest = [];
+    for (var i = 0; i < dates.length; i++) {
+      var dp = dates[i].split('-').map(Number);
+      var dd = new Date(dp[0], dp[1]-1, dp[2]);
+      var diff = (dd - mon) / 86400000;
+      if (diff >= 0 && diff < 5) week1.push(dates[i]);
+      else rest.push(dates[i]);
+    }
+
+    function fireFetch(ds) {
+      return function(w) {
+        if (!ds.length) return Promise.resolve(null);
+        return fetch('/api/book?dates=' + ds.join(',') + '&mins=30&who=' + w)
+          .then(function(r) { return r.json(); }).catch(function() { return null; });
+      };
+    }
+
+    if (who) {
+      window.__earlyFetch = {
+        who: who, mins: 30,
+        pri: fireFetch(week1)(who),
+        bg:  fireFetch(rest)(who)
+      };
+    } else {
+      window.__earlyFetchAll = {};
+      ['gaurav', 'justin', 'both'].forEach(function(w) {
+        window.__earlyFetchAll[w] = {
+          who: w, mins: 30,
+          pri: fireFetch(week1)(w),
+          bg:  fireFetch(rest)(w)
+        };
+      });
+    }
   })();
   </script>
 
@@ -236,16 +277,7 @@
       transform: translateX(3px);
     }
 
-    /* ── Calendar ────────────────────────────────────── */
-    .cal-header {
-      display: flex; align-items: center;
-      justify-content: space-between; margin-bottom: 0.75rem;
-    }
-
-    .cal-title {
-      font-family: var(--serif); font-size: 1rem; font-weight: 400;
-    }
-
+    /* ── Nav button (shared for week nav) ────────────── */
     .cal-btn {
       width: 30px; height: 30px; border-radius: 50%;
       border: 1px solid var(--border); background: none;
@@ -256,86 +288,150 @@
     .cal-btn:hover:not(:disabled) { border-color: var(--red); color: var(--red); }
     .cal-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 
-    /* Grid — fills full widget width and remaining height */
-    .cal-grid {
-      display: grid; grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: 36px; grid-auto-rows: 1fr;
-      gap: 3px; width: 100%;
+    /* ── Week View ───────────────────────────────────── */
+    .wv-wrap {
+      display: flex; flex-direction: column;
       flex: 1; min-height: 0;
     }
 
-    .cal-dh {
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--muted);
+    .wv-nav {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .wv-title {
+      font-family: var(--serif); font-size: 1rem; font-weight: 400;
     }
 
-    .cal-day {
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 6px; position: relative;
-      font-size: 0.82rem; font-family: var(--mono);
-      border: none; background: none; cursor: default;
-      color: #ccc; transition: background 0.12s, color 0.12s, box-shadow 0.12s;
+    /* Day headers grid (fixed) */
+    .wv-hdr {
+      display: grid;
+      grid-template-columns: 52px repeat(5, 1fr);
     }
-    /* Availability dot — shown after prefetch confirms slots exist */
-    .cal-day.has-slots::after {
-      content: '';
-      position: absolute; bottom: 2px; left: 50%;
-      transform: translateX(-50%);
-      width: 4px; height: 4px; border-radius: 50%;
-      background: var(--red);
+    .wv-corner { /* empty top-left */ }
+    .wv-dh {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0.35rem 0 0.5rem;
+      font-size: 0.58rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border);
     }
-    .cal-day.sel.has-slots::after { background: #fff; }
-    .cal-day.no-slots { color: #ccc; cursor: default; pointer-events: none; opacity: 0.45; }
-
-    .cal-day.avail {
-      color: var(--black); cursor: pointer;
+    .wv-dh-num {
+      font-size: 1rem; font-family: var(--mono);
+      color: var(--black); margin-top: 1px;
+      width: 28px; height: 28px; display: flex;
+      align-items: center; justify-content: center;
+      border-radius: 50%;
     }
-    .cal-day.avail:hover {
-      background: var(--red-tint); color: var(--red);
-    }
-    .cal-day.avail.sel {
+    .wv-dh.today .wv-dh-num {
       background: var(--red); color: #fff;
     }
-    .cal-day.avail.sel:hover { background: var(--red-mid); }
+    .wv-dh.past { opacity: 0.4; }
 
-    .cal-day.ring {
-      box-shadow: inset 0 0 0 1px var(--border);
-    }
-
-    /* ── Time slots ──────────────────────────────────── */
-    .times {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: 1fr;
-      gap: 0.5rem;
-      margin-top: 0.25rem;
+    /* Scrollable body */
+    .wv-scroll {
       flex: 1; min-height: 0;
+      overflow-y: auto;
+    }
+    .wv-body {
+      display: grid;
+      grid-template-columns: 52px repeat(5, 1fr);
     }
 
-    .t-btn {
-      display: flex; align-items: center; justify-content: center;
-      border: 1px solid var(--border); border-radius: 8px;
-      background: var(--white); font-family: var(--mono);
-      font-size: 0.82rem; color: var(--ink);
-      cursor: pointer; width: 100%; height: 100%;
-      transition: border-color 0.14s, color 0.14s, background 0.14s;
+    /* Time labels (left column) — no borders, clean labels */
+    .wv-time {
+      display: flex; align-items: flex-start; justify-content: flex-end;
+      padding: 0 8px 0 0;
+      font-size: 0.56rem; color: var(--muted);
+      font-family: var(--mono);
+      min-height: 36px;
     }
-    .t-btn:hover {
-      border-color: var(--red); color: var(--red);
-      background: var(--red-tint);
+    .wv-time span { line-height: 1; }
+    .wv-time.wv-half span { display: none; }
+
+    /* Day cells — default is grey (busy/unavailable) */
+    .wv-cell {
+      min-height: 36px;
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      position: relative;
+      background: var(--surface);
     }
-    .t-btn .t-arrow { display: none; }
+    /* No left border on first day column — keeps time labels clean */
+    .wv-cell:nth-child(6n+2) { border-left: none; }
+    .wv-cell.wv-half { border-top-color: #f0efec; }
+    .wv-cell.past { opacity: 0.4; }
+    .wv-cell.loading {
+      background: linear-gradient(90deg, var(--surface) 25%, #e8e8e6 50%, var(--surface) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Free cells — white/clean, clearly selectable */
+    .wv-cell.free {
+      background: var(--white);
+      cursor: pointer;
+      transition: background 0.12s, box-shadow 0.12s;
+    }
+    .wv-cell.free:hover {
+      background: rgba(126, 66, 51, 0.08);
+    }
+    /* First free cell in a consecutive run gets the top accent */
+    .wv-cell.free.band-top {
+      border-top: 2px solid var(--red);
+    }
+    .wv-cell.free.band-top .wv-cell-time {
+      display: block;
+    }
+    .wv-cell-time {
+      display: none;
+      font-size: 0.56rem; font-family: var(--mono);
+      color: var(--red); padding: 2px 4px;
+      pointer-events: none;
+    }
+
+    .wv-empty-day {
+      font-size: 0.55rem; color: #ccc;
+      text-align: center;
+      padding-top: 1rem;
+      pointer-events: none;
+      grid-row: span 2;
+    }
 
     .tz {
       font-size: 0.67rem; color: var(--muted);
       margin-top: 0.75rem; flex-shrink: 0;
     }
 
-    .t-loading {
-      font-size: 0.8rem; color: var(--muted);
-      animation: pulse 1.2s ease-in-out infinite;
+    /* ── Google Calendar overlay ─────────────────── */
+    .gcal-toggle {
+      margin-left: auto;
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      padding: 0.3rem 0.7rem;
+      border: 1px solid var(--border); border-radius: 20px;
+      background: none; font-family: var(--mono); font-size: 0.6rem;
+      color: var(--muted); cursor: pointer;
+      transition: border-color 0.14s, color 0.14s, background 0.14s;
+      white-space: nowrap;
     }
+    .gcal-toggle:hover { border-color: #4285f4; color: #4285f4; }
+    .gcal-toggle.active {
+      background: rgba(66,133,244,0.08); border-color: #4285f4; color: #4285f4;
+    }
+    .gcal-toggle svg { flex-shrink: 0; }
+
+    .wv-cell .gcal-ev {
+      position: absolute; inset: 0;
+      background: rgba(66, 133, 244, 0.13);
+      border-left: 2.5px solid rgba(66, 133, 244, 0.55);
+      pointer-events: none;
+      z-index: 1;
+    }
+
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.4; }
@@ -536,7 +632,15 @@
         padding: 2rem 1.5rem 3rem;
       }
 
-      .t-btn { font-size: 0.9rem; }
+      .wv-hdr, .wv-body {
+        grid-template-columns: 42px repeat(5, 1fr);
+      }
+      .wv-time { font-size: 0.5rem; padding-right: 3px; }
+      .wv-cell { min-height: 30px; }
+      .wv-dh { font-size: 0.5rem; }
+      .wv-dh-num { font-size: 0.85rem; width: 24px; height: 24px; }
+      .dur-picker { flex-wrap: wrap; }
+      .gcal-toggle { margin-left: 0; }
     }
   </style>
 </head>
@@ -591,9 +695,7 @@
           <div class="crumbs" id="crumbs" aria-label="Booking progress">
             <span class="crumb here who-crumb" data-s="0">Who</span>
             <span class="crumb-sep who-crumb" aria-hidden="true">›</span>
-            <span class="crumb" data-s="1">Date</span>
-            <span class="crumb-sep" aria-hidden="true">›</span>
-            <span class="crumb" data-s="2">Time</span>
+            <span class="crumb" data-s="1">Schedule</span>
             <span class="crumb-sep" aria-hidden="true">›</span>
             <span class="crumb" data-s="3">Details</span>
             <span class="crumb-sep" aria-hidden="true">›</span>
@@ -626,7 +728,7 @@
             </div>
           </div>
 
-          <!-- Step 1 · Date -->
+          <!-- Step 1 · Week View (date + time combined) -->
           <div class="step" id="s1">
             <button class="step-back" id="back0" style="display:none">&#8592; Back</button>
             <div class="dur-picker" id="dur-picker">
@@ -636,22 +738,23 @@
                 <button class="dur-btn" data-mins="45">45 min</button>
                 <button class="dur-btn" data-mins="60">1 hr</button>
               </div>
+              <button class="gcal-toggle" id="gcal-toggle" title="Sign in with Google to overlay your calendar events on this view">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                <span>Overlay your calendar</span>
+              </button>
             </div>
-            <div class="cal-header">
-              <button class="cal-btn" id="cal-prev" aria-label="Previous month">&#8249;</button>
-              <h2 class="cal-title" id="cal-title"></h2>
-              <button class="cal-btn" id="cal-next" aria-label="Next month">&#8250;</button>
+            <div class="wv-wrap">
+              <div class="wv-nav">
+                <button class="cal-btn" id="wv-prev" aria-label="Previous week">&#8249;</button>
+                <h2 class="wv-title" id="wv-title"></h2>
+                <button class="cal-btn" id="wv-next" aria-label="Next week">&#8250;</button>
+              </div>
+              <div class="wv-hdr" id="wv-hdr"></div>
+              <div class="wv-scroll">
+                <div class="wv-body" id="wv-body"></div>
+              </div>
             </div>
-            <div class="cal-grid" id="cal-grid" role="grid" aria-label="Select a date"></div>
-          </div>
-
-          <!-- Step 2 · Time -->
-          <div class="step" id="s2">
-            <button class="step-back" id="back1">&#8592; Back</button>
-            <h2 class="step-title">Choose a time</h2>
-            <p class="step-sub" id="s2-label"></p>
-            <div class="times" id="times" role="group" aria-label="Available times"></div>
-            <p class="tz">All times in UK time (GMT / BST)</p>
+            <p class="tz" id="tz-label">All times in UK time (GMT / BST)</p>
           </div>
 
           <!-- Step 3 · Details -->
@@ -798,9 +901,14 @@
    *  var JUSTIN = 'justin@meridiancambridge.org';
    *  var TZ     = 'Europe/London';
    *
-   *  function conflicts(start, end, events) {
+   *  var BUFFER_MINS = 5; // 5-min buffer after ALL meetings (both calendars)
+   *  var GAURAV_MAX_MEETING_MINS = 180; // 3-hour daily cap for Gaurav
+   *
+   *  function conflicts(start, end, events, bufferMins) {
+   *    bufferMins = bufferMins || 0;
    *    for (var i = 0; i < events.length; i++) {
-   *      var es = events[i].getStartTime(), ee = events[i].getEndTime();
+   *      var es = events[i].getStartTime();
+   *      var ee = new Date(events[i].getEndTime().getTime() + bufferMins * 60000);
    *      if (es < end && ee > start) return true;
    *    }
    *    return false;
@@ -808,6 +916,17 @@
    *
    *  function timedOnly(events) {
    *    return events.filter(function(ev) { return !ev.isAllDayEvent(); });
+   *  }
+   *
+   *  // Sum total meeting minutes for a list of events within a day
+   *  function totalMeetingMins(events, dayStart, dayEnd) {
+   *    var total = 0;
+   *    for (var i = 0; i < events.length; i++) {
+   *      var es = events[i].getStartTime() < dayStart ? dayStart : events[i].getStartTime();
+   *      var ee = events[i].getEndTime() > dayEnd ? dayEnd : events[i].getEndTime();
+   *      if (ee > es) total += (ee - es) / 60000;
+   *    }
+   *    return total;
    *  }
    *
    *  // Compute free slots for a single date given pre-fetched events
@@ -824,13 +943,21 @@
    *    var jDay = jEvs.filter(function(ev) {
    *      return ev.getStartTime() < dayEnd && ev.getEndTime() > dayStart;
    *    });
+   *
+   *    // 3-hour daily cap for Gaurav: if already at limit, no bookings
+   *    if (who !== 'justin') {
+   *      if (totalMeetingMins(gDay, dayStart, dayEnd) >= GAURAV_MAX_MEETING_MINS) {
+   *        return [];
+   *      }
+   *    }
+   *
    *    var slots = [];
    *    for (var h = startH; h < 18; h++) {
-   *      for (var m = 0; m < 60; m += 30) {
+   *      for (var m = 0; m < 60; m += 5) {
    *        var s = new Date(parts[0], parts[1], parts[2], h, m, 0);
    *        var f = new Date(s.getTime() + mins * 60000);
    *        if (f.getHours() >= 19) continue;
-   *        if (!conflicts(s, f, gDay) && !conflicts(s, f, jDay)) {
+   *        if (!conflicts(s, f, gDay, BUFFER_MINS) && !conflicts(s, f, jDay, BUFFER_MINS)) {
    *          slots.push({ h: h, m: m });
    *        }
    *      }
@@ -842,6 +969,15 @@
    *    try {
    *      var mins = parseInt(e.parameter.mins || '30', 10) || 30;
    *      var who  = e.parameter.who || 'both';
+   *
+   *      // ── GAS-side CacheService (survives cold starts, skips Calendar reads)
+   *      var cache = CacheService.getScriptCache();
+   *      var cacheKey = (e.parameter.dates || e.parameter.date || '') + '_' + mins + '_' + who;
+   *      var cached = cache.get(cacheKey);
+   *      if (cached) {
+   *        return ContentService.createTextOutput(cached)
+   *          .setMimeType(ContentService.MimeType.JSON);
+   *      }
    *
    *      // ── Batch mode: ?dates=YYYY-MM-DD,YYYY-MM-DD,...
    *      // One calendar read for the whole range instead of N calls.
@@ -870,8 +1006,9 @@
    *          results[dateStrs[i]] = slotsForDay(dates[i], mins, who, gEvs, jEvs);
    *        }
    *
-   *        return ContentService
-   *          .createTextOutput(JSON.stringify({ ok: true, batch: true, results: results }))
+   *        var out = JSON.stringify({ ok: true, batch: true, results: results });
+   *        cache.put(cacheKey, out, 120); // cache 2 mins in GAS
+   *        return ContentService.createTextOutput(out)
    *          .setMimeType(ContentService.MimeType.JSON);
    *      }
    *
@@ -890,18 +1027,19 @@
    *
    *      var slots = [];
    *      for (var h = startH; h < 18; h++) {
-   *        for (var m = 0; m < 60; m += 30) {
+   *        for (var m = 0; m < 60; m += 5) {
    *          var s = new Date(parts[0], parts[1]-1, parts[2], h, m, 0);
    *          var f = new Date(s.getTime() + mins * 60000);
    *          if (f.getHours() >= 19) continue;
-   *          if (!conflicts(s, f, gEvs) && !conflicts(s, f, jEvs)) {
+   *          if (!conflicts(s, f, gEvs, BUFFER_MINS) && !conflicts(s, f, jEvs, BUFFER_MINS)) {
    *            slots.push({ h: h, m: m });
    *          }
    *        }
    *      }
    *
-   *      return ContentService
-   *        .createTextOutput(JSON.stringify({ ok: true, slots: slots }))
+   *      var out = JSON.stringify({ ok: true, slots: slots });
+   *      cache.put(cacheKey, out, 120);
+   *      return ContentService.createTextOutput(out)
    *        .setMimeType(ContentService.MimeType.JSON);
    *    } catch(err) {
    *      return ContentService
@@ -910,13 +1048,37 @@
    *    }
    *  }
    *
-   *  // POST JSON → creates event, sends invites
+   *  // POST JSON → creates event, sends invites (with conflict + cap checks)
    *  function doPost(e) {
    *    try {
    *      var d      = JSON.parse(e.postData.contents);
-   *      var date   = new Date(d.startISO);
+   *      var start  = new Date(d.startISO);
+   *      var end    = new Date(d.endISO);
    *      var who    = d.who || 'both';
    *      var format = d.format || 'virtual';
+   *
+   *      // Server-side conflict check — prevents double bookings
+   *      var gEvs = (who === 'justin')
+   *        ? [] : timedOnly(CalendarApp.getDefaultCalendar().getEventsForDay(start));
+   *      var jEvs = (who === 'gaurav')
+   *        ? [] : timedOnly(CalendarApp.getCalendarById(JUSTIN).getEventsForDay(start));
+   *
+   *      if (conflicts(start, end, gEvs, BUFFER_MINS) || conflicts(start, end, jEvs, BUFFER_MINS)) {
+   *        return ContentService
+   *          .createTextOutput(JSON.stringify({ ok: false, e: 'slot_taken' }))
+   *          .setMimeType(ContentService.MimeType.JSON);
+   *      }
+   *
+   *      // 3-hour daily cap for Gaurav
+   *      if (who !== 'justin') {
+   *        var dayStart = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0);
+   *        var dayEnd   = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 23, 59, 59);
+   *        if (totalMeetingMins(gEvs, dayStart, dayEnd) >= GAURAV_MAX_MEETING_MINS) {
+   *          return ContentService
+   *            .createTextOutput(JSON.stringify({ ok: false, e: 'daily_limit' }))
+   *            .setMimeType(ContentService.MimeType.JSON);
+   *        }
+   *      }
    *
    *      var location = (format === 'in-person')
    *        ? '53-54 Sidney Street, Cambridge, CB2 3HX'
@@ -959,6 +1121,21 @@
    *        { conferenceDataVersion: confVersion, sendUpdates: 'all' }
    *      );
    *
+   *      // Invalidate GAS cache for this date so next GET reflects the booking
+   *      var dateStr = start.getFullYear() + '-'
+   *        + ('0' + (start.getMonth()+1)).slice(-2) + '-'
+   *        + ('0' + start.getDate()).slice(-2);
+   *      var cache = CacheService.getScriptCache();
+   *      var keys = [];
+   *      var ms = ['30', '60'];
+   *      var ws = ['gaurav', 'justin', 'both'];
+   *      for (var mi = 0; mi < ms.length; mi++) {
+   *        for (var wi = 0; wi < ws.length; wi++) {
+   *          keys.push(dateStr + '_' + ms[mi] + '_' + ws[wi]);
+   *        }
+   *      }
+   *      cache.removeAll(keys);
+   *
    *      return ContentService
    *        .createTextOutput(JSON.stringify({ ok: true }))
    *        .setMimeType(ContentService.MimeType.JSON);
@@ -988,9 +1165,16 @@
    *  New version. The Web App URL stays the same.
    * ================================================================== */
   const CONFIG = {
-    gasUrl:      'https://script.google.com/macros/s/AKfycbxGiSGE_Hyp19MzcK7B0jadrBg1f2lEa386CVlS6b1D37dne3ucsh1wf6XWgIyvwn8i/exec',
+    gasUrl:      'https://script.google.com/macros/s/AKfycbx3I6JmcW33pQ3LtUxYtJAL7tBCRns3jGKpDjHybLQj2PUHrEGqOTYmBwsujCASDzk/exec',
     meetingMins: 30,
   };
+
+  /* Google Calendar overlay — visitors can overlay their own calendar.
+     To enable: create an OAuth 2.0 Client ID (Web application) at
+     https://console.cloud.google.com/apis/credentials
+     Enable the Google Calendar API, add your site URL to authorized
+     JavaScript origins, then paste the client ID below. */
+  const GCAL_CLIENT_ID = '995306267367-qtoufpjglq5me2v6os1kf4fts7igf8gg.apps.googleusercontent.com';
 
   /* Host labels and cancel-email targets */
   const HOST_LABELS = {
@@ -1011,15 +1195,33 @@
 
   /* Per-date slot cache so we don't re-fetch if user goes back.
      Each entry: { slots: [...], at: timestamp }
-     Entries older than CACHE_TTL_MS are treated as stale. */
+     Entries older than CACHE_TTL_MS are treated as stale.
+     Backed by localStorage so returning visitors see data instantly. */
   const SLOT_CACHE = {};
   const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+  const LS_PREFIX = 'wv_';
+
+  // Seed in-memory cache from localStorage (instant render for return visitors)
+  (function seedCache() {
+    try {
+      const now = Date.now();
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const k = localStorage.key(i);
+        if (!k.startsWith(LS_PREFIX)) continue;
+        const item = JSON.parse(localStorage.getItem(k));
+        if (!item || !item.s) { localStorage.removeItem(k); continue; }
+        // Evict entries older than 24 hours
+        if (now - item.t > 86400000) { localStorage.removeItem(k); continue; }
+        SLOT_CACHE[k.slice(LS_PREFIX.length)] = { slots: item.s, at: item.t };
+      }
+    } catch(e) {}
+  })();
 
   /* App state */
   const S = {
     who: null,          // 'gaurav' | 'justin' | 'both'
     directLink: false,  // true if arrived via /gaurav or /justin
-    calYear: null, calMonth: null,
+    weekStart: null,    // Monday of current week view
     date: null, slot: null,
     calLink: null,
     formAt: 0,
@@ -1049,6 +1251,53 @@
     return `${h%12||12}:${pad(m)} ${suffix}`;
   }
 
+  /* ── Timezone utilities ───────────────────────── */
+  const USER_TZ = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const IS_UK = USER_TZ === 'Europe/London';
+
+  // Convert a UK-time slot (h:m on a given date) to a Date object
+  function ukSlotToDate(dateObj, h, m) {
+    // Start with UTC guess assuming UK = UTC (GMT)
+    let d = new Date(Date.UTC(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), h, m, 0));
+    // Check what UK actually shows — may differ during BST (UTC+1)
+    const parts = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Europe/London', hour: 'numeric', minute: 'numeric', hour12: false
+    }).formatToParts(d);
+    const ukH = parseInt(parts.find(p => p.type === 'hour').value);
+    const ukM = parseInt(parts.find(p => p.type === 'minute').value);
+    const diffMins = (ukH * 60 + ukM) - (h * 60 + m);
+    if (diffMins !== 0) d = new Date(d.getTime() - diffMins * 60000);
+    return d;
+  }
+
+  function fmtLocalTime(dateObj, h, m) {
+    if (IS_UK) return fmtTime(h, m);
+    const d = ukSlotToDate(dateObj, h, m);
+    let timeStr = d.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+    // Flag if the local date differs from the UK date
+    const localDay = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+    const ukDay = new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate());
+    const dayDiff = Math.round((localDay - ukDay) / 86400000);
+    if (dayDiff === -1) timeStr += ' (day before)';
+    else if (dayDiff === 1) timeStr += ' (next day)';
+    return timeStr;
+  }
+
+  // Format for display: local time + UK note for non-UK users
+  function fmtTimeDisplay(dateObj, h, m) {
+    if (IS_UK) return fmtTime(h, m);
+    return `${fmtLocalTime(dateObj, h, m)} (${fmtTime(h, m)} UK)`;
+  }
+
+  function tzLabel() {
+    if (IS_UK) return 'All times in UK time (GMT / BST)';
+    try {
+      const short = new Intl.DateTimeFormat([], { timeZoneName: 'short' })
+        .formatToParts(new Date()).find(p => p.type === 'timeZoneName').value;
+      return `Times shown in ${short} \u00b7 Meetings are in UK time`;
+    } catch { return 'Times shown in your local timezone'; }
+  }
+
   /* ── Info panel update ──────────────────────────── */
   function updateInfoPanel(who) {
     $('info-names').textContent = HOST_LABELS[who];
@@ -1059,6 +1308,7 @@
   /* ── Who selection ──────────────────────────────── */
   function selectWho(who) {
     S.who = who;
+    try { sessionStorage.setItem('caish_who', who); } catch {}
     updateInfoPanel(who);
     // Flush cache when switching person (different availability)
     Object.keys(SLOT_CACHE).forEach(k => delete SLOT_CACHE[k]);
@@ -1069,73 +1319,171 @@
     card.addEventListener('click', () => selectWho(card.dataset.who));
   });
 
-  /* ── Calendar ──────────────────────────────────── */
-  function renderCal() {
-    const t   = today0();
-    const max = maxDate();
-    const y = S.calYear, m = S.calMonth;
-    const first = new Date(y, m, 1);
-    const last  = new Date(y, m+1, 0);
+  /* ── Week View ─────────────────────────────────── */
+  const WV_START_HOUR = 10;
+  const WV_END_HOUR = 18;
+  const WV_ROWS = (WV_END_HOUR - WV_START_HOUR) * 2; // 16 half-hour rows
 
-    $('cal-title').textContent = first.toLocaleDateString('en-GB', {
-      month: 'long', year: 'numeric'
+  function getWeekMonday(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    d.setDate(diff);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function getWeekDates(monday) {
+    const dates = [];
+    for (let i = 0; i < 5; i++) {
+      const d = new Date(monday);
+      d.setDate(d.getDate() + i);
+      dates.push(d);
+    }
+    return dates;
+  }
+
+  function dsStr(d) {
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  }
+
+  function renderWeekView() {
+    if (!S.who || !S.weekStart) return;
+
+    const weekDates = getWeekDates(S.weekStart);
+    const t = today0();
+    const max = maxDate();
+
+    // Title
+    const mon = weekDates[0], fri = weekDates[4];
+    const sameMonth = mon.getMonth() === fri.getMonth();
+    $('wv-title').textContent = sameMonth
+      ? `${mon.toLocaleDateString('en-GB', { month: 'long' })} ${mon.getDate()} \u2013 ${fri.getDate()}, ${mon.getFullYear()}`
+      : `${mon.toLocaleDateString('en-GB', { month: 'short' })} ${mon.getDate()} \u2013 ${fri.toLocaleDateString('en-GB', { month: 'short' })} ${fri.getDate()}, ${fri.getFullYear()}`;
+
+    // Prev/next
+    const prevMon = new Date(S.weekStart);
+    prevMon.setDate(prevMon.getDate() - 7);
+    $('wv-prev').disabled = prevMon < t;
+    const nextMon = new Date(S.weekStart);
+    nextMon.setDate(nextMon.getDate() + 7);
+    $('wv-next').disabled = nextMon > max;
+
+    // Header row
+    let hdrHtml = '<div class="wv-corner"></div>';
+    weekDates.forEach(d => {
+      const isToday = d.toDateString() === t.toDateString();
+      const isPast = d <= t;
+      let cls = 'wv-dh';
+      if (isToday) cls += ' today';
+      else if (isPast) cls += ' past';
+      hdrHtml += `<div class="${cls}">
+        <span>${d.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase()}</span>
+        <span class="wv-dh-num">${d.getDate()}</span>
+      </div>`;
+    });
+    $('wv-hdr').innerHTML = hdrHtml;
+
+    // Build per-day slot lookup for detecting consecutive free cells
+    const daySlotSets = {};
+    weekDates.forEach(d => {
+      const ds = dsStr(d);
+      const key = `${ds}_${S.duration}_${S.who}`;
+      const slots = cacheGet(key);
+      const set = new Set();
+      if (slots) {
+        slots.forEach(sl => set.add(`${sl.h}:${sl.m}`));
+      }
+      daySlotSets[ds] = { slots, set };
     });
 
-    $('cal-prev').disabled = (y === t.getFullYear() && m === t.getMonth());
-    $('cal-next').disabled = new Date(y, m+1, 1) > max;
+    // Body
+    let bodyHtml = '';
+    for (let row = 0; row < WV_ROWS; row++) {
+      const h = WV_START_HOUR + Math.floor(row / 2);
+      const m = (row % 2) * 30;
+      const isHalf = m === 30;
 
-    const HEADS = ['Mo','Tu','We','Th','Fr','Sa','Su'];
-    let startOff = first.getDay(); // 0=Sun
-    startOff = (startOff + 6) % 7; // 0=Mon
+      // Time label
+      let timeCls = 'wv-time';
+      if (isHalf) timeCls += ' wv-half';
+      bodyHtml += `<div class="${timeCls}"><span>${fmtTime(h, m)}</span></div>`;
 
-    let html = '';
-    HEADS.forEach(h => { html += `<div class="cal-dh">${h}</div>`; });
+      // 5 day cells
+      weekDates.forEach(d => {
+        const isPast = d <= t;
+        const isFar = d > max;
+        const ds = dsStr(d);
 
-    let day = 1;
-    for (let row = 0; row < 6; row++) {
-      for (let col = 0; col < 7; col++) {
-        const idx = row*7+col;
-        if (idx < startOff || day > last.getDate()) {
-          html += '<div></div>';
-        } else {
-          const d    = new Date(y, m, day);
-          const dow  = d.getDay();
-          const wknd = dow===0||dow===6;
-          const past = d <= t;
-          const far  = d > max;
-          const ok   = !wknd && !past && !far;
-          const isToday = d.toDateString() === t.toDateString();
-          const isSel   = S.date && d.toDateString() === S.date.toDateString();
-          const ds   = `${y}-${pad(m+1)}-${pad(day)}`;
-          const lbl  = d.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long'});
-
-          let cls = 'cal-day';
-          if (ok) cls += ' avail';
-          if (isSel) cls += ' sel';
-          if (isToday && !isSel) cls += ' ring';
-
-          if (ok) {
-            html += `<button class="${cls}" data-d="${ds}" aria-label="${lbl}">${day}</button>`;
-          } else {
-            html += `<div class="${cls}" aria-hidden="true">${day}</div>`;
-          }
-          day++;
+        if (isPast || isFar) {
+          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} past"></div>`;
+          return;
         }
-      }
+
+        const info = daySlotSets[ds];
+        if (info.slots === null) {
+          // Still loading
+          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} loading"></div>`;
+          return;
+        }
+
+        // Check if any slot exists in this 30-min window
+        const isFree = info.set.has(`${h}:${m}`) ||
+          info.slots.some(sl => {
+            const slMin = sl.h * 60 + sl.m;
+            return slMin >= h * 60 + m && slMin < h * 60 + m + 30;
+          });
+
+        if (isFree) {
+          // Find the first available slot in this 30-min window
+          let firstSlot = null;
+          for (const sl of info.slots) {
+            const slMin = sl.h * 60 + sl.m;
+            if (slMin >= h * 60 + m && slMin < h * 60 + m + 30) {
+              firstSlot = sl;
+              break;
+            }
+          }
+          if (!firstSlot) firstSlot = { h, m };
+
+          // Check if previous row in this day was also free (for band styling)
+          let isBandTop = true;
+          if (row > 0) {
+            const prevH = WV_START_HOUR + Math.floor((row - 1) / 2);
+            const prevM = ((row - 1) % 2) * 30;
+            const prevFree = info.set.has(`${prevH}:${prevM}`) ||
+              info.slots.some(sl => {
+                const slMin = sl.h * 60 + sl.m;
+                return slMin >= prevH * 60 + prevM && slMin < prevH * 60 + prevM + 30;
+              });
+            if (prevFree) isBandTop = false;
+          }
+
+          const label = fmtTime(firstSlot.h, firstSlot.m);
+          let cls = `wv-cell${isHalf ? ' wv-half' : ''} free`;
+          if (isBandTop) cls += ' band-top';
+          bodyHtml += `<div class="${cls}" data-date="${ds}" data-h="${firstSlot.h}" data-m="${firstSlot.m}">
+            <span class="wv-cell-time">${label}</span>
+          </div>`;
+        } else {
+          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''}"></div>`;
+        }
+      });
     }
 
-    $('cal-grid').innerHTML = html;
+    $('wv-body').innerHTML = bodyHtml;
 
-    $('cal-grid').querySelectorAll('button.avail').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const [yr,mo,dy] = btn.dataset.d.split('-').map(Number);
-        S.date = new Date(yr, mo-1, dy);
-        onDatePicked(btn.dataset.d);
+    // Click handlers
+    $('wv-body').querySelectorAll('.wv-cell.free').forEach(cell => {
+      cell.addEventListener('click', () => {
+        const [yr, mo, dy] = cell.dataset.date.split('-').map(Number);
+        S.date = new Date(yr, mo - 1, dy);
+        S.slot = { h: +cell.dataset.h, m: +cell.dataset.m };
+        go(3);
       });
     });
 
-    // Prefetch availability for all visible dates in the background
-    prefetchVisibleDates();
+    applyGcalOverlays();
   }
 
   /* ── Fetch slots from GAS (GET ?date=…&mins=…&who=…) ── */
@@ -1150,6 +1498,7 @@
   }
   function cacheSet(key, slots) {
     SLOT_CACHE[key] = { slots, at: Date.now() };
+    try { localStorage.setItem(LS_PREFIX + key, JSON.stringify({ s: slots, t: Date.now() })); } catch(e) {}
   }
 
   async function fetchSlotsFromServer(dateStr) {
@@ -1159,79 +1508,40 @@
     return data.slots;
   }
 
-  async function fetchSlots(dateStr) {
-    const cacheKey = `${dateStr}_${S.duration}_${S.who}`;
-    const cached = cacheGet(cacheKey);
+  /* ── Batch-prefetch availability for all dates in the booking window ── */
+  let _prefetchController = null;
 
-    // Fresh cache — return immediately
-    if (cached && !cacheIsStale(cacheKey)) return cached;
-
-    const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
-    let slots;
-
-    if (configured) {
-      // Stale cache exists — return cached data now, revalidate in background
-      if (cached) {
-        fetchSlotsFromServer(dateStr).then(fresh => {
-          cacheSet(cacheKey, fresh);
-          // If the user is still looking at this date, update the time slots
-          if (S.date) {
-            const viewingDs = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
-            if (viewingDs === dateStr) renderTimes(fresh);
-          }
-          updateAvailDots();
-        }).catch(() => {});
-        return cached;
-      }
-      slots = await fetchSlotsFromServer(dateStr);
-    } else {
-      // Dev fallback: Gaurav 10am, Justin 11am, both 11am
-      const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
-      slots = [];
-      for (let h = startH; h < 18; h++) {
-        for (let m = 0; m < 60; m += 30) {
-          const endH = h + Math.floor((m + S.duration) / 60);
-          if (endH >= 19) continue;
-          slots.push({ h, m });
-        }
-      }
-    }
-
-    cacheSet(cacheKey, slots);
-    return slots;
-  }
-
-  /* ── Batch-prefetch availability for all visible calendar dates ── */
-  let _prefetchController = null;  // tracks the current prefetch cycle
-
-  async function prefetchVisibleDates() {
+  async function prefetchWeekDates() {
     if (!S.who) return;
 
-    // Abort any in-progress prefetch (e.g. user switched month quickly)
     if (_prefetchController) _prefetchController.abort();
     _prefetchController = new AbortController();
     const signal = _prefetchController.signal;
 
-    // Collect all available (clickable) date strings from the rendered calendar
-    const dateBtns = $('cal-grid').querySelectorAll('button.avail');
-    const uncached = [];
-    dateBtns.forEach(btn => {
-      const ds = btn.dataset.d;
-      const cacheKey = `${ds}_${S.duration}_${S.who}`;
-      if (!cacheGet(cacheKey)) uncached.push(ds);
-    });
-
-    if (!uncached.length) {
-      // Everything is cached — just update the dots
-      updateAvailDots();
-      return;
+    // Split dates into visible week vs rest
+    const t = today0();
+    const max = maxDate();
+    const visibleDates = [], bgDates = [];
+    for (let i = 1; i <= 21; i++) {
+      const d = new Date(t);
+      d.setDate(d.getDate() + i);
+      if (d.getDay() === 0 || d.getDay() === 6) continue;
+      if (d > max) continue;
+      const ds = dsStr(d);
+      const key = `${ds}_${S.duration}_${S.who}`;
+      if (!cacheIsStale(key)) continue;
+      // Is this date in the currently visible week?
+      const diff = (d - S.weekStart) / 86400000;
+      if (diff >= 0 && diff < 5) visibleDates.push(ds);
+      else bgDates.push(ds);
     }
+
+    if (!visibleDates.length && !bgDates.length) return;
 
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
     if (!configured) {
-      // Dev fallback: generate mock slots for all dates
       const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
-      uncached.forEach(ds => {
+      [...visibleDates, ...bgDates].forEach(ds => {
         const slots = [];
         for (let h = startH; h < 18; h++) {
           for (let m = 0; m < 60; m += 30) {
@@ -1242,51 +1552,32 @@
         }
         cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
       });
-      updateAvailDots();
+      renderWeekView();
       return;
     }
 
-    // Check if the early fetch (started in <head> before CSS loaded) covers our dates
-    const ef = window.__earlyFetch;
-    if (ef && ef.who === S.who && ef.mins === S.duration) {
+    // Helper: consume an earlyFetch promise, cache results, re-render
+    async function consumeEarly(promise) {
+      if (!promise) return;
       try {
-        const data = await ef.promise;
+        const data = await promise;
         if (data && data.ok && data.batch && !signal.aborted) {
           for (const [ds, slots] of Object.entries(data.results)) {
             cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
           }
-          updateAvailDots();
-          // Check if early fetch covered everything
-          const stillUncached = uncached.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
-          if (!stillUncached.length) { window.__earlyFetch = null; return; }
+          renderWeekView();
         }
       } catch {}
-      window.__earlyFetch = null;  // consumed — don't reuse
     }
 
-    // Fetch remaining uncached dates (anything not covered by early fetch)
-    const remaining = uncached.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
-    if (!remaining.length) return;
-
-    // Split into near/far waves and fetch CONCURRENTLY
-    const todayMs = today0().getTime();
-    const nearDates = [];
-    const farDates  = [];
-    const NEAR_WINDOW = 8 * 86_400_000; // 8 days in ms
-
-    for (const ds of remaining) {
-      const [y,m,d] = ds.split('-').map(Number);
-      const dMs = new Date(y, m-1, d).getTime();
-      if (dMs - todayMs <= NEAR_WINDOW) nearDates.push(ds);
-      else farDates.push(ds);
-    }
-
-    // Fetch a batch of dates, cache results, and update dots immediately
-    const fetchBatch = async (dates) => {
+    // Helper: fetch a set of dates from the server
+    async function fetchDates(dates) {
       if (!dates.length || signal.aborted) return;
+      const stale = dates.filter(ds => cacheIsStale(`${ds}_${S.duration}_${S.who}`));
+      if (!stale.length) return;
       try {
         const res = await fetch(
-          `/api/book?dates=${dates.join(',')}&mins=${S.duration}&who=${S.who}`,
+          `/api/book?dates=${stale.join(',')}&mins=${S.duration}&who=${S.who}`,
           { signal }
         );
         const data = await res.json();
@@ -1295,73 +1586,162 @@
           for (const [ds, slots] of Object.entries(data.results)) {
             cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
           }
+          renderWeekView();
         }
-        updateAvailDots();
       } catch (err) {
         if (err.name === 'AbortError') return;
-        console.warn('Prefetch batch failed:', err);
+        console.warn('Prefetch failed:', err);
       }
-    };
+    }
 
-    // Both waves run concurrently — dots update as each completes
-    await Promise.all([fetchBatch(nearDates), fetchBatch(farDates)]);
+    // Wave 1: visible week — consume earlyFetch priority, then fill gaps
+    const ef = window.__earlyFetch;
+    const efa = window.__earlyFetchAll;
+
+    if (ef && ef.who === S.who && ef.mins === S.duration) {
+      await consumeEarly(ef.pri);         // visible week first → render
+      fetchDates(bgDates);                // background dates (don't await)
+      await consumeEarly(ef.bg);          // then earlyFetch background batch
+      window.__earlyFetch = null;
+    } else if (efa && efa[S.who]) {
+      await consumeEarly(efa[S.who].pri); // visible week first → render
+      fetchDates(bgDates);                // background dates (don't await)
+      await consumeEarly(efa[S.who].bg);  // then earlyFetchAll background batch
+      delete efa[S.who];
+    } else {
+      // No earlyFetch — fire two requests: visible week first
+      await fetchDates(visibleDates);
+      fetchDates(bgDates);                // background (don't await)
+    }
+
+    // Final sweep: anything still stale?
+    const leftover = [...visibleDates, ...bgDates].filter(
+      ds => cacheIsStale(`${ds}_${S.duration}_${S.who}`)
+    );
+    if (leftover.length) await fetchDates(leftover);
   }
 
-  /* ── Update calendar day dots based on cached slot data ── */
-  function updateAvailDots() {
-    $('cal-grid').querySelectorAll('button.avail').forEach(btn => {
-      const ds = btn.dataset.d;
-      const cacheKey = `${ds}_${S.duration}_${S.who}`;
-      const slots = cacheGet(cacheKey);
-      if (slots) {
-        btn.classList.toggle('has-slots', slots.length > 0);
-        btn.classList.toggle('no-slots', slots.length === 0);
-      }
+  /* ── Google Calendar overlay ─────────────────── */
+  let gcalToken = null;
+  let gcalEvents = [];   // [{ start: Date, end: Date }]
+  let gcalActive = false;
+
+  function loadGIS() {
+    return new Promise((resolve, reject) => {
+      if (window.google && google.accounts && google.accounts.oauth2) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src = 'https://accounts.google.com/gsi/client';
+      s.onload = resolve;
+      s.onerror = () => reject(new Error('Failed to load Google Identity Services'));
+      document.head.appendChild(s);
     });
   }
 
-  async function onDatePicked(dateStr) {
-    go(2);
-    $('s2-label').textContent = fmtDate(S.date);
-    $('times').innerHTML = '<p class="t-loading">Checking availability\u2026</p>';
-
+  async function fetchGcalEvents() {
+    if (!gcalToken || !S.weekStart) return;
+    const weekDates = getWeekDates(S.weekStart);
+    const timeMin = new Date(weekDates[0]); timeMin.setHours(0, 0, 0, 0);
+    const timeMax = new Date(weekDates[4]); timeMax.setDate(timeMax.getDate() + 1); timeMax.setHours(0, 0, 0, 0);
     try {
-      const slots = await fetchSlots(dateStr);
-      renderTimes(slots);
-    } catch(err) {
-      $('times').innerHTML =
-        '<p style="color:var(--muted);font-size:.82rem">'
-        + 'Could not load availability. Try another date or '
-        + '<a href="mailto:hello@cambridgeaisafety.org" '
-        + 'style="color:var(--red);text-decoration:underline">contact us directly</a>.'
-        + '</p>';
+      const res = await fetch(
+        'https://www.googleapis.com/calendar/v3/calendars/primary/events'
+        + `?timeMin=${timeMin.toISOString()}&timeMax=${timeMax.toISOString()}`
+        + '&singleEvents=true&orderBy=startTime&maxResults=250',
+        { headers: { Authorization: `Bearer ${gcalToken}` } }
+      );
+      if (!res.ok) {
+        if (res.status === 401) {
+          gcalToken = null; gcalActive = false; gcalEvents = [];
+          $('gcal-toggle').classList.remove('active');
+          renderWeekView();
+        }
+        return;
+      }
+      const data = await res.json();
+      gcalEvents = (data.items || [])
+        .filter(ev => ev.start && ev.start.dateTime)
+        .map(ev => ({
+          start: new Date(ev.start.dateTime),
+          end:   new Date(ev.end.dateTime),
+        }));
+    } catch (err) {
+      console.error('Failed to fetch calendar events:', err);
     }
   }
 
-  /* ── Render time slot buttons ──────────────────── */
-  function renderTimes(slots) {
-    if (!slots || !slots.length) {
-      $('times').innerHTML =
-        '<p style="color:var(--muted);font-size:.82rem">'
-        + 'No availability on this day \u2014 please pick another date.'
-        + '</p>';
+  function applyGcalOverlays() {
+    document.querySelectorAll('.gcal-ev').forEach(el => el.remove());
+    if (!gcalActive || !gcalEvents.length) return;
+
+    const weekDates = getWeekDates(S.weekStart);
+    const children = $('wv-body').children;
+
+    for (let row = 0; row < WV_ROWS; row++) {
+      const h = WV_START_HOUR + Math.floor(row / 2);
+      const m = (row % 2) * 30;
+
+      weekDates.forEach((d, dayIdx) => {
+        const cellStart = ukSlotToDate(d, h, m);
+        const cellEnd = new Date(cellStart.getTime() + 30 * 60000);
+        const hasEvent = gcalEvents.some(ev => ev.start < cellEnd && ev.end > cellStart);
+        if (!hasEvent) return;
+
+        const cellIdx = row * 6 + dayIdx + 1; // +1 for the time label
+        const cell = children[cellIdx];
+        if (cell && cell.classList.contains('wv-cell')) {
+          const overlay = document.createElement('div');
+          overlay.className = 'gcal-ev';
+          cell.appendChild(overlay);
+        }
+      });
+    }
+  }
+
+  async function toggleGcalOverlay() {
+    if (gcalActive) {
+      gcalActive = false; gcalEvents = [];
+      $('gcal-toggle').classList.remove('active');
+      $('gcal-toggle').querySelector('span').textContent = 'Overlay your calendar';
+      renderWeekView();
       return;
     }
-
-    $('times').innerHTML = slots.map(sl =>
-      `<button class="t-btn" data-h="${sl.h}" data-m="${sl.m}">
-        <span>${fmtTime(sl.h, sl.m)}</span>
-        <span class="t-arrow">&#8594;</span>
-      </button>`
-    ).join('');
-
-    $('times').querySelectorAll('.t-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        S.slot = { h: +btn.dataset.h, m: +btn.dataset.m };
-        go(3);
+    if (!GCAL_CLIENT_ID) {
+      alert('Google Calendar overlay is not configured yet.\n\nSite owner: set GCAL_CLIENT_ID in calendar.html.');
+      return;
+    }
+    const btn = $('gcal-toggle');
+    const label = btn.querySelector('span');
+    label.textContent = 'Connecting\u2026';
+    try {
+      // GIS should already be loaded via <script async> in <head>.
+      // Fall back to dynamic load if it somehow isn't ready yet.
+      if (!(window.google && google.accounts && google.accounts.oauth2)) {
+        await loadGIS();
+      }
+      const token = await new Promise((resolve, reject) => {
+        const client = google.accounts.oauth2.initTokenClient({
+          client_id: GCAL_CLIENT_ID,
+          scope: 'https://www.googleapis.com/auth/calendar.events.readonly',
+          callback: resp => {
+            if (resp.error) reject(new Error(resp.error_description || resp.error));
+            else resolve(resp.access_token);
+          },
+        });
+        client.requestAccessToken();
       });
-    });
+      gcalToken = token;
+      gcalActive = true;
+      btn.classList.add('active');
+      label.textContent = 'Hide your calendar';
+      await fetchGcalEvents();
+      applyGcalOverlays();
+    } catch (err) {
+      console.error('Google Calendar auth error:', err);
+      label.textContent = 'Overlay your calendar';
+    }
   }
+
+  $('gcal-toggle').addEventListener('click', toggleGcalOverlay);
 
   /* ── Format picker ────────────────────────────── */
   document.querySelectorAll('.fmt-btn').forEach(btn => {
@@ -1376,7 +1756,7 @@
   /* ── Form init ─────────────────────────────────── */
   function initForm() {
     $('s3-label').textContent =
-      `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
+      `${fmtDate(S.date)} \u00b7 ${fmtTimeDisplay(S.date, S.slot.h, S.slot.m)}`;
     S.formAt = Date.now();
     S.format = null;
     S.formData = null;
@@ -1469,7 +1849,7 @@
     $('review-card').innerHTML = [
       row('Who', host),
       row('Date', fmtDate(S.date)),
-      row('Time', fmtTime(S.slot.h, S.slot.m) + ` (${durLabel})`),
+      row('Time', fmtTimeDisplay(S.date, S.slot.h, S.slot.m) + ` (${durLabel})`),
       row('Format', formatLabel),
       row('Name', name),
       row('Email', email),
@@ -1481,8 +1861,9 @@
     go(4);
   });
 
+  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
   function row(label, value) {
-    return `<div class="review-row"><span class="review-label">${label}</span><span class="review-value">${value}</span></div>`;
+    return `<div class="review-row"><span class="review-label">${label}</span><span class="review-value">${esc(value)}</span></div>`;
   }
 
   /* ── Confirm → actually book ────────────────────── */
@@ -1511,18 +1892,17 @@
         cacheSet(`${dateStr}_${S.duration}_${S.who}`, freshSlots);
         const stillFree = freshSlots.some(sl => sl.h === S.slot.h && sl.m === S.slot.m);
         if (!stillFree) {
-          // Slot was taken — show error and refresh the time slots view
+          // Slot was taken — show error and return to week view
           errEl.textContent = 'This time slot was just taken. Please pick another time.';
           errEl.classList.remove('hidden');
           btn.disabled = false;
           $('btn-lbl').textContent = 'Confirm booking';
-          renderTimes(freshSlots);
-          updateAvailDots();
-          go(2);
-          throw new Error('__slot_taken__');
+          renderWeekView();
+          go(1);
+          throw new Error('__handled__');
         }
 
-        await fetch('/api/book', {
+        const bookRes = await fetch('/api/book', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1534,6 +1914,21 @@
             format:   S.format,
           }),
         });
+        const bookData = await bookRes.json();
+        if (!bookData.ok) {
+          const e = bookData.e || '';
+          let msg = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
+          let goBack = false;
+          if (e === 'slot_taken') { msg = 'This time slot was just taken. Please pick another time.'; goBack = true; }
+          else if (e === 'daily_limit') { msg = 'This day has reached its meeting limit. Please try another day.'; goBack = true; }
+          else if (e.includes('Too many')) msg = 'Too many booking attempts. Please try again later.';
+          errEl.textContent = msg;
+          errEl.classList.remove('hidden');
+          btn.disabled = false;
+          $('btn-lbl').textContent = 'Confirm booking';
+          if (goBack) { prefetchWeekDates(); go(1); }
+          throw new Error('__handled__');
+        }
       } else {
         console.log('Dev mode: booking would be sent to GAS with', { name, email, topic,
           startISO: start.toISOString(), endISO: end.toISOString(),
@@ -1551,7 +1946,7 @@
 
       // Wire up success screen
       const host = HOST_SHORT[S.who];
-      const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTime(S.slot.h, S.slot.m)}`;
+      const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTimeDisplay(S.date, S.slot.h, S.slot.m)}`;
       $('s5-slot').textContent = `${host} \u00b7 ${slotLabel}`;
       $('s5-gcal').href = S.calLink;
       $('s5-para').textContent = S.format === 'in-person'
@@ -1561,10 +1956,11 @@
       const cancelTo = CANCEL_EMAIL[S.who];
       $('s5-cancel').href = `mailto:${cancelTo}?subject=${encodeURIComponent('Cancel meeting \u2013 ' + slotLabel)}&body=${encodeURIComponent('Hi,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
 
+      try { sessionStorage.removeItem('caish_who'); } catch {}
       go(5);
 
     } catch(err) {
-      if (err.message === '__slot_taken__') return; // already handled above
+      if (err.message === '__handled__') return;
       console.error(err);
       errEl.textContent = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
       errEl.classList.remove('hidden');
@@ -1579,45 +1975,60 @@
     $(`s${n}`).classList.add('on');
 
     document.querySelectorAll('.crumb').forEach(el => {
-      if (!el.dataset.s) return; // skip separators
+      if (!el.dataset.s) return;
       const sn = +el.dataset.s;
       el.classList.remove('here','done');
       if (sn === n) el.classList.add('here');
       else if (sn < n) el.classList.add('done');
     });
 
-    if (n===0) {
-      // Reset to landing state
+    if (n === 0) {
       $('info-names').textContent = 'Meridian Cambridge';
       $('info-org').style.display = 'none';
     }
-    if (n===1) renderCal();
-    if (n===3 && !S.formFilled) initForm();
+    if (n === 1) {
+      // Initialize week start if needed
+      if (!S.weekStart) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        while (tomorrow.getDay() === 0 || tomorrow.getDay() === 6) {
+          tomorrow.setDate(tomorrow.getDate() + 1);
+        }
+        S.weekStart = getWeekMonday(tomorrow);
+      }
+      renderWeekView();
+      prefetchWeekDates();
+    }
+    if (n === 3 && !S.formFilled) initForm();
   }
 
   /* Back buttons */
   $('back0').addEventListener('click', () => go(0));
-  $('back1').addEventListener('click', () => go(1));
+  $('back2').addEventListener('click', () => go(1)); // Details → back to week view
   $('back3').addEventListener('click', () => {
-    S.formFilled = true;  // preserve form inputs
+    S.formFilled = true;
     go(3);
   });
-  $('back2').addEventListener('click', () => {
-    go(2);
-    $('s2-label').textContent = fmtDate(S.date);
-    const ds = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
-    renderTimes(cacheGet(`${ds}_${S.duration}_${S.who}`) || []);
-  });
 
-  $('cal-prev').addEventListener('click', () => {
-    S.calMonth--;
-    if (S.calMonth < 0) { S.calMonth = 11; S.calYear--; }
-    renderCal();
+  /* Week navigation */
+  $('wv-prev').addEventListener('click', () => {
+    const prev = new Date(S.weekStart);
+    prev.setDate(prev.getDate() - 7);
+    if (prev >= today0()) {
+      S.weekStart = prev;
+      renderWeekView();
+      if (gcalActive) fetchGcalEvents().then(applyGcalOverlays);
+    }
   });
-  $('cal-next').addEventListener('click', () => {
-    S.calMonth++;
-    if (S.calMonth > 11) { S.calMonth = 0; S.calYear++; }
-    renderCal();
+  $('wv-next').addEventListener('click', () => {
+    const next = new Date(S.weekStart);
+    next.setDate(next.getDate() + 7);
+    if (next <= maxDate()) {
+      S.weekStart = next;
+      renderWeekView();
+      if (gcalActive) fetchGcalEvents().then(applyGcalOverlays);
+    }
   });
 
   /* ── Duration picker ───────────────────────────── */
@@ -1627,12 +2038,12 @@
       if (mins === S.duration) return;
       S.duration = mins;
       CONFIG.meetingMins = mins;
-      Object.keys(SLOT_CACHE).forEach(k => delete SLOT_CACHE[k]);
+      // Cache keys include duration, so old entries stay valid for instant switch-back
       document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       $('meta-dur').textContent = mins === 60 ? '1 hour' : `${mins} minutes`;
-      // Re-prefetch with new duration
-      prefetchVisibleDates();
+      renderWeekView();
+      prefetchWeekDates();
     });
   });
 
@@ -1641,10 +2052,8 @@
     const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
     const params = new URLSearchParams(window.location.search);
 
-    // Initialize calendar state BEFORE go() so renderCal() has valid year/month
-    const now = new Date();
-    S.calYear = now.getFullYear();
-    S.calMonth = now.getMonth();
+    // Set timezone label
+    $('tz-label').textContent = tzLabel();
 
     let directWho = null;
     if (path === '/gaurav') directWho = 'gaurav';
@@ -1653,26 +2062,31 @@
     else if (params.get('who') && ['gaurav','justin','both'].includes(params.get('who')))
       directWho = params.get('who');
 
+    // Restore previous selection if page reloads (e.g. during OAuth flow)
+    let savedWho = null;
+    try { savedWho = sessionStorage.getItem('caish_who'); } catch {}
+    if (!directWho && savedWho && ['gaurav','justin','both'].includes(savedWho)) {
+      directWho = savedWho;
+    }
+
     if (directWho) {
       S.who = directWho;
       S.directLink = true;
       $('crumbs').classList.add('direct');
       updateInfoPanel(directWho);
 
-      // Update page title & description for direct booking links
       const label = HOST_LABELS[directWho];
       document.title = `Book a Meeting with ${label}`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) metaDesc.setAttribute('content', `Book a meeting with ${label}.`);
 
-      go(1);  // renders calendar once, correctly
+      go(1);
     } else {
       S.who = null;
       S.directLink = false;
       go(0);
     }
 
-    // Show back button on step 1 only for non-direct links
     if (!S.directLink) {
       $('back0').style.display = '';
     }

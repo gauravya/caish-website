@@ -19,15 +19,15 @@
     Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
 
     # Content Security Policy
-    # Allows: self, Google Fonts, Tally forms, and inline scripts (needed for current implementation)
+    # Allows: self, Google Fonts, Tally forms, Google Identity Services (calendar overlay), and inline scripts
     Content-Security-Policy = """
       default-src 'self';
-      script-src 'self' 'unsafe-inline' https://tally.so;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      script-src 'self' 'unsafe-inline' https://tally.so https://accounts.google.com;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com;
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: https:;
-      connect-src 'self' https://*.lu.ma;
-      frame-src https://tally.so;
+      connect-src 'self' https://*.lu.ma https://www.googleapis.com https://accounts.google.com;
+      frame-src https://tally.so https://accounts.google.com;
       base-uri 'self';
       form-action 'self' https://tally.so https://share-eu1.hsforms.com;
     """
@@ -67,6 +67,10 @@
   for = "/"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
+
+# Keep GAS warm — runs every 5 minutes, prevents 3-10s cold starts
+[functions."warmup"]
+  schedule = "*/5 * * * *"
 
 # Route /api/book to the serverless function (which proxies to GAS)
 [[redirects]]
