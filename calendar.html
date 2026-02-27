@@ -13,6 +13,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
+  <!-- Google Identity Services (for calendar overlay) -->
+  <script src="https://accounts.google.com/gsi/client" async></script>
+
   <!-- Early fetch: start loading availability data BEFORE CSS/fonts load.
        For direct links (/gaurav, /justin, /both), we know the person and
        can compute the dates immediately. For /calendar, prefetch all three. -->
@@ -1697,6 +1700,7 @@
     if (gcalActive) {
       gcalActive = false; gcalEvents = [];
       $('gcal-toggle').classList.remove('active');
+      $('gcal-toggle').querySelector('span').textContent = 'Overlay your calendar';
       renderWeekView();
       return;
     }
@@ -1704,14 +1708,21 @@
       alert('Google Calendar overlay is not configured yet.\n\nSite owner: set GCAL_CLIENT_ID in calendar.html.');
       return;
     }
+    const btn = $('gcal-toggle');
+    const label = btn.querySelector('span');
+    label.textContent = 'Connecting\u2026';
     try {
-      await loadGIS();
+      // GIS should already be loaded via <script async> in <head>.
+      // Fall back to dynamic load if it somehow isn't ready yet.
+      if (!(window.google && google.accounts && google.accounts.oauth2)) {
+        await loadGIS();
+      }
       const token = await new Promise((resolve, reject) => {
         const client = google.accounts.oauth2.initTokenClient({
           client_id: GCAL_CLIENT_ID,
           scope: 'https://www.googleapis.com/auth/calendar.events.readonly',
           callback: resp => {
-            if (resp.error) reject(new Error(resp.error));
+            if (resp.error) reject(new Error(resp.error_description || resp.error));
             else resolve(resp.access_token);
           },
         });
@@ -1719,11 +1730,13 @@
       });
       gcalToken = token;
       gcalActive = true;
-      $('gcal-toggle').classList.add('active');
+      btn.classList.add('active');
+      label.textContent = 'Hide your calendar';
       await fetchGcalEvents();
       applyGcalOverlays();
     } catch (err) {
       console.error('Google Calendar auth error:', err);
+      label.textContent = 'Overlay your calendar';
     }
   }
 
