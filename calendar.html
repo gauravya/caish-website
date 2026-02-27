@@ -15,9 +15,10 @@
 
   <!-- Early fetch: start loading availability data BEFORE CSS/fonts load.
        For direct links (/gaurav, /justin, /both), we know the person and
-       can compute the dates immediately. Saves ~500ms-1s. -->
+       can compute the dates immediately. For /calendar, prefetch all three. -->
   <script>
   window.__earlyFetch = null;
+  window.__earlyFetchAll = null;
   (function() {
     var path = location.pathname.replace(/\/$/, '').toLowerCase();
     var who = null;
@@ -29,7 +30,6 @@
       var w = p.get('who');
       if (w && (w === 'gaurav' || w === 'justin' || w === 'both')) who = w;
     }
-    if (!who) return;
     var today = new Date(); today.setHours(0,0,0,0);
     var dates = [];
     for (var i = 1; i <= 21; i++) {
@@ -39,11 +39,23 @@
       dates.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
     }
     if (!dates.length) return;
-    window.__earlyFetch = {
-      who: who, mins: 30, dates: dates,
-      promise: fetch('/api/book?dates=' + dates.join(',') + '&mins=30&who=' + who)
-        .then(function(r) { return r.json(); }).catch(function() { return null; })
-    };
+    var datesStr = dates.join(',');
+    if (who) {
+      window.__earlyFetch = {
+        who: who, mins: 30, dates: dates,
+        promise: fetch('/api/book?dates=' + datesStr + '&mins=30&who=' + who)
+          .then(function(r) { return r.json(); }).catch(function() { return null; })
+      };
+    } else {
+      window.__earlyFetchAll = {};
+      ['gaurav', 'justin', 'both'].forEach(function(w) {
+        window.__earlyFetchAll[w] = {
+          who: w, mins: 30, dates: dates,
+          promise: fetch('/api/book?dates=' + datesStr + '&mins=30&who=' + w)
+            .then(function(r) { return r.json(); }).catch(function() { return null; })
+        };
+      });
+    }
   })();
   </script>
 
@@ -236,16 +248,7 @@
       transform: translateX(3px);
     }
 
-    /* ── Calendar ────────────────────────────────────── */
-    .cal-header {
-      display: flex; align-items: center;
-      justify-content: space-between; margin-bottom: 0.75rem;
-    }
-
-    .cal-title {
-      font-family: var(--serif); font-size: 1rem; font-weight: 400;
-    }
-
+    /* ── Nav button (shared for week nav) ────────────── */
     .cal-btn {
       width: 30px; height: 30px; border-radius: 50%;
       border: 1px solid var(--border); background: none;
@@ -256,95 +259,118 @@
     .cal-btn:hover:not(:disabled) { border-color: var(--red); color: var(--red); }
     .cal-btn:disabled { opacity: 0.25; cursor: not-allowed; }
 
-    /* Grid — fills full widget width and remaining height */
-    .cal-grid {
-      display: grid; grid-template-columns: repeat(7, 1fr);
-      grid-template-rows: 36px; grid-auto-rows: 1fr;
-      gap: 3px; width: 100%;
+    /* ── Week View ───────────────────────────────────── */
+    .wv-wrap {
+      display: flex; flex-direction: column;
       flex: 1; min-height: 0;
     }
 
-    .cal-dh {
-      display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; letter-spacing: 0.06em;
-      text-transform: uppercase; color: var(--muted);
+    .wv-nav {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+    .wv-title {
+      font-family: var(--serif); font-size: 1rem; font-weight: 400;
     }
 
-    .cal-day {
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 6px; position: relative;
-      font-size: 0.82rem; font-family: var(--mono);
-      border: none; background: none; cursor: default;
-      color: #ccc; transition: background 0.12s, color 0.12s, box-shadow 0.12s;
+    /* Day headers grid (fixed) */
+    .wv-hdr {
+      display: grid;
+      grid-template-columns: 52px repeat(5, 1fr);
     }
-    /* Availability dot — shown after prefetch confirms slots exist */
-    .cal-day.has-slots::after {
-      content: '';
-      position: absolute; bottom: 2px; left: 50%;
-      transform: translateX(-50%);
-      width: 4px; height: 4px; border-radius: 50%;
-      background: var(--red);
+    .wv-corner { /* empty top-left */ }
+    .wv-dh {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 0.35rem 0 0.5rem;
+      font-size: 0.58rem; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.04em;
+      border-bottom: 1px solid var(--border);
     }
-    .cal-day.sel.has-slots::after { background: #fff; }
-    .cal-day.no-slots { color: #ccc; cursor: default; pointer-events: none; opacity: 0.45; }
-
-    .cal-day.avail {
-      color: var(--black); cursor: pointer;
+    .wv-dh-num {
+      font-size: 1rem; font-family: var(--mono);
+      color: var(--black); margin-top: 1px;
+      width: 28px; height: 28px; display: flex;
+      align-items: center; justify-content: center;
+      border-radius: 50%;
     }
-    .cal-day.avail:hover {
-      background: var(--red-tint); color: var(--red);
-    }
-    .cal-day.avail.sel {
+    .wv-dh.today .wv-dh-num {
       background: var(--red); color: #fff;
     }
-    .cal-day.avail.sel:hover { background: var(--red-mid); }
+    .wv-dh.past { opacity: 0.4; }
 
-    .cal-day.ring {
-      box-shadow: inset 0 0 0 1px var(--border);
-    }
-
-    /* ── Time slots (timeline layout) ────────────────── */
-    .times {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-      margin-top: 0.25rem;
+    /* Scrollable body */
+    .wv-scroll {
       flex: 1; min-height: 0;
       overflow-y: auto;
-      padding-right: 0.25rem;
+    }
+    .wv-body {
+      display: grid;
+      grid-template-columns: 52px repeat(5, 1fr);
     }
 
-    .t-btn {
-      display: flex; align-items: center; gap: 0.5rem;
-      border: 1px solid var(--border); border-radius: 8px;
-      background: var(--white); font-family: var(--mono);
-      font-size: 0.82rem; color: var(--ink);
-      cursor: pointer; padding: 0.7rem 1rem;
-      transition: border-color 0.14s, color 0.14s, background 0.14s;
+    /* Time labels (left column) */
+    .wv-time {
+      display: flex; align-items: flex-start; justify-content: flex-end;
+      padding: 0 6px 0 0;
+      font-size: 0.56rem; color: var(--muted);
+      font-family: var(--mono);
+      border-top: 1px solid var(--border);
+      min-height: 36px;
     }
-    .t-btn:hover {
-      border-color: var(--red); color: var(--red);
-      background: var(--red-tint);
+    .wv-time span { transform: translateY(-50%); }
+    .wv-time.wv-half {
+      border-top-color: #f0efec;
     }
-    .t-btn .t-arrow {
-      margin-left: auto; color: var(--border);
-      transition: color 0.14s;
-    }
-    .t-btn:hover .t-arrow { color: var(--red); }
+    .wv-time.wv-half span { display: none; }
 
-    .t-uk {
-      font-size: 0.65rem; color: var(--muted);
+    /* Day cells */
+    .wv-cell {
+      min-height: 36px;
+      border-top: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      position: relative;
     }
-    .t-btn:hover .t-uk { color: var(--red-mid); }
+    .wv-cell.wv-half { border-top-color: #f0efec; }
+    .wv-cell.past { background: var(--surface); opacity: 0.4; }
+    .wv-cell.loading {
+      background: linear-gradient(90deg, var(--white) 25%, var(--surface) 50%, var(--white) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
 
-    .tl-gap {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.2rem 0.5rem;
-      font-size: 0.6rem; color: var(--muted);
-      letter-spacing: 0.03em;
+    .wv-cell.free {
+      background: rgba(126, 66, 51, 0.06);
+      cursor: pointer;
+      transition: background 0.12s, box-shadow 0.12s;
     }
-    .tl-gap-line {
-      flex: 1; border-top: 1px dashed var(--border);
+    .wv-cell.free:hover {
+      background: rgba(126, 66, 51, 0.16);
+    }
+    /* First free cell in a consecutive run gets the top accent */
+    .wv-cell.free.band-top {
+      border-top: 2px solid var(--red);
+    }
+    .wv-cell.free.band-top .wv-cell-time {
+      display: block;
+    }
+    .wv-cell-time {
+      display: none;
+      font-size: 0.56rem; font-family: var(--mono);
+      color: var(--red); padding: 2px 4px;
+      pointer-events: none;
+    }
+
+    .wv-empty-day {
+      font-size: 0.55rem; color: #ccc;
+      text-align: center;
+      padding-top: 1rem;
+      pointer-events: none;
+      grid-row: span 2;
     }
 
     .tz {
@@ -352,10 +378,6 @@
       margin-top: 0.75rem; flex-shrink: 0;
     }
 
-    .t-loading {
-      font-size: 0.8rem; color: var(--muted);
-      animation: pulse 1.2s ease-in-out infinite;
-    }
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50%       { opacity: 0.4; }
@@ -556,7 +578,13 @@
         padding: 2rem 1.5rem 3rem;
       }
 
-      .t-btn { font-size: 0.9rem; }
+      .wv-hdr, .wv-body {
+        grid-template-columns: 42px repeat(5, 1fr);
+      }
+      .wv-time { font-size: 0.5rem; padding-right: 3px; }
+      .wv-cell { min-height: 30px; }
+      .wv-dh { font-size: 0.5rem; }
+      .wv-dh-num { font-size: 0.85rem; width: 24px; height: 24px; }
     }
   </style>
 </head>
@@ -611,9 +639,7 @@
           <div class="crumbs" id="crumbs" aria-label="Booking progress">
             <span class="crumb here who-crumb" data-s="0">Who</span>
             <span class="crumb-sep who-crumb" aria-hidden="true">›</span>
-            <span class="crumb" data-s="1">Date</span>
-            <span class="crumb-sep" aria-hidden="true">›</span>
-            <span class="crumb" data-s="2">Time</span>
+            <span class="crumb" data-s="1">Schedule</span>
             <span class="crumb-sep" aria-hidden="true">›</span>
             <span class="crumb" data-s="3">Details</span>
             <span class="crumb-sep" aria-hidden="true">›</span>
@@ -646,7 +672,7 @@
             </div>
           </div>
 
-          <!-- Step 1 · Date -->
+          <!-- Step 1 · Week View (date + time combined) -->
           <div class="step" id="s1">
             <button class="step-back" id="back0" style="display:none">&#8592; Back</button>
             <div class="dur-picker" id="dur-picker">
@@ -657,20 +683,17 @@
                 <button class="dur-btn" data-mins="60">1 hr</button>
               </div>
             </div>
-            <div class="cal-header">
-              <button class="cal-btn" id="cal-prev" aria-label="Previous month">&#8249;</button>
-              <h2 class="cal-title" id="cal-title"></h2>
-              <button class="cal-btn" id="cal-next" aria-label="Next month">&#8250;</button>
+            <div class="wv-wrap">
+              <div class="wv-nav">
+                <button class="cal-btn" id="wv-prev" aria-label="Previous week">&#8249;</button>
+                <h2 class="wv-title" id="wv-title"></h2>
+                <button class="cal-btn" id="wv-next" aria-label="Next week">&#8250;</button>
+              </div>
+              <div class="wv-hdr" id="wv-hdr"></div>
+              <div class="wv-scroll">
+                <div class="wv-body" id="wv-body"></div>
+              </div>
             </div>
-            <div class="cal-grid" id="cal-grid" role="grid" aria-label="Select a date"></div>
-          </div>
-
-          <!-- Step 2 · Time -->
-          <div class="step" id="s2">
-            <button class="step-back" id="back1">&#8592; Back</button>
-            <h2 class="step-title">Choose a time</h2>
-            <p class="step-sub" id="s2-label"></p>
-            <div class="times" id="times" role="group" aria-label="Available times"></div>
             <p class="tz" id="tz-label">All times in UK time (GMT / BST)</p>
           </div>
 
@@ -818,7 +841,7 @@
    *  var JUSTIN = 'justin@meridiancambridge.org';
    *  var TZ     = 'Europe/London';
    *
-   *  var JUSTIN_BUFFER_MINS = 5; // 5-min buffer after Justin's meetings
+   *  var BUFFER_MINS = 5; // 5-min buffer after ALL meetings (both calendars)
    *
    *  function conflicts(start, end, events, bufferMins) {
    *    bufferMins = bufferMins || 0;
@@ -854,7 +877,7 @@
    *        var s = new Date(parts[0], parts[1], parts[2], h, m, 0);
    *        var f = new Date(s.getTime() + mins * 60000);
    *        if (f.getHours() >= 19) continue;
-   *        if (!conflicts(s, f, gDay, 0) && !conflicts(s, f, jDay, JUSTIN_BUFFER_MINS)) {
+   *        if (!conflicts(s, f, gDay, BUFFER_MINS) && !conflicts(s, f, jDay, BUFFER_MINS)) {
    *          slots.push({ h: h, m: m });
    *        }
    *      }
@@ -918,7 +941,7 @@
    *          var s = new Date(parts[0], parts[1]-1, parts[2], h, m, 0);
    *          var f = new Date(s.getTime() + mins * 60000);
    *          if (f.getHours() >= 19) continue;
-   *          if (!conflicts(s, f, gEvs, 0) && !conflicts(s, f, jEvs, JUSTIN_BUFFER_MINS)) {
+   *          if (!conflicts(s, f, gEvs, BUFFER_MINS) && !conflicts(s, f, jEvs, BUFFER_MINS)) {
    *            slots.push({ h: h, m: m });
    *          }
    *        }
@@ -1043,7 +1066,7 @@
   const S = {
     who: null,          // 'gaurav' | 'justin' | 'both'
     directLink: false,  // true if arrived via /gaurav or /justin
-    calYear: null, calMonth: null,
+    weekStart: null,    // Monday of current week view
     date: null, slot: null,
     calLink: null,
     formAt: 0,
@@ -1140,73 +1163,169 @@
     card.addEventListener('click', () => selectWho(card.dataset.who));
   });
 
-  /* ── Calendar ──────────────────────────────────── */
-  function renderCal() {
-    const t   = today0();
-    const max = maxDate();
-    const y = S.calYear, m = S.calMonth;
-    const first = new Date(y, m, 1);
-    const last  = new Date(y, m+1, 0);
+  /* ── Week View ─────────────────────────────────── */
+  const WV_START_HOUR = 10;
+  const WV_END_HOUR = 18;
+  const WV_ROWS = (WV_END_HOUR - WV_START_HOUR) * 2; // 16 half-hour rows
 
-    $('cal-title').textContent = first.toLocaleDateString('en-GB', {
-      month: 'long', year: 'numeric'
+  function getWeekMonday(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    d.setDate(diff);
+    d.setHours(0, 0, 0, 0);
+    return d;
+  }
+
+  function getWeekDates(monday) {
+    const dates = [];
+    for (let i = 0; i < 5; i++) {
+      const d = new Date(monday);
+      d.setDate(d.getDate() + i);
+      dates.push(d);
+    }
+    return dates;
+  }
+
+  function dsStr(d) {
+    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  }
+
+  function renderWeekView() {
+    if (!S.who || !S.weekStart) return;
+
+    const weekDates = getWeekDates(S.weekStart);
+    const t = today0();
+    const max = maxDate();
+
+    // Title
+    const mon = weekDates[0], fri = weekDates[4];
+    const sameMonth = mon.getMonth() === fri.getMonth();
+    $('wv-title').textContent = sameMonth
+      ? `${mon.toLocaleDateString('en-GB', { month: 'long' })} ${mon.getDate()} \u2013 ${fri.getDate()}, ${mon.getFullYear()}`
+      : `${mon.toLocaleDateString('en-GB', { month: 'short' })} ${mon.getDate()} \u2013 ${fri.toLocaleDateString('en-GB', { month: 'short' })} ${fri.getDate()}, ${fri.getFullYear()}`;
+
+    // Prev/next
+    const prevMon = new Date(S.weekStart);
+    prevMon.setDate(prevMon.getDate() - 7);
+    $('wv-prev').disabled = prevMon < t;
+    const nextMon = new Date(S.weekStart);
+    nextMon.setDate(nextMon.getDate() + 7);
+    $('wv-next').disabled = nextMon > max;
+
+    // Header row
+    let hdrHtml = '<div class="wv-corner"></div>';
+    weekDates.forEach(d => {
+      const isToday = d.toDateString() === t.toDateString();
+      const isPast = d <= t;
+      let cls = 'wv-dh';
+      if (isToday) cls += ' today';
+      else if (isPast) cls += ' past';
+      hdrHtml += `<div class="${cls}">
+        <span>${d.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase()}</span>
+        <span class="wv-dh-num">${d.getDate()}</span>
+      </div>`;
+    });
+    $('wv-hdr').innerHTML = hdrHtml;
+
+    // Build per-day slot lookup for detecting consecutive free cells
+    const daySlotSets = {};
+    weekDates.forEach(d => {
+      const ds = dsStr(d);
+      const key = `${ds}_${S.duration}_${S.who}`;
+      const slots = cacheGet(key);
+      const set = new Set();
+      if (slots) {
+        slots.forEach(sl => set.add(`${sl.h}:${sl.m}`));
+      }
+      daySlotSets[ds] = { slots, set };
     });
 
-    $('cal-prev').disabled = (y === t.getFullYear() && m === t.getMonth());
-    $('cal-next').disabled = new Date(y, m+1, 1) > max;
+    // Body
+    let bodyHtml = '';
+    for (let row = 0; row < WV_ROWS; row++) {
+      const h = WV_START_HOUR + Math.floor(row / 2);
+      const m = (row % 2) * 30;
+      const isHalf = m === 30;
 
-    const HEADS = ['Mo','Tu','We','Th','Fr','Sa','Su'];
-    let startOff = first.getDay(); // 0=Sun
-    startOff = (startOff + 6) % 7; // 0=Mon
+      // Time label
+      let timeCls = 'wv-time';
+      if (isHalf) timeCls += ' wv-half';
+      bodyHtml += `<div class="${timeCls}"><span>${fmtTime(h, m)}</span></div>`;
 
-    let html = '';
-    HEADS.forEach(h => { html += `<div class="cal-dh">${h}</div>`; });
+      // 5 day cells
+      weekDates.forEach(d => {
+        const isPast = d <= t;
+        const isFar = d > max;
+        const ds = dsStr(d);
 
-    let day = 1;
-    for (let row = 0; row < 6; row++) {
-      for (let col = 0; col < 7; col++) {
-        const idx = row*7+col;
-        if (idx < startOff || day > last.getDate()) {
-          html += '<div></div>';
-        } else {
-          const d    = new Date(y, m, day);
-          const dow  = d.getDay();
-          const wknd = dow===0||dow===6;
-          const past = d <= t;
-          const far  = d > max;
-          const ok   = !wknd && !past && !far;
-          const isToday = d.toDateString() === t.toDateString();
-          const isSel   = S.date && d.toDateString() === S.date.toDateString();
-          const ds   = `${y}-${pad(m+1)}-${pad(day)}`;
-          const lbl  = d.toLocaleDateString('en-GB', {weekday:'long',day:'numeric',month:'long'});
-
-          let cls = 'cal-day';
-          if (ok) cls += ' avail';
-          if (isSel) cls += ' sel';
-          if (isToday && !isSel) cls += ' ring';
-
-          if (ok) {
-            html += `<button class="${cls}" data-d="${ds}" aria-label="${lbl}">${day}</button>`;
-          } else {
-            html += `<div class="${cls}" aria-hidden="true">${day}</div>`;
-          }
-          day++;
+        if (isPast || isFar) {
+          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} past"></div>`;
+          return;
         }
-      }
+
+        const info = daySlotSets[ds];
+        if (info.slots === null) {
+          // Still loading
+          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} loading"></div>`;
+          return;
+        }
+
+        // Check if any slot exists in this 30-min window
+        const isFree = info.set.has(`${h}:${m}`) ||
+          info.slots.some(sl => {
+            const slMin = sl.h * 60 + sl.m;
+            return slMin >= h * 60 + m && slMin < h * 60 + m + 30;
+          });
+
+        if (isFree) {
+          // Find the first available slot in this 30-min window
+          let firstSlot = null;
+          for (const sl of info.slots) {
+            const slMin = sl.h * 60 + sl.m;
+            if (slMin >= h * 60 + m && slMin < h * 60 + m + 30) {
+              firstSlot = sl;
+              break;
+            }
+          }
+          if (!firstSlot) firstSlot = { h, m };
+
+          // Check if previous row in this day was also free (for band styling)
+          let isBandTop = true;
+          if (row > 0) {
+            const prevH = WV_START_HOUR + Math.floor((row - 1) / 2);
+            const prevM = ((row - 1) % 2) * 30;
+            const prevFree = info.set.has(`${prevH}:${prevM}`) ||
+              info.slots.some(sl => {
+                const slMin = sl.h * 60 + sl.m;
+                return slMin >= prevH * 60 + prevM && slMin < prevH * 60 + prevM + 30;
+              });
+            if (prevFree) isBandTop = false;
+          }
+
+          const label = fmtTime(firstSlot.h, firstSlot.m);
+          let cls = `wv-cell${isHalf ? ' wv-half' : ''} free`;
+          if (isBandTop) cls += ' band-top';
+          bodyHtml += `<div class="${cls}" data-date="${ds}" data-h="${firstSlot.h}" data-m="${firstSlot.m}">
+            <span class="wv-cell-time">${label}</span>
+          </div>`;
+        } else {
+          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''}"></div>`;
+        }
+      });
     }
 
-    $('cal-grid').innerHTML = html;
+    $('wv-body').innerHTML = bodyHtml;
 
-    $('cal-grid').querySelectorAll('button.avail').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const [yr,mo,dy] = btn.dataset.d.split('-').map(Number);
-        S.date = new Date(yr, mo-1, dy);
-        onDatePicked(btn.dataset.d);
+    // Click handlers
+    $('wv-body').querySelectorAll('.wv-cell.free').forEach(cell => {
+      cell.addEventListener('click', () => {
+        const [yr, mo, dy] = cell.dataset.date.split('-').map(Number);
+        S.date = new Date(yr, mo - 1, dy);
+        S.slot = { h: +cell.dataset.h, m: +cell.dataset.m };
+        go(3);
       });
     });
-
-    // Prefetch availability for all visible dates in the background
-    prefetchVisibleDates();
   }
 
   /* ── Fetch slots from GAS (GET ?date=…&mins=…&who=…) ── */
@@ -1230,79 +1349,37 @@
     return data.slots;
   }
 
-  async function fetchSlots(dateStr) {
-    const cacheKey = `${dateStr}_${S.duration}_${S.who}`;
-    const cached = cacheGet(cacheKey);
+  /* ── Batch-prefetch availability for all dates in the booking window ── */
+  let _prefetchController = null;
 
-    // Fresh cache — return immediately
-    if (cached && !cacheIsStale(cacheKey)) return cached;
-
-    const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
-    let slots;
-
-    if (configured) {
-      // Stale cache exists — return cached data now, revalidate in background
-      if (cached) {
-        fetchSlotsFromServer(dateStr).then(fresh => {
-          cacheSet(cacheKey, fresh);
-          // If the user is still looking at this date, update the time slots
-          if (S.date) {
-            const viewingDs = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
-            if (viewingDs === dateStr) renderTimes(fresh);
-          }
-          updateAvailDots();
-        }).catch(() => {});
-        return cached;
-      }
-      slots = await fetchSlotsFromServer(dateStr);
-    } else {
-      // Dev fallback: Gaurav 10am, Justin 11am, both 11am
-      const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
-      slots = [];
-      for (let h = startH; h < 18; h++) {
-        for (let m = 0; m < 60; m += 30) {
-          const endH = h + Math.floor((m + S.duration) / 60);
-          if (endH >= 19) continue;
-          slots.push({ h, m });
-        }
-      }
-    }
-
-    cacheSet(cacheKey, slots);
-    return slots;
-  }
-
-  /* ── Batch-prefetch availability for all visible calendar dates ── */
-  let _prefetchController = null;  // tracks the current prefetch cycle
-
-  async function prefetchVisibleDates() {
+  async function prefetchWeekDates() {
     if (!S.who) return;
 
-    // Abort any in-progress prefetch (e.g. user switched month quickly)
     if (_prefetchController) _prefetchController.abort();
     _prefetchController = new AbortController();
     const signal = _prefetchController.signal;
 
-    // Collect all available (clickable) date strings from the rendered calendar
-    const dateBtns = $('cal-grid').querySelectorAll('button.avail');
-    const uncached = [];
-    dateBtns.forEach(btn => {
-      const ds = btn.dataset.d;
-      const cacheKey = `${ds}_${S.duration}_${S.who}`;
-      if (!cacheGet(cacheKey)) uncached.push(ds);
-    });
-
-    if (!uncached.length) {
-      // Everything is cached — just update the dots
-      updateAvailDots();
-      return;
+    // Collect ALL uncached weekday dates in the 21-day window
+    const t = today0();
+    const max = maxDate();
+    const allDates = [];
+    for (let i = 1; i <= 21; i++) {
+      const d = new Date(t);
+      d.setDate(d.getDate() + i);
+      if (d.getDay() === 0 || d.getDay() === 6) continue;
+      if (d > max) continue;
+      const ds = dsStr(d);
+      const key = `${ds}_${S.duration}_${S.who}`;
+      if (!cacheGet(key)) allDates.push(ds);
     }
+
+    if (!allDates.length) return;
 
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
     if (!configured) {
       // Dev fallback: generate mock slots for all dates
       const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
-      uncached.forEach(ds => {
+      allDates.forEach(ds => {
         const slots = [];
         for (let h = startH; h < 18; h++) {
           for (let m = 0; m < 60; m += 30) {
@@ -1313,11 +1390,11 @@
         }
         cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
       });
-      updateAvailDots();
+      renderWeekView();
       return;
     }
 
-    // Check if the early fetch (started in <head> before CSS loaded) covers our dates
+    // Try earlyFetch (direct link)
     const ef = window.__earlyFetch;
     if (ef && ef.who === S.who && ef.mins === S.duration) {
       try {
@@ -1326,143 +1403,48 @@
           for (const [ds, slots] of Object.entries(data.results)) {
             cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
           }
-          updateAvailDots();
-          // Check if early fetch covered everything
-          const stillUncached = uncached.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
-          if (!stillUncached.length) { window.__earlyFetch = null; return; }
+          renderWeekView();
         }
       } catch {}
-      window.__earlyFetch = null;  // consumed — don't reuse
+      window.__earlyFetch = null;
     }
 
-    // Fetch remaining uncached dates (anything not covered by early fetch)
-    const remaining = uncached.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
-    if (!remaining.length) return;
-
-    // Split into near/far waves and fetch CONCURRENTLY
-    const todayMs = today0().getTime();
-    const nearDates = [];
-    const farDates  = [];
-    const NEAR_WINDOW = 8 * 86_400_000; // 8 days in ms
-
-    for (const ds of remaining) {
-      const [y,m,d] = ds.split('-').map(Number);
-      const dMs = new Date(y, m-1, d).getTime();
-      if (dMs - todayMs <= NEAR_WINDOW) nearDates.push(ds);
-      else farDates.push(ds);
-    }
-
-    // Fetch a batch of dates, cache results, and update dots immediately
-    const fetchBatch = async (dates) => {
-      if (!dates.length || signal.aborted) return;
+    // Try earlyFetchAll (/calendar page)
+    const efa = window.__earlyFetchAll;
+    if (efa && efa[S.who]) {
       try {
-        const res = await fetch(
-          `/api/book?dates=${dates.join(',')}&mins=${S.duration}&who=${S.who}`,
-          { signal }
-        );
-        const data = await res.json();
-        if (signal.aborted) return;
-        if (data.ok && data.batch) {
+        const data = await efa[S.who].promise;
+        if (data && data.ok && data.batch && !signal.aborted) {
           for (const [ds, slots] of Object.entries(data.results)) {
             cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
           }
+          renderWeekView();
         }
-        updateAvailDots();
-      } catch (err) {
-        if (err.name === 'AbortError') return;
-        console.warn('Prefetch batch failed:', err);
-      }
-    };
+      } catch {}
+      delete efa[S.who];
+    }
 
-    // Both waves run concurrently — dots update as each completes
-    await Promise.all([fetchBatch(nearDates), fetchBatch(farDates)]);
-  }
-
-  /* ── Update calendar day dots based on cached slot data ── */
-  function updateAvailDots() {
-    $('cal-grid').querySelectorAll('button.avail').forEach(btn => {
-      const ds = btn.dataset.d;
-      const cacheKey = `${ds}_${S.duration}_${S.who}`;
-      const slots = cacheGet(cacheKey);
-      if (slots) {
-        btn.classList.toggle('has-slots', slots.length > 0);
-        btn.classList.toggle('no-slots', slots.length === 0);
-      }
-    });
-  }
-
-  async function onDatePicked(dateStr) {
-    go(2);
-    $('s2-label').textContent = fmtDate(S.date);
-    $('times').innerHTML = '<p class="t-loading">Checking availability\u2026</p>';
+    // Fetch remaining uncached dates
+    const remaining = allDates.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
+    if (!remaining.length || signal.aborted) return;
 
     try {
-      const slots = await fetchSlots(dateStr);
-      renderTimes(slots);
-    } catch(err) {
-      $('times').innerHTML =
-        '<p style="color:var(--muted);font-size:.82rem">'
-        + 'Could not load availability. Try another date or '
-        + '<a href="mailto:hello@cambridgeaisafety.org" '
-        + 'style="color:var(--red);text-decoration:underline">contact us directly</a>.'
-        + '</p>';
-    }
-  }
-
-  /* ── Render time slots (vertical timeline) ────── */
-  function renderTimes(slots) {
-    if (!slots || !slots.length) {
-      $('times').innerHTML =
-        '<p style="color:var(--muted);font-size:.82rem">'
-        + 'No availability on this day \u2014 please pick another date.'
-        + '</p>';
-      return;
-    }
-
-    // Sort slots chronologically
-    const sorted = [...slots].sort((a, b) => (a.h * 60 + a.m) - (b.h * 60 + b.m));
-
-    // Detect slot interval (smallest gap between consecutive slots)
-    let interval = S.duration;
-    for (let i = 1; i < sorted.length; i++) {
-      const gap = (sorted[i].h * 60 + sorted[i].m) - (sorted[i-1].h * 60 + sorted[i-1].m);
-      if (gap > 0 && gap < interval) interval = gap;
-    }
-
-    // Build timeline HTML with gap indicators between non-consecutive slots
-    let html = '';
-    for (let i = 0; i < sorted.length; i++) {
-      const sl = sorted[i];
-
-      // Show busy gap indicator if there's a gap from the previous slot
-      if (i > 0) {
-        const prevEnd = sorted[i-1].h * 60 + sorted[i-1].m + interval;
-        const thisStart = sl.h * 60 + sl.m;
-        if (thisStart > prevEnd) {
-          const gH = Math.floor(prevEnd / 60), gM = prevEnd % 60;
-          const gapStr = `${fmtLocalTime(S.date, gH, gM)} \u2013 ${fmtLocalTime(S.date, sl.h, sl.m)}`;
-          html += `<div class="tl-gap"><span class="tl-gap-line"></span>`
-            + `<span>Unavailable ${gapStr}</span>`
-            + `<span class="tl-gap-line"></span></div>`;
+      const res = await fetch(
+        `/api/book?dates=${remaining.join(',')}&mins=${S.duration}&who=${S.who}`,
+        { signal }
+      );
+      const data = await res.json();
+      if (signal.aborted) return;
+      if (data.ok && data.batch) {
+        for (const [ds, slots] of Object.entries(data.results)) {
+          cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
         }
+        renderWeekView();
       }
-
-      // Slot button with local timezone
-      const localTime = fmtLocalTime(S.date, sl.h, sl.m);
-      const ukNote = IS_UK ? '' : `<span class="t-uk">${fmtTime(sl.h, sl.m)} UK</span>`;
-      html += `<button class="t-btn" data-h="${sl.h}" data-m="${sl.m}">`
-        + `<span>${localTime}</span>${ukNote}`
-        + `<span class="t-arrow">&#8594;</span></button>`;
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+      console.warn('Prefetch failed:', err);
     }
-
-    $('times').innerHTML = html;
-
-    $('times').querySelectorAll('.t-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        S.slot = { h: +btn.dataset.h, m: +btn.dataset.m };
-        go(3);
-      });
-    });
   }
 
   /* ── Format picker ────────────────────────────── */
@@ -1613,14 +1595,13 @@
         cacheSet(`${dateStr}_${S.duration}_${S.who}`, freshSlots);
         const stillFree = freshSlots.some(sl => sl.h === S.slot.h && sl.m === S.slot.m);
         if (!stillFree) {
-          // Slot was taken — show error and refresh the time slots view
+          // Slot was taken — show error and return to week view
           errEl.textContent = 'This time slot was just taken. Please pick another time.';
           errEl.classList.remove('hidden');
           btn.disabled = false;
           $('btn-lbl').textContent = 'Confirm booking';
-          renderTimes(freshSlots);
-          updateAvailDots();
-          go(2);
+          renderWeekView();
+          go(1);
           throw new Error('__slot_taken__');
         }
 
@@ -1681,45 +1662,58 @@
     $(`s${n}`).classList.add('on');
 
     document.querySelectorAll('.crumb').forEach(el => {
-      if (!el.dataset.s) return; // skip separators
+      if (!el.dataset.s) return;
       const sn = +el.dataset.s;
       el.classList.remove('here','done');
       if (sn === n) el.classList.add('here');
       else if (sn < n) el.classList.add('done');
     });
 
-    if (n===0) {
-      // Reset to landing state
+    if (n === 0) {
       $('info-names').textContent = 'Meridian Cambridge';
       $('info-org').style.display = 'none';
     }
-    if (n===1) renderCal();
-    if (n===3 && !S.formFilled) initForm();
+    if (n === 1) {
+      // Initialize week start if needed
+      if (!S.weekStart) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+        while (tomorrow.getDay() === 0 || tomorrow.getDay() === 6) {
+          tomorrow.setDate(tomorrow.getDate() + 1);
+        }
+        S.weekStart = getWeekMonday(tomorrow);
+      }
+      renderWeekView();
+      prefetchWeekDates();
+    }
+    if (n === 3 && !S.formFilled) initForm();
   }
 
   /* Back buttons */
   $('back0').addEventListener('click', () => go(0));
-  $('back1').addEventListener('click', () => go(1));
+  $('back2').addEventListener('click', () => go(1)); // Details → back to week view
   $('back3').addEventListener('click', () => {
-    S.formFilled = true;  // preserve form inputs
+    S.formFilled = true;
     go(3);
   });
-  $('back2').addEventListener('click', () => {
-    go(2);
-    $('s2-label').textContent = fmtDate(S.date);
-    const ds = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
-    renderTimes(cacheGet(`${ds}_${S.duration}_${S.who}`) || []);
-  });
 
-  $('cal-prev').addEventListener('click', () => {
-    S.calMonth--;
-    if (S.calMonth < 0) { S.calMonth = 11; S.calYear--; }
-    renderCal();
+  /* Week navigation */
+  $('wv-prev').addEventListener('click', () => {
+    const prev = new Date(S.weekStart);
+    prev.setDate(prev.getDate() - 7);
+    if (prev >= today0()) {
+      S.weekStart = prev;
+      renderWeekView();
+    }
   });
-  $('cal-next').addEventListener('click', () => {
-    S.calMonth++;
-    if (S.calMonth > 11) { S.calMonth = 0; S.calYear++; }
-    renderCal();
+  $('wv-next').addEventListener('click', () => {
+    const next = new Date(S.weekStart);
+    next.setDate(next.getDate() + 7);
+    if (next <= maxDate()) {
+      S.weekStart = next;
+      renderWeekView();
+    }
   });
 
   /* ── Duration picker ───────────────────────────── */
@@ -1733,8 +1727,8 @@
       document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       $('meta-dur').textContent = mins === 60 ? '1 hour' : `${mins} minutes`;
-      // Re-prefetch with new duration
-      prefetchVisibleDates();
+      renderWeekView();
+      prefetchWeekDates();
     });
   });
 
@@ -1742,11 +1736,6 @@
   (function boot() {
     const path = window.location.pathname.replace(/\/$/, '').toLowerCase();
     const params = new URLSearchParams(window.location.search);
-
-    // Initialize calendar state BEFORE go() so renderCal() has valid year/month
-    const now = new Date();
-    S.calYear = now.getFullYear();
-    S.calMonth = now.getMonth();
 
     // Set timezone label
     $('tz-label').textContent = tzLabel();
@@ -1764,20 +1753,18 @@
       $('crumbs').classList.add('direct');
       updateInfoPanel(directWho);
 
-      // Update page title & description for direct booking links
       const label = HOST_LABELS[directWho];
       document.title = `Book a Meeting with ${label}`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) metaDesc.setAttribute('content', `Book a meeting with ${label}.`);
 
-      go(1);  // renders calendar once, correctly
+      go(1);
     } else {
       S.who = null;
       S.directLink = false;
       go(0);
     }
 
-    // Show back button on step 1 only for non-direct links
     if (!S.directLink) {
       $('back0').style.display = '';
     }
