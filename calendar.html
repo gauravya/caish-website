@@ -868,6 +868,7 @@
    *  var TZ     = 'Europe/London';
    *
    *  var BUFFER_MINS = 5; // 5-min buffer after ALL meetings (both calendars)
+   *  var GAURAV_MAX_MEETING_MINS = 180; // 3-hour daily cap for Gaurav
    *
    *  function conflicts(start, end, events, bufferMins) {
    *    bufferMins = bufferMins || 0;
@@ -881,6 +882,17 @@
    *
    *  function timedOnly(events) {
    *    return events.filter(function(ev) { return !ev.isAllDayEvent(); });
+   *  }
+   *
+   *  // Sum total meeting minutes for a list of events within a day
+   *  function totalMeetingMins(events, dayStart, dayEnd) {
+   *    var total = 0;
+   *    for (var i = 0; i < events.length; i++) {
+   *      var es = events[i].getStartTime() < dayStart ? dayStart : events[i].getStartTime();
+   *      var ee = events[i].getEndTime() > dayEnd ? dayEnd : events[i].getEndTime();
+   *      if (ee > es) total += (ee - es) / 60000;
+   *    }
+   *    return total;
    *  }
    *
    *  // Compute free slots for a single date given pre-fetched events
@@ -897,6 +909,14 @@
    *    var jDay = jEvs.filter(function(ev) {
    *      return ev.getStartTime() < dayEnd && ev.getEndTime() > dayStart;
    *    });
+   *
+   *    // 3-hour daily cap for Gaurav: if already at limit, no bookings
+   *    if (who !== 'justin') {
+   *      if (totalMeetingMins(gDay, dayStart, dayEnd) >= GAURAV_MAX_MEETING_MINS) {
+   *        return [];
+   *      }
+   *    }
+   *
    *    var slots = [];
    *    for (var h = startH; h < 18; h++) {
    *      for (var m = 0; m < 60; m += 5) {
