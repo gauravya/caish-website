@@ -8,7 +8,7 @@
  * Also pre-populates GAS CacheService for the next 10 weekdays,
  * so even the warm GAS calls skip Calendar API reads entirely. */
 
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbx49hygkKFOXUcUQcnZAgVK3Hp0xi9mNNNAQQNlB3Kfj7WblQF4LNigbIW4HfJq7y8S/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbx3I6JmcW33pQ3LtUxYtJAL7tBCRns3jGKpDjHybLQj2PUHrEGqOTYmBwsujCASDzk/exec';
 
 exports.handler = async () => {
   // Next 10 weekdays
