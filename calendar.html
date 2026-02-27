@@ -1820,7 +1820,7 @@
     let bkData = null;
     try { bkData = JSON.parse(bkRaw); } catch(_) { bkData = bkRaw ? { count: 1, first: Number(bkRaw) } : null; }
     if (bkData && bkData.count >= 2 && Date.now() - bkData.first < 86_400_000) {
-      showErr("You've already made 2 booking requests today. Check your email, or write to us at hello@cambridgeaisafety.org.");
+      showErr("You've already made 2 booking requests today. Check your email, or write to us at hello@caish.org.");
       return;
     }
 
@@ -1917,7 +1917,7 @@
         const bookData = await bookRes.json();
         if (!bookData.ok) {
           const e = bookData.e || '';
-          let msg = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
+          let msg = 'Something went wrong. Please email hello@caish.org directly.';
           let goBack = false;
           if (e === 'slot_taken') { msg = 'This time slot was just taken. Please pick another time.'; goBack = true; }
           else if (e === 'daily_limit') { msg = 'This day has reached its meeting limit. Please try another day.'; goBack = true; }
@@ -1962,7 +1962,7 @@
     } catch(err) {
       if (err.message === '__handled__') return;
       console.error(err);
-      errEl.textContent = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
+      errEl.textContent = 'Something went wrong. Please email hello@caish.org directly.';
       errEl.classList.remove('hidden');
       btn.disabled = false;
       $('btn-lbl').textContent = 'Confirm booking';
