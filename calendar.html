@@ -322,19 +322,20 @@
     .wv-time span { line-height: 1; }
     .wv-time.wv-half span { display: none; }
 
-    /* Day cells */
+    /* Day cells — default is grey (busy/unavailable) */
     .wv-cell {
       min-height: 36px;
       border-top: 1px solid var(--border);
       border-left: 1px solid var(--border);
       position: relative;
+      background: var(--surface);
     }
     /* No left border on first day column — keeps time labels clean */
     .wv-cell:nth-child(6n+2) { border-left: none; }
     .wv-cell.wv-half { border-top-color: #f0efec; }
-    .wv-cell.past { background: var(--surface); opacity: 0.4; }
+    .wv-cell.past { opacity: 0.4; }
     .wv-cell.loading {
-      background: linear-gradient(90deg, var(--white) 25%, var(--surface) 50%, var(--white) 75%);
+      background: linear-gradient(90deg, var(--surface) 25%, #e8e8e6 50%, var(--surface) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
     }
@@ -343,13 +344,14 @@
       100% { background-position: -200% 0; }
     }
 
+    /* Free cells — white/clean, clearly selectable */
     .wv-cell.free {
-      background: rgba(126, 66, 51, 0.06);
+      background: var(--white);
       cursor: pointer;
       transition: background 0.12s, box-shadow 0.12s;
     }
     .wv-cell.free:hover {
-      background: rgba(126, 66, 51, 0.16);
+      background: rgba(126, 66, 51, 0.08);
     }
     /* First free cell in a consecutive run gets the top accent */
     .wv-cell.free.band-top {
