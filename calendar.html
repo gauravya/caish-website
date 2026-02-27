@@ -329,6 +329,8 @@
       border-left: 1px solid var(--border);
       position: relative;
     }
+    /* No left border on first day column — keeps time labels clean */
+    .wv-cell:nth-child(6n+2) { border-left: none; }
     .wv-cell.wv-half { border-top-color: #f0efec; }
     .wv-cell.past { background: var(--surface); opacity: 0.4; }
     .wv-cell.loading {
