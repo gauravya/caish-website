@@ -68,6 +68,10 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
 
+# Keep GAS warm — runs every 5 minutes, prevents 3-10s cold starts
+[functions."warmup"]
+  schedule = "*/5 * * * *"
+
 # Route /api/book to the serverless function (which proxies to GAS)
 [[redirects]]
   from = "/api/book"
