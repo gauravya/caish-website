@@ -1308,6 +1308,7 @@
   /* ── Who selection ──────────────────────────────── */
   function selectWho(who) {
     S.who = who;
+    try { sessionStorage.setItem('caish_who', who); } catch {}
     updateInfoPanel(who);
     // Flush cache when switching person (different availability)
     Object.keys(SLOT_CACHE).forEach(k => delete SLOT_CACHE[k]);
@@ -1955,6 +1956,7 @@
       const cancelTo = CANCEL_EMAIL[S.who];
       $('s5-cancel').href = `mailto:${cancelTo}?subject=${encodeURIComponent('Cancel meeting \u2013 ' + slotLabel)}&body=${encodeURIComponent('Hi,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
 
+      try { sessionStorage.removeItem('caish_who'); } catch {}
       go(5);
 
     } catch(err) {
@@ -2059,6 +2061,13 @@
     else if (path === '/both') directWho = 'both';
     else if (params.get('who') && ['gaurav','justin','both'].includes(params.get('who')))
       directWho = params.get('who');
+
+    // Restore previous selection if page reloads (e.g. during OAuth flow)
+    let savedWho = null;
+    try { savedWho = sessionStorage.getItem('caish_who'); } catch {}
+    if (!directWho && savedWho && ['gaurav','justin','both'].includes(savedWho)) {
+      directWho = savedWho;
+    }
 
     if (directWho) {
       S.who = directWho;
