@@ -1014,13 +1014,37 @@
    *    }
    *  }
    *
-   *  // POST JSON → creates event, sends invites
+   *  // POST JSON → creates event, sends invites (with conflict + cap checks)
    *  function doPost(e) {
    *    try {
    *      var d      = JSON.parse(e.postData.contents);
-   *      var date   = new Date(d.startISO);
+   *      var start  = new Date(d.startISO);
+   *      var end    = new Date(d.endISO);
    *      var who    = d.who || 'both';
    *      var format = d.format || 'virtual';
+   *
+   *      // Server-side conflict check — prevents double bookings
+   *      var gEvs = (who === 'justin')
+   *        ? [] : timedOnly(CalendarApp.getDefaultCalendar().getEventsForDay(start));
+   *      var jEvs = (who === 'gaurav')
+   *        ? [] : timedOnly(CalendarApp.getCalendarById(JUSTIN).getEventsForDay(start));
+   *
+   *      if (conflicts(start, end, gEvs, BUFFER_MINS) || conflicts(start, end, jEvs, BUFFER_MINS)) {
+   *        return ContentService
+   *          .createTextOutput(JSON.stringify({ ok: false, e: 'slot_taken' }))
+   *          .setMimeType(ContentService.MimeType.JSON);
+   *      }
+   *
+   *      // 3-hour daily cap for Gaurav
+   *      if (who !== 'justin') {
+   *        var dayStart = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 0, 0, 0);
+   *        var dayEnd   = new Date(start.getFullYear(), start.getMonth(), start.getDate(), 23, 59, 59);
+   *        if (totalMeetingMins(gEvs, dayStart, dayEnd) >= GAURAV_MAX_MEETING_MINS) {
+   *          return ContentService
+   *            .createTextOutput(JSON.stringify({ ok: false, e: 'daily_limit' }))
+   *            .setMimeType(ContentService.MimeType.JSON);
+   *        }
+   *      }
    *
    *      var location = (format === 'in-person')
    *        ? '53-54 Sidney Street, Cambridge, CB2 3HX'
@@ -1062,6 +1086,21 @@
    *        eventBody, GAURAV,
    *        { conferenceDataVersion: confVersion, sendUpdates: 'all' }
    *      );
+   *
+   *      // Invalidate GAS cache for this date so next GET reflects the booking
+   *      var dateStr = start.getFullYear() + '-'
+   *        + ('0' + (start.getMonth()+1)).slice(-2) + '-'
+   *        + ('0' + start.getDate()).slice(-2);
+   *      var cache = CacheService.getScriptCache();
+   *      var keys = [];
+   *      var ms = ['30', '60'];
+   *      var ws = ['gaurav', 'justin', 'both'];
+   *      for (var mi = 0; mi < ms.length; mi++) {
+   *        for (var wi = 0; wi < ws.length; wi++) {
+   *          keys.push(dateStr + '_' + ms[mi] + '_' + ws[wi]);
+   *        }
+   *      }
+   *      cache.removeAll(keys);
    *
    *      return ContentService
    *        .createTextOutput(JSON.stringify({ ok: true }))
@@ -1656,8 +1695,9 @@
     go(4);
   });
 
+  function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
   function row(label, value) {
-    return `<div class="review-row"><span class="review-label">${label}</span><span class="review-value">${value}</span></div>`;
+    return `<div class="review-row"><span class="review-label">${label}</span><span class="review-value">${esc(value)}</span></div>`;
   }
 
   /* ── Confirm → actually book ────────────────────── */
@@ -1693,10 +1733,10 @@
           $('btn-lbl').textContent = 'Confirm booking';
           renderWeekView();
           go(1);
-          throw new Error('__slot_taken__');
+          throw new Error('__handled__');
         }
 
-        await fetch('/api/book', {
+        const bookRes = await fetch('/api/book', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1708,6 +1748,21 @@
             format:   S.format,
           }),
         });
+        const bookData = await bookRes.json();
+        if (!bookData.ok) {
+          const e = bookData.e || '';
+          let msg = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
+          let goBack = false;
+          if (e === 'slot_taken') { msg = 'This time slot was just taken. Please pick another time.'; goBack = true; }
+          else if (e === 'daily_limit') { msg = 'This day has reached its meeting limit. Please try another day.'; goBack = true; }
+          else if (e.includes('Too many')) msg = 'Too many booking attempts. Please try again later.';
+          errEl.textContent = msg;
+          errEl.classList.remove('hidden');
+          btn.disabled = false;
+          $('btn-lbl').textContent = 'Confirm booking';
+          if (goBack) { prefetchWeekDates(); go(1); }
+          throw new Error('__handled__');
+        }
       } else {
         console.log('Dev mode: booking would be sent to GAS with', { name, email, topic,
           startISO: start.toISOString(), endISO: end.toISOString(),
@@ -1738,7 +1793,7 @@
       go(5);
 
     } catch(err) {
-      if (err.message === '__slot_taken__') return; // already handled above
+      if (err.message === '__handled__') return;
       console.error(err);
       errEl.textContent = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
       errEl.classList.remove('hidden');

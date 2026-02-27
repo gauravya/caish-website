@@ -1,18 +1,46 @@
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbx49hygkKFOXUcUQcnZAgVK3Hp0xi9mNNNAQQNlB3Kfj7WblQF4LNigbIW4HfJq7y8S/exec';
 
-const CORS = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/json' };
-const CORS_CACHED = {
+/* ── CORS ──────────────────────────────────────────────────────────────
+ * GET: open (public availability data — no sensitive info).
+ * POST: restricted to same origin (prevents cross-site booking spam).
+ * Same-origin requests from the booking page work regardless of CORS
+ * headers, so this only blocks other websites from calling POST. */
+const ALLOWED_ORIGINS = new Set(
+  [process.env.URL, process.env.DEPLOY_PRIME_URL]
+    .filter(Boolean)
+    .map(u => u.replace(/\/$/, ''))
+);
+
+const CORS_GET = {
+  'Access-Control-Allow-Origin': '*',
+  'Content-Type': 'application/json',
+};
+const CORS_GET_CACHED = {
   'Access-Control-Allow-Origin': '*',
   'Content-Type': 'application/json',
   'Cache-Control': 'public, max-age=60, s-maxage=120, stale-while-revalidate=600',
   'Netlify-CDN-Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',
 };
 
-/* ── Server-side in-memory slot cache ──────────────────────────────────
- * Persists across warm Lambda invocations (same container, ~15-30 min).
- * Dramatically reduces GAS calls for repeat visitors. */
+function postCorsHeaders(event) {
+  const origin = (event.headers || {}).origin || '';
+  const h = { 'Content-Type': 'application/json' };
+  if (ALLOWED_ORIGINS.size > 0) {
+    if (ALLOWED_ORIGINS.has(origin)) {
+      h['Access-Control-Allow-Origin'] = origin;
+      h['Vary'] = 'Origin';
+    }
+    // If origin not in allowed list, omit ACAO → browser blocks cross-origin response
+  } else {
+    // Dev/local (no URL env var): allow all origins
+    h['Access-Control-Allow-Origin'] = origin || '*';
+  }
+  return h;
+}
+
+/* ── Server-side in-memory slot cache ──────────────────────────────── */
 const _slotCache = new Map();
-const SLOT_TTL = 5 * 60 * 1000; // 5 min — balance between freshness and GAS call reduction
+const SLOT_TTL = 5 * 60 * 1000;
 
 function slotCacheGet(key) {
   const entry = _slotCache.get(key);
@@ -22,7 +50,6 @@ function slotCacheGet(key) {
 }
 function slotCacheSet(key, data) {
   _slotCache.set(key, { data, at: Date.now() });
-  // Evict old entries if cache grows too large (unlikely, but safe)
   if (_slotCache.size > 500) {
     const now = Date.now();
     for (const [k, v] of _slotCache) {
@@ -31,6 +58,93 @@ function slotCacheSet(key, data) {
   }
 }
 
+/* ── IP-based rate limiter for POST ────────────────────────────────── *
+ * In-memory — resets on cold start, not shared across instances.       *
+ * Catches the common case (rapid-fire curl loop).                      */
+const _rateLimit = new Map();
+const RATE_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+const RATE_MAX_POST = 5;               // max 5 bookings per IP per hour
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const entry = _rateLimit.get(ip);
+  if (!entry || now - entry.start > RATE_WINDOW_MS) {
+    _rateLimit.set(ip, { start: now, count: 1 });
+    if (_rateLimit.size > 1000) {
+      for (const [k, v] of _rateLimit) {
+        if (now - v.start > RATE_WINDOW_MS) _rateLimit.delete(k);
+      }
+    }
+    return false;
+  }
+  if (entry.count >= RATE_MAX_POST) return true;
+  entry.count++;
+  return false;
+}
+
+function getClientIp(event) {
+  const h = event.headers || {};
+  return h['client-ip'] || (h['x-forwarded-for'] || '').split(',')[0].trim() || 'unknown';
+}
+
+/* ── Input validation ──────────────────────────────────────────────── */
+const VALID_WHO = new Set(['gaurav', 'justin', 'both']);
+const VALID_FORMAT = new Set(['virtual', 'in-person']);
+const VALID_MINS = new Set([30, 60]);
+const MAX_FIELD = { name: 200, email: 254, topic: 1000 };
+const MAX_BODY = 10000; // 10 KB
+
+function validateBooking(raw) {
+  if (!raw || raw.length > MAX_BODY) return null;
+
+  let d;
+  try { d = JSON.parse(raw); } catch { return null; }
+  if (!d || typeof d !== 'object') return null;
+
+  // Required string fields
+  if (typeof d.name !== 'string' || typeof d.email !== 'string' || typeof d.topic !== 'string') return null;
+  if (typeof d.startISO !== 'string' || typeof d.endISO !== 'string') return null;
+
+  const name = d.name.trim();
+  const email = d.email.trim();
+  const topic = d.topic.trim();
+
+  if (!name || name.length > MAX_FIELD.name) return null;
+  if (!email || email.length > MAX_FIELD.email) return null;
+  if (!topic || topic.length > MAX_FIELD.topic) return null;
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return null;
+
+  // Enum fields
+  const who = d.who || 'both';
+  const format = d.format || 'virtual';
+  const mins = typeof d.mins === 'number' ? d.mins : 30;
+  if (!VALID_WHO.has(who) || !VALID_FORMAT.has(format) || !VALID_MINS.has(mins)) return null;
+
+  // Date validation
+  const start = new Date(d.startISO);
+  const end = new Date(d.endISO);
+  if (isNaN(start.getTime()) || isNaN(end.getTime())) return null;
+
+  // Must be in the future (5 min grace for clock skew)
+  const grace = new Date(); grace.setMinutes(grace.getMinutes() - 5);
+  if (start < grace) return null;
+
+  // Must be within 25 days
+  const maxDate = new Date(); maxDate.setDate(maxDate.getDate() + 25);
+  if (start > maxDate) return null;
+
+  // Duration must roughly match mins param (1 min tolerance)
+  const durationMs = end - start;
+  if (Math.abs(durationMs - mins * 60000) > 60000) return null;
+
+  return { name, email, topic, startISO: d.startISO, endISO: d.endISO, mins, who, format };
+}
+
+function isValidDateStr(s) {
+  return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s) && !isNaN(new Date(s + 'T00:00:00Z').getTime());
+}
+
+/* ── Notify emails ─────────────────────────────────────────────────── */
 const NOTIFY_EMAILS = {
   gaurav: ['gaurav@meridiancambridge.org'],
   justin: ['justin@meridiancambridge.org'],
@@ -38,9 +152,18 @@ const NOTIFY_EMAILS = {
 };
 const HOST_LABELS = { gaurav: 'Gaurav', justin: 'Justin', both: 'Gaurav & Justin' };
 
-// Follow POST redirects manually — standard fetch changes POST→GET on 302, losing the body
+/* ── GAS communication ─────────────────────────────────────────────── */
+
+// Follow POST redirects manually — standard fetch changes POST→GET on 302
 async function gasPost(url, body, depth) {
   if (depth > 5) throw new Error('Too many redirects');
+  // Only follow redirects to Google-owned domains
+  if (depth > 0) {
+    const host = new URL(url).hostname;
+    if (!host.endsWith('.google.com') && !host.endsWith('.googleusercontent.com')) {
+      throw new Error('Blocked redirect to non-Google domain');
+    }
+  }
   const res = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -58,12 +181,11 @@ function escapeHtml(str) {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
 }
 
 // Send booking notification email via Resend
-// Runs after GAS has already created the calendar event.
-// This is independent of Google — it sends a real email TO your inbox.
 async function sendNotification(booking) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
@@ -93,7 +215,9 @@ async function sendNotification(booking) {
   const format = booking.format || 'virtual';
   const formatLabel = format === 'in-person' ? 'In person (Sidney Street)' : 'Google Meet';
 
-  const subject = `New booking with ${hostLabel}: ${booking.name} — ${dateStr}`;
+  // Sanitize subject: strip control characters to prevent email header injection
+  const safeName = booking.name.replace(/[\r\n\x00-\x1f]/g, ' ');
+  const subject = `New booking with ${hostLabel}: ${safeName} — ${dateStr}`;
 
   const text = [
     `Someone just booked a meeting with ${hostLabel}.`,
@@ -150,7 +274,6 @@ async function sendNotification(booking) {
       <p style="color: #999; font-size: 12px; margin-top: 16px;">The calendar invite has been sent and the event is on your Google Calendar.</p>
     </div>`;
 
-  // Send individual emails to each recipient to avoid Resend batch issues
   for (const recipient of notifyTo) {
     try {
       const res = await fetch('https://api.resend.com/emails', {
@@ -172,36 +295,91 @@ async function sendNotification(booking) {
   }
 }
 
+/* ── Main handler ──────────────────────────────────────────────────── */
 exports.handler = async (event) => {
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers: CORS, body: '' };
+  // OPTIONS preflight — only grant CORS for allowed origins on POST
+  if (event.httpMethod === 'OPTIONS') {
+    const origin = (event.headers || {}).origin || '';
+    const h = { 'Content-Type': 'application/json' };
+    if (ALLOWED_ORIGINS.size === 0 || ALLOWED_ORIGINS.has(origin)) {
+      h['Access-Control-Allow-Origin'] = origin || '*';
+      h['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS';
+      h['Access-Control-Allow-Headers'] = 'Content-Type';
+      h['Access-Control-Max-Age'] = '86400';
+    }
+    return { statusCode: 204, headers: h, body: '' };
+  }
 
   try {
     if (event.httpMethod === 'POST') {
-      const body = await gasPost(GAS_URL, event.body, 0);
-
-      // Send notification email (never blocks the booking response on failure)
-      try {
-        const booking = JSON.parse(event.body);
-        await sendNotification(booking);
-      } catch (notifyErr) {
-        console.error('Notification error:', notifyErr);
+      /* ── Rate limit ── */
+      const ip = getClientIp(event);
+      if (isRateLimited(ip)) {
+        return {
+          statusCode: 429,
+          headers: postCorsHeaders(event),
+          body: JSON.stringify({ ok: false, e: 'Too many requests. Please try again later.' }),
+        };
       }
 
-      return { statusCode: 200, headers: CORS, body };
+      /* ── Validate + sanitize input ── */
+      const validated = validateBooking(event.body);
+      if (!validated) {
+        return {
+          statusCode: 400,
+          headers: postCorsHeaders(event),
+          body: JSON.stringify({ ok: false, e: 'Invalid booking data.' }),
+        };
+      }
+
+      /* ── Forward sanitized data to GAS ── */
+      const sanitizedBody = JSON.stringify(validated);
+      const gasBody = await gasPost(GAS_URL, sanitizedBody, 0);
+
+      let gasResult;
+      try { gasResult = JSON.parse(gasBody); } catch { gasResult = { ok: false }; }
+
+      /* ── Only send notification + invalidate cache if booking succeeded ── */
+      if (gasResult.ok) {
+        const dateStr = validated.startISO.split('T')[0];
+        for (const m of ['30', '60']) {
+          for (const w of ['gaurav', 'justin', 'both']) {
+            _slotCache.delete(`${dateStr}_${m}_${w}`);
+          }
+        }
+
+        try {
+          await sendNotification(validated);
+        } catch (err) {
+          console.error('Notification error:', err);
+        }
+      }
+
+      return { statusCode: 200, headers: postCorsHeaders(event), body: gasBody };
+
     } else {
+      /* ── GET: availability data ── */
       const params = event.queryStringParameters || {};
+      const who = params.who || 'both';
+      const mins = params.mins || '30';
+
+      // Validate GET params
+      if (!VALID_WHO.has(who) || !['30', '60'].includes(mins)) {
+        return { statusCode: 400, headers: CORS_GET,
+          body: JSON.stringify({ ok: false, e: 'Invalid parameters.' }) };
+      }
 
       // Batch mode: ?dates=2026-03-02,2026-03-03&mins=30&who=gaurav
-      // Checks server-side cache first, only hits GAS for uncached dates.
       if (params.dates) {
-        const dates = params.dates.split(',').slice(0, 25); // cap at 25 dates
-        const mins = params.mins || '30';
-        const who  = params.who  || 'both';
+        const dates = params.dates.split(',').slice(0, 25);
+        if (!dates.every(isValidDateStr)) {
+          return { statusCode: 400, headers: CORS_GET,
+            body: JSON.stringify({ ok: false, e: 'Invalid date format.' }) };
+        }
 
         const results = {};
         const uncached = [];
 
-        // Serve from cache where possible
         for (const date of dates) {
           const key = `${date}_${mins}_${who}`;
           const cached = slotCacheGet(key);
@@ -212,10 +390,7 @@ exports.handler = async (event) => {
           }
         }
 
-        // Only hit GAS for dates we don't have cached
         if (uncached.length > 0) {
-          // Try GAS batch endpoint first (single call for all dates).
-          // Falls back to parallel individual calls if GAS returns non-batch response.
           let batchOk = false;
           try {
             const qs = new URLSearchParams({ dates: uncached.join(','), mins, who }).toString();
@@ -230,7 +405,6 @@ exports.handler = async (event) => {
             }
           } catch {}
 
-          // Fallback: parallel individual GAS calls (old GAS without batch)
           if (!batchOk) {
             const fetches = uncached.map(async (date) => {
               try {
@@ -248,19 +422,23 @@ exports.handler = async (event) => {
           }
         }
 
-        return { statusCode: 200, headers: CORS_CACHED, body: JSON.stringify({ ok: true, batch: true, results }) };
+        return { statusCode: 200, headers: CORS_GET_CACHED,
+          body: JSON.stringify({ ok: true, batch: true, results }) };
       }
 
-      // Single-date mode — also uses server-side cache
+      // Single-date mode
       const date = params.date;
-      const mins = params.mins || '30';
-      const who  = params.who  || 'both';
-
       if (date) {
+        if (!isValidDateStr(date)) {
+          return { statusCode: 400, headers: CORS_GET,
+            body: JSON.stringify({ ok: false, e: 'Invalid date format.' }) };
+        }
+
         const key = `${date}_${mins}_${who}`;
         const cached = slotCacheGet(key);
         if (cached !== null) {
-          return { statusCode: 200, headers: CORS_CACHED, body: JSON.stringify({ ok: true, slots: cached }) };
+          return { statusCode: 200, headers: CORS_GET_CACHED,
+            body: JSON.stringify({ ok: true, slots: cached }) };
         }
       }
 
@@ -269,7 +447,6 @@ exports.handler = async (event) => {
       const res = await fetch(url, { redirect: 'follow' });
       const body = await res.text();
 
-      // Cache the result for future requests
       if (date) {
         try {
           const data = JSON.parse(body);
@@ -277,9 +454,15 @@ exports.handler = async (event) => {
         } catch {}
       }
 
-      return { statusCode: 200, headers: CORS_CACHED, body };
+      return { statusCode: 200, headers: CORS_GET_CACHED, body };
     }
   } catch (err) {
-    return { statusCode: 200, headers: CORS, body: JSON.stringify({ ok: false, e: String(err) }) };
+    console.error('Handler error:', err);
+    const headers = event.httpMethod === 'POST' ? postCorsHeaders(event) : CORS_GET;
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ ok: false, e: 'Something went wrong. Please try again.' }),
+    };
   }
 };
