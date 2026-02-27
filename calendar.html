@@ -18,6 +18,7 @@
        can compute the dates immediately. For /calendar, prefetch all three. -->
   <script>
   window.__earlyFetch = null;
+  window.__earlyFetchAll = null;
   (function() {
     var path = location.pathname.replace(/\/$/, '').toLowerCase();
     var who = null;
@@ -45,9 +46,18 @@
         promise: fetch('/api/book?dates=' + datesStr + '&mins=30&who=' + who)
           .then(function(r) { return r.json(); }).catch(function() { return null; })
       };
+    } else {
+      // Prefetch ALL 3 options on /calendar so data is ready when user picks.
+      // The 3-5s the user spends reading the page = free loading time.
+      window.__earlyFetchAll = {};
+      ['gaurav', 'justin', 'both'].forEach(function(w) {
+        window.__earlyFetchAll[w] = {
+          who: w, mins: 30, dates: dates,
+          promise: fetch('/api/book?dates=' + datesStr + '&mins=30&who=' + w)
+            .then(function(r) { return r.json(); }).catch(function() { return null; })
+        };
+      });
     }
-    // On /calendar (no who), we do NOT prefetch all 3 — it wastes 2 GAS calls
-    // and may throttle the one the user actually needs. We fetch on selection instead.
   })();
   </script>
 
@@ -301,27 +311,15 @@
       grid-template-columns: 52px repeat(5, 1fr);
     }
 
-    /* Time labels (left column) */
+    /* Time labels (left column) — no borders, clean labels */
     .wv-time {
-      position: relative;
       display: flex; align-items: flex-start; justify-content: flex-end;
-      padding: 0 6px 0 0;
+      padding: 0 8px 0 0;
       font-size: 0.56rem; color: var(--muted);
       font-family: var(--mono);
-      border-top: 1px solid var(--border);
       min-height: 36px;
     }
-    .wv-time span {
-      position: absolute;
-      top: -0.45em;       /* sit above the border line, not on it */
-      right: 6px;
-      background: var(--white);
-      line-height: 1;
-      padding: 0 1px;
-    }
-    .wv-time.wv-half {
-      border-top-color: #f0efec;
-    }
+    .wv-time span { line-height: 1; }
     .wv-time.wv-half span { display: none; }
 
     /* Day cells */
@@ -890,6 +888,15 @@
    *      var mins = parseInt(e.parameter.mins || '30', 10) || 30;
    *      var who  = e.parameter.who || 'both';
    *
+   *      // ── GAS-side CacheService (survives cold starts, skips Calendar reads)
+   *      var cache = CacheService.getScriptCache();
+   *      var cacheKey = (e.parameter.dates || e.parameter.date || '') + '_' + mins + '_' + who;
+   *      var cached = cache.get(cacheKey);
+   *      if (cached) {
+   *        return ContentService.createTextOutput(cached)
+   *          .setMimeType(ContentService.MimeType.JSON);
+   *      }
+   *
    *      // ── Batch mode: ?dates=YYYY-MM-DD,YYYY-MM-DD,...
    *      // One calendar read for the whole range instead of N calls.
    *      if (e.parameter.dates) {
@@ -917,8 +924,9 @@
    *          results[dateStrs[i]] = slotsForDay(dates[i], mins, who, gEvs, jEvs);
    *        }
    *
-   *        return ContentService
-   *          .createTextOutput(JSON.stringify({ ok: true, batch: true, results: results }))
+   *        var out = JSON.stringify({ ok: true, batch: true, results: results });
+   *        cache.put(cacheKey, out, 120); // cache 2 mins in GAS
+   *        return ContentService.createTextOutput(out)
    *          .setMimeType(ContentService.MimeType.JSON);
    *      }
    *
@@ -947,8 +955,9 @@
    *        }
    *      }
    *
-   *      return ContentService
-   *        .createTextOutput(JSON.stringify({ ok: true, slots: slots }))
+   *      var out = JSON.stringify({ ok: true, slots: slots });
+   *      cache.put(cacheKey, out, 120);
+   *      return ContentService.createTextOutput(out)
    *        .setMimeType(ContentService.MimeType.JSON);
    *    } catch(err) {
    *      return ContentService
@@ -1058,9 +1067,27 @@
 
   /* Per-date slot cache so we don't re-fetch if user goes back.
      Each entry: { slots: [...], at: timestamp }
-     Entries older than CACHE_TTL_MS are treated as stale. */
+     Entries older than CACHE_TTL_MS are treated as stale.
+     Backed by localStorage so returning visitors see data instantly. */
   const SLOT_CACHE = {};
   const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
+  const LS_PREFIX = 'wv_';
+
+  // Seed in-memory cache from localStorage (instant render for return visitors)
+  (function seedCache() {
+    try {
+      const now = Date.now();
+      for (let i = localStorage.length - 1; i >= 0; i--) {
+        const k = localStorage.key(i);
+        if (!k.startsWith(LS_PREFIX)) continue;
+        const item = JSON.parse(localStorage.getItem(k));
+        if (!item || !item.s) { localStorage.removeItem(k); continue; }
+        // Evict entries older than 24 hours
+        if (now - item.t > 86400000) { localStorage.removeItem(k); continue; }
+        SLOT_CACHE[k.slice(LS_PREFIX.length)] = { slots: item.s, at: item.t };
+      }
+    } catch(e) {}
+  })();
 
   /* App state */
   const S = {
@@ -1340,6 +1367,7 @@
   }
   function cacheSet(key, slots) {
     SLOT_CACHE[key] = { slots, at: Date.now() };
+    try { localStorage.setItem(LS_PREFIX + key, JSON.stringify({ s: slots, t: Date.now() })); } catch(e) {}
   }
 
   async function fetchSlotsFromServer(dateStr) {
@@ -1359,7 +1387,8 @@
     _prefetchController = new AbortController();
     const signal = _prefetchController.signal;
 
-    // Collect ALL uncached weekday dates in the 21-day window
+    // Collect all stale/uncached weekday dates in the 21-day window.
+    // Dates with localStorage data render instantly; this refreshes them.
     const t = today0();
     const max = maxDate();
     const allDates = [];
@@ -1370,7 +1399,7 @@
       if (d > max) continue;
       const ds = dsStr(d);
       const key = `${ds}_${S.duration}_${S.who}`;
-      if (!cacheGet(key)) allDates.push(ds);
+      if (cacheIsStale(key)) allDates.push(ds);
     }
 
     if (!allDates.length) return;
@@ -1409,10 +1438,23 @@
       window.__earlyFetch = null;
     }
 
-    // earlyFetchAll removed — we only prefetch the specific "who" on selection
+    // Try earlyFetchAll (/calendar page — all 3 options prefetched in <head>)
+    const efa = window.__earlyFetchAll;
+    if (efa && efa[S.who]) {
+      try {
+        const data = await efa[S.who].promise;
+        if (data && data.ok && data.batch && !signal.aborted) {
+          for (const [ds, slots] of Object.entries(data.results)) {
+            cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
+          }
+          renderWeekView();
+        }
+      } catch {}
+      delete efa[S.who];
+    }
 
-    // Fetch remaining uncached dates
-    const remaining = allDates.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
+    // Fetch remaining stale dates (earlyFetch may have covered them all)
+    const remaining = allDates.filter(ds => cacheIsStale(`${ds}_${S.duration}_${S.who}`));
     if (!remaining.length || signal.aborted) return;
 
     try {
