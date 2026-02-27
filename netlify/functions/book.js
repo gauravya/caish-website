@@ -12,7 +12,7 @@ const CORS_CACHED = {
  * Persists across warm Lambda invocations (same container, ~15-30 min).
  * Dramatically reduces GAS calls for repeat visitors. */
 const _slotCache = new Map();
-const SLOT_TTL = 15 * 60 * 1000; // 15 min — stale data is fine for GET (POST always re-checks GAS)
+const SLOT_TTL = 5 * 60 * 1000; // 5 min — balance between freshness and GAS call reduction
 
 function slotCacheGet(key) {
   const entry = _slotCache.get(key);
