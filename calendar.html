@@ -17,8 +17,10 @@
        For direct links (/gaurav, /justin, /both), we know the person and
        can compute the dates immediately. For /calendar, prefetch all three. -->
   <script>
-  window.__earlyFetch = null;
-  window.__earlyFetchAll = null;
+  // Early fetch: fire requests BEFORE CSS/fonts load.
+  // Split into two waves: visible week first (fast), rest in background.
+  window.__earlyFetch = null;     // { pri: Promise, bg: Promise, who, mins }
+  window.__earlyFetchAll = null;  // { gaurav: {...}, justin: {...}, both: {...} }
   (function() {
     var path = location.pathname.replace(/\/$/, '').toLowerCase();
     var who = null;
@@ -39,22 +41,44 @@
       dates.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
     }
     if (!dates.length) return;
-    var datesStr = dates.join(',');
+
+    // Compute first visible Monday (same logic as go(1))
+    var tom = new Date(today); tom.setDate(tom.getDate() + 1);
+    while (tom.getDay() === 0 || tom.getDay() === 6) tom.setDate(tom.getDate() + 1);
+    var mon = new Date(tom);
+    var dayOff = (mon.getDay() + 6) % 7; // 0=Mon
+    mon.setDate(mon.getDate() - dayOff);
+    // First week = Mon–Fri of that week
+    var week1 = [], rest = [];
+    for (var i = 0; i < dates.length; i++) {
+      var dp = dates[i].split('-').map(Number);
+      var dd = new Date(dp[0], dp[1]-1, dp[2]);
+      var diff = (dd - mon) / 86400000;
+      if (diff >= 0 && diff < 5) week1.push(dates[i]);
+      else rest.push(dates[i]);
+    }
+
+    function fireFetch(ds) {
+      return function(w) {
+        if (!ds.length) return Promise.resolve(null);
+        return fetch('/api/book?dates=' + ds.join(',') + '&mins=30&who=' + w)
+          .then(function(r) { return r.json(); }).catch(function() { return null; });
+      };
+    }
+
     if (who) {
       window.__earlyFetch = {
-        who: who, mins: 30, dates: dates,
-        promise: fetch('/api/book?dates=' + datesStr + '&mins=30&who=' + who)
-          .then(function(r) { return r.json(); }).catch(function() { return null; })
+        who: who, mins: 30,
+        pri: fireFetch(week1)(who),
+        bg:  fireFetch(rest)(who)
       };
     } else {
-      // Prefetch ALL 3 options on /calendar so data is ready when user picks.
-      // The 3-5s the user spends reading the page = free loading time.
       window.__earlyFetchAll = {};
       ['gaurav', 'justin', 'both'].forEach(function(w) {
         window.__earlyFetchAll[w] = {
-          who: w, mins: 30, dates: dates,
-          promise: fetch('/api/book?dates=' + datesStr + '&mins=30&who=' + w)
-            .then(function(r) { return r.json(); }).catch(function() { return null; })
+          who: w, mins: 30,
+          pri: fireFetch(week1)(w),
+          bg:  fireFetch(rest)(w)
         };
       });
     }
@@ -1391,11 +1415,10 @@
     _prefetchController = new AbortController();
     const signal = _prefetchController.signal;
 
-    // Collect all stale/uncached weekday dates in the 21-day window.
-    // Dates with localStorage data render instantly; this refreshes them.
+    // Split dates into visible week vs rest
     const t = today0();
     const max = maxDate();
-    const allDates = [];
+    const visibleDates = [], bgDates = [];
     for (let i = 1; i <= 21; i++) {
       const d = new Date(t);
       d.setDate(d.getDate() + i);
@@ -1403,16 +1426,19 @@
       if (d > max) continue;
       const ds = dsStr(d);
       const key = `${ds}_${S.duration}_${S.who}`;
-      if (cacheIsStale(key)) allDates.push(ds);
+      if (!cacheIsStale(key)) continue;
+      // Is this date in the currently visible week?
+      const diff = (d - S.weekStart) / 86400000;
+      if (diff >= 0 && diff < 5) visibleDates.push(ds);
+      else bgDates.push(ds);
     }
 
-    if (!allDates.length) return;
+    if (!visibleDates.length && !bgDates.length) return;
 
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
     if (!configured) {
-      // Dev fallback: generate mock slots for all dates
       const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
-      allDates.forEach(ds => {
+      [...visibleDates, ...bgDates].forEach(ds => {
         const slots = [];
         for (let h = startH; h < 18; h++) {
           for (let m = 0; m < 60; m += 30) {
@@ -1427,11 +1453,11 @@
       return;
     }
 
-    // Try earlyFetch (direct link)
-    const ef = window.__earlyFetch;
-    if (ef && ef.who === S.who && ef.mins === S.duration) {
+    // Helper: consume an earlyFetch promise, cache results, re-render
+    async function consumeEarly(promise) {
+      if (!promise) return;
       try {
-        const data = await ef.promise;
+        const data = await promise;
         if (data && data.ok && data.batch && !signal.aborted) {
           for (const [ds, slots] of Object.entries(data.results)) {
             cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
@@ -1439,45 +1465,57 @@
           renderWeekView();
         }
       } catch {}
-      window.__earlyFetch = null;
     }
 
-    // Try earlyFetchAll (/calendar page — all 3 options prefetched in <head>)
-    const efa = window.__earlyFetchAll;
-    if (efa && efa[S.who]) {
+    // Helper: fetch a set of dates from the server
+    async function fetchDates(dates) {
+      if (!dates.length || signal.aborted) return;
+      const stale = dates.filter(ds => cacheIsStale(`${ds}_${S.duration}_${S.who}`));
+      if (!stale.length) return;
       try {
-        const data = await efa[S.who].promise;
-        if (data && data.ok && data.batch && !signal.aborted) {
+        const res = await fetch(
+          `/api/book?dates=${stale.join(',')}&mins=${S.duration}&who=${S.who}`,
+          { signal }
+        );
+        const data = await res.json();
+        if (signal.aborted) return;
+        if (data.ok && data.batch) {
           for (const [ds, slots] of Object.entries(data.results)) {
             cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
           }
           renderWeekView();
         }
-      } catch {}
-      delete efa[S.who];
-    }
-
-    // Fetch remaining stale dates (earlyFetch may have covered them all)
-    const remaining = allDates.filter(ds => cacheIsStale(`${ds}_${S.duration}_${S.who}`));
-    if (!remaining.length || signal.aborted) return;
-
-    try {
-      const res = await fetch(
-        `/api/book?dates=${remaining.join(',')}&mins=${S.duration}&who=${S.who}`,
-        { signal }
-      );
-      const data = await res.json();
-      if (signal.aborted) return;
-      if (data.ok && data.batch) {
-        for (const [ds, slots] of Object.entries(data.results)) {
-          cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
-        }
-        renderWeekView();
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.warn('Prefetch failed:', err);
       }
-    } catch (err) {
-      if (err.name === 'AbortError') return;
-      console.warn('Prefetch failed:', err);
     }
+
+    // Wave 1: visible week — consume earlyFetch priority, then fill gaps
+    const ef = window.__earlyFetch;
+    const efa = window.__earlyFetchAll;
+
+    if (ef && ef.who === S.who && ef.mins === S.duration) {
+      await consumeEarly(ef.pri);         // visible week first → render
+      fetchDates(bgDates);                // background dates (don't await)
+      await consumeEarly(ef.bg);          // then earlyFetch background batch
+      window.__earlyFetch = null;
+    } else if (efa && efa[S.who]) {
+      await consumeEarly(efa[S.who].pri); // visible week first → render
+      fetchDates(bgDates);                // background dates (don't await)
+      await consumeEarly(efa[S.who].bg);  // then earlyFetchAll background batch
+      delete efa[S.who];
+    } else {
+      // No earlyFetch — fire two requests: visible week first
+      await fetchDates(visibleDates);
+      fetchDates(bgDates);                // background (don't await)
+    }
+
+    // Final sweep: anything still stale?
+    const leftover = [...visibleDates, ...bgDates].filter(
+      ds => cacheIsStale(`${ds}_${S.duration}_${S.who}`)
+    );
+    if (leftover.length) await fetchDates(leftover);
   }
 
   /* ── Format picker ────────────────────────────── */
