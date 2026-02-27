@@ -4,7 +4,8 @@ const CORS = { 'Access-Control-Allow-Origin': '*', 'Content-Type': 'application/
 const CORS_CACHED = {
   'Access-Control-Allow-Origin': '*',
   'Content-Type': 'application/json',
-  'Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',
+  'Cache-Control': 'public, max-age=60, s-maxage=120, stale-while-revalidate=600',
+  'Netlify-CDN-Cache-Control': 'public, s-maxage=120, stale-while-revalidate=600',
 };
 
 /* ── Server-side in-memory slot cache ──────────────────────────────────

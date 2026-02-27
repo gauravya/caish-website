@@ -18,7 +18,6 @@
        can compute the dates immediately. For /calendar, prefetch all three. -->
   <script>
   window.__earlyFetch = null;
-  window.__earlyFetchAll = null;
   (function() {
     var path = location.pathname.replace(/\/$/, '').toLowerCase();
     var who = null;
@@ -46,16 +45,9 @@
         promise: fetch('/api/book?dates=' + datesStr + '&mins=30&who=' + who)
           .then(function(r) { return r.json(); }).catch(function() { return null; })
       };
-    } else {
-      window.__earlyFetchAll = {};
-      ['gaurav', 'justin', 'both'].forEach(function(w) {
-        window.__earlyFetchAll[w] = {
-          who: w, mins: 30, dates: dates,
-          promise: fetch('/api/book?dates=' + datesStr + '&mins=30&who=' + w)
-            .then(function(r) { return r.json(); }).catch(function() { return null; })
-        };
-      });
     }
+    // On /calendar (no who), we do NOT prefetch all 3 — it wastes 2 GAS calls
+    // and may throttle the one the user actually needs. We fetch on selection instead.
   })();
   </script>
 
@@ -311,6 +303,7 @@
 
     /* Time labels (left column) */
     .wv-time {
+      position: relative;
       display: flex; align-items: flex-start; justify-content: flex-end;
       padding: 0 6px 0 0;
       font-size: 0.56rem; color: var(--muted);
@@ -318,7 +311,14 @@
       border-top: 1px solid var(--border);
       min-height: 36px;
     }
-    .wv-time span { transform: translateY(-50%); }
+    .wv-time span {
+      position: absolute;
+      top: -0.45em;       /* sit above the border line, not on it */
+      right: 6px;
+      background: var(--white);
+      line-height: 1;
+      padding: 0 1px;
+    }
     .wv-time.wv-half {
       border-top-color: #f0efec;
     }
@@ -1409,20 +1409,7 @@
       window.__earlyFetch = null;
     }
 
-    // Try earlyFetchAll (/calendar page)
-    const efa = window.__earlyFetchAll;
-    if (efa && efa[S.who]) {
-      try {
-        const data = await efa[S.who].promise;
-        if (data && data.ok && data.batch && !signal.aborted) {
-          for (const [ds, slots] of Object.entries(data.results)) {
-            cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
-          }
-          renderWeekView();
-        }
-      } catch {}
-      delete efa[S.who];
-    }
+    // earlyFetchAll removed — we only prefetch the specific "who" on selection
 
     // Fetch remaining uncached dates
     const remaining = allDates.filter(ds => !cacheGet(`${ds}_${S.duration}_${S.who}`));
