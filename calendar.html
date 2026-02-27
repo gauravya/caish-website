@@ -2036,7 +2036,7 @@
       if (mins === S.duration) return;
       S.duration = mins;
       CONFIG.meetingMins = mins;
-      Object.keys(SLOT_CACHE).forEach(k => delete SLOT_CACHE[k]);
+      // Cache keys include duration, so old entries stay valid for instant switch-back
       document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       $('meta-dur').textContent = mins === 60 ? '1 hour' : `${mins} minutes`;
