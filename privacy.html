@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Privacy Policy for Cambridge AI Safety Hub (CAISH).">
+  <title>Privacy Policy | Cambridge AI Safety Hub</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://caish.org/privacy">
+  <meta property="og:title" content="Privacy Policy | Cambridge AI Safety Hub">
+  <meta property="og:description" content="Privacy Policy for Cambridge AI Safety Hub (CAISH).">
+  <meta property="og:image" content="https://caish.org/images/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://caish.org/privacy">
+  <meta name="twitter:title" content="Privacy Policy | Cambridge AI Safety Hub">
+  <meta name="twitter:description" content="Privacy Policy for Cambridge AI Safety Hub (CAISH).">
+  <meta name="twitter:image" content="https://caish.org/images/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <!-- DNS Prefetch & Preconnect -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/styles.css?v=d9e21637" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Critical CSS - Inline for instant first paint -->
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{font-family:'Space Mono',monospace;background:#fefefe;color:#1a1a1a;line-height:1.8}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    h1{font-size:clamp(2rem,4vw,3rem);line-height:1.2}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.82);border-bottom:1px solid rgba(224,224,224,0.35);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .page-header{max-width:1000px;margin:0 auto;padding:9rem 2.5rem 1rem}
+    .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
+    p{font-size:0.95rem;max-width:52ch;color:#4a4a4a}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.page-header{padding-top:6rem}}
+  </style>
+
+  <!-- Styles (async) -->
+  <noscript><link rel="stylesheet" href="/styles.css?v=d9e21637"></noscript>
+
+  <!-- Enhancements -->
+  <script src="/enhancements.js?v=05402ff1" defer fetchpriority="low"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+
+  <style>
+    .privacy-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem 2.5rem 4rem;
+    }
+    .privacy-section h2 {
+      font-size: 1.3rem;
+      margin: 2.5rem 0 0.75rem;
+      color: #1a1a1a;
+    }
+    .privacy-section h3 {
+      font-size: 1rem;
+      margin: 1.5rem 0 0.5rem;
+      color: #1a1a1a;
+    }
+    .privacy-section p {
+      margin-bottom: 0.75rem;
+      max-width: 65ch;
+    }
+    .privacy-section ul {
+      margin: 0.5rem 0 1rem 1.5rem;
+      font-size: 0.95rem;
+      color: #4a4a4a;
+      max-width: 65ch;
+    }
+    .privacy-section li {
+      margin-bottom: 0.4rem;
+    }
+    .privacy-section a {
+      color: #7e4233;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(126, 66, 51, 0.3);
+    }
+    .privacy-section a:hover {
+      color: #1a1a1a;
+    }
+    .privacy-updated {
+      font-size: 0.75rem;
+      color: #8a8a8a;
+      margin-top: 0.25rem;
+    }
+    .privacy-section table {
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      color: #4a4a4a;
+    }
+    .privacy-section th,
+    .privacy-section td {
+      text-align: left;
+      padding: 0.5rem 1rem 0.5rem 0;
+      border-bottom: 1px solid #e0e0e0;
+      vertical-align: top;
+    }
+    .privacy-section th {
+      font-weight: 400;
+      color: #1a1a1a;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      letter-spacing: 0.02em;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home">
+        <img src="/images/logo.png" class="logo" width="50" height="50">
+      </a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS</a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li><a href="/mars">MARS</a></li>
+      <li><a href="/research">Research</a></li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <main>
+  <section class="page-header" id="main-content">
+    <h1>Privacy Policy</h1>
+    <p class="privacy-updated">Last updated: 27 February 2026</p>
+  </section>
+
+  <div class="divider"><div class="divider-line"></div></div>
+
+  <section class="privacy-section">
+    <p>Cambridge AI Safety Hub (CAISH) is a project of Meridian Impact CIC (company number 13653958). We are committed to protecting your privacy. This policy explains what data we collect, why, how we use it, and your rights.</p>
+
+    <h2>1. What we collect</h2>
+
+    <h3>Meeting bookings</h3>
+    <p>When you book a meeting through our calendar, we collect:</p>
+    <ul>
+      <li><strong>Full name</strong> and <strong>email address</strong> &mdash; to create the calendar event and send you an invitation</li>
+      <li><strong>Meeting topic</strong> &mdash; so the host can prepare for your meeting</li>
+      <li><strong>Meeting time, duration, and format</strong> (virtual or in-person) &mdash; to schedule the event</li>
+    </ul>
+    <p>This data is sent to the host (Gaurav Yadav and/or Justin Dollman) via a calendar invitation and an email notification. Your name, email, and topic will be visible to the host.</p>
+
+    <h3>Google Calendar overlay (optional)</h3>
+    <p>Our booking page offers an optional feature to overlay your own Google Calendar events so you can see your availability alongside ours. If you choose to use this:</p>
+    <ul>
+      <li>We request <strong>read-only</strong> access to your Google Calendar events for the week being viewed</li>
+      <li>Your calendar data is processed <strong>entirely in your browser</strong> &mdash; it is never sent to our servers, never stored, and never shared</li>
+      <li>We only use it to display your busy times on the booking calendar</li>
+      <li>You can revoke access at any time via your <a href="https://myaccount.google.com/permissions">Google account permissions</a></li>
+    </ul>
+    <p>This feature is entirely optional. The booking system works fully without it.</p>
+
+    <h3>Mailing list</h3>
+    <p>If you sign up for our mailing list, your email address is collected and stored by <a href="https://legal.hubspot.com/privacy-policy">HubSpot</a>, our email platform. We use it only to send you updates about CAISH programmes and events.</p>
+
+    <h3>Programme applications</h3>
+    <p>Applications for our Fellowship and MARS programmes are collected via <a href="https://www.airtable.com/privacy">Airtable</a>. The data you submit (which may include your name, email, background, and research interests) is stored in Airtable and used solely to evaluate your application.</p>
+
+    <h3>Technical data</h3>
+    <ul>
+      <li><strong>IP address</strong> &mdash; used for rate limiting on the booking system to prevent spam. Stored in server memory only and not persisted to disk.</li>
+      <li><strong>Browser storage</strong> &mdash; we use localStorage to cache availability data (auto-cleared after 24 hours) and sessionStorage to preserve your selection during the booking flow. No tracking or analytics cookies are used.</li>
+    </ul>
+
+    <h2>2. How we use your data</h2>
+    <p>We use your data only for the purpose it was collected:</p>
+    <ul>
+      <li>Creating calendar events and sending meeting invitations</li>
+      <li>Notifying the host about upcoming meetings</li>
+      <li>Preventing spam via rate limiting</li>
+      <li>Evaluating programme applications</li>
+      <li>Sending mailing list updates (if you opted in)</li>
+    </ul>
+    <p>We do <strong>not</strong> sell, rent, or share your data with advertisers. We do not use analytics or tracking pixels on this site.</p>
+
+    <h2>3. Third-party services</h2>
+    <p>We use the following services to operate this site. Each processes data as described:</p>
+    <table>
+      <tr><th>Service</th><th>What it receives</th><th>Why</th></tr>
+      <tr><td>Google Calendar</td><td>Name, email, topic, meeting time</td><td>Creates the calendar event and sends the invitation</td></tr>
+      <tr><td>Resend</td><td>Name, email, topic, meeting time</td><td>Sends notification emails to hosts</td></tr>
+      <tr><td>HubSpot</td><td>Email address</td><td>Mailing list management</td></tr>
+      <tr><td>Airtable</td><td>Application form data</td><td>Programme application processing</td></tr>
+      <tr><td>Netlify</td><td>IP address (in server logs)</td><td>Hosting and rate limiting</td></tr>
+      <tr><td>Google Fonts</td><td>IP address, browser info</td><td>Font delivery</td></tr>
+    </table>
+
+    <h2>4. Data retention</h2>
+    <ul>
+      <li><strong>Calendar events</strong> &mdash; remain in the host&rsquo;s Google Calendar. You can request deletion at any time.</li>
+      <li><strong>Email notifications</strong> &mdash; retained in the host&rsquo;s email inbox.</li>
+      <li><strong>Rate limiting data</strong> &mdash; stored in server memory only, cleared on each server restart (typically within hours).</li>
+      <li><strong>Browser cache</strong> &mdash; auto-cleared after 24 hours. Session data cleared when you close the tab.</li>
+      <li><strong>Mailing list</strong> &mdash; retained until you unsubscribe.</li>
+      <li><strong>Programme applications</strong> &mdash; retained for the duration of the application cycle.</li>
+    </ul>
+
+    <h2>5. Your rights</h2>
+    <p>You have the right to:</p>
+    <ul>
+      <li><strong>Access</strong> the personal data we hold about you</li>
+      <li><strong>Correct</strong> any inaccurate data</li>
+      <li><strong>Delete</strong> your data (request erasure)</li>
+      <li><strong>Withdraw consent</strong> at any time (e.g. unsubscribe from the mailing list, revoke Google Calendar access)</li>
+    </ul>
+    <p>To exercise any of these rights, email <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a>.</p>
+
+    <h2>6. Legal basis for processing (GDPR)</h2>
+    <ul>
+      <li><strong>Consent</strong> &mdash; for meeting bookings, mailing list, programme applications, and Google Calendar overlay</li>
+      <li><strong>Legitimate interest</strong> &mdash; for rate limiting and spam prevention</li>
+    </ul>
+
+    <h2>7. Changes to this policy</h2>
+    <p>We may update this policy from time to time. The &ldquo;last updated&rdquo; date at the top will reflect any changes.</p>
+
+    <h2>8. Contact</h2>
+    <p>If you have questions about this policy or your data, contact us at <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a>.</p>
+    <p>Cambridge AI Safety Hub is a project of Meridian Impact CIC, a Community Interest Company registered at Companies House (company number 13653958).</p>
+  </section>
+  </main>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a>
+      </div>
+      <span class="footer-copy">&copy; 2026 CAISH</span>
+    </div>
+  </footer>
+
+  <script>
+    const MobileNav = {
+      init() {
+        const nav = document.getElementById('mobile-nav');
+        const toggle = document.getElementById('nav-toggle');
+        const close = document.getElementById('mobile-nav-close');
+
+        toggle?.addEventListener('click', () => nav?.classList.add('active'));
+        close?.addEventListener('click', () => nav?.classList.remove('active'));
+        nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+      }
+    };
+
+    const BackToTop = {
+      init() {
+        const btn = document.querySelector('.back-to-top');
+        if (!btn) return;
+        window.addEventListener('scroll', () => {
+          btn.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+        btn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    };
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); BackToTop.init(); })
+      : (MobileNav.init(), BackToTop.init());
+  </script>
+</body>
+</html>
