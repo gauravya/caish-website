@@ -90,7 +90,7 @@ function getClientIp(event) {
 /* ── Input validation ──────────────────────────────────────────────── */
 const VALID_WHO = new Set(['gaurav', 'justin', 'both']);
 const VALID_FORMAT = new Set(['virtual', 'in-person']);
-const VALID_MINS = new Set([30, 60]);
+const VALID_MINS = new Set([15, 30, 45, 60]);
 const MAX_FIELD = { name: 200, email: 254, topic: 1000 };
 const MAX_BODY = 10000; // 10 KB
 
@@ -342,7 +342,7 @@ exports.handler = async (event) => {
       /* ── Only send notification + invalidate cache if booking succeeded ── */
       if (gasResult.ok) {
         const dateStr = validated.startISO.split('T')[0];
-        for (const m of ['30', '60']) {
+        for (const m of ['15', '30', '45', '60']) {
           for (const w of ['gaurav', 'justin', 'both']) {
             _slotCache.delete(`${dateStr}_${m}_${w}`);
           }
@@ -364,7 +364,7 @@ exports.handler = async (event) => {
       const mins = params.mins || '30';
 
       // Validate GET params
-      if (!VALID_WHO.has(who) || !['30', '60'].includes(mins)) {
+      if (!VALID_WHO.has(who) || !['15', '30', '45', '60'].includes(mins)) {
         return { statusCode: 400, headers: CORS_GET,
           body: JSON.stringify({ ok: false, e: 'Invalid parameters.' }) };
       }

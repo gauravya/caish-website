@@ -349,21 +349,29 @@
     .wv-time span { line-height: 1; }
     .wv-time.wv-half span { display: none; }
 
-    /* Day cells — default is grey (busy/unavailable) */
+    /* Day cells — default is hatched (busy/unavailable) */
     .wv-cell {
       min-height: 36px;
       border-top: 1px solid var(--border);
       border-left: 1px solid var(--border);
       position: relative;
-      background: var(--surface);
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 4px,
+          rgba(0,0,0,0.04) 4px,
+          rgba(0,0,0,0.04) 5px
+        ),
+        var(--surface);
     }
     /* No left border on first day column — keeps time labels clean */
     .wv-cell:nth-child(6n+2) { border-left: none; }
     .wv-cell.wv-half { border-top-color: #f0efec; }
     .wv-cell.past { opacity: 0.4; }
     .wv-cell.loading {
-      background: linear-gradient(90deg, var(--surface) 25%, #e8e8e6 50%, var(--surface) 75%);
-      background-size: 200% 100%;
+      background: linear-gradient(90deg, var(--surface) 25%, #e8e8e6 50%, var(--surface) 75%) !important;
+      background-size: 200% 100% !important;
       animation: shimmer 1.5s infinite;
     }
     @keyframes shimmer {
@@ -738,6 +746,7 @@
             <div class="dur-picker" id="dur-picker">
               <span class="dur-label">Duration</span>
               <div class="dur-btns" role="group" aria-label="Meeting duration">
+                <button class="dur-btn" data-mins="15">15 min</button>
                 <button class="dur-btn active" data-mins="30">30 min</button>
                 <button class="dur-btn" data-mins="45">45 min</button>
                 <button class="dur-btn" data-mins="60">1 hr</button>
