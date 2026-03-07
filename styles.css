@@ -2963,6 +2963,216 @@
     background: #ffffff;
   }
   
+  /* --- Hack Page --- */
+  .hack-header {
+    padding-top: var(--space-36);
+    padding-bottom: var(--space-4);
+  }
+
+  .hack-header h1 {
+    margin-bottom: var(--space-4);
+  }
+
+  .hack-signup {
+    max-width: var(--max-width);
+    margin: var(--space-12) auto;
+    padding: 0 var(--space-10);
+  }
+
+  .hack-signup-inner {
+    background: linear-gradient(135deg, #111111 0%, #1a1a1a 40%, #1f1c1b 60%, #1a1a1a 100%);
+    border-radius: 12px;
+    padding: var(--space-16) var(--space-12);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--space-12);
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hack-signup-inner::before {
+    content: '';
+    position: absolute;
+    top: -40%;
+    right: -5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(126, 66, 51, 0.18) 0%, rgba(166, 93, 74, 0.06) 40%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hack-signup-content h2 {
+    font-family: var(--font-serif);
+    color: var(--cream);
+    margin-bottom: var(--space-5);
+  }
+
+  .hack-signup-content p {
+    color: #a0a0a0;
+    margin-bottom: var(--space-8);
+    max-width: 42ch;
+  }
+
+  .hack-signup-decoration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hack-signup-decoration img {
+    width: 280px;
+    height: 280px;
+    object-fit: contain;
+    opacity: 0.15;
+  }
+
+  .hack-form {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hack-form-row {
+    display: flex;
+    gap: var(--space-3);
+    max-width: 440px;
+  }
+
+  .hack-input {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .hack-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .hack-input:focus {
+    border-color: var(--cambridge-light);
+  }
+
+  .hack-submit {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .hack-submit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .hack-form-msg {
+    font-size: 0.8rem;
+    margin-top: var(--space-3);
+    max-width: none;
+  }
+
+  .hack-form-success {
+    color: #8cbf8c;
+  }
+
+  .hack-form-error {
+    color: #e08080;
+  }
+
+  .hack-programmes {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-10);
+  }
+
+  .hack-programmes > h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .hack-programmes > p {
+    margin-bottom: var(--space-12);
+  }
+
+  .hack-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-8);
+  }
+
+  .hack-card {
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--light-grey);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .hack-card:hover {
+    border-color: var(--cambridge);
+    box-shadow: 0 4px 24px rgba(126, 66, 51, 0.08);
+  }
+
+  .hack-card-image {
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+  }
+
+  .hack-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .hack-card:hover .hack-card-image img {
+    transform: scale(1.03);
+  }
+
+  .hack-card-body {
+    padding: var(--space-6) var(--space-6) var(--space-8);
+  }
+
+  .hack-card-body h3 {
+    font-family: var(--font-serif);
+    font-size: 1.2rem;
+    margin-bottom: var(--space-3);
+    color: var(--black);
+  }
+
+  .hack-card-body p {
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--dark-grey);
+  }
+
+  @media (max-width: 600px) {
+    .hack-signup {
+      padding: 0 var(--space-6);
+    }
+
+    .hack-signup-inner {
+      grid-template-columns: 1fr;
+      padding: var(--space-10) var(--space-8);
+    }
+
+    .hack-signup-decoration {
+      display: none;
+    }
+
+    .hack-programmes {
+      padding: var(--space-8) var(--space-6);
+    }
+
+    .hack-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
   /* ==========================================================================
      8. Footer
      ========================================================================== */
@@ -4192,7 +4402,7 @@
    ========================================================================== */
 
 /* External Link Indicator */
-a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-item):not(.research-card)::after {
+a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-item):not(.research-card):not(.hack-card)::after {
   content: " \2197";
   font-size: 0.75em;
   opacity: 0.6;
@@ -4201,7 +4411,7 @@ a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-item):not(.research-card):hover::after {
+a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-item):not(.research-card):not(.hack-card):hover::after {
   opacity: 1;
   transform: translate(1px, -1px);
 }
