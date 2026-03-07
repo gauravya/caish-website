@@ -4402,7 +4402,7 @@
    ========================================================================== */
 
 /* External Link Indicator */
-a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-item):not(.research-card)::after {
+a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-item):not(.research-card):not(.hack-card)::after {
   content: " \2197";
   font-size: 0.75em;
   opacity: 0.6;
@@ -4411,7 +4411,7 @@ a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-item):not(.research-card):hover::after {
+a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-item):not(.research-card):not(.hack-card):hover::after {
   opacity: 1;
   transform: translate(1px, -1px);
 }
