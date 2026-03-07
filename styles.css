@@ -3170,6 +3170,18 @@
       display: none;
     }
 
+    .hack-form-fields {
+      max-width: 100%;
+    }
+
+    .hack-form-row {
+      flex-direction: column;
+    }
+
+    .hack-signup-content p {
+      max-width: none;
+    }
+
     .hack-programmes {
       padding: var(--space-8) var(--space-6);
     }
