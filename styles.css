@@ -2965,7 +2965,7 @@
   
   /* --- Hack Page --- */
   .hack-header {
-    padding-top: var(--space-36);
+    padding-top: calc(var(--space-36) + 2rem);
     padding-bottom: var(--space-4);
   }
 
