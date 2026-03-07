@@ -122,12 +122,15 @@
         <h2>Stay in the loop</h2>
         <p>Join our mailing list to hear about upcoming programmes, events, and opportunities in AI safety.</p>
         <form id="hack-signup-form" class="hack-form" novalidate>
-          <div class="hack-form-row">
-            <input type="email" id="hack-email" class="hack-input" placeholder="your@email.com" required autocomplete="email" aria-label="Email address">
-            <button type="submit" class="btn hack-submit">
-              <span class="hack-submit-text">Subscribe</span>
-              <span class="hack-submit-loading" hidden>Sending&hellip;</span>
-            </button>
+          <div class="hack-form-fields">
+            <input type="text" id="hack-name" class="hack-input" placeholder="Your name" required autocomplete="name" aria-label="Full name">
+            <div class="hack-form-row">
+              <input type="email" id="hack-email" class="hack-input" placeholder="your@email.com" required autocomplete="email" aria-label="Email address">
+              <button type="submit" class="btn hack-submit">
+                <span class="hack-submit-text">Subscribe</span>
+                <span class="hack-submit-loading" hidden>Sending&hellip;</span>
+              </button>
+            </div>
           </div>
           <p class="hack-form-msg" id="hack-form-msg" hidden></p>
         </form>
@@ -242,11 +245,17 @@
       },
 
       async submit(form) {
+        const name = document.getElementById('hack-name');
         const email = document.getElementById('hack-email');
         const msg = document.getElementById('hack-form-msg');
         const submitText = form.querySelector('.hack-submit-text');
         const submitLoading = form.querySelector('.hack-submit-loading');
         const btn = form.querySelector('.hack-submit');
+
+        if (!name.value.trim()) {
+          this.showMsg(msg, 'Please enter your name.', true);
+          return;
+        }
 
         if (!email.value || !email.validity.valid) {
           this.showMsg(msg, 'Please enter a valid email address.', true);
@@ -257,14 +266,20 @@
         submitText.hidden = true;
         submitLoading.hidden = false;
 
+        const nameParts = name.value.trim().split(/\s+/);
+        const firstName = nameParts[0];
+        const lastName = nameParts.length > 1 ? nameParts.slice(1).join(' ') : '';
+
         try {
           const response = await fetch(
-            'https://api-eu1.hsforms.com/submissions/v3/integration/submit/146910749/28f7d478-2051-408f-8e04-4fa44905dfb9',
+            'https://forms-eu1.hsforms.com/submissions/v3/integration/submit/146910749/28f7d478-2051-408f-8e04-4fa44905dfb9',
             {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
                 fields: [
+                  { name: 'firstname', value: firstName },
+                  { name: 'lastname', value: lastName },
                   { name: 'email', value: email.value }
                 ],
                 context: {
@@ -277,6 +292,7 @@
 
           if (response.ok || response.status === 200) {
             this.showMsg(msg, "You're in! We'll be in touch.", false);
+            name.value = '';
             email.value = '';
           } else {
             const data = await response.json().catch(() => null);

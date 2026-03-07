@@ -3032,10 +3032,16 @@
     z-index: 1;
   }
 
+  .hack-form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: 440px;
+  }
+
   .hack-form-row {
     display: flex;
     gap: var(--space-3);
-    max-width: 440px;
   }
 
   .hack-input {
