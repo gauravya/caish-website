@@ -122,7 +122,16 @@
       <div class="hack-signup-content">
         <h2>Stay in the loop</h2>
         <p>Join our mailing list to hear about upcoming programmes, events, and opportunities in AI safety.</p>
-        <a href="https://share-eu1.hsforms.com/2KPfUeCBRQI-OBE-kSQXfuQ2fgt25" class="btn" target="_blank" rel="noopener">Join our mailing list</a>
+        <form id="hack-signup-form" class="hack-form" novalidate>
+          <div class="hack-form-row">
+            <input type="email" id="hack-email" class="hack-input" placeholder="your@email.com" required autocomplete="email" aria-label="Email address">
+            <button type="submit" class="btn hack-submit">
+              <span class="hack-submit-text">Subscribe</span>
+              <span class="hack-submit-loading" hidden>Sending&hellip;</span>
+            </button>
+          </div>
+          <p class="hack-form-msg" id="hack-form-msg" hidden></p>
+        </form>
       </div>
       <div class="hack-signup-decoration">
         <img src="/images/footer-logo-min.png" alt="CAISH logo" loading="lazy" decoding="async" width="200" height="200">
@@ -222,9 +231,78 @@
       }
     };
 
+    const HubSpotForm = {
+      init() {
+        const form = document.getElementById('hack-signup-form');
+        if (!form) return;
+
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          this.submit(form);
+        });
+      },
+
+      async submit(form) {
+        const email = document.getElementById('hack-email');
+        const msg = document.getElementById('hack-form-msg');
+        const submitText = form.querySelector('.hack-submit-text');
+        const submitLoading = form.querySelector('.hack-submit-loading');
+        const btn = form.querySelector('.hack-submit');
+
+        if (!email.value || !email.validity.valid) {
+          this.showMsg(msg, 'Please enter a valid email address.', true);
+          return;
+        }
+
+        btn.disabled = true;
+        submitText.hidden = true;
+        submitLoading.hidden = false;
+
+        try {
+          const response = await fetch(
+            'https://api-eu1.hsforms.com/submissions/v3/integration/submit/146910749/28f7d478-2051-408f-8e04-4fa44905dfb9',
+            {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                fields: [
+                  { name: 'email', value: email.value }
+                ],
+                context: {
+                  pageUri: window.location.href,
+                  pageName: 'Varsity Hackathon 2026'
+                }
+              })
+            }
+          );
+
+          if (response.ok || response.status === 200) {
+            this.showMsg(msg, "You're in! We'll be in touch.", false);
+            email.value = '';
+          } else {
+            const data = await response.json().catch(() => null);
+            const errMsg = (data && data.errors && data.errors[0] && data.errors[0].message) || 'Something went wrong. Please try again.';
+            this.showMsg(msg, errMsg, true);
+          }
+        } catch {
+          this.showMsg(msg, 'Network error. Please try again.', true);
+        } finally {
+          btn.disabled = false;
+          submitText.hidden = false;
+          submitLoading.hidden = true;
+        }
+      },
+
+      showMsg(el, text, isError) {
+        el.textContent = text;
+        el.hidden = false;
+        el.className = 'hack-form-msg ' + (isError ? 'hack-form-error' : 'hack-form-success');
+      }
+    };
+
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); BackToTop.init(); })
-      : (() => { MobileNav.init(); BackToTop.init(); })();
+      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); BackToTop.init(); HubSpotForm.init(); })
+      : (() => { MobileNav.init(); BackToTop.init(); HubSpotForm.init(); })();
   </script>
 </body>
 </html>

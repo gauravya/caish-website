@@ -3027,6 +3027,62 @@
     opacity: 0.15;
   }
 
+  .hack-form {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hack-form-row {
+    display: flex;
+    gap: var(--space-3);
+    max-width: 440px;
+  }
+
+  .hack-input {
+    flex: 1;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .hack-input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  .hack-input:focus {
+    border-color: var(--cambridge-light);
+  }
+
+  .hack-submit {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .hack-submit:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .hack-form-msg {
+    font-size: 0.8rem;
+    margin-top: var(--space-3);
+    max-width: none;
+  }
+
+  .hack-form-success {
+    color: #8cbf8c;
+  }
+
+  .hack-form-error {
+    color: #e08080;
+  }
+
   .hack-programmes {
     max-width: var(--max-width);
     margin: 0 auto;
