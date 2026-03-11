@@ -2616,6 +2616,15 @@
     opacity: 1;
   }
 
+  .alumni-org-logo--dup {
+    display: none;
+  }
+
+  @keyframes logo-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
   /* Fellows Section */
   .fellows-section {
     max-width: 1000px;
@@ -3593,29 +3602,31 @@
       white-space: normal;
     }
 
-    .mars-hero-image {
-      padding: 4rem 1.5rem 0 1.5rem;
-    }
-
-    .mars-hero-image img {
-      max-height: 250px;
-    }
-
     .mars-hero-header {
-      padding: 5.5rem 1.5rem 2rem;
-      grid-template-columns: 1fr;
+      padding: 4.5rem 1.25rem 1.5rem;
     }
 
-    .mars-photo-strip {
-      grid-template-columns: 1fr;
-      gap: 0.4rem;
-      margin: 1.5rem 0;
+    .mars-hero-header--centered .mars-hero-inner {
+      max-width: 100%;
     }
 
-    .mars-photo-pair {
-      grid-template-columns: 1fr;
-      gap: 0.4rem;
-      margin: 1.5rem 0;
+    .mars-hero-grid {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 0 1.25rem;
+      gap: 3px;
+    }
+
+    .mars-hero-grid img:nth-child(n+7) {
+      display: none;
+    }
+
+    .mars-hero-buttons {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .mars-hero-buttons .btn-primary {
+      text-align: center;
     }
 
     .mars-hero-features {
@@ -3626,6 +3637,19 @@
     .mars-who-section {
       grid-template-columns: 1fr;
       gap: 1.5rem;
+    }
+
+    .mars-who-image img {
+      max-height: 250px;
+    }
+
+    .mars-application .btn-wrapper {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .mars-application .btn-wrapper .btn-primary {
+      text-align: center;
     }
 
     .mars-header {
@@ -3666,6 +3690,29 @@
 
     .alumni-grid {
       grid-template-columns: 1fr;
+    }
+
+    .alumni-orgs {
+      overflow: hidden;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    }
+
+    .alumni-orgs-track {
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      gap: 2.5rem;
+      animation: logo-scroll 20s linear infinite;
+      width: max-content;
+    }
+
+    .alumni-org-logo--dup {
+      display: flex;
+    }
+
+    .alumni-org-logo img {
+      filter: grayscale(0%);
+      opacity: 0.8;
     }
 
     .research-page-content > .divider {
@@ -3749,11 +3796,11 @@
 
     .announcement-banner {
       padding: 0.5rem 0.75rem;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
     }
 
     .announcement-banner p {
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       line-height: 1.4;
     }
 
