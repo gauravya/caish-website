@@ -2422,10 +2422,16 @@
   
   .mentor {
     text-align: center;
-    padding: 1rem 0.75rem;
-    background: transparent;
+    padding: 1.25rem 1rem;
+    background: var(--white, #fff);
     border-radius: 12px;
-    border: none;
+    border: 1px solid var(--light-grey);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .mentor:hover {
+    border-color: rgba(126, 66, 51, 0.25);
+    box-shadow: 0 2px 12px rgba(126, 66, 51, 0.08);
   }
   
   .mentor-photo {
