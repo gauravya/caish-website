@@ -301,6 +301,14 @@
     padding-top: calc(var(--space-36) + 2.2rem);
   }
 
+  body.has-banner .mars-hero-image {
+    padding-top: calc(5rem + 2.2rem);
+  }
+
+  body.has-banner .mars-hero-header {
+    padding-top: calc(7rem + 2.2rem);
+  }
+
   /* ==========================================================================
      6. Navigation
      ========================================================================== */
@@ -575,27 +583,8 @@
   
   .hero h1 em {
     display: block;
-    background: linear-gradient(
-      135deg,
-      #6b3528 0%,
-      #7e4233 20%,
-      #a65d4a 40%,
-      #c47a5e 55%,
-      #d4956e 65%,
-      #c47a5e 75%,
-      #a65d4a 85%,
-      #7e4233 100%
-    );
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: gradient-shimmer 6s ease-in-out infinite;
-  }
-
-  @keyframes gradient-shimmer {
-    0%, 100% { background-position: 0% center; }
-    50% { background-position: 100% center; }
+    color: var(--cambridge);
+    font-style: normal;
   }
 
   .hero-content {
@@ -2040,15 +2029,111 @@
     border-radius: 0;
   }
   
+  /* MARS Hero Header */
+  .mars-hero-header {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 7rem 2.5rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .mars-hero-inner {
+    max-width: 700px;
+  }
+
+  .mars-hero-header .label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--cambridge);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .mars-hero-header h1 {
+    margin-bottom: 1.25rem;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+  }
+
+  .mars-hero-summary {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--dark-grey);
+    max-width: 60ch;
+    margin-bottom: 2rem;
+  }
+
+  .mars-hero-features {
+    display: flex;
+    gap: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .mars-hero-feature {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .mars-hero-feature-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+  }
+
+  .mars-hero-feature-value {
+    font-family: var(--font-serif);
+    font-size: 0.9rem;
+    color: var(--black);
+  }
+
+  /* MARS Hero Mosaic */
+  .mars-hero-mosaic {
+    display: flex;
+    gap: 0.75rem;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .mosaic-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mosaic-col-1 {
+    transform: translateY(-15%);
+  }
+
+  .mosaic-col-2 {
+    transform: translateY(-5%);
+  }
+
+  .mosaic-col img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    aspect-ratio: 4 / 3;
+  }
+
   .mars-header {
     padding-top: 1rem;
     padding-bottom: 0;
   }
-  
+
   .mars-header h1 {
     margin-bottom: 0.25rem;
   }
-  
+
   .mars-tagline {
     font-family: var(--font-serif);
     font-size: 1.1rem;
@@ -2056,7 +2141,7 @@
     max-width: none;
     margin-bottom: 0;
   }
-  
+
   .mars-section {
     padding-top: 1.5rem;
     padding-bottom: 2rem;
@@ -2097,14 +2182,16 @@
   }
 
   .timeline-detail {
-    background: var(--cream);
+    background: transparent;
     border-radius: 12px;
     padding: 1.5rem 2rem;
     margin-top: 1rem;
     min-height: 100px;
-    border: 1px solid rgba(141, 141, 141, 0.2);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(141, 141, 141, 0.12);
+    box-shadow: none;
     transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .timeline-detail--hidden {
@@ -2174,6 +2261,10 @@
 
   .timeline-connector[data-duration="1 week"] {
     width: 2.5rem;
+  }
+
+  .timeline-connector[data-duration="2-4 weeks"] {
+    width: 6rem;
   }
 
   .timeline-connector[data-duration="8-12 weeks"] {
@@ -2291,6 +2382,36 @@
     font-size: 0.8rem;
   }
   
+  /* Who we're looking for */
+  .mars-who-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin: 1.5rem 0;
+  }
+
+  .mars-who-text h2 {
+    margin-bottom: 1rem;
+  }
+
+  .mars-who-text p {
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .mars-who-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .mars-who-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
   /* Mentors Grid */
   .mentors-grid {
     display: grid;
@@ -2301,10 +2422,16 @@
   
   .mentor {
     text-align: center;
-    padding: 1rem 0.75rem;
-    background: rgba(250, 246, 240, 0.7);
+    padding: 1.25rem 1rem;
+    background: var(--white, #fff);
     border-radius: 12px;
-    border: 1px solid rgba(141, 141, 141, 0.15);
+    border: 1px solid var(--light-grey);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .mentor:hover {
+    border-color: rgba(126, 66, 51, 0.25);
+    box-shadow: 0 2px 12px rgba(126, 66, 51, 0.08);
   }
   
   .mentor-photo {
@@ -2356,6 +2483,57 @@
   .mentors-toggle:hover {
     border-color: var(--cambridge);
     color: var(--cambridge);
+  }
+
+  /* Alumni Orgs Marquee */
+  .alumni-orgs {
+    overflow: hidden;
+    margin: 1.5rem 0;
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--light-grey);
+    border-bottom: 1px solid var(--light-grey);
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .alumni-orgs-track {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    animation: marquee 25s linear infinite;
+    width: max-content;
+  }
+
+  .alumni-org-logo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+  }
+
+  .alumni-org-logo img {
+    height: 100%;
+    width: auto;
+    max-width: 140px;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.7;
+    transition: filter 0.3s ease, opacity 0.3s ease;
+  }
+
+  .alumni-org-logo img:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .alumni-orgs:hover .alumni-orgs-track {
+    animation-play-state: paused;
   }
 
   /* Fellows Section */
@@ -3289,9 +3467,28 @@
       padding: 4rem 1.5rem 0 1.5rem;
     }
 
-
     .mars-hero-image img {
       max-height: 250px;
+    }
+
+    .mars-hero-header {
+      padding: 5.5rem 1.5rem 2rem;
+      grid-template-columns: 1fr;
+    }
+
+    .mars-hero-mosaic {
+      height: 220px;
+      margin-top: 0.5rem;
+    }
+
+    .mars-hero-features {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .mars-who-section {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
 
     .mars-header {

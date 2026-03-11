@@ -56,11 +56,15 @@
     .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
     .hero{max-width:1000px;margin:0 auto;padding:6rem 2.5rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
     .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}.hero .label{font-family:'Space Mono','Courier New',monospace;font-size:1.1rem;font-weight:700;letter-spacing:0.15em;color:#1a1a1a}
-    .hero h1 em{display:block;background:linear-gradient(135deg,#6b3528,#7e4233 20%,#a65d4a 40%,#c47a5e 55%,#d4956e 65%,#c47a5e 75%,#a65d4a 85%,#7e4233);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gs 6s ease-in-out infinite}
-    @keyframes gs{0%,100%{background-position:0% center}50%{background-position:100% center}}
+    .hero h1 em{display:block;color:#7e4233;font-style:normal}
     .hero-image{display:flex;justify-content:flex-end}
     .hero-image img{width:100%;max-height:360px;object-fit:contain}
     .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .announcement-banner{background:#1a1a1a;color:#fefefe;text-align:center;padding:0.6rem 1rem;font-size:0.8rem;position:fixed;top:0;left:0;right:0;z-index:101}
+    .announcement-banner p{margin:0;color:#fefefe;font-size:0.8rem;max-width:none}
+    .announcement-banner a{color:#fefefe;text-decoration:none;border-bottom:0}
+    body.has-banner nav{top:2.2rem}
+    body.has-banner .hero{padding-top:calc(6rem + 2.2rem)}
     .nav-toggle{display:none}
     @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.hero{grid-template-columns:1fr;padding-top:6rem}}
   </style>
@@ -80,8 +84,11 @@
     }
   </script>
 </head>
-<body>
+<body class="has-banner">
   <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="announcement-banner">
+    <p>MARS V Mentee and Mentor EOI open - <a href="/mars">Learn more &rarr;</a></p>
+  </div>
   <nav>
     <div class="nav-inner">
       <a href="/" aria-label="Home">
