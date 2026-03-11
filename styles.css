@@ -2182,14 +2182,16 @@
   }
 
   .timeline-detail {
-    background: var(--cream);
+    background: transparent;
     border-radius: 12px;
     padding: 1.5rem 2rem;
     margin-top: 1rem;
     min-height: 100px;
-    border: 1px solid rgba(141, 141, 141, 0.2);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(141, 141, 141, 0.12);
+    box-shadow: none;
     transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
   .timeline-detail--hidden {
@@ -2259,6 +2261,10 @@
 
   .timeline-connector[data-duration="1 week"] {
     width: 2.5rem;
+  }
+
+  .timeline-connector[data-duration="2-4 weeks"] {
+    width: 6rem;
   }
 
   .timeline-connector[data-duration="8-12 weeks"] {
@@ -2376,6 +2382,36 @@
     font-size: 0.8rem;
   }
   
+  /* Who we're looking for */
+  .mars-who-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    margin: 1.5rem 0;
+  }
+
+  .mars-who-text h2 {
+    margin-bottom: 1rem;
+  }
+
+  .mars-who-text p {
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .mars-who-text p:last-child {
+    margin-bottom: 0;
+  }
+
+  .mars-who-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
   /* Mentors Grid */
   .mentors-grid {
     display: grid;
@@ -2387,9 +2423,9 @@
   .mentor {
     text-align: center;
     padding: 1rem 0.75rem;
-    background: rgba(250, 246, 240, 0.7);
+    background: transparent;
     border-radius: 12px;
-    border: 1px solid rgba(141, 141, 141, 0.15);
+    border: none;
   }
   
   .mentor-photo {
@@ -3432,6 +3468,11 @@
     .mars-hero-features {
       flex-direction: column;
       gap: 1rem;
+    }
+
+    .mars-who-section {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
     }
 
     .mars-header {

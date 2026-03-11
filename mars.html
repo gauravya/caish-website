@@ -61,10 +61,6 @@
     .mosaic-col img{width:100%;height:auto;object-fit:cover;border-radius:8px;aspect-ratio:4/3}
     .mars-hero-header .label{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:#7e4233;font-weight:700;margin-bottom:1rem;display:block}
     .mars-hero-summary{font-size:1rem;line-height:1.8;color:#4a4a4a;max-width:60ch;margin-bottom:2rem}
-    .mars-hero-features{display:flex;gap:2.5rem;margin-bottom:0.5rem}
-    .mars-hero-feature{display:flex;flex-direction:column;gap:0.25rem}
-    .mars-hero-feature-label{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:#8a8a8a}
-    .mars-hero-feature-value{font-family:'Libre Baskerville',Georgia,serif;font-size:0.9rem;color:#1a1a1a}
     .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
     p{font-size:0.95rem;max-width:52ch;color:#4a4a4a}
     .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
@@ -75,7 +71,7 @@
     body.has-banner .mars-hero-header{padding-top:calc(7rem + 2.2rem)}
     .btn-primary{display:inline-block;padding:0.75rem 2rem;background:#1a1a1a;color:#fefefe;font-family:'Space Mono',monospace;font-size:0.8rem;text-decoration:none;border-radius:6px}
     .nav-toggle{display:none}
-    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.mars-hero-header{padding:5.5rem 1.5rem 2rem;grid-template-columns:1fr}.mars-hero-mosaic{height:220px;margin-top:0.5rem}.mars-hero-features{flex-direction:column;gap:1rem}}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.mars-hero-header{padding:5.5rem 1.5rem 2rem;grid-template-columns:1fr}.mars-hero-mosaic{height:220px;margin-top:0.5rem}}
   </style>
 
   <!-- Styles (async) -->
@@ -136,22 +132,8 @@
   <section class="mars-hero-header" id="main-content">
     <div class="mars-hero-inner">
       <span class="label">MARS V</span>
-      <h1>Mentorship for Alignment Researchers</h1>
-      <p class="mars-hero-summary">A 3-month part-time programme where teams of 2&ndash;4 work on producing a published output. We provide a kick-off week in Cambridge, compute, and research management.</p>
-      <div class="mars-hero-features">
-        <div class="mars-hero-feature">
-          <span class="mars-hero-feature-label">Kick-off</span>
-          <span class="mars-hero-feature-value">1 week in Cambridge</span>
-        </div>
-        <div class="mars-hero-feature">
-          <span class="mars-hero-feature-label">Remote phase</span>
-          <span class="mars-hero-feature-value">8&ndash;12 weeks</span>
-        </div>
-        <div class="mars-hero-feature">
-          <span class="mars-hero-feature-label">Output</span>
-          <span class="mars-hero-feature-value">Published research</span>
-        </div>
-      </div>
+      <h1>Publish AI safety research in 3 months</h1>
+      <p class="mars-hero-summary">Teams of 2&ndash;4 work with experienced mentors to produce published research. We provide a kick-off week in Cambridge, compute, and research management. Alumni go on to programmes like MATS and LASR Labs, and roles at organisations like Anthropic, Apollo Research, and AISI.</p>
       <div class="btn-wrapper" style="margin-top: 1.5rem;">
         <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagdOMbNzconNqm6i/form" target="_blank" rel="noopener">Express Interest</a>
       </div>
@@ -175,39 +157,52 @@
 
       <div class="divider"><div class="divider-line"></div></div>
 
+      <div class="mars-who-section">
+        <div class="mars-who-text">
+          <h2>Who we&rsquo;re looking for</h2>
+          <p>We welcome people with technical backgrounds&mdash;ML, CS, mathematics, physics, cybersecurity&mdash;and those from governance-relevant fields like law, policy, and international relations.</p>
+          <p>We especially want to hear from people making a career transition into AI safety. If you&rsquo;re committed to the field and ready to invest in a serious project, MARS is designed for you. Prior exposure through the Alignment Fellowship, Bluedot, or similar programmes is helpful but not required.</p>
+        </div>
+        <div class="mars-who-image">
+          <img src="/images/meridian-5.jpg" alt="MARS participants collaborating" loading="lazy" decoding="async">
+        </div>
+      </div>
+
+      <div class="divider"><div class="divider-line"></div></div>
+
       <h2>How it works</h2>
 
       <div class="timeline-container">
         <p class="timeline-hint">Select a step to view details.</p>
         <div class="timeline-scroll">
           <div class="timeline-track">
-            <button class="timeline-point" data-step="0" data-title="Who we're looking for" data-content="We welcome students and professionals with backgrounds in technical fields (ML, CS, cybersecurity, mathematics, physics, biology) or governance-relevant disciplines (law, international relations, public policy, political science, economics). Some prior exposure to AI safety, whether through the Alignment Fellowship, Bluedot, or similar programs, is helpful. Some projects may require specific technical skills or research experience, so check individual mentor listings for details. If a project excites you, we'd love to see you apply.">
-              <span class="timeline-number">0</span>
-              <span class="timeline-label">Who we're<br>looking for</span>
-            </button>
-            <span class="timeline-connector"></span>
-            <button class="timeline-point" data-step="1" data-title="Applying" data-content="You'll apply to work with a specific mentor on a research question. We review applications alongside the mentor, and if you're a strong fit, there may be a short interview. Once accepted, we'll help arrange travel to Cambridge for the kickoff week.">
+            <button class="timeline-point" data-step="1" data-title="Application" data-content="You'll apply to work with a specific mentor on a research question. We review applications alongside the mentor, and if you're a strong fit, there may be a short interview. Once accepted, we'll help arrange travel to Cambridge for the kickoff week.">
               <span class="timeline-number">1</span>
-              <span class="timeline-label">Applying</span>
+              <span class="timeline-label">Application</span>
             </button>
             <span class="timeline-connector"></span>
-            <button class="timeline-point" data-step="2" data-title="Kickoff" data-content="One week in Cambridge with your mentor, fellow participants, and the CAISH team. You'll scope your research project, build momentum, and leave with a clear direction and the relationships to sustain it.">
+            <button class="timeline-point" data-step="2" data-title="Prework" data-content="2&ndash;4 weeks before the kick-off, you'll meet your team, scope out your project in detail, and assign what you'll tackle during the kick-off week. The goal: arrive in Cambridge ready to hit the ground running so the in-person time is spent making real progress, not just planning.">
               <span class="timeline-number">2</span>
-              <span class="timeline-label">Kickoff</span>
+              <span class="timeline-label">Prework</span>
+            </button>
+            <span class="timeline-connector" data-duration="2-4 weeks"></span>
+            <button class="timeline-point" data-step="3" data-title="Kick-off week" data-content="One week in Cambridge with your mentor, fellow participants, and the CAISH team. Because you've already scoped the project and know your team, this week is about building momentum&mdash;making a serious start on the research and leaving with real results.">
+              <span class="timeline-number">3</span>
+              <span class="timeline-label">Kick-off<br>week</span>
             </button>
             <span class="timeline-connector" data-duration="1 week"></span>
-            <button class="timeline-point" data-step="3" data-title="Remote phase" data-content="You'll continue working remotely, around 8 hours per week, with regular check-ins from your mentor and a research manager. We will cover compute costs for your project.">
-              <span class="timeline-number">3</span>
+            <button class="timeline-point" data-step="4" data-title="Remote phase" data-content="You'll continue working remotely, around 8 hours per week, with regular check-ins from your mentor and a research manager. We will cover compute costs for your project.">
+              <span class="timeline-number">4</span>
               <span class="timeline-label">Remote phase</span>
             </button>
             <span class="timeline-connector" data-duration="8-12 weeks"></span>
-            <button class="timeline-point" data-step="4" data-title="Final output" data-content="At the end of the programme, you'll present your work. We expect a concrete output: a paper, blog post, or other form that shares your research with the field.">
-              <span class="timeline-number">4</span>
+            <button class="timeline-point" data-step="5" data-title="Final output" data-content="At the end of the programme, you'll present your work. We expect a concrete output: a paper, blog post, or other form that shares your research with the field.">
+              <span class="timeline-number">5</span>
               <span class="timeline-label">Final output</span>
             </button>
             <span class="timeline-connector"></span>
-            <button class="timeline-point" data-step="5" data-title="What comes next" data-content="We provide career support for full-time AI safety roles. Strong participants are invited to apply for Meridian's visiting researcher programme or accelerator week, where you can seek grants to continue your work.">
-              <span class="timeline-number">5</span>
+            <button class="timeline-point" data-step="6" data-title="What comes next" data-content="We provide career support for full-time AI safety roles. Strong participants go on to programmes like MATS and LASR Labs, or are invited to apply for Meridian's visiting researcher programme or accelerator week, where you can seek grants to continue your work.">
+              <span class="timeline-number">6</span>
               <span class="timeline-label">What comes<br>next</span>
             </button>
           </div>
