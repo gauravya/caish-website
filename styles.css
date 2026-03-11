@@ -2065,6 +2065,10 @@
     margin-bottom: 0;
   }
   
+  .mars-mobile-hue {
+    display: none;
+  }
+
   /* MARS Page */
   .mars-hero-image {
     width: 100%;
@@ -3600,6 +3604,18 @@
 
     .expectations-note {
       white-space: normal;
+    }
+
+    .mars-mobile-hue {
+      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle at top left, rgba(126, 66, 51, 0.08) 0%, rgba(126, 66, 51, 0.03) 40%, transparent 70%);
+      pointer-events: none;
+      z-index: 99;
     }
 
     .mars-hero-header {
