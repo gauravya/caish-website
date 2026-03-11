@@ -34,7 +34,6 @@
   <!-- Preload critical resources -->
   <link rel="preload" href="/styles.css?v=d9e21637" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
-  <link rel="preload" href="/images/hero-min.png" as="image" fetchpriority="high">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
 
@@ -53,14 +52,25 @@
     .logo{height:32px;opacity:0.9}
     .nav-links{display:flex;gap:2.5rem;list-style:none}
     .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
-    .mars-hero-image{width:100%;padding:5rem 2.5rem 0}
-    .mars-hero-image img{width:100%;max-width:1000px;max-height:500px;object-fit:cover;display:block;margin:0 auto;border-radius:0}
-    .page-header{max-width:1000px;margin:0 auto;padding:1rem 2.5rem 0}
+    .mars-hero-header{max-width:1000px;margin:0 auto;padding:7rem 2.5rem 2.5rem}
+    .mars-hero-inner{max-width:700px}
+    .mars-hero-header .label{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:#7e4233;font-weight:700;margin-bottom:1rem;display:block}
+    .mars-hero-summary{font-size:1rem;line-height:1.8;color:#4a4a4a;max-width:60ch;margin-bottom:2rem}
+    .mars-hero-features{display:flex;gap:2.5rem;margin-bottom:0.5rem}
+    .mars-hero-feature{display:flex;flex-direction:column;gap:0.25rem}
+    .mars-hero-feature-label{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:#8a8a8a}
+    .mars-hero-feature-value{font-family:'Libre Baskerville',Georgia,serif;font-size:0.9rem;color:#1a1a1a}
     .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
     p{font-size:0.95rem;max-width:52ch;color:#4a4a4a}
     .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .announcement-banner{background:#1a1a1a;color:#fefefe;text-align:center;padding:0.6rem 1rem;font-size:0.8rem;position:fixed;top:0;left:0;right:0;z-index:101}
+    .announcement-banner p{margin:0;color:#fefefe;font-size:0.8rem;max-width:none}
+    .announcement-banner a{color:#fefefe;text-decoration:none;border-bottom:0}
+    body.has-banner nav{top:2.2rem}
+    body.has-banner .mars-hero-header{padding-top:calc(7rem + 2.2rem)}
+    .btn-primary{display:inline-block;padding:0.75rem 2rem;background:#1a1a1a;color:#fefefe;font-family:'Space Mono',monospace;font-size:0.8rem;text-decoration:none;border-radius:6px}
     .nav-toggle{display:none}
-    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.mars-hero-image{padding:4rem 1.5rem 0}.mars-hero-image img{max-height:250px}}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.mars-hero-header{padding:5.5rem 1.5rem 2rem}.mars-hero-features{flex-direction:column;gap:1rem}}
   </style>
 
   <!-- Styles (async) -->
@@ -78,8 +88,11 @@
     }
   </script>
 </head>
-<body>
+<body class="has-banner">
   <a href="#main-content" class="skip-link">Skip to main content</a>
+  <div class="announcement-banner">
+    <p>MARS V Mentee and Mentor EOI open &mdash; <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagdOMbNzconNqm6i/form" target="_blank" rel="noopener">Express interest &rarr;</a></p>
+  </div>
   <nav>
     <div class="nav-inner">
       <a href="/" aria-label="Home">
@@ -114,19 +127,34 @@
 
   <div class="ambient-glow" aria-hidden="true"></div>
   <main>
-  <div class="mars-hero-image" id="main-content">
-    <img src="/images/hero.png" alt="MARS programme participants during kickoff week" loading="eager" fetchpriority="high" decoding="async" width="1200" height="600">
-  </div>
 
-  <section class="page-header mars-header">
-    <h1>MARS Programme</h1>
-    <p class="mars-tagline"><em>Mentorship for Alignment Researchers</em></p>
+  <section class="mars-hero-header" id="main-content">
+    <div class="mars-hero-inner">
+      <span class="label">MARS V</span>
+      <h1>Mentorship for Alignment Researchers</h1>
+      <p class="mars-hero-summary">A 3-month part-time programme where teams of 2&ndash;4 work on producing a published output. We provide a kick-off week in Cambridge, compute, and research management.</p>
+      <div class="mars-hero-features">
+        <div class="mars-hero-feature">
+          <span class="mars-hero-feature-label">Kick-off</span>
+          <span class="mars-hero-feature-value">1 week in Cambridge</span>
+        </div>
+        <div class="mars-hero-feature">
+          <span class="mars-hero-feature-label">Remote phase</span>
+          <span class="mars-hero-feature-value">8&ndash;12 weeks</span>
+        </div>
+        <div class="mars-hero-feature">
+          <span class="mars-hero-feature-label">Output</span>
+          <span class="mars-hero-feature-value">Published research</span>
+        </div>
+      </div>
+      <div class="btn-wrapper" style="margin-top: 1.5rem;">
+        <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagdOMbNzconNqm6i/form" target="_blank" rel="noopener">Express Interest</a>
+      </div>
+    </div>
   </section>
 
   <section class="mars-section">
     <div class="mars-content">
-
-      <p>MARS is a research programme that pairs aspiring AI safety researchers with experienced mentors into teams. The programme has a kick-off week in Cambridge (accommodation and meals provided) where you'll meet your cohort, attend talks and workshops, and make substantial progress on your project. From there you and your team will carry out 8-12 weeks of remote research, culminating in publications.</p>
 
       <div class="divider"><div class="divider-line"></div></div>
 
@@ -172,8 +200,8 @@
 
       <div class="divider"><div class="divider-line"></div></div>
 
-      <h2>Mentors from MARS 4</h2>
-      <p>Our mentees have worked with researchers from leading AI safety organisations and academia.</p>
+      <h2>Our Mentors</h2>
+      <p>Mentees are paired with experienced researchers from leading AI safety organisations and academia. Previous MARS mentors include:</p>
       
       <div class="mentors-grid">
         <div class="mentor">
@@ -253,12 +281,48 @@
 
       <div class="divider"><div class="divider-line"></div></div>
 
+      <h2>Where Our Alumni Work</h2>
+      <p>MARS participants have gone on to roles at leading AI safety organisations.</p>
+      <div class="alumni-orgs">
+        <div class="alumni-orgs-track">
+          <span class="alumni-org-item">Apollo Research</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">LASR Labs</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">MATS</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">AISI</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">Geodesic Research</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">Anthropic</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">Gray Swan</span>
+          <!-- duplicate set for continuous scroll -->
+          <span class="alumni-org-item">Apollo Research</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">LASR Labs</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">MATS</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">AISI</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">Geodesic Research</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">Anthropic</span>
+          <span class="alumni-org-separator">&middot;</span>
+          <span class="alumni-org-item">Gray Swan</span>
+        </div>
+      </div>
+
+      <div class="divider"><div class="divider-line"></div></div>
+
       <h2>Research from MARS</h2>
       
       <div class="research-grid">
         <a href="https://arxiv.org/pdf/2406.11779" target="_blank" rel="noopener" class="research-card">
           <div class="research-header">
-            <span class="research-cohort">MARS 1.0</span>
+            <span class="research-cohort">MARS I</span>
             <span class="research-type">Paper</span>
           </div>
           <h4>Compact Proofs of Model Performance via Mechanistic Interpretability</h4>
@@ -266,7 +330,7 @@
         </a>
         <a href="https://arxiv.org/pdf/2512.07667" target="_blank" rel="noopener" class="research-card">
           <div class="research-header">
-            <span class="research-cohort">MARS 3.0</span>
+            <span class="research-cohort">MARS III</span>
             <span class="research-type">Paper</span>
           </div>
           <h4>Depth-Wise Activation Steering for Honest Language Models</h4>
@@ -274,7 +338,7 @@
         </a>
         <a href="https://openreview.net/pdf?id=hVR3023UP2" target="_blank" rel="noopener" class="research-card">
           <div class="research-header">
-            <span class="research-cohort">MARS 3.0</span>
+            <span class="research-cohort">MARS III</span>
             <span class="research-type">Paper</span>
           </div>
           <h4>Combining Cost-Constrained Runtime Monitors for AI Safety</h4>
@@ -283,31 +347,6 @@
         </a>
       </div>
       <a href="/research" class="view-all-link">View all research</a>
-
-<!--
-      <h2>Alumni Spotlights</h2>
-      
-      <div class="alumni-grid">
-        <div class="alumni">
-          <div class="alumni-photo"></div>
-          <div class="alumni-content">
-            <h4>Alumni Name</h4>
-            <p class="alumni-role">Research Engineer at Anthropic</p>
-            <p class="alumni-quote">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. The MARS programme helped me transition into AI safety research and connected me with mentors who shaped my career."</p>
-            <p class="alumni-cohort">MARS 2.0</p>
-          </div>
-        </div>
-        <div class="alumni">
-          <div class="alumni-photo"></div>
-          <div class="alumni-content">
-            <h4>Alumni Name</h4>
-            <p class="alumni-role">PhD Student at Oxford</p>
-            <p class="alumni-quote">"Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Working with my mentor gave me the confidence to pursue AI safety research full-time."</p>
-            <p class="alumni-cohort">MARS 3.0</p>
-          </div>
-        </div>
-      </div>
--->
 
       <div class="divider"><div class="divider-line"></div></div>
 
@@ -367,11 +406,10 @@
       </div>
 
       <div class="mars-application">
-        <h2>MARS 5.0</h2>
-        <p class="application-notice">Applications open soon.</p>
-        <p>Sign up to be notified when applications open for the next cohort.</p>
+        <h2>MARS V</h2>
+        <p>Expressions of interest are now open for both mentees and mentors.</p>
         <div class="btn-wrapper">
-          <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagdOMbNzconNqm6i/form" target="_blank" rel="noopener">Expression of Interest</a>
+          <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagdOMbNzconNqm6i/form" target="_blank" rel="noopener">Express Interest</a>
         </div>
       </div>
     </div>
