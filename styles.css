@@ -2034,6 +2034,10 @@
     max-width: var(--max-width);
     margin: 0 auto;
     padding: 7rem 2.5rem 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
   }
 
   .mars-hero-inner {
@@ -2086,6 +2090,39 @@
     font-family: var(--font-serif);
     font-size: 0.9rem;
     color: var(--black);
+  }
+
+  /* MARS Hero Mosaic */
+  .mars-hero-mosaic {
+    display: flex;
+    gap: 0.75rem;
+    height: 420px;
+    overflow: hidden;
+    border-radius: 12px;
+  }
+
+  .mosaic-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .mosaic-col-1 {
+    transform: translateY(-15%);
+  }
+
+  .mosaic-col-2 {
+    transform: translateY(-5%);
+  }
+
+  .mosaic-col img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    aspect-ratio: 4 / 3;
   }
 
   .mars-header {
@@ -3384,6 +3421,12 @@
 
     .mars-hero-header {
       padding: 5.5rem 1.5rem 2rem;
+      grid-template-columns: 1fr;
+    }
+
+    .mars-hero-mosaic {
+      height: 220px;
+      margin-top: 0.5rem;
     }
 
     .mars-hero-features {
