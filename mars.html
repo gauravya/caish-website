@@ -52,13 +52,13 @@
     .logo{height:32px;opacity:0.9}
     .nav-links{display:flex;gap:2.5rem;list-style:none}
     .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
-    .mars-hero-header{max-width:1000px;margin:0 auto;padding:7rem 2.5rem 1rem;display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
-    .mars-hero-inner{max-width:700px}
-    .mars-hero-mosaic{display:flex;gap:0.75rem;height:420px;overflow:hidden;border-radius:12px}
-    .mosaic-col{display:flex;flex-direction:column;gap:0.75rem;flex:1;min-width:0}
-    .mosaic-col-1{transform:translateY(-15%)}
-    .mosaic-col-2{transform:translateY(-5%)}
-    .mosaic-col img{width:100%;height:auto;object-fit:cover;border-radius:8px;aspect-ratio:4/3}
+    .mars-hero-header{max-width:1000px;margin:0 auto;padding:7rem 2.5rem 1rem;align-items:center}
+    .mars-hero-header--centered{display:block;text-align:center}
+    .mars-hero-header--centered .mars-hero-inner{max-width:650px;margin:0 auto}
+    .mars-hero-header--centered .mars-hero-summary{margin-left:auto;margin-right:auto}
+    .mars-hero-header--centered .mars-hero-buttons{justify-content:center}
+    .mars-hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:880px;margin:0 auto;padding:0 2.5rem}
+    .mars-hero-grid img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;border-radius:3px}
     .mars-hero-header .label{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:#7e4233;font-weight:700;margin-bottom:1rem;display:block}
     .mars-hero-summary{font-size:1rem;line-height:1.8;color:#4a4a4a;max-width:60ch;margin-bottom:2rem}
     .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
@@ -71,7 +71,7 @@
     body.has-banner .mars-hero-header{padding-top:calc(7rem + 2.2rem)}
     .btn-primary{display:inline-block;padding:0.75rem 2rem;background:#1a1a1a;color:#fefefe;font-family:'Space Mono',monospace;font-size:0.8rem;text-decoration:none;border-radius:6px}
     .nav-toggle{display:none}
-    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.mars-hero-header{padding:5.5rem 1.5rem 2rem;grid-template-columns:1fr}.mars-hero-mosaic{height:220px;margin-top:0.5rem}}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.mars-hero-header{padding:5.5rem 1.5rem 2rem}.mars-hero-grid{grid-template-columns:repeat(3,1fr);padding:0 1.5rem;gap:3px}.mars-hero-grid img:nth-child(n+7){display:none}}
   </style>
 
   <!-- Styles (async) -->
@@ -126,7 +126,7 @@
   <div class="ambient-glow" aria-hidden="true"></div>
   <main>
 
-  <section class="mars-hero-header" id="main-content">
+  <section class="mars-hero-header mars-hero-header--centered" id="main-content">
     <div class="mars-hero-inner">
       <h1>MARS V</h1>
       <p class="mars-hero-summary">A part-time programme where teams of 2&ndash;4 work with experienced mentors to produce published research. We provide a kick-off week in Cambridge, compute, and research management.</p>
@@ -135,21 +135,19 @@
         <a class="btn-primary btn-secondary" href="https://airtable.com/appTWateAQcC3Av4v/pagkVL5IjDuYfO5wL/form" target="_blank" rel="noopener">Mentor Application</a>
       </div>
     </div>
-    <div class="mars-hero-mosaic" aria-hidden="true">
-      <div class="mosaic-col mosaic-col-1">
-        <img src="/images/meridian-11.jpg" alt="" loading="eager" decoding="async" width="400" height="300">
-        <img src="/images/meridian-12.jpg" alt="" loading="eager" decoding="async" width="400" height="300">
-        <img src="/images/meridian-9.jpg" alt="" loading="eager" decoding="async" width="400" height="300">
-        <img src="/images/meridian-8.jpg" alt="" loading="eager" decoding="async" width="400" height="300">
-        <img src="/images/meridian-10.jpg" alt="" loading="eager" decoding="async" width="400" height="300">
-      </div>
-      <div class="mosaic-col mosaic-col-2">
-        <img src="/images/meridian-14.jpg" alt="" loading="eager" decoding="async" width="400" height="300">
-        <img src="/images/meridian-17.jpg" alt="" loading="eager" decoding="async" width="400" height="300">
-        <img src="/images/meridian-16.jpg" alt="" loading="eager" decoding="async" width="400" height="300">
-      </div>
-    </div>
   </section>
+
+  <div class="mars-hero-grid" aria-hidden="true">
+    <img src="/images/meridian-9.jpg" alt="" loading="eager" decoding="async">
+    <img src="/images/meridian-11.jpg" alt="" loading="eager" decoding="async">
+    <img src="/images/meridian-17.jpg" alt="" loading="eager" decoding="async">
+    <img src="/images/meridian-8.jpg" alt="" loading="eager" decoding="async">
+    <img src="/images/meridian-15.jpg" alt="" loading="eager" decoding="async">
+    <img src="/images/meridian-10.jpg" alt="" loading="eager" decoding="async">
+    <img src="/images/meridian-14.jpg" alt="" loading="eager" decoding="async">
+    <img src="/images/meridian-12.jpg" alt="" loading="eager" decoding="async">
+    <img src="/images/meridian-16.jpg" alt="" loading="eager" decoding="async">
+  </div>
 
   <section class="mars-section">
     <div class="mars-content">
@@ -311,7 +309,7 @@
 
       <div class="divider"><div class="divider-line"></div></div>
 
-      <h2>Where Our Alumni Work</h2>
+      <h2>Where Our Alumni Go Next</h2>
       <div class="alumni-orgs">
         <div class="alumni-orgs-track">
           <div class="alumni-org-logo"><img src="images/apollo.png" alt="Apollo Research"></div>
@@ -332,8 +330,8 @@
           <p>We welcome students and professionals with technical backgrounds in ML, CS, mathematics, physics, or cybersecurity, and those from governance-relevant fields like law, policy, and international relations.</p>
           <p>We especially want to hear from people making a career transition into AI safety. If you&rsquo;re ready to invest in a serious project, MARS is designed for you. Prior exposure through the Alignment Fellowship, Bluedot, or similar programmes is helpful but not required.</p>
         </div>
-        <div class="mars-who-image">
-          <img src="/images/meridian-13.jpg" alt="MARS participants collaborating" loading="lazy" decoding="async">
+        <div class="mars-who-image" aria-hidden="true">
+          <img src="/images/meridian-13.jpg" alt="" loading="lazy" decoding="async">
         </div>
       </div>
 
