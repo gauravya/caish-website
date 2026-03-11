@@ -1572,7 +1572,32 @@
   .btn-primary:hover::after {
     opacity: 1;
   }
-  
+
+  .btn-primary.btn-secondary {
+    background: transparent;
+    color: var(--black);
+    border: 1px solid var(--light-grey);
+    box-shadow: none;
+  }
+
+  .btn-primary.btn-secondary::before,
+  .btn-primary.btn-secondary::after {
+    display: none;
+  }
+
+  .btn-primary.btn-secondary:hover {
+    background: var(--cream);
+    border-color: var(--mid-grey);
+    box-shadow: none;
+  }
+
+  .mars-application .btn-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
   .fellowship-block h2 {
     margin-bottom: 1rem;
   }
@@ -3039,28 +3064,78 @@
   .mars-application {
     margin-top: 3rem;
     margin-bottom: 1rem;
-    padding: 2rem 2.5rem 2.25rem;
+    padding: 2.5rem;
     border: 1px solid var(--light-grey);
     clear: both;
     text-align: center;
     border-radius: 12px;
+    background: linear-gradient(135deg, rgba(244,243,239,0.6), rgba(255,255,255,0.9));
   }
-  
+
   .mars-application h2 {
     margin-top: 0;
-    margin-bottom: 0.5rem;
+    margin-bottom: 2rem;
+    font-size: clamp(1.4rem, 2.5vw, 1.8rem);
   }
-  
+
+  .mars-application p {
+    margin-bottom: 1.5rem;
+    max-width: 100%;
+  }
+
+  .mars-cta-stats {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr;
+    align-items: center;
+    margin: 0 0 2rem;
+  }
+
+  .mars-cta-stats-divider {
+    width: 1px;
+    height: 3rem;
+    background: var(--light-grey);
+  }
+
+  .mars-cta-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .mars-cta-stat-value {
+    font-family: var(--font-serif);
+    font-size: 1.5rem;
+    color: var(--dark);
+    line-height: 1.1;
+  }
+
+  .mars-cta-stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--mid-grey);
+  }
+
+  @media (max-width: 600px) {
+    .mars-cta-stats {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+    .mars-cta-stats-divider {
+      display: none;
+    }
+    .mars-application {
+      padding: 2rem 1.5rem;
+    }
+  }
+
   .application-notice {
     font-size: 1rem;
     font-weight: 600;
     color: var(--black);
     margin-bottom: 1rem;
-  }
-  
-  .mars-application p {
-    margin-bottom: 1.5rem;
-    max-width: 100%;
   }
 
   .modal-open {
