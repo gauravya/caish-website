@@ -17,13 +17,12 @@
   <script src="https://accounts.google.com/gsi/client" async></script>
 
   <!-- Early fetch: start loading availability data BEFORE CSS/fonts load.
-       For direct links (/gaurav, /justin, /both), we know the person and
-       can compute the dates immediately. For /calendar, prefetch all three. -->
+       Only do this when we already know the host (direct link, query param,
+       or remembered selection after OAuth), otherwise wait for selection. -->
   <script>
   // Early fetch: fire requests BEFORE CSS/fonts load.
   // Split into two waves: visible week first (fast), rest in background.
   window.__earlyFetch = null;     // { pri: Promise, bg: Promise, who, mins }
-  window.__earlyFetchAll = null;  // { gaurav: {...}, justin: {...}, both: {...} }
   (function() {
     var path = location.pathname.replace(/\/$/, '').toLowerCase();
     var who = null;
@@ -34,6 +33,12 @@
       var p = new URLSearchParams(location.search);
       var w = p.get('who');
       if (w && (w === 'gaurav' || w === 'justin' || w === 'both')) who = w;
+      if (!who) {
+        try {
+          var saved = sessionStorage.getItem('caish_who');
+          if (saved && (saved === 'gaurav' || saved === 'justin' || saved === 'both')) who = saved;
+        } catch (_) {}
+      }
     }
     var today = new Date(); today.setHours(0,0,0,0);
     var dates = [];
@@ -69,22 +74,13 @@
       };
     }
 
-    if (who) {
-      window.__earlyFetch = {
-        who: who, mins: 30,
-        pri: fireFetch(week1)(who),
-        bg:  fireFetch(rest)(who)
-      };
-    } else {
-      window.__earlyFetchAll = {};
-      ['gaurav', 'justin', 'both'].forEach(function(w) {
-        window.__earlyFetchAll[w] = {
-          who: w, mins: 30,
-          pri: fireFetch(week1)(w),
-          bg:  fireFetch(rest)(w)
-        };
-      });
-    }
+    if (!who) return;
+
+    window.__earlyFetch = {
+      who: who, mins: 30,
+      pri: fireFetch(week1)(who),
+      bg:  fireFetch(rest)(who)
+    };
   })();
   </script>
 
@@ -294,6 +290,41 @@
       flex: 1; min-height: 0;
     }
 
+    .wv-legend {
+      display: flex; align-items: center; gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.75rem;
+      font-size: 0.62rem; color: var(--muted);
+    }
+    .wv-legend-chip {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      white-space: nowrap;
+    }
+    .wv-legend-swatch {
+      width: 14px; height: 14px; border-radius: 4px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .wv-legend-swatch.free {
+      background: var(--white);
+      border-color: rgba(126, 66, 51, 0.28);
+    }
+    .wv-legend-swatch.busy {
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 4px,
+          rgba(0,0,0,0.04) 4px,
+          rgba(0,0,0,0.04) 5px
+        ),
+        var(--surface);
+    }
+    .wv-legend-swatch.overlay {
+      background: rgba(66, 133, 244, 0.13);
+      border-left: 2.5px solid rgba(66, 133, 244, 0.55);
+    }
+
     .wv-nav {
       display: flex; align-items: center;
       justify-content: space-between;
@@ -395,10 +426,32 @@
     .wv-cell.free.band-top .wv-cell-time {
       display: block;
     }
+    .wv-cell.busy.band-top .wv-cell-status {
+      display: block;
+    }
+    .wv-cell.error {
+      background: rgba(192, 57, 43, 0.06);
+    }
+    .wv-cell.error.band-top {
+      border-top: 2px solid #c0392b;
+    }
+    .wv-cell.error.band-top .wv-cell-status {
+      display: block;
+      color: #c0392b;
+    }
     .wv-cell-time {
       display: none;
       font-size: 0.56rem; font-family: var(--mono);
       color: var(--red); padding: 2px 4px;
+      pointer-events: none;
+    }
+    .wv-cell-status {
+      display: none;
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 2px 4px;
       pointer-events: none;
     }
 
@@ -757,6 +810,11 @@
               </button>
             </div>
             <div class="wv-wrap">
+              <div class="wv-legend" aria-label="Calendar legend">
+                <span class="wv-legend-chip"><span class="wv-legend-swatch free" aria-hidden="true"></span>Available to book</span>
+                <span class="wv-legend-chip"><span class="wv-legend-swatch busy" aria-hidden="true"></span>Booked or unavailable</span>
+                <span class="wv-legend-chip"><span class="wv-legend-swatch overlay" aria-hidden="true"></span>Your Google Calendar</span>
+              </div>
               <div class="wv-nav">
                 <button class="cal-btn" id="wv-prev" aria-label="Previous week">&#8249;</button>
                 <h2 class="wv-title" id="wv-title"></h2>
@@ -767,6 +825,7 @@
                 <div class="wv-body" id="wv-body"></div>
               </div>
             </div>
+            <div class="form-error hidden" id="schedule-err" role="alert"></div>
             <p class="tz" id="tz-label">All times in UK time (GMT / BST)</p>
           </div>
 
@@ -1178,8 +1237,7 @@
    *  New version. The Web App URL stays the same.
    * ================================================================== */
   const CONFIG = {
-    gasUrl:      'https://script.google.com/macros/s/AKfycbx3I6JmcW33pQ3LtUxYtJAL7tBCRns3jGKpDjHybLQj2PUHrEGqOTYmBwsujCASDzk/exec',
-    meetingMins: 30,
+    gasUrl: 'https://script.google.com/macros/s/AKfycbx3I6JmcW33pQ3LtUxYtJAL7tBCRns3jGKpDjHybLQj2PUHrEGqOTYmBwsujCASDzk/exec',
   };
 
   /* Google Calendar overlay — visitors can overlay their own calendar.
@@ -1311,6 +1369,37 @@
     } catch { return 'Times shown in your local timezone'; }
   }
 
+  function selectedSlotRange() {
+    const start = ukSlotToDate(S.date, S.slot.h, S.slot.m);
+    const end = new Date(start.getTime() + S.duration * 60000);
+    return { start, end };
+  }
+
+  function setScheduleErr(msg) {
+    const el = $('schedule-err');
+    el.textContent = msg;
+    el.classList.toggle('hidden', !msg);
+  }
+
+  function refreshScheduleErr() {
+    if (!S.weekStart || !S.who) {
+      setScheduleErr('');
+      return;
+    }
+
+    const hasVisibleError = getWeekDates(S.weekStart).some(d => {
+      const key = `${dsStr(d)}_${S.duration}_${S.who}`;
+      const entry = SLOT_CACHE[key];
+      return entry && entry.error;
+    });
+
+    setScheduleErr(
+      hasVisibleError
+        ? 'Live availability could not be loaded for part of this week. Please try again in a moment.'
+        : ''
+    );
+  }
+
   /* ── Info panel update ──────────────────────────── */
   function updateInfoPanel(who) {
     $('info-names').textContent = HOST_LABELS[who];
@@ -1402,16 +1491,25 @@
     weekDates.forEach(d => {
       const ds = dsStr(d);
       const key = `${ds}_${S.duration}_${S.who}`;
-      const slots = cacheGet(key);
+      const entry = cacheGetEntry(key);
+      const slots = entry ? entry.slots : null;
       const set = new Set();
       if (slots) {
         slots.forEach(sl => set.add(`${sl.h}:${sl.m}`));
       }
-      daySlotSets[ds] = { slots, set };
+      daySlotSets[ds] = { slots, set, error: entry && entry.error ? entry.error : null };
     });
 
     // Body
     let bodyHtml = '';
+
+    function hasSlotInWindow(slots, hour, minute) {
+      return slots.some(sl => {
+        const slMin = sl.h * 60 + sl.m;
+        return slMin >= hour * 60 + minute && slMin < hour * 60 + minute + 30;
+      });
+    }
+
     for (let row = 0; row < WV_ROWS; row++) {
       const h = WV_START_HOUR + Math.floor(row / 2);
       const m = (row % 2) * 30;
@@ -1440,12 +1538,17 @@
           return;
         }
 
+        if (info.error) {
+          let cls = `wv-cell${isHalf ? ' wv-half' : ''} error`;
+          if (row === 0) cls += ' band-top';
+          bodyHtml += `<div class="${cls}" aria-hidden="true">
+            <span class="wv-cell-status">Error</span>
+          </div>`;
+          return;
+        }
+
         // Check if any slot exists in this 30-min window
-        const isFree = info.set.has(`${h}:${m}`) ||
-          info.slots.some(sl => {
-            const slMin = sl.h * 60 + sl.m;
-            return slMin >= h * 60 + m && slMin < h * 60 + m + 30;
-          });
+        const isFree = info.set.has(`${h}:${m}`) || hasSlotInWindow(info.slots, h, m);
 
         if (isFree) {
           // Find the first available slot in this 30-min window
@@ -1464,11 +1567,7 @@
           if (row > 0) {
             const prevH = WV_START_HOUR + Math.floor((row - 1) / 2);
             const prevM = ((row - 1) % 2) * 30;
-            const prevFree = info.set.has(`${prevH}:${prevM}`) ||
-              info.slots.some(sl => {
-                const slMin = sl.h * 60 + sl.m;
-                return slMin >= prevH * 60 + prevM && slMin < prevH * 60 + prevM + 30;
-              });
+            const prevFree = info.set.has(`${prevH}:${prevM}`) || hasSlotInWindow(info.slots, prevH, prevM);
             if (prevFree) isBandTop = false;
           }
 
@@ -1479,12 +1578,25 @@
             <span class="wv-cell-time">${label}</span>
           </div>`;
         } else {
-          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''}"></div>`;
+          let isBusyBandTop = true;
+          if (row > 0) {
+            const prevH = WV_START_HOUR + Math.floor((row - 1) / 2);
+            const prevM = ((row - 1) % 2) * 30;
+            const prevFree = info.set.has(`${prevH}:${prevM}`) || hasSlotInWindow(info.slots, prevH, prevM);
+            if (!prevFree) isBusyBandTop = false;
+          }
+
+          let cls = `wv-cell${isHalf ? ' wv-half' : ''} busy`;
+          if (isBusyBandTop) cls += ' band-top';
+          bodyHtml += `<div class="${cls}" aria-hidden="true">
+            <span class="wv-cell-status">Busy</span>
+          </div>`;
         }
       });
     }
 
     $('wv-body').innerHTML = bodyHtml;
+    refreshScheduleErr();
 
     // Click handlers
     $('wv-body').querySelectorAll('.wv-cell.free').forEach(cell => {
@@ -1500,24 +1612,50 @@
   }
 
   /* ── Fetch slots from GAS (GET ?date=…&mins=…&who=…) ── */
+  function cacheGetEntry(key) {
+    return SLOT_CACHE[key] || null;
+  }
   function cacheGet(key) {
-    const entry = SLOT_CACHE[key];
+    const entry = cacheGetEntry(key);
     if (!entry) return null;
     return entry.slots;
   }
   function cacheIsStale(key) {
-    const entry = SLOT_CACHE[key];
+    const entry = cacheGetEntry(key);
     return !entry || (Date.now() - entry.at > CACHE_TTL_MS);
   }
   function cacheSet(key, slots) {
     SLOT_CACHE[key] = { slots, at: Date.now() };
     try { localStorage.setItem(LS_PREFIX + key, JSON.stringify({ s: slots, t: Date.now() })); } catch(e) {}
   }
+  function cacheSetError(key, message) {
+    SLOT_CACHE[key] = { slots: [], at: Date.now(), error: message };
+    try { localStorage.removeItem(LS_PREFIX + key); } catch(e) {}
+  }
+
+  function applyBatchAvailability(dateStrs, data) {
+    const results = data && data.results && typeof data.results === 'object' ? data.results : {};
+    const unavailable = new Set(Array.isArray(data && data.unavailable) ? data.unavailable : []);
+    const errMsg = (data && data.e) || 'Could not load live availability.';
+
+    dateStrs.forEach(ds => {
+      if (Object.prototype.hasOwnProperty.call(results, ds) && Array.isArray(results[ds])) {
+        cacheSet(`${ds}_${S.duration}_${S.who}`, results[ds]);
+      } else {
+        unavailable.add(ds);
+      }
+    });
+
+    unavailable.forEach(ds => cacheSetError(`${ds}_${S.duration}_${S.who}`, errMsg));
+  }
 
   async function fetchSlotsFromServer(dateStr) {
     const res  = await fetch(`/api/book?date=${dateStr}&mins=${S.duration}&who=${S.who}`);
-    const data = await res.json();
-    if (!data.ok) throw new Error(data.e || 'Could not load availability.');
+    let data = null;
+    try { data = await res.json(); } catch(_) {}
+    if (!res.ok || !data || !data.ok || !Array.isArray(data.slots)) {
+      throw new Error((data && data.e) || 'Could not load live availability.');
+    }
     return data.slots;
   }
 
@@ -1570,14 +1708,12 @@
     }
 
     // Helper: consume an earlyFetch promise, cache results, re-render
-    async function consumeEarly(promise) {
+    async function consumeEarly(promise, dates) {
       if (!promise) return;
       try {
         const data = await promise;
-        if (data && data.ok && data.batch && !signal.aborted) {
-          for (const [ds, slots] of Object.entries(data.results)) {
-            cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
-          }
+        if (data && !signal.aborted) {
+          applyBatchAvailability(dates, data);
           renderWeekView();
         }
       } catch {}
@@ -1593,34 +1729,30 @@
           `/api/book?dates=${stale.join(',')}&mins=${S.duration}&who=${S.who}`,
           { signal }
         );
-        const data = await res.json();
+        let data = null;
+        try { data = await res.json(); } catch(_) {}
         if (signal.aborted) return;
-        if (data.ok && data.batch) {
-          for (const [ds, slots] of Object.entries(data.results)) {
-            cacheSet(`${ds}_${S.duration}_${S.who}`, slots);
-          }
-          renderWeekView();
+        if (!data) {
+          throw new Error('Could not load live availability.');
         }
+        applyBatchAvailability(stale, data);
+        renderWeekView();
       } catch (err) {
         if (err.name === 'AbortError') return;
+        stale.forEach(ds => cacheSetError(`${ds}_${S.duration}_${S.who}`, 'Could not load live availability.'));
+        renderWeekView();
         console.warn('Prefetch failed:', err);
       }
     }
 
     // Wave 1: visible week — consume earlyFetch priority, then fill gaps
     const ef = window.__earlyFetch;
-    const efa = window.__earlyFetchAll;
 
     if (ef && ef.who === S.who && ef.mins === S.duration) {
-      await consumeEarly(ef.pri);         // visible week first → render
+      await consumeEarly(ef.pri, visibleDates); // visible week first → render
       fetchDates(bgDates);                // background dates (don't await)
-      await consumeEarly(ef.bg);          // then earlyFetch background batch
+      await consumeEarly(ef.bg, bgDates); // then earlyFetch background batch
       window.__earlyFetch = null;
-    } else if (efa && efa[S.who]) {
-      await consumeEarly(efa[S.who].pri); // visible week first → render
-      fetchDates(bgDates);                // background dates (don't await)
-      await consumeEarly(efa[S.who].bg);  // then earlyFetchAll background batch
-      delete efa[S.who];
     } else {
       // No earlyFetch — fire two requests: visible week first
       await fetchDates(visibleDates);
@@ -1785,10 +1917,7 @@
   /* ── Google Calendar link ──────────────────────── */
   function buildCalLink(name, email, topic) {
     const host = HOST_SHORT[S.who];
-    const start = new Date(S.date);
-    start.setHours(S.slot.h, S.slot.m, 0, 0);
-    const end = new Date(start);
-    end.setMinutes(end.getMinutes() + CONFIG.meetingMins);
+    const { start, end } = selectedSlotRange();
 
     const fmt = d =>
       `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`
@@ -1886,10 +2015,7 @@
     btn.disabled = true;
     $('btn-lbl').textContent = 'Booking\u2026';
 
-    const start = new Date(S.date);
-    start.setHours(S.slot.h, S.slot.m, 0, 0);
-    const end = new Date(start);
-    end.setMinutes(end.getMinutes() + CONFIG.meetingMins);
+    const { start, end } = selectedSlotRange();
 
     S.calLink = buildCalLink(name, email, topic);
 
@@ -1934,6 +2060,7 @@
           let goBack = false;
           if (e === 'slot_taken') { msg = 'This time slot was just taken. Please pick another time.'; goBack = true; }
           else if (e === 'daily_limit') { msg = 'This day has reached its meeting limit. Please try another day.'; goBack = true; }
+          else if (e.includes('availability') || e.includes('calendar service')) msg = 'The calendar service is having trouble right now. Please try again in a moment.';
           else if (e.includes('Too many')) msg = 'Too many booking attempts. Please try again later.';
           errEl.textContent = msg;
           errEl.classList.remove('hidden');
@@ -1975,7 +2102,9 @@
     } catch(err) {
       if (err.message === '__handled__') return;
       console.error(err);
-      errEl.textContent = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
+      errEl.textContent = /availability|calendar service/i.test(err.message)
+        ? 'The calendar service is having trouble right now. Please try again in a moment.'
+        : 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
       errEl.classList.remove('hidden');
       btn.disabled = false;
       $('btn-lbl').textContent = 'Confirm booking';
@@ -2050,7 +2179,6 @@
       const mins = +btn.dataset.mins;
       if (mins === S.duration) return;
       S.duration = mins;
-      CONFIG.meetingMins = mins;
       // Cache keys include duration, so old entries stay valid for instant switch-back
       document.querySelectorAll('.dur-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');

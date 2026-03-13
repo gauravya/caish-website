@@ -38,6 +38,28 @@ function postCorsHeaders(event) {
   return h;
 }
 
+const GAS_TIMEOUT_MS = Number(process.env.GAS_TIMEOUT_MS || 10000);
+
+function parseJsonSafe(text) {
+  try { return JSON.parse(text); } catch { return null; }
+}
+
+async function fetchWithTimeout(url, options = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), GAS_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...options, signal: controller.signal });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
+function calendarServiceErrorMessage(err) {
+  return err && err.name === 'AbortError'
+    ? 'Calendar service timed out. Please try again.'
+    : 'Could not reach the calendar service. Please try again.';
+}
+
 /* ── Server-side in-memory slot cache ──────────────────────────────── */
 const _slotCache = new Map();
 const SLOT_TTL = 5 * 60 * 1000;
@@ -145,10 +167,41 @@ function isValidDateStr(s) {
 }
 
 /* ── Notify emails ─────────────────────────────────────────────────── */
-const NOTIFY_EMAILS = {
+function parseEmailList(value) {
+  if (!value) return [];
+  return String(value)
+    .split(',')
+    .map(v => v.trim())
+    .filter(Boolean);
+}
+
+function uniqueEmails(list) {
+  return [...new Set(list.map(v => v.toLowerCase()))];
+}
+
+const DEFAULT_NOTIFY_EMAILS = {
   gaurav: ['gaurav@meridiancambridge.org'],
   justin: ['justin@meridiancambridge.org'],
   both:   ['gaurav@meridiancambridge.org', 'justin@meridiancambridge.org'],
+};
+
+const GLOBAL_NOTIFY_EMAILS = parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS);
+const NOTIFY_EMAILS = {
+  gaurav: uniqueEmails([
+    ...parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS_GAURAV),
+    ...GLOBAL_NOTIFY_EMAILS,
+    ...DEFAULT_NOTIFY_EMAILS.gaurav,
+  ]),
+  justin: uniqueEmails([
+    ...parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS_JUSTIN),
+    ...GLOBAL_NOTIFY_EMAILS,
+    ...DEFAULT_NOTIFY_EMAILS.justin,
+  ]),
+  both: uniqueEmails([
+    ...parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS_BOTH),
+    ...GLOBAL_NOTIFY_EMAILS,
+    ...DEFAULT_NOTIFY_EMAILS.both,
+  ]),
 };
 const HOST_LABELS = { gaurav: 'Gaurav', justin: 'Justin', both: 'Gaurav & Justin' };
 
@@ -164,16 +217,22 @@ async function gasPost(url, body, depth) {
       throw new Error('Blocked redirect to non-Google domain');
     }
   }
-  const res = await fetch(url, {
+  const res = await fetchWithTimeout(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body,
     redirect: 'manual',
   });
   if (res.status >= 300 && res.status < 400) {
-    return gasPost(res.headers.get('location'), body, depth + 1);
+    const location = res.headers.get('location');
+    if (!location) throw new Error('Calendar service redirect missing location');
+    return gasPost(location, body, depth + 1);
   }
-  return res.text();
+  return {
+    ok: res.ok,
+    status: res.status,
+    body: await res.text(),
+  };
 }
 
 function escapeHtml(str) {
@@ -282,7 +341,14 @@ async function sendNotification(booking) {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ from: fromAddr, to: [recipient], subject, text, html }),
+        body: JSON.stringify({
+          from: fromAddr,
+          to: [recipient],
+          subject,
+          text,
+          html,
+          reply_to: booking.email,
+        }),
       });
 
       if (!res.ok) {
@@ -334,10 +400,25 @@ exports.handler = async (event) => {
 
       /* ── Forward sanitized data to GAS ── */
       const sanitizedBody = JSON.stringify(validated);
-      const gasBody = await gasPost(GAS_URL, sanitizedBody, 0);
+      const gasRes = await gasPost(GAS_URL, sanitizedBody, 0);
+      if (!gasRes.ok) {
+        console.error('GAS POST failed:', gasRes.status, gasRes.body);
+        return {
+          statusCode: 502,
+          headers: postCorsHeaders(event),
+          body: JSON.stringify({ ok: false, e: 'Calendar service unavailable. Please try again.' }),
+        };
+      }
 
-      let gasResult;
-      try { gasResult = JSON.parse(gasBody); } catch { gasResult = { ok: false }; }
+      const gasResult = parseJsonSafe(gasRes.body);
+      if (!gasResult || typeof gasResult.ok !== 'boolean') {
+        console.error('Invalid GAS POST response:', gasRes.body);
+        return {
+          statusCode: 502,
+          headers: postCorsHeaders(event),
+          body: JSON.stringify({ ok: false, e: 'Calendar service unavailable. Please try again.' }),
+        };
+      }
 
       /* ── Only send notification + invalidate cache if booking succeeded ── */
       if (gasResult.ok) {
@@ -355,7 +436,7 @@ exports.handler = async (event) => {
         }
       }
 
-      return { statusCode: 200, headers: postCorsHeaders(event), body: gasBody };
+      return { statusCode: 200, headers: postCorsHeaders(event), body: gasRes.body };
 
     } else {
       /* ── GET: availability data ── */
@@ -394,9 +475,9 @@ exports.handler = async (event) => {
           let batchOk = false;
           try {
             const qs = new URLSearchParams({ dates: uncached.join(','), mins, who }).toString();
-            const res = await fetch(GAS_URL + '?' + qs, { redirect: 'follow' });
-            const data = JSON.parse(await res.text());
-            if (data.ok && data.batch && data.results) {
+            const res = await fetchWithTimeout(GAS_URL + '?' + qs, { redirect: 'follow' });
+            const data = parseJsonSafe(await res.text());
+            if (res.ok && data && data.ok && data.batch && data.results) {
               for (const [d, slots] of Object.entries(data.results)) {
                 slotCacheSet(`${d}_${mins}_${who}`, slots);
                 results[d] = slots;
@@ -406,19 +487,38 @@ exports.handler = async (event) => {
           } catch {}
 
           if (!batchOk) {
+            const unavailable = [];
             const fetches = uncached.map(async (date) => {
               try {
                 const qs = new URLSearchParams({ date, mins, who }).toString();
-                const res = await fetch(GAS_URL + '?' + qs, { redirect: 'follow' });
-                const data = JSON.parse(await res.text());
-                const slots = data.ok ? data.slots : [];
+                const res = await fetchWithTimeout(GAS_URL + '?' + qs, { redirect: 'follow' });
+                if (!res.ok) throw new Error(`Upstream status ${res.status}`);
+                const data = parseJsonSafe(await res.text());
+                if (!data || !data.ok || !Array.isArray(data.slots)) {
+                  throw new Error('Invalid upstream availability response');
+                }
+                const slots = data.slots;
                 slotCacheSet(`${date}_${mins}_${who}`, slots);
                 results[date] = slots;
               } catch {
-                results[date] = [];
+                unavailable.push(date);
               }
             });
             await Promise.all(fetches);
+
+            if (unavailable.length > 0) {
+              return {
+                statusCode: 502,
+                headers: CORS_GET,
+                body: JSON.stringify({
+                  ok: false,
+                  e: 'Could not load live availability.',
+                  partial: Object.keys(results).length > 0,
+                  results,
+                  unavailable,
+                }),
+              };
+            }
           }
         }
 
@@ -444,14 +544,26 @@ exports.handler = async (event) => {
 
       const qs = new URLSearchParams(params).toString();
       const url = GAS_URL + (qs ? '?' + qs : '');
-      const res = await fetch(url, { redirect: 'follow' });
+      const res = await fetchWithTimeout(url, { redirect: 'follow' });
+      if (!res.ok) {
+        return {
+          statusCode: 502,
+          headers: CORS_GET,
+          body: JSON.stringify({ ok: false, e: 'Could not load live availability.' }),
+        };
+      }
       const body = await res.text();
 
       if (date) {
-        try {
-          const data = JSON.parse(body);
-          if (data.ok) slotCacheSet(`${date}_${mins}_${who}`, data.slots);
-        } catch {}
+        const data = parseJsonSafe(body);
+        if (!data || !data.ok || !Array.isArray(data.slots)) {
+          return {
+            statusCode: 502,
+            headers: CORS_GET,
+            body: JSON.stringify({ ok: false, e: 'Could not load live availability.' }),
+          };
+        }
+        slotCacheSet(`${date}_${mins}_${who}`, data.slots);
       }
 
       return { statusCode: 200, headers: CORS_GET_CACHED, body };
@@ -460,9 +572,9 @@ exports.handler = async (event) => {
     console.error('Handler error:', err);
     const headers = event.httpMethod === 'POST' ? postCorsHeaders(event) : CORS_GET;
     return {
-      statusCode: 200,
+      statusCode: 502,
       headers,
-      body: JSON.stringify({ ok: false, e: 'Something went wrong. Please try again.' }),
+      body: JSON.stringify({ ok: false, e: calendarServiceErrorMessage(err) }),
     };
   }
 };
