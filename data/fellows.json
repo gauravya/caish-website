@@ -1,0 +1,18 @@
+{
+  "cohorts": {
+    "LT26": {
+      "name": "Lent 2026",
+      "programme": "Alignment Fellowship",
+      "startDate": "2026-02-02",
+      "endDate": "2026-03-06",
+      "issuedDate": "2026-03-06"
+    }
+  },
+  "fellows": {
+    "CAISH-LT26-DEMO": {
+      "name": "Alex Example",
+      "track": "Technical",
+      "cohort": "LT26"
+    }
+  }
+}

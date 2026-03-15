@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Verify an Alignment Fellowship certificate issued by Cambridge AI Safety Hub.">
+  <title>Certificate Verification | Cambridge AI Safety Hub</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://caish.org/verify">
+  <meta property="og:title" content="Certificate Verification | CAISH Alignment Fellowship">
+  <meta property="og:description" content="Verify an Alignment Fellowship certificate issued by Cambridge AI Safety Hub.">
+  <meta property="og:image" content="https://caish.org/images/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://caish.org/verify">
+  <meta name="twitter:title" content="Certificate Verification | CAISH Alignment Fellowship">
+  <meta name="twitter:description" content="Verify an Alignment Fellowship certificate issued by Cambridge AI Safety Hub.">
+  <meta name="twitter:image" content="https://caish.org/images/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <!-- DNS Prefetch & Preconnect -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/styles.css?v=48a5ca8f" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Critical CSS -->
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{font-family:'Space Mono',monospace;background:#fcf7f1;color:#1a1a1a;line-height:1.8;min-height:100vh;display:flex;flex-direction:column}
+    main{flex:1}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    h1{font-size:clamp(2rem,4vw,3rem);line-height:1.2}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.1);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}}
+  </style>
+
+  <!-- Certificate-specific styles -->
+  <style>
+    body.verify-page::after {
+      display: none;
+    }
+
+    body.verify-page .ambient-glow {
+      display: none;
+    }
+
+    body.verify-page footer {
+      margin-top: 0;
+    }
+
+    .verify-container {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 6.5rem 2rem 2rem;
+    }
+
+    /* Certificate card */
+    .certificate-card {
+      background: rgba(255, 255, 255, 0.92);
+      border: 1px solid rgba(166, 140, 115, 0.18);
+      border-radius: 18px;
+      padding: 2.15rem 2rem;
+      box-shadow: 0 8px 22px rgba(74, 52, 33, 0.05);
+      text-align: center;
+    }
+
+    .cert-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.55rem;
+      padding-bottom: 1.2rem;
+      margin-bottom: 1.3rem;
+      border-bottom: 1px solid rgba(166, 140, 115, 0.14);
+    }
+
+    .cert-logo {
+      height: 34px;
+      opacity: 0.9;
+    }
+
+    .cert-org {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #4a4a4a;
+      margin-bottom: 0;
+    }
+
+    .cert-title {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(1.45rem, 3vw, 1.95rem);
+      font-weight: 400;
+      color: #1a1a1a;
+      margin-bottom: 0;
+    }
+
+    .cert-preamble {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: #8a8a8a;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 0.55rem;
+    }
+
+    .cert-name {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: clamp(2rem, 4.8vw, 2.9rem);
+      font-weight: 400;
+      color: #1a1a1a;
+      line-height: 1.16;
+      margin-bottom: 0.75rem;
+    }
+
+    .cert-summary {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.04rem;
+      color: #4a4a4a;
+      margin-bottom: 0.7rem;
+    }
+
+    .cert-programme {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.04rem;
+      font-weight: 400;
+      color: #1a1a1a;
+    }
+
+    .cert-context {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0.9rem;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .cert-context > span {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.64rem;
+      color: #4a4a4a;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .cert-context > span + span::before {
+      content: '•';
+      color: rgba(148, 89, 71, 0.5);
+      margin-right: 0.9rem;
+    }
+
+    .cert-track {
+      color: #945947;
+    }
+
+    .cert-record {
+      margin-top: 1.2rem;
+      padding-top: 1.1rem;
+      border-top: 1px solid rgba(166, 140, 115, 0.14);
+      text-align: left;
+    }
+
+    .cert-record-row {
+      display: grid;
+      grid-template-columns: 9rem minmax(0, 1fr);
+      gap: 0.9rem 1rem;
+      align-items: start;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid rgba(166, 140, 115, 0.1);
+    }
+
+    .cert-record-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .cert-meta-label {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.6rem;
+      color: #8a8a8a;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding-top: 0.15rem;
+    }
+
+    .cert-meta-value {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      line-height: 1.7;
+      color: #2d2d2d;
+    }
+
+    .cert-signatures {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+      margin-top: 1.4rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid rgba(166, 140, 115, 0.14);
+      text-align: left;
+    }
+
+    .cert-signature-block {
+      min-width: 0;
+    }
+
+    .cert-signature-mark {
+      height: 36px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      margin-bottom: 0.4rem;
+      border-bottom: 1px solid rgba(95, 90, 83, 0.34);
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 0.74rem;
+      font-style: italic;
+      color: #8a8a8a;
+    }
+
+    .cert-signature-image {
+      display: block;
+      max-width: 180px;
+      max-height: 30px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .cert-signature-placeholder {
+      display: inline-block;
+    }
+
+    .cert-signature-name {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 0.95rem;
+      color: #1a1a1a;
+      margin-bottom: 0.15rem;
+    }
+
+    .cert-signature-role {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.54rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #5f5a53;
+      line-height: 1.6;
+    }
+
+    /* Actions */
+    .verify-actions {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .verify-actions button {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      padding: 0.65rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(126,66,51,0.12);
+      background: linear-gradient(135deg, #faf6f0, #f4f3ef, #f0ede8);
+      color: #1a1a1a;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1);
+    }
+    .verify-actions button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+
+    /* Lookup form (when visiting /verify without an ID) */
+    .verify-lookup {
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .verify-lookup h1 {
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      margin-bottom: 0.75rem;
+    }
+    .verify-lookup p {
+      font-size: 0.85rem;
+      color: #4a4a4a;
+      margin-bottom: 2rem;
+      max-width: 40ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .verify-lookup-form {
+      display: flex;
+      gap: 0.5rem;
+      max-width: 380px;
+      margin: 0 auto;
+    }
+    .verify-lookup-form input {
+      flex: 1;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      padding: 0.7rem 1rem;
+      border: 1px solid rgba(166,140,115,0.25);
+      border-radius: 999px;
+      background: #fefcf9;
+      color: #1a1a1a;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .verify-lookup-form input::placeholder {
+      color: #b0a090;
+    }
+    .verify-lookup-form input:focus {
+      border-color: rgba(148,89,71,0.4);
+    }
+    .verify-lookup-form button {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.04em;
+      padding: 0.7rem 1.4rem;
+      border-radius: 999px;
+      border: none;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2220 30%, #1f1a18 60%, #1a1a1a 100%);
+      color: #fefcf9;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.4,0,0.2,1), box-shadow 0.25s cubic-bezier(0.4,0,0.2,1);
+      white-space: nowrap;
+    }
+    .verify-lookup-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+
+    /* Error state */
+    .verify-error {
+      text-align: center;
+      max-width: 440px;
+      margin: 0 auto;
+    }
+    .verify-error h1 {
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      margin-bottom: 0.75rem;
+    }
+    .verify-error p {
+      font-size: 0.82rem;
+      color: #4a4a4a;
+      margin-bottom: 1rem;
+      max-width: 40ch;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .verify-error code {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      background: rgba(148,89,71,0.08);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+    }
+    .verify-error a {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.75rem;
+      color: #945947;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(148,89,71,0.3);
+      transition: border-color 0.2s;
+    }
+    .verify-error a:hover {
+      border-color: #945947;
+    }
+
+    /* Loading */
+    .verify-loading {
+      text-align: center;
+      color: #8a8a8a;
+      font-size: 0.8rem;
+    }
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    /* Print styles */
+    @media print {
+      nav, .mobile-nav, footer,
+      .verify-actions, .back-to-top, .ambient-glow,
+      body::before, body::after, .skip-link {
+        display: none !important;
+      }
+      body {
+        background: white !important;
+        background-image: none !important;
+      }
+      body::before, body::after {
+        display: none !important;
+      }
+      .verify-container {
+        padding-top: 2rem;
+      }
+      .certificate-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        page-break-inside: avoid;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .verify-container {
+        padding: 6rem 1.25rem 2.5rem;
+      }
+      .certificate-card {
+        padding: 2rem 1.25rem;
+      }
+      .cert-record-row {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+      .cert-signatures {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .verify-lookup-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+
+  <!-- Styles (async) -->
+  <noscript><link rel="stylesheet" href="/styles.css?v=48a5ca8f"></noscript>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</head>
+<body class="verify-page">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home">
+        <img src="/images/logo.png" class="logo" width="50" height="50">
+      </a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <main>
+    <div class="verify-container" id="main-content">
+      <div id="verify-content">
+        <p class="verify-loading" aria-live="polite">Loading&hellip;</p>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+      </div>
+      <span class="footer-copy">&copy; 2026 CAISH</span>
+    </div>
+  </footer>
+
+  <script>
+    const MobileNav = {
+      init() {
+        const nav = document.getElementById('mobile-nav');
+        const toggle = document.getElementById('nav-toggle');
+        const close = document.getElementById('mobile-nav-close');
+
+        toggle?.addEventListener('click', () => nav?.classList.add('active'));
+        close?.addEventListener('click', () => nav?.classList.remove('active'));
+        nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+
+        nav?.querySelectorAll('.mobile-nav-expand').forEach(function(btn) {
+          const item = btn.closest('li');
+          const childList = item ? item.querySelector('.mobile-nav-children') : null;
+          if (!childList) return;
+
+          const syncExpandedState = function(expanded) {
+            btn.setAttribute('aria-expanded', String(expanded));
+            childList.classList.toggle('open', expanded);
+          };
+
+          syncExpandedState(false);
+
+          btn.addEventListener('click', function(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            syncExpandedState(btn.getAttribute('aria-expanded') !== 'true');
+          });
+        });
+      }
+    };
+
+    const CertificateVerify = {
+      container: null,
+
+      async init() {
+        this.container = document.getElementById('verify-content');
+        if (!this.container) return;
+
+        const id = this.getCertificateIdFromLocation();
+
+        if (!id) {
+          this.showLookup();
+          return;
+        }
+
+        try {
+          const res = await fetch('/data/fellows.json', { cache: 'no-store' });
+          if (!res.ok) throw new Error('Failed to load data');
+          const data = await res.json();
+          const fellows = data && typeof data.fellows === 'object' ? data.fellows : {};
+          const cohorts = data && typeof data.cohorts === 'object' ? data.cohorts : {};
+
+          if (!Object.keys(fellows).length) {
+            this.showEmptyRegistry();
+            return;
+          }
+
+          const fellow = fellows[id];
+          if (!fellow) {
+            this.showNotFound(id);
+            return;
+          }
+
+          const cohort = cohorts[fellow.cohort];
+          if (!cohort) {
+            this.showError('This credential record is incomplete. Please contact hello@cambridgeaisafety.org.');
+            return;
+          }
+
+          this.renderCertificate(id, fellow, cohort);
+          document.title = fellow.name + ' \u2014 Alignment Fellowship Certificate | CAISH';
+        } catch (err) {
+          this.showError();
+        }
+      },
+
+      getCertificateIdFromLocation() {
+        const params = new URLSearchParams(window.location.search);
+        const queryId = params.get('id') || params.get('certificate') || params.get('cert');
+        if (queryId) {
+          return this.normalizeCertificateId(queryId);
+        }
+
+        const hashId = window.location.hash.replace(/^#/, '');
+        if (hashId) {
+          return this.normalizeCertificateId(hashId);
+        }
+
+        const path = window.location.pathname.replace(/\/+$/, '');
+        const match = path.match(/^\/verify(?:\.html)?\/(.+)$/i);
+        return match ? this.normalizeCertificateId(match[1]) : null;
+      },
+
+      buildCertificateUrl(id) {
+        const normalized = this.normalizeCertificateId(id);
+        if (!normalized) return '/verify';
+
+        const isLocalHost =
+          window.location.protocol === 'file:' ||
+          window.location.hostname === 'localhost' ||
+          window.location.hostname === '127.0.0.1';
+
+        return isLocalHost
+          ? '/verify.html?id=' + encodeURIComponent(normalized)
+          : '/verify/' + encodeURIComponent(normalized);
+      },
+
+      normalizeCertificateId(value) {
+        if (typeof value !== 'string') return null;
+
+        let normalized = value;
+        try {
+          normalized = decodeURIComponent(normalized);
+        } catch (err) {
+          // Keep the raw value if it was not URI encoded.
+        }
+
+        normalized = normalized
+          .trim()
+          .replace(/^\/+|\/+$/g, '')
+          .replace(/\s+/g, '')
+          .toUpperCase();
+
+        return normalized || null;
+      },
+
+      formatDate(dateStr) {
+        if (!dateStr) return 'Unknown';
+        const d = new Date(dateStr + 'T00:00:00');
+        if (Number.isNaN(d.getTime())) return 'Unknown';
+        const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+        return d.getDate() + ' ' + months[d.getMonth()] + ' ' + d.getFullYear();
+      },
+
+      renderCertificate(id, fellow, cohort) {
+        const startDate = this.formatDate(cohort.startDate);
+        const endDate = this.formatDate(cohort.endDate);
+        const issuedDate = this.formatDate(cohort.issuedDate);
+        const trackMarkup = fellow.track
+          ? '<span class="cert-track">' + this.escapeHtml(fellow.track) + ' track</span>'
+          : '';
+
+        this.container.innerHTML =
+          '<div class="certificate-card">' +
+            '<div class="cert-header">' +
+              '<img src="/images/logo.png" alt="CAISH" class="cert-logo" width="50" height="50">' +
+              '<div class="cert-org">Cambridge AI Safety Hub</div>' +
+              '<div class="cert-title">Certificate Verification</div>' +
+            '</div>' +
+            '<div class="cert-preamble">This certifies that</div>' +
+            '<div class="cert-name">' + this.escapeHtml(fellow.name) + '</div>' +
+            '<div class="cert-summary">completed the <span class="cert-programme">' + this.escapeHtml(cohort.programme) + '</span></div>' +
+            '<div class="cert-context">' +
+              trackMarkup +
+              '<span class="cert-cohort">' + this.escapeHtml(cohort.name) + ' cohort</span>' +
+              '<span class="cert-dates">' + startDate + ' \u2013 ' + endDate + '</span>' +
+            '</div>' +
+            '<div class="cert-record">' +
+              '<div class="cert-record-row">' +
+                '<span class="cert-meta-label">Certificate ID</span>' +
+                '<span class="cert-meta-value">' + this.escapeHtml(id) + '</span>' +
+              '</div>' +
+              '<div class="cert-record-row">' +
+                '<span class="cert-meta-label">Issued on</span>' +
+                '<span class="cert-meta-value">' + issuedDate + '</span>' +
+              '</div>' +
+              '<div class="cert-record-row">' +
+                '<span class="cert-meta-label">Issuing body</span>' +
+                '<span class="cert-meta-value">Cambridge AI Safety Hub<br>Meridian Impact CIC (Company No. 13653958)</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="cert-signatures">' +
+              this.renderSignatureBlock('Gaurav Yadav', 'Co-Director', '/images/signatures/gaurav-yadav.png') +
+              this.renderSignatureBlock('Justin Dollman', 'Co-Director', '/images/signatures/justin-dollman.png') +
+            '</div>' +
+          '</div>' +
+          '<div class="verify-actions">' +
+            '<button onclick="window.print()" type="button">Print / Save as PDF</button>' +
+            '<button id="copy-link" type="button">Copy link</button>' +
+          '</div>';
+
+        document.getElementById('copy-link')?.addEventListener('click', async function() {
+          var btn = this;
+          try {
+            await CertificateVerify.copyToClipboard(window.location.href);
+            btn.textContent = 'Copied!';
+          } catch (err) {
+            btn.textContent = 'Copy failed';
+          }
+          setTimeout(function() { btn.textContent = 'Copy link'; }, 2000);
+        });
+      },
+
+      renderSignatureBlock(name, role, imagePath) {
+        const safeName = this.escapeHtml(name);
+        const safeRole = this.escapeHtml(role);
+        const safeImagePath = this.escapeHtml(imagePath);
+
+        return '' +
+          '<div class="cert-signature-block">' +
+            '<div class="cert-signature-mark">' +
+              '<img src="' + safeImagePath + '" alt="Signature of ' + safeName + '" class="cert-signature-image" onload="this.nextElementSibling.hidden=true" onerror="this.hidden=true">' +
+              '<span class="cert-signature-placeholder">Signature to be added</span>' +
+            '</div>' +
+            '<div class="cert-signature-name">' + safeName + '</div>' +
+            '<div class="cert-signature-role">' + safeRole + '<br>Cambridge AI Safety Hub</div>' +
+          '</div>';
+      },
+
+      showLookup() {
+        document.title = 'Certificate Verification | Cambridge AI Safety Hub';
+        const demoUrl = this.buildCertificateUrl('CAISH-LT26-DEMO');
+        this.container.innerHTML =
+          '<div class="verify-lookup">' +
+            '<h1>Certificate Verification</h1>' +
+            '<p>Enter a certificate ID to verify an Alignment Fellowship certificate.</p>' +
+            '<form class="verify-lookup-form" id="verify-lookup-form" novalidate>' +
+              '<label class="visually-hidden" for="cert-id-input">Certificate ID</label>' +
+              '<input type="text" id="cert-id-input" placeholder="e.g. CAISH-LT26-T-001" autocomplete="off" spellcheck="false" aria-describedby="verify-lookup-help">' +
+              '<button type="submit" id="cert-lookup-btn">Verify</button>' +
+            '</form>' +
+            '<p id="verify-lookup-help" class="visually-hidden">Certificate IDs are not case sensitive.</p>' +
+            '<p><a href="' + this.escapeHtml(demoUrl) + '">Open the demo certificate</a></p>' +
+          '</div>';
+
+        var input = document.getElementById('cert-id-input');
+        var form = document.getElementById('verify-lookup-form');
+
+        var navigate = function(event) {
+          if (event) event.preventDefault();
+          var val = CertificateVerify.normalizeCertificateId(input.value);
+          if (val) {
+            window.location.href = CertificateVerify.buildCertificateUrl(val);
+          }
+        };
+
+        form?.addEventListener('submit', navigate);
+        input?.focus();
+      },
+
+      showEmptyRegistry() {
+        document.title = 'Credential Registry Coming Soon | CAISH';
+        this.container.innerHTML =
+          '<div class="verify-error">' +
+            '<h1>Credential registry not published yet</h1>' +
+            '<p>This verification page is ready, but no fellowship credentials have been added to the public registry yet.</p>' +
+            '<p>If you expected a certificate here, contact hello@cambridgeaisafety.org.</p>' +
+            '<a href="/verify">Back to verification</a>' +
+          '</div>';
+      },
+
+      showNotFound(id) {
+        document.title = 'Certificate Not Found | CAISH';
+        this.container.innerHTML =
+          '<div class="verify-error">' +
+            '<h1>Certificate not found</h1>' +
+            '<p>The certificate ID <code>' + this.escapeHtml(id) + '</code> could not be verified.</p>' +
+            '<p>If you believe this is an error, contact hello@cambridgeaisafety.org.</p>' +
+            '<a href="/verify">Try another ID</a>' +
+          '</div>';
+      },
+
+      showError(message) {
+        document.title = 'Error | CAISH';
+        this.container.innerHTML =
+          '<div class="verify-error">' +
+            '<h1>Something went wrong</h1>' +
+            '<p>' + this.escapeHtml(message || 'We couldn\u2019t load the verification data. Please try again later.') + '</p>' +
+            '<a href="/verify">Back to verification</a>' +
+          '</div>';
+      },
+
+      async copyToClipboard(text) {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(text);
+          return;
+        }
+
+        var helper = document.createElement('textarea');
+        helper.value = text;
+        helper.setAttribute('readonly', '');
+        helper.style.position = 'absolute';
+        helper.style.left = '-9999px';
+        document.body.appendChild(helper);
+        helper.select();
+
+        var successful = document.execCommand('copy');
+        document.body.removeChild(helper);
+
+        if (!successful) {
+          throw new Error('Copy command failed');
+        }
+      },
+
+      escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str == null ? '' : String(str)));
+        return div.innerHTML;
+      }
+    };
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', function() { MobileNav.init(); CertificateVerify.init(); })
+      : (function() { MobileNav.init(); CertificateVerify.init(); })();
+  </script>
+</body>
+</html>

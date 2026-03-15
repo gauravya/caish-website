@@ -98,6 +98,19 @@
   status = 200
   force = true
 
+# Certificate verification — all /verify/* paths serve verify.html (JS reads pathname)
+[[redirects]]
+  from = "/verify/*"
+  to = "/verify.html"
+  status = 200
+  force = true
+
+# Cache control for fellow data
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
+
 # Legacy /book URL → redirect to /calendar
 [[redirects]]
   from = "/book"
