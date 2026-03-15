@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload critical resources -->
-  <link rel="preload" href="/styles.css?v=d9e21637" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/styles.css?v=83733667" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
@@ -44,10 +44,10 @@
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{font-size:16px;-webkit-font-smoothing:antialiased}
-    body{font-family:'Space Mono',monospace;background:#fefefe;color:#1a1a1a;line-height:1.8}
+    body{font-family:'Space Mono',monospace;background:#fcf7f1;color:#1a1a1a;line-height:1.8}
     h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
     h1{font-size:clamp(2rem,4vw,3rem);line-height:1.2}
-    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.82);border-bottom:1px solid rgba(224,224,224,0.35);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4)}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.1);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
     .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
     .logo{height:32px;opacity:0.9}
     .nav-links{display:flex;gap:2.5rem;list-style:none}
@@ -66,10 +66,10 @@
   </style>
 
   <!-- Styles (async) -->
-  <noscript><link rel="stylesheet" href="/styles.css?v=d9e21637"></noscript>
+  <noscript><link rel="stylesheet" href="/styles.css?v=83733667"></noscript>
 
   <!-- Enhancements -->
-  <script src="/enhancements.js?v=05402ff1" defer fetchpriority="low"></script>
+  <script src="/enhancements.js?v=5bbe2c1b" defer fetchpriority="low"></script>
 
   <!-- Service Worker Registration -->
   <script>
@@ -90,7 +90,7 @@
       <ul class="nav-links">
         <li><a href="/fellowship" class="active">Alignment Fellowship</a></li>
         <li><a href="/desk">Alignment Desk</a></li>
-        <li class="nav-has-dropdown"><a href="/mars">MARS</a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
         <li><a href="/events">Events</a></li>
         <li><a href="/about">About</a></li>
       </ul>
@@ -107,8 +107,15 @@
     <ul>
       <li><a href="/fellowship" class="active">Alignment Fellowship</a></li>
       <li><a href="/desk">Alignment Desk</a></li>
-      <li><a href="/mars">MARS</a></li>
-      <li><a href="/research">Research</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-context">MARS</span><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
       <li><a href="/events">Events</a></li>
       <li><a href="/about">About</a></li>
     </ul>

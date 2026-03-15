@@ -22,6 +22,7 @@ const Enhancements = {
   init() {
     // Critical: Always init prefetching for instant navigation
     this.initLinkPrefetch();
+    this.initMobileNavSections();
 
     if (!this.prefersReducedMotion) {
       this.initPageEntrance();
@@ -133,6 +134,43 @@ const Enhancements = {
         cache: 'force-cache'
       }).catch(() => {}); // Silently ignore errors
     }
+  },
+
+  /**
+   * Mobile nav sections - keep nested items readable and expandable everywhere
+   */
+  initMobileNavSections() {
+    const nav = document.querySelector('.mobile-nav');
+    if (!nav) return;
+
+    nav.querySelectorAll('.mobile-nav-expand').forEach(btn => {
+      if (btn.dataset.enhanced === 'true') return;
+
+      const item = btn.closest('li');
+      const childList = item?.querySelector('.mobile-nav-children');
+      const parentLink = item?.querySelector('.mobile-nav-parent > a');
+
+      if (!childList) return;
+
+      const syncExpandedState = (expanded) => {
+        btn.setAttribute('aria-expanded', String(expanded));
+        childList.classList.toggle('open', expanded);
+      };
+
+      const shouldStartOpen =
+        parentLink?.classList.contains('active') ||
+        Boolean(childList.querySelector('a.active, a[aria-current="page"]'));
+
+      syncExpandedState(shouldStartOpen);
+
+      btn.addEventListener('click', (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        syncExpandedState(btn.getAttribute('aria-expanded') !== 'true');
+      });
+
+      btn.dataset.enhanced = 'true';
+    });
   },
 
   /**
