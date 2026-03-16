@@ -24,36 +24,68 @@
   // Split into two waves: visible week first (fast), rest in background.
   window.__earlyFetch = null;     // { pri: Promise, bg: Promise, who, mins }
   (function() {
+    window.CAISH_BOOKING_CONFIG = window.CAISH_BOOKING_CONFIG || {
+      gauravBlockedRanges: [
+        // { start: '2026-04-06', end: '2026-04-10' }
+      ]
+    };
+    var gauravBlockedRanges = window.CAISH_BOOKING_CONFIG.gauravBlockedRanges || [];
+    var profiles = {
+      gaurav: { minLeadDays: 7, maxAdvanceDays: 27, blockedRanges: gauravBlockedRanges },
+      gaurav_priority: { minLeadDays: 1, maxAdvanceDays: 21, blockedRanges: gauravBlockedRanges },
+      justin: { minLeadDays: 1, maxAdvanceDays: 21, blockedRanges: [] },
+      both: { minLeadDays: 7, maxAdvanceDays: 27, blockedRanges: gauravBlockedRanges }
+    };
+    function isoToDate(iso) {
+      var parts = String(iso).split('-').map(Number);
+      return new Date(parts[0], (parts[1] || 1) - 1, parts[2] || 1);
+    }
+    function isBlocked(day, ranges) {
+      var d = new Date(day);
+      d.setHours(0, 0, 0, 0);
+      return (ranges || []).some(function(range) {
+        var start = isoToDate(range.start);
+        var end = isoToDate(range.end || range.start);
+        start.setHours(0, 0, 0, 0);
+        end.setHours(0, 0, 0, 0);
+        return d >= start && d <= end;
+      });
+    }
     var path = location.pathname.replace(/\/$/, '').toLowerCase();
     var who = null;
     if (path === '/gaurav') who = 'gaurav';
+    else if (path === '/gaurav-priority') who = 'gaurav_priority';
     else if (path === '/justin') who = 'justin';
     else if (path === '/both') who = 'both';
     else {
       var p = new URLSearchParams(location.search);
       var w = p.get('who');
-      if (w && (w === 'gaurav' || w === 'justin' || w === 'both')) who = w;
+      if (w && profiles[w]) who = w;
       if (!who) {
         try {
           var saved = sessionStorage.getItem('caish_who');
-          if (saved && (saved === 'gaurav' || saved === 'justin' || saved === 'both')) who = saved;
+          if (saved && profiles[saved]) who = saved;
         } catch (_) {}
       }
     }
+    if (!who || !profiles[who]) return;
     var today = new Date(); today.setHours(0,0,0,0);
+    var profile = profiles[who];
     var dates = [];
-    for (var i = 1; i <= 21; i++) {
+    var firstVisible = null;
+    for (var i = profile.minLeadDays; i <= profile.maxAdvanceDays; i++) {
       var d = new Date(today); d.setDate(d.getDate() + i);
       var dow = d.getDay();
       if (dow === 0 || dow === 6) continue;
+      if (isBlocked(d, profile.blockedRanges)) continue;
+      if (!firstVisible) firstVisible = new Date(d);
       dates.push(d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'));
     }
     if (!dates.length) return;
 
     // Compute first visible Monday (same logic as go(1))
-    var tom = new Date(today); tom.setDate(tom.getDate() + 1);
-    while (tom.getDay() === 0 || tom.getDay() === 6) tom.setDate(tom.getDate() + 1);
-    var mon = new Date(tom);
+    var anchor = new Date(firstVisible);
+    var mon = new Date(anchor);
     var dayOff = (mon.getDay() + 6) % 7; // 0=Mon
     mon.setDate(mon.getDate() - dayOff);
     // First week = Mon–Fri of that week
@@ -73,8 +105,6 @@
           .then(function(r) { return r.json(); }).catch(function() { return null; });
       };
     }
-
-    if (!who) return;
 
     window.__earlyFetch = {
       who: who, mins: 30,
@@ -272,6 +302,18 @@
     .who-card:hover .who-name { color: var(--red); }
 
     .who-role { font-size: 0.72rem; color: var(--muted); }
+    .who-note { font-size: 0.67rem; color: var(--muted); line-height: 1.55; max-width: 42ch; }
+    .who-badge {
+      display: inline-flex; align-items: center;
+      width: fit-content;
+      padding: 0.18rem 0.5rem;
+      border-radius: 999px;
+      background: rgba(126, 66, 51, 0.09);
+      color: var(--red);
+      font-size: 0.58rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
 
     .who-arrow {
       margin-left: auto; color: var(--border);
@@ -333,6 +375,62 @@
     .wv-legend-swatch.overlay {
       background: rgba(66, 133, 244, 0.13);
       border-left: 2.5px solid rgba(66, 133, 244, 0.55);
+    }
+    .schedule-status,
+    .schedule-note {
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.72rem 0.9rem;
+      margin-bottom: 0.8rem;
+      border-radius: 11px;
+      font-size: 0.68rem;
+      line-height: 1.6;
+    }
+    .schedule-status {
+      color: var(--ink);
+      background: rgba(17, 17, 17, 0.035);
+      border: 1px solid rgba(17, 17, 17, 0.08);
+    }
+    .schedule-status.hidden,
+    .schedule-note.hidden {
+      display: none;
+    }
+    .schedule-status.loading {
+      color: var(--ink);
+    }
+    .schedule-status.empty {
+      color: var(--ink);
+      background: rgba(166, 140, 115, 0.08);
+      border-color: rgba(166, 140, 115, 0.2);
+    }
+    .schedule-status .status-spinner {
+      width: 0.9rem;
+      height: 0.9rem;
+      border-radius: 50%;
+      border: 2px solid rgba(126, 66, 51, 0.18);
+      border-top-color: var(--red);
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+    .schedule-status .status-dot {
+      width: 0.52rem;
+      height: 0.52rem;
+      border-radius: 50%;
+      background: rgba(166, 140, 115, 0.65);
+      flex-shrink: 0;
+    }
+    .schedule-note {
+      color: var(--muted);
+      background: rgba(126, 66, 51, 0.05);
+      border: 1px solid rgba(126, 66, 51, 0.12);
+    }
+    .schedule-note strong {
+      color: var(--red);
+      font-weight: 400;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
     }
 
     .wv-nav {
@@ -732,6 +830,8 @@
             <p class="info-org" id="info-org" style="display:none">CAISH co-directors</p>
           </div>
 
+          <p class="info-desc" id="info-desc" style="display:none"></p>
+
           <hr class="info-rule" aria-hidden="true">
 
           <ul class="info-meta">
@@ -785,18 +885,29 @@
               <button class="who-card" data-who="gaurav">
                 <div class="who-info">
                   <span class="who-name">Gaurav Yadav</span>
+                  <span class="who-note">Regular calendar. New meetings open one week ahead so deep work time stays protected.</span>
+                </div>
+                <span class="who-arrow" aria-hidden="true">&#8594;</span>
+              </button>
+              <button class="who-card" data-who="gaurav_priority">
+                <div class="who-info">
+                  <span class="who-name">Gaurav Yadav</span>
+                  <span class="who-badge">Priority calendar</span>
+                  <span class="who-note">For important or time-sensitive conversations, with lighter restrictions than the regular calendar.</span>
                 </div>
                 <span class="who-arrow" aria-hidden="true">&#8594;</span>
               </button>
               <button class="who-card" data-who="justin">
                 <div class="who-info">
                   <span class="who-name">Justin Dollman</span>
+                  <span class="who-note">Justin&rsquo;s calendar usually opens from the next working day.</span>
                 </div>
                 <span class="who-arrow" aria-hidden="true">&#8594;</span>
               </button>
               <button class="who-card" data-who="both">
                 <div class="who-info">
                   <span class="who-name">Gaurav &amp; Justin</span>
+                  <span class="who-note">Joint meetings follow Gaurav&rsquo;s regular notice window so both calendars stay workable.</span>
                 </div>
                 <span class="who-arrow" aria-hidden="true">&#8594;</span>
               </button>
@@ -819,6 +930,8 @@
                 <span>Overlay your calendar</span>
               </button>
             </div>
+            <div class="schedule-status hidden" id="schedule-status" aria-live="polite"></div>
+            <div class="schedule-note hidden" id="schedule-note" aria-live="polite"></div>
             <div class="wv-wrap">
               <div class="wv-legend" aria-label="Calendar legend">
                 <span class="wv-legend-chip"><span class="wv-legend-swatch free" aria-hidden="true"></span>Available to book</span>
@@ -1257,22 +1370,69 @@
      JavaScript origins, then paste the client ID below. */
   const GCAL_CLIENT_ID = '995306267367-qtoufpjglq5me2v6os1kf4fts7igf8gg.apps.googleusercontent.com';
 
-  /* Host labels and cancel-email targets */
-  const HOST_LABELS = {
-    gaurav: 'Gaurav Yadav',
-    justin: 'Justin Dollman',
-    both:   'Gaurav & Justin',
+  const GAURAV_BLOCKED_RANGES =
+    window.CAISH_BOOKING_CONFIG && Array.isArray(window.CAISH_BOOKING_CONFIG.gauravBlockedRanges)
+      ? window.CAISH_BOOKING_CONFIG.gauravBlockedRanges
+      : [];
+
+  const BOOKING_PROFILES = {
+    gaurav: {
+      label: 'Gaurav Yadav',
+      shortLabel: 'Gaurav',
+      pageLabel: 'Gaurav Yadav',
+      orgLabel: 'CAISH co-director',
+      infoNote: 'Regular calendar. New meetings open 7 days ahead so focused work time stays protected.',
+      scheduleNote: 'Regular calendar. New meetings open 7 days ahead.',
+      minLeadDays: 7,
+      maxAdvanceDays: 27,
+      gasWho: 'gaurav',
+      cancelEmail: 'gaurav@meridiancambridge.org',
+      blockedRanges: GAURAV_BLOCKED_RANGES,
+    },
+    gaurav_priority: {
+      label: 'Gaurav Yadav',
+      shortLabel: 'Gaurav',
+      pageLabel: 'Gaurav Yadav (Priority calendar)',
+      orgLabel: 'CAISH co-director',
+      infoNote: 'Priority calendar for important or time-sensitive conversations, with lighter restrictions.',
+      scheduleNote: 'Priority calendar for important or time-sensitive conversations.',
+      minLeadDays: 1,
+      maxAdvanceDays: 21,
+      gasWho: 'gaurav',
+      cancelEmail: 'gaurav@meridiancambridge.org',
+      blockedRanges: GAURAV_BLOCKED_RANGES,
+    },
+    justin: {
+      label: 'Justin Dollman',
+      shortLabel: 'Justin',
+      pageLabel: 'Justin Dollman',
+      orgLabel: 'CAISH co-director',
+      infoNote: 'Justin’s calendar usually opens from the next working day.',
+      scheduleNote: 'Justin’s calendar usually opens from the next working day.',
+      minLeadDays: 1,
+      maxAdvanceDays: 21,
+      gasWho: 'justin',
+      cancelEmail: 'justin@meridiancambridge.org',
+      blockedRanges: [],
+    },
+    both: {
+      label: 'Gaurav & Justin',
+      shortLabel: 'Gaurav & Justin',
+      pageLabel: 'Gaurav & Justin',
+      orgLabel: 'CAISH co-directors',
+      infoNote: 'Joint meetings follow Gaurav’s regular notice window so both calendars stay workable.',
+      scheduleNote: 'Joint meetings follow Gaurav’s regular notice window.',
+      minLeadDays: 7,
+      maxAdvanceDays: 27,
+      gasWho: 'both',
+      cancelEmail: 'gaurav@meridiancambridge.org',
+      blockedRanges: GAURAV_BLOCKED_RANGES,
+    },
   };
-  const HOST_SHORT = {
-    gaurav: 'Gaurav',
-    justin: 'Justin',
-    both:   'Gaurav & Justin',
-  };
-  const CANCEL_EMAIL = {
-    gaurav: 'gaurav@meridiancambridge.org',
-    justin: 'justin@meridiancambridge.org',
-    both:   'gaurav@meridiancambridge.org',
-  };
+  const VALID_WHO = Object.keys(BOOKING_PROFILES);
+  const HOST_LABELS = Object.fromEntries(VALID_WHO.map(who => [who, BOOKING_PROFILES[who].label]));
+  const HOST_SHORT = Object.fromEntries(VALID_WHO.map(who => [who, BOOKING_PROFILES[who].shortLabel]));
+  const CANCEL_EMAIL = Object.fromEntries(VALID_WHO.map(who => [who, BOOKING_PROFILES[who].cancelEmail]));
 
   /* Per-date slot cache so we don't re-fetch if user goes back.
      Each entry: { slots: [...], at: timestamp }
@@ -1300,8 +1460,8 @@
 
   /* App state */
   const S = {
-    who: null,          // 'gaurav' | 'justin' | 'both'
-    directLink: false,  // true if arrived via /gaurav or /justin
+    who: null,          // 'gaurav' | 'gaurav_priority' | 'justin' | 'both'
+    directLink: false,  // true if arrived via a direct person link
     weekStart: null,    // Monday of current week view
     date: null, slot: null,
     calLink: null,
@@ -1316,11 +1476,82 @@
   const $   = id => document.getElementById(id);
   const pad = n  => String(n).padStart(2, '0');
 
+  function getProfile(who = S.who) {
+    return BOOKING_PROFILES[who] || null;
+  }
+
   function today0() {
     const d = new Date(); d.setHours(0,0,0,0); return d;
   }
+  function isoToDate(iso) {
+    const [y, m, d] = String(iso).split('-').map(Number);
+    return new Date(y, (m || 1) - 1, d || 1);
+  }
+  function isWeekend(d) {
+    const day = d.getDay();
+    return day === 0 || day === 6;
+  }
+  function minDate(who = S.who) {
+    const profile = getProfile(who);
+    const d = today0();
+    d.setDate(d.getDate() + (profile ? profile.minLeadDays : 1));
+    return d;
+  }
   function maxDate() {
-    const d = today0(); d.setDate(d.getDate() + 21); return d;
+    const profile = getProfile();
+    const d = today0();
+    d.setDate(d.getDate() + (profile ? profile.maxAdvanceDays : 21));
+    return d;
+  }
+  function getBlockedRange(date, who = S.who) {
+    const profile = getProfile(who);
+    if (!profile || !Array.isArray(profile.blockedRanges)) return null;
+    const day = new Date(date);
+    day.setHours(0, 0, 0, 0);
+    return profile.blockedRanges.find(range => {
+      const start = isoToDate(range.start);
+      const end = isoToDate(range.end || range.start);
+      start.setHours(0, 0, 0, 0);
+      end.setHours(0, 0, 0, 0);
+      return day >= start && day <= end;
+    }) || null;
+  }
+  function isBookableDate(date, who = S.who) {
+    const profile = getProfile(who);
+    if (!profile) return false;
+    const day = new Date(date);
+    day.setHours(0, 0, 0, 0);
+    if (isWeekend(day)) return false;
+    return day >= minDate(who) && day <= (() => {
+      const end = today0();
+      end.setDate(end.getDate() + profile.maxAdvanceDays);
+      return end;
+    })() && !getBlockedRange(day, who);
+  }
+  function bookableDates(who = S.who) {
+    const profile = getProfile(who);
+    if (!profile) return [];
+    const dates = [];
+    for (let i = profile.minLeadDays; i <= profile.maxAdvanceDays; i++) {
+      const d = today0();
+      d.setDate(d.getDate() + i);
+      if (isBookableDate(d, who)) dates.push(d);
+    }
+    return dates;
+  }
+  function firstBookableDate(who = S.who) {
+    const dates = bookableDates(who);
+    return dates[0] || minDate(who);
+  }
+  function formatBlockedRange(range) {
+    if (!range) return '';
+    if (range.label) return range.label;
+    const start = isoToDate(range.start);
+    const end = isoToDate(range.end || range.start);
+    if (start.toDateString() === end.toDateString()) {
+      return start.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+    return `${start.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} to ${end.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
   }
   function fmtDate(d) {
     return d.toLocaleDateString('en-GB', {
@@ -1398,6 +1629,7 @@
     }
 
     const hasVisibleError = getWeekDates(S.weekStart).some(d => {
+      if (!isBookableDate(d)) return false;
       const key = `${dsStr(d)}_${S.duration}_${S.who}`;
       const entry = SLOT_CACHE[key];
       return entry && entry.error;
@@ -1410,16 +1642,71 @@
     );
   }
 
+  function updateScheduleChrome() {
+    const statusEl = $('schedule-status');
+    const noteEl = $('schedule-note');
+
+    if (!S.weekStart || !S.who) {
+      statusEl.className = 'schedule-status hidden';
+      noteEl.className = 'schedule-note hidden';
+      $('wv-body').setAttribute('aria-busy', 'false');
+      return;
+    }
+
+    const profile = getProfile();
+    const weekDates = getWeekDates(S.weekStart);
+    const visibleBlocked = [...new Set(
+      weekDates
+        .map(d => getBlockedRange(d))
+        .filter(Boolean)
+        .map(formatBlockedRange)
+    )];
+    const visibleBookableDates = weekDates.filter(d => isBookableDate(d));
+    const visibleEntries = visibleBookableDates.map(d => ({
+      date: d,
+      entry: cacheGetEntry(`${dsStr(d)}_${S.duration}_${S.who}`),
+    }));
+    const isLoading = visibleEntries.some(({ entry }) => !entry);
+    const hasFreeSlot = visibleEntries.some(({ entry }) =>
+      entry && !entry.error && Array.isArray(entry.slots) && entry.slots.length > 0
+    );
+    const hasVisibleError = visibleEntries.some(({ entry }) => entry && entry.error);
+
+    const noteParts = [profile.scheduleNote];
+    if (visibleBlocked.length) {
+      noteParts.push(`Unavailable during ${visibleBlocked.join(' and ')}.`);
+    }
+    noteEl.textContent = noteParts.filter(Boolean).join(' ');
+    noteEl.className = noteParts.length ? 'schedule-note' : 'schedule-note hidden';
+
+    if (isLoading) {
+      statusEl.className = 'schedule-status loading';
+      statusEl.innerHTML = '<span class="status-spinner" aria-hidden="true"></span><span>Loading live availability. The grid will settle once the calendar finishes syncing.</span>';
+    } else if (!hasVisibleError && visibleBookableDates.length > 0 && !hasFreeSlot) {
+      statusEl.className = 'schedule-status empty';
+      statusEl.innerHTML = '<span class="status-dot" aria-hidden="true"></span><span>No bookable times are open in this week yet. Try the next week.</span>';
+    } else {
+      statusEl.className = 'schedule-status hidden';
+      statusEl.innerHTML = '';
+    }
+
+    $('wv-body').setAttribute('aria-busy', String(isLoading));
+  }
+
   /* ── Info panel update ──────────────────────────── */
   function updateInfoPanel(who) {
+    const profile = getProfile(who);
     $('info-names').textContent = HOST_LABELS[who];
-    $('info-org').textContent = 'CAISH co-directors';
+    $('info-org').textContent = profile.orgLabel;
     $('info-org').style.display = '';
+    $('info-desc').textContent = profile.infoNote;
+    $('info-desc').style.display = profile.infoNote ? '' : 'none';
   }
 
   /* ── Who selection ──────────────────────────────── */
   function selectWho(who) {
     S.who = who;
+    S.weekStart = null;
     try { sessionStorage.setItem('caish_who', who); } catch {}
     updateInfoPanel(who);
     // Flush cache when switching person (different availability)
@@ -1463,8 +1750,11 @@
     if (!S.who || !S.weekStart) return;
 
     const weekDates = getWeekDates(S.weekStart);
-    const t = today0();
+    const current = today0();
+    const earliest = minDate();
     const max = maxDate();
+    const firstWeek = getWeekMonday(firstBookableDate());
+    const lastWeek = getWeekMonday(max);
 
     // Title
     const mon = weekDates[0], fri = weekDates[4];
@@ -1476,16 +1766,16 @@
     // Prev/next
     const prevMon = new Date(S.weekStart);
     prevMon.setDate(prevMon.getDate() - 7);
-    $('wv-prev').disabled = prevMon < t;
+    $('wv-prev').disabled = prevMon < firstWeek;
     const nextMon = new Date(S.weekStart);
     nextMon.setDate(nextMon.getDate() + 7);
-    $('wv-next').disabled = nextMon > max;
+    $('wv-next').disabled = nextMon > lastWeek;
 
     // Header row
     let hdrHtml = '<div class="wv-corner"></div>';
     weekDates.forEach(d => {
-      const isToday = d.toDateString() === t.toDateString();
-      const isPast = d <= t;
+      const isToday = d.toDateString() === current.toDateString();
+      const isPast = d < earliest;
       let cls = 'wv-dh';
       if (isToday) cls += ' today';
       else if (isPast) cls += ' past';
@@ -1532,12 +1822,21 @@
 
       // 5 day cells
       weekDates.forEach(d => {
-        const isPast = d <= t;
+        const isPast = d < earliest;
         const isFar = d > max;
+        const isBlocked = Boolean(getBlockedRange(d));
         const ds = dsStr(d);
 
         if (isPast || isFar) {
           bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} past"></div>`;
+          return;
+        }
+        if (isBlocked) {
+          let cls = `wv-cell${isHalf ? ' wv-half' : ''} busy`;
+          if (row === 0) cls += ' band-top';
+          bodyHtml += `<div class="${cls}" aria-hidden="true">
+            <span class="wv-cell-status">Busy</span>
+          </div>`;
           return;
         }
 
@@ -1607,6 +1906,7 @@
 
     $('wv-body').innerHTML = bodyHtml;
     refreshScheduleErr();
+    updateScheduleChrome();
 
     // Click handlers
     $('wv-body').querySelectorAll('.wv-cell.free').forEach(cell => {
@@ -1680,14 +1980,8 @@
     const signal = _prefetchController.signal;
 
     // Split dates into visible week vs rest
-    const t = today0();
-    const max = maxDate();
     const visibleDates = [], bgDates = [];
-    for (let i = 1; i <= 21; i++) {
-      const d = new Date(t);
-      d.setDate(d.getDate() + i);
-      if (d.getDay() === 0 || d.getDay() === 6) continue;
-      if (d > max) continue;
+    for (const d of bookableDates()) {
       const ds = dsStr(d);
       const key = `${ds}_${S.duration}_${S.who}`;
       if (!cacheIsStale(key)) continue;
@@ -1701,7 +1995,8 @@
 
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
     if (!configured) {
-      const startH = S.who === 'justin' ? 11 : S.who === 'gaurav' ? 10 : 11;
+      const baseWho = getProfile().gasWho;
+      const startH = baseWho === 'justin' ? 11 : baseWho === 'gaurav' ? 10 : 11;
       [...visibleDates, ...bgDates].forEach(ds => {
         const slots = [];
         for (let h = startH; h < 18; h++) {
@@ -2041,8 +2336,8 @@
         cacheSet(`${dateStr}_${S.duration}_${S.who}`, freshSlots);
         const stillFree = freshSlots.some(sl => sl.h === S.slot.h && sl.m === S.slot.m);
         if (!stillFree) {
-          // Slot was taken — show error and return to week view
-          errEl.textContent = 'This time slot was just taken. Please pick another time.';
+          // The window changed before confirmation — send them back to the calendar.
+          errEl.textContent = 'This time slot is no longer available. Please pick another time.';
           errEl.classList.remove('hidden');
           btn.disabled = false;
           $('btn-lbl').textContent = 'Confirm booking';
@@ -2070,6 +2365,9 @@
           let goBack = false;
           if (e === 'slot_taken') { msg = 'This time slot was just taken. Please pick another time.'; goBack = true; }
           else if (e === 'daily_limit') { msg = 'This day has reached its meeting limit. Please try another day.'; goBack = true; }
+          else if (e === 'notice_required') { msg = 'This calendar now requires more notice. Please pick a later week.'; goBack = true; }
+          else if (e === 'blocked_date') { msg = 'That week is unavailable for new meetings. Please choose another date.'; goBack = true; }
+          else if (e === 'outside_booking_window') { msg = 'That date is outside the current booking window. Please choose another week.'; goBack = true; }
           else if (e.includes('availability') || e.includes('calendar service')) msg = 'The calendar service is having trouble right now. Please try again in a moment.';
           else if (e.includes('Too many')) msg = 'Too many booking attempts. Please try again later.';
           errEl.textContent = msg;
@@ -2137,17 +2435,12 @@
     if (n === 0) {
       $('info-names').textContent = 'CAISH co-directors';
       $('info-org').style.display = 'none';
+      $('info-desc').style.display = 'none';
     }
     if (n === 1) {
       // Initialize week start if needed
       if (!S.weekStart) {
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        tomorrow.setHours(0, 0, 0, 0);
-        while (tomorrow.getDay() === 0 || tomorrow.getDay() === 6) {
-          tomorrow.setDate(tomorrow.getDate() + 1);
-        }
-        S.weekStart = getWeekMonday(tomorrow);
+        S.weekStart = getWeekMonday(firstBookableDate());
       }
       renderWeekView();
       prefetchWeekDates();
@@ -2165,18 +2458,20 @@
 
   /* Week navigation */
   $('wv-prev').addEventListener('click', () => {
+    const firstWeek = getWeekMonday(firstBookableDate());
     const prev = new Date(S.weekStart);
     prev.setDate(prev.getDate() - 7);
-    if (prev >= today0()) {
+    if (prev >= firstWeek) {
       S.weekStart = prev;
       renderWeekView();
       if (gcalActive) fetchGcalEvents().then(applyGcalOverlays);
     }
   });
   $('wv-next').addEventListener('click', () => {
+    const lastWeek = getWeekMonday(maxDate());
     const next = new Date(S.weekStart);
     next.setDate(next.getDate() + 7);
-    if (next <= maxDate()) {
+    if (next <= lastWeek) {
       S.weekStart = next;
       renderWeekView();
       if (gcalActive) fetchGcalEvents().then(applyGcalOverlays);
@@ -2208,15 +2503,16 @@
 
     let directWho = null;
     if (path === '/gaurav') directWho = 'gaurav';
+    else if (path === '/gaurav-priority') directWho = 'gaurav_priority';
     else if (path === '/justin') directWho = 'justin';
     else if (path === '/both') directWho = 'both';
-    else if (params.get('who') && ['gaurav','justin','both'].includes(params.get('who')))
+    else if (params.get('who') && VALID_WHO.includes(params.get('who')))
       directWho = params.get('who');
 
     // Restore previous selection if page reloads (e.g. during OAuth flow)
     let savedWho = null;
     try { savedWho = sessionStorage.getItem('caish_who'); } catch {}
-    if (!directWho && savedWho && ['gaurav','justin','both'].includes(savedWho)) {
+    if (!directWho && savedWho && VALID_WHO.includes(savedWho)) {
       directWho = savedWho;
     }
 
@@ -2226,7 +2522,7 @@
       $('crumbs').classList.add('direct');
       updateInfoPanel(directWho);
 
-      const label = HOST_LABELS[directWho];
+      const label = getProfile(directWho).pageLabel;
       document.title = `Book a Meeting with ${label}`;
       const metaDesc = document.querySelector('meta[name="description"]');
       if (metaDesc) metaDesc.setAttribute('content', `Book a meeting with ${label}.`);

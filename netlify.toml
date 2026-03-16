@@ -87,6 +87,12 @@
   force = true
 
 [[redirects]]
+  from = "/gaurav-priority"
+  to = "/calendar.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/justin"
   to = "/calendar.html"
   status = 200

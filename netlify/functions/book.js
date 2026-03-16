@@ -110,11 +110,89 @@ function getClientIp(event) {
 }
 
 /* ── Input validation ──────────────────────────────────────────────── */
-const VALID_WHO = new Set(['gaurav', 'justin', 'both']);
+const GAURAV_BLOCKED_RANGES = [
+  // Add exact UK-date ranges here when you want to close Gaurav's calendar
+  // for a whole week or a specific stretch of days.
+  // { start: '2026-04-06', end: '2026-04-10', label: 'week of 6 April 2026' },
+];
+
+const BOOKING_POLICIES = {
+  gaurav: {
+    gasWho: 'gaurav',
+    minLeadDays: 7,
+    maxAdvanceDays: 27,
+    blockedRanges: GAURAV_BLOCKED_RANGES,
+  },
+  gaurav_priority: {
+    gasWho: 'gaurav',
+    minLeadDays: 1,
+    maxAdvanceDays: 21,
+    blockedRanges: GAURAV_BLOCKED_RANGES,
+  },
+  justin: {
+    gasWho: 'justin',
+    minLeadDays: 1,
+    maxAdvanceDays: 21,
+    blockedRanges: [],
+  },
+  both: {
+    gasWho: 'both',
+    minLeadDays: 7,
+    maxAdvanceDays: 27,
+    blockedRanges: GAURAV_BLOCKED_RANGES,
+  },
+};
+
+const VALID_WHO = new Set(Object.keys(BOOKING_POLICIES));
 const VALID_FORMAT = new Set(['virtual', 'in-person']);
 const VALID_MINS = new Set([15, 30, 45, 60]);
 const MAX_FIELD = { name: 200, email: 254, topic: 1000 };
 const MAX_BODY = 10000; // 10 KB
+const MAX_ADVANCE_DAYS = Math.max(...Object.values(BOOKING_POLICIES).map(policy => policy.maxAdvanceDays));
+
+function getPolicy(who = 'both') {
+  return BOOKING_POLICIES[who] || BOOKING_POLICIES.both;
+}
+
+function startOfDay(date) {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function addDays(date, days) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d;
+}
+
+function isoDateToLocalDate(iso) {
+  const [year, month, day] = String(iso).split('-').map(Number);
+  return new Date(year, (month || 1) - 1, day || 1);
+}
+
+function getBlockedRange(date, who) {
+  const policy = getPolicy(who);
+  const day = startOfDay(date);
+  return (policy.blockedRanges || []).find(range => {
+    const start = startOfDay(isoDateToLocalDate(range.start));
+    const end = startOfDay(isoDateToLocalDate(range.end || range.start));
+    return day >= start && day <= end;
+  }) || null;
+}
+
+function bookingRuleError(date, who) {
+  const day = startOfDay(date);
+  const policy = getPolicy(who);
+  const min = addDays(startOfDay(new Date()), policy.minLeadDays);
+  const max = addDays(startOfDay(new Date()), policy.maxAdvanceDays);
+
+  if (day.getDay() === 0 || day.getDay() === 6) return 'outside_booking_window';
+  if (day < min) return 'notice_required';
+  if (day > max) return 'outside_booking_window';
+  if (getBlockedRange(day, who)) return 'blocked_date';
+  return null;
+}
 
 function validateBooking(raw) {
   if (!raw || raw.length > MAX_BODY) return null;
@@ -151,8 +229,8 @@ function validateBooking(raw) {
   const grace = new Date(); grace.setMinutes(grace.getMinutes() - 5);
   if (start < grace) return null;
 
-  // Must be within 25 days
-  const maxDate = new Date(); maxDate.setDate(maxDate.getDate() + 25);
+  // Must be within the broad booking horizon for this service.
+  const maxDate = new Date(); maxDate.setDate(maxDate.getDate() + MAX_ADVANCE_DAYS + 2);
   if (start > maxDate) return null;
 
   // Duration must roughly match mins param (1 min tolerance)
@@ -181,9 +259,13 @@ function uniqueEmails(list) {
 
 const DEFAULT_NOTIFY_EMAILS = {
   gaurav: ['gaurav@meridiancambridge.org'],
+  gaurav_priority: ['gaurav@meridiancambridge.org'],
   justin: ['justin@meridiancambridge.org'],
   both:   ['gaurav@meridiancambridge.org', 'justin@meridiancambridge.org'],
 };
+const DEFAULT_RESEND_FROM = 'CAISH Bookings <onboarding@resend.dev>';
+let _warnedDefaultFrom = false;
+let _warnedMissingResendKey = false;
 
 const GLOBAL_NOTIFY_EMAILS = parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS);
 const NOTIFY_EMAILS = {
@@ -191,6 +273,11 @@ const NOTIFY_EMAILS = {
     ...parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS_GAURAV),
     ...GLOBAL_NOTIFY_EMAILS,
     ...DEFAULT_NOTIFY_EMAILS.gaurav,
+  ]),
+  gaurav_priority: uniqueEmails([
+    ...parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS_GAURAV),
+    ...GLOBAL_NOTIFY_EMAILS,
+    ...DEFAULT_NOTIFY_EMAILS.gaurav_priority,
   ]),
   justin: uniqueEmails([
     ...parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS_JUSTIN),
@@ -203,7 +290,47 @@ const NOTIFY_EMAILS = {
     ...DEFAULT_NOTIFY_EMAILS.both,
   ]),
 };
-const HOST_LABELS = { gaurav: 'Gaurav', justin: 'Justin', both: 'Gaurav & Justin' };
+const HOST_LABELS = {
+  gaurav: 'Gaurav',
+  gaurav_priority: 'Gaurav (priority calendar)',
+  justin: 'Justin',
+  both: 'Gaurav & Justin',
+};
+
+function getResendApiKey() {
+  return (
+    process.env.RESEND_API_KEY ||
+    process.env.RESEND_API_TOKEN ||
+    process.env.RESEND_TOKEN ||
+    ''
+  ).trim();
+}
+
+function getNotificationFrom() {
+  return (
+    process.env.NOTIFICATION_FROM ||
+    process.env.RESEND_FROM ||
+    process.env.RESEND_FROM_EMAIL ||
+    DEFAULT_RESEND_FROM
+  ).trim();
+}
+
+function isValidReplyTo(email) {
+  return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+async function sendResendEmail(apiKey, payload) {
+  const res = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(payload),
+  });
+  const body = await res.text();
+  return { ok: res.ok, status: res.status, body };
+}
 
 /* ── GAS communication ─────────────────────────────────────────────── */
 
@@ -246,13 +373,20 @@ function escapeHtml(str) {
 
 // Send booking notification email via Resend
 async function sendNotification(booking) {
-  const apiKey = process.env.RESEND_API_KEY;
+  const apiKey = getResendApiKey();
   if (!apiKey) {
-    console.warn('RESEND_API_KEY not set — skipping booking notification email');
+    if (!_warnedMissingResendKey) {
+      console.warn('Resend API key not set — checked RESEND_API_KEY, RESEND_API_TOKEN, and RESEND_TOKEN. Skipping booking notification email.');
+      _warnedMissingResendKey = true;
+    }
     return;
   }
 
-  const fromAddr = process.env.NOTIFICATION_FROM || 'CAISH Bookings <onboarding@resend.dev>';
+  const fromAddr = getNotificationFrom();
+  if (fromAddr === DEFAULT_RESEND_FROM && !_warnedDefaultFrom) {
+    console.warn('Using fallback Resend sender onboarding@resend.dev. If notifications are failing, set NOTIFICATION_FROM (or RESEND_FROM / RESEND_FROM_EMAIL) to a verified sender.');
+    _warnedDefaultFrom = true;
+  }
 
   const date = new Date(booking.startISO);
   const dateStr = date.toLocaleDateString('en-GB', {
@@ -277,6 +411,7 @@ async function sendNotification(booking) {
   // Sanitize subject: strip control characters to prevent email header injection
   const safeName = booking.name.replace(/[\r\n\x00-\x1f]/g, ' ');
   const subject = `New booking with ${hostLabel}: ${safeName} — ${dateStr}`;
+  const replyTo = isValidReplyTo(booking.email) ? booking.email.trim() : null;
 
   const text = [
     `Someone just booked a meeting with ${hostLabel}.`,
@@ -333,27 +468,24 @@ async function sendNotification(booking) {
       <p style="color: #999; font-size: 12px; margin-top: 16px;">The calendar invite has been sent and the event is on your Google Calendar.</p>
     </div>`;
 
+  if (!notifyTo.length) {
+    console.warn(`No booking notification recipients configured for "${who}".`);
+    return;
+  }
+
   for (const recipient of notifyTo) {
     try {
-      const res = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: fromAddr,
-          to: [recipient],
-          subject,
-          text,
-          html,
-          reply_to: booking.email,
-        }),
-      });
+      const payload = { from: fromAddr, to: [recipient], subject, text, html };
+      if (replyTo) payload.reply_to = replyTo;
 
-      if (!res.ok) {
-        const err = await res.text();
-        console.error(`Notification to ${recipient} failed:`, res.status, err);
+      let resendResult = await sendResendEmail(apiKey, payload);
+      if (!resendResult.ok && replyTo) {
+        console.warn(`Notification to ${recipient} failed with reply_to; retrying without reply_to.`, resendResult.status, resendResult.body);
+        resendResult = await sendResendEmail(apiKey, { from: fromAddr, to: [recipient], subject, text, html });
+      }
+
+      if (!resendResult.ok) {
+        console.error(`Notification to ${recipient} failed:`, resendResult.status, resendResult.body);
       }
     } catch (err) {
       console.error(`Notification to ${recipient} error:`, err);
@@ -398,8 +530,20 @@ exports.handler = async (event) => {
         };
       }
 
+      const policyError = bookingRuleError(new Date(validated.startISO), validated.who);
+      if (policyError) {
+        return {
+          statusCode: 200,
+          headers: postCorsHeaders(event),
+          body: JSON.stringify({ ok: false, e: policyError }),
+        };
+      }
+
       /* ── Forward sanitized data to GAS ── */
-      const sanitizedBody = JSON.stringify(validated);
+      const sanitizedBody = JSON.stringify({
+        ...validated,
+        who: getPolicy(validated.who).gasWho,
+      });
       const gasRes = await gasPost(GAS_URL, sanitizedBody, 0);
       if (!gasRes.ok) {
         console.error('GAS POST failed:', gasRes.status, gasRes.body);
@@ -424,7 +568,7 @@ exports.handler = async (event) => {
       if (gasResult.ok) {
         const dateStr = validated.startISO.split('T')[0];
         for (const m of ['15', '30', '45', '60']) {
-          for (const w of ['gaurav', 'justin', 'both']) {
+          for (const w of ['gaurav', 'gaurav_priority', 'justin', 'both']) {
             _slotCache.delete(`${dateStr}_${m}_${w}`);
           }
         }
@@ -443,6 +587,7 @@ exports.handler = async (event) => {
       const params = event.queryStringParameters || {};
       const who = params.who || 'both';
       const mins = params.mins || '30';
+      const gasWho = getPolicy(who).gasWho;
 
       // Validate GET params
       if (!VALID_WHO.has(who) || !['15', '30', '45', '60'].includes(mins)) {
@@ -463,6 +608,11 @@ exports.handler = async (event) => {
 
         for (const date of dates) {
           const key = `${date}_${mins}_${who}`;
+          if (bookingRuleError(isoDateToLocalDate(date), who)) {
+            slotCacheSet(key, []);
+            results[date] = [];
+            continue;
+          }
           const cached = slotCacheGet(key);
           if (cached !== null) {
             results[date] = cached;
@@ -474,7 +624,7 @@ exports.handler = async (event) => {
         if (uncached.length > 0) {
           let batchOk = false;
           try {
-            const qs = new URLSearchParams({ dates: uncached.join(','), mins, who }).toString();
+            const qs = new URLSearchParams({ dates: uncached.join(','), mins, who: gasWho }).toString();
             const res = await fetchWithTimeout(GAS_URL + '?' + qs, { redirect: 'follow' });
             const data = parseJsonSafe(await res.text());
             if (res.ok && data && data.ok && data.batch && data.results) {
@@ -490,7 +640,7 @@ exports.handler = async (event) => {
             const unavailable = [];
             const fetches = uncached.map(async (date) => {
               try {
-                const qs = new URLSearchParams({ date, mins, who }).toString();
+                const qs = new URLSearchParams({ date, mins, who: gasWho }).toString();
                 const res = await fetchWithTimeout(GAS_URL + '?' + qs, { redirect: 'follow' });
                 if (!res.ok) throw new Error(`Upstream status ${res.status}`);
                 const data = parseJsonSafe(await res.text());
@@ -535,6 +685,11 @@ exports.handler = async (event) => {
         }
 
         const key = `${date}_${mins}_${who}`;
+        if (bookingRuleError(isoDateToLocalDate(date), who)) {
+          slotCacheSet(key, []);
+          return { statusCode: 200, headers: CORS_GET_CACHED,
+            body: JSON.stringify({ ok: true, slots: [] }) };
+        }
         const cached = slotCacheGet(key);
         if (cached !== null) {
           return { statusCode: 200, headers: CORS_GET_CACHED,
@@ -542,7 +697,7 @@ exports.handler = async (event) => {
         }
       }
 
-      const qs = new URLSearchParams(params).toString();
+      const qs = new URLSearchParams({ ...params, who: gasWho }).toString();
       const url = GAS_URL + (qs ? '?' + qs : '');
       const res = await fetchWithTimeout(url, { redirect: 'follow' });
       if (!res.ok) {
