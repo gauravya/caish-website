@@ -232,10 +232,10 @@
     }
 
     .cert-signature-mark {
-      height: 36px;
+      min-height: 36px;
       display: flex;
       align-items: flex-end;
-      justify-content: center;
+      justify-content: flex-start;
       margin-bottom: 0.4rem;
       border-bottom: 1px solid rgba(95, 90, 83, 0.34);
       font-family: 'Libre Baskerville', Georgia, serif;
@@ -255,6 +255,10 @@
 
     .cert-signature-placeholder {
       display: inline-block;
+    }
+
+    .cert-signature-placeholder[hidden] {
+      display: none;
     }
 
     .cert-signature-name {
