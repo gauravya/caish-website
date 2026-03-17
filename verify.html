@@ -326,6 +326,75 @@
       max-width: 380px;
       margin: 0 auto;
     }
+
+    .verify-lookup-status {
+      min-height: 1.4rem;
+      margin-top: 0.85rem;
+      font-size: 0.72rem;
+      color: #6c5f54;
+    }
+
+    .verify-lookup-status.is-error {
+      color: #8b3d2f;
+    }
+
+    .verify-lookup-status.is-success {
+      color: #4d6652;
+    }
+
+    .verify-lookup-results {
+      margin-top: 0.85rem;
+      border: 1px solid rgba(166,140,115,0.18);
+      border-radius: 20px;
+      background: rgba(255, 252, 247, 0.95);
+      overflow: hidden;
+      text-align: left;
+      box-shadow: 0 12px 32px rgba(44, 26, 13, 0.06);
+    }
+
+    .verify-lookup-results[hidden] {
+      display: none;
+    }
+
+    .verify-lookup-result {
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border: 0;
+      border-top: 1px solid rgba(166,140,115,0.12);
+      background: transparent;
+      color: #1a1a1a;
+      text-align: left;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .verify-lookup-result:first-child {
+      border-top: 0;
+    }
+
+    .verify-lookup-result:hover,
+    .verify-lookup-result:focus-visible {
+      background: rgba(148,89,71,0.08);
+      outline: none;
+    }
+
+    .verify-lookup-result-name {
+      display: block;
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 0.88rem;
+      color: #1a1a1a;
+      margin-bottom: 0.2rem;
+    }
+
+    .verify-lookup-result-meta {
+      display: block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.62rem;
+      line-height: 1.65;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #6c5f54;
+    }
     .verify-lookup-form input {
       flex: 1;
       font-family: 'Space Mono', monospace;
@@ -575,22 +644,19 @@
         this.container = document.getElementById('verify-content');
         if (!this.container) return;
 
-        const id = this.getCertificateIdFromLocation();
-
-        if (!id) {
-          this.showLookup();
-          return;
-        }
-
         try {
-          const res = await fetch('/data/fellows.json', { cache: 'no-store' });
-          if (!res.ok) throw new Error('Failed to load data');
-          const data = await res.json();
-          const fellows = data && typeof data.fellows === 'object' ? data.fellows : {};
-          const cohorts = data && typeof data.cohorts === 'object' ? data.cohorts : {};
+          const registry = await this.loadRegistry();
+          const fellows = registry.fellows;
+          const cohorts = registry.cohorts;
 
           if (!Object.keys(fellows).length) {
             this.showEmptyRegistry();
+            return;
+          }
+
+          const id = this.getCertificateIdFromLocation();
+          if (!id) {
+            this.showLookup(registry);
             return;
           }
 
@@ -611,6 +677,17 @@
         } catch (err) {
           this.showError();
         }
+      },
+
+      async loadRegistry() {
+        const res = await fetch('/data/fellows.json', { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to load data');
+
+        const data = await res.json();
+        return {
+          fellows: data && typeof data.fellows === 'object' ? data.fellows : {},
+          cohorts: data && typeof data.cohorts === 'object' ? data.cohorts : {}
+        };
       },
 
       getCertificateIdFromLocation() {
@@ -661,6 +738,79 @@
           .toUpperCase();
 
         return normalized || null;
+      },
+
+      normalizeName(value) {
+        if (typeof value !== 'string') return '';
+
+        return value
+          .normalize('NFKD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .trim()
+          .replace(/\s+/g, ' ');
+      },
+
+      findCertificatesByName(query, fellows) {
+        const normalizedQuery = this.normalizeName(query);
+        if (!normalizedQuery) return [];
+
+        const matches = Object.entries(fellows)
+          .map(function(entry) {
+            return {
+              id: entry[0],
+              fellow: entry[1],
+              normalizedName: CertificateVerify.normalizeName(entry[1] && entry[1].name)
+            };
+          })
+          .filter(function(entry) {
+            return entry.normalizedName.includes(normalizedQuery);
+          })
+          .sort(function(a, b) {
+            var aStarts = a.normalizedName.startsWith(normalizedQuery) ? 0 : 1;
+            var bStarts = b.normalizedName.startsWith(normalizedQuery) ? 0 : 1;
+            if (aStarts !== bStarts) return aStarts - bStarts;
+
+            var aWordStart = a.normalizedName.split(' ').some(function(token) {
+              return token.startsWith(normalizedQuery);
+            }) ? 0 : 1;
+            var bWordStart = b.normalizedName.split(' ').some(function(token) {
+              return token.startsWith(normalizedQuery);
+            }) ? 0 : 1;
+            if (aWordStart !== bWordStart) return aWordStart - bWordStart;
+
+            return a.fellow.name.localeCompare(b.fellow.name);
+          });
+
+        const exactMatches = matches.filter(function(entry) {
+          return entry.normalizedName === normalizedQuery;
+        });
+
+        return exactMatches.length ? exactMatches : matches;
+      },
+
+      renderLookupMatches(matches, registry) {
+        return matches.slice(0, 6).map(function(match) {
+          var cohort = registry.cohorts[match.fellow.cohort];
+          var metaParts = [];
+
+          if (match.fellow.track) {
+            metaParts.push(match.fellow.track);
+          }
+
+          if (cohort && cohort.name) {
+            metaParts.push(cohort.name);
+          }
+
+          metaParts.push(match.id);
+
+          return '' +
+            '<button type="button" class="verify-lookup-result" data-cert-id="' + CertificateVerify.escapeHtml(match.id) + '">' +
+              '<span class="verify-lookup-result-name">' + CertificateVerify.escapeHtml(match.fellow.name) + '</span>' +
+              '<span class="verify-lookup-result-meta">' + CertificateVerify.escapeHtml(metaParts.join(' / ')) + '</span>' +
+            '</button>';
+        }).join('');
       },
 
       formatDate(dateStr) {
@@ -746,32 +896,117 @@
           '</div>';
       },
 
-      showLookup() {
+      showLookup(registry) {
         document.title = 'Certificate Verification | Cambridge AI Safety Hub';
         this.container.innerHTML =
           '<div class="verify-lookup">' +
             '<h1>Certificate Verification</h1>' +
-            '<p>Enter a certificate ID to verify an Alignment Fellowship certificate.</p>' +
+            '<p>Enter a fellow name or certificate ID to verify an Alignment Fellowship certificate.</p>' +
             '<form class="verify-lookup-form" id="verify-lookup-form" novalidate>' +
-              '<label class="visually-hidden" for="cert-id-input">Certificate ID</label>' +
-              '<input type="text" id="cert-id-input" placeholder="e.g. CAISH-LT26-T-001" autocomplete="off" spellcheck="false" aria-describedby="verify-lookup-help">' +
+              '<label class="visually-hidden" for="cert-id-input">Fellow name or certificate ID</label>' +
+              '<input type="text" id="cert-id-input" placeholder="e.g. Lisa Vickers or CAISH-LT26-T-001" autocomplete="off" spellcheck="false" aria-describedby="verify-lookup-help verify-lookup-status">' +
               '<button type="submit" id="cert-lookup-btn">Verify</button>' +
             '</form>' +
-            '<p id="verify-lookup-help" class="visually-hidden">Certificate IDs are not case sensitive.</p>' +
+            '<p id="verify-lookup-help" class="visually-hidden">You can search using a full name or certificate ID. Certificate IDs are not case sensitive.</p>' +
+            '<div id="verify-lookup-status" class="verify-lookup-status" aria-live="polite"></div>' +
+            '<div id="verify-lookup-results" class="verify-lookup-results" hidden></div>' +
           '</div>';
 
         var input = document.getElementById('cert-id-input');
         var form = document.getElementById('verify-lookup-form');
+        var status = document.getElementById('verify-lookup-status');
+        var button = document.getElementById('cert-lookup-btn');
+        var results = document.getElementById('verify-lookup-results');
 
-        var navigate = function(event) {
-          if (event) event.preventDefault();
-          var val = CertificateVerify.normalizeCertificateId(input.value);
-          if (val) {
-            window.location.href = CertificateVerify.buildCertificateUrl(val);
+        var setStatus = function(message, type) {
+          if (!status) return;
+          status.textContent = message || '';
+          status.className = 'verify-lookup-status' + (type ? ' is-' + type : '');
+        };
+
+        var clearResults = function() {
+          if (!results) return;
+          results.hidden = true;
+          results.innerHTML = '';
+        };
+
+        var showResults = function(matches) {
+          if (!results) return;
+          if (!matches.length) {
+            clearResults();
+            return;
           }
+
+          results.innerHTML = CertificateVerify.renderLookupMatches(matches, registry);
+          results.hidden = false;
+        };
+
+        var openCertificate = function(id) {
+          setStatus('Opening certificate record...', 'success');
+          window.location.href = CertificateVerify.buildCertificateUrl(id);
+        };
+
+        var updateMatches = function(rawValue) {
+          if (!rawValue) {
+            clearResults();
+            return [];
+          }
+
+          var idValue = CertificateVerify.normalizeCertificateId(rawValue);
+          if (registry.fellows[idValue]) {
+            showResults([{ id: idValue, fellow: registry.fellows[idValue] }]);
+            return [{ id: idValue, fellow: registry.fellows[idValue] }];
+          }
+
+          var matches = CertificateVerify.findCertificatesByName(rawValue, registry.fellows);
+          showResults(matches);
+          return matches;
+        };
+
+        var navigate = async function(event) {
+          if (event) event.preventDefault();
+          var rawValue = input.value.trim();
+          if (!rawValue) {
+            clearResults();
+            setStatus('Enter a fellow name or certificate ID.', 'error');
+            return;
+          }
+
+          var matches = updateMatches(rawValue);
+          if (matches.length === 1) {
+            openCertificate(matches[0].id);
+            return;
+          }
+
+          if (matches.length > 1) {
+            setStatus('Choose your certificate from the matches below.', '');
+            return;
+          }
+
+          setStatus('No certificate matched that name or ID.', 'error');
         };
 
         form?.addEventListener('submit', navigate);
+        input?.addEventListener('input', function() {
+          var rawValue = input.value.trim();
+          setStatus('');
+          updateMatches(rawValue);
+        });
+        button?.addEventListener('click', function() {
+          button.blur();
+        });
+        results?.addEventListener('click', function(event) {
+          var target = event.target;
+          if (!(target instanceof Element)) return;
+
+          var resultButton = target.closest('.verify-lookup-result');
+          if (!(resultButton instanceof HTMLElement)) return;
+
+          var certId = resultButton.getAttribute('data-cert-id');
+          if (!certId) return;
+
+          openCertificate(certId);
+        });
         input?.focus();
       },
 

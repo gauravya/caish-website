@@ -296,7 +296,6 @@ const Enhancements = {
    */
   initParallax() {
     const parallaxElements = [
-      { selector: '.hero-image img', speed: 0.15 },
       { selector: '.mission-image img', speed: 0.1 },
       { selector: '.cta-image img', speed: 0.08 }
     ];
