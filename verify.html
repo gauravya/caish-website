@@ -705,8 +705,8 @@
               '</div>' +
             '</div>' +
             '<div class="cert-signatures">' +
-              this.renderSignatureBlock('Gaurav Yadav', 'Co-Director', '/images/signatures/gaurav-yadav.png') +
-              this.renderSignatureBlock('Justin Dollman', 'Co-Director', '/images/signatures/justin-dollman.png') +
+              this.renderSignatureBlock('Gaurav Yadav', 'Co-Director', '/images/gaurav-signature.png') +
+              this.renderSignatureBlock('Justin Dollman', 'Co-Director', '/images/justin-signature.png') +
             '</div>' +
           '</div>' +
           '<div class="verify-actions">' +
@@ -744,7 +744,6 @@
 
       showLookup() {
         document.title = 'Certificate Verification | Cambridge AI Safety Hub';
-        const demoUrl = this.buildCertificateUrl('CAISH-LT26-DEMO');
         this.container.innerHTML =
           '<div class="verify-lookup">' +
             '<h1>Certificate Verification</h1>' +
@@ -755,7 +754,6 @@
               '<button type="submit" id="cert-lookup-btn">Verify</button>' +
             '</form>' +
             '<p id="verify-lookup-help" class="visually-hidden">Certificate IDs are not case sensitive.</p>' +
-            '<p><a href="' + this.escapeHtml(demoUrl) + '">Open the demo certificate</a></p>' +
           '</div>';
 
         var input = document.getElementById('cert-id-input');

@@ -9,8 +9,158 @@
     }
   },
   "fellows": {
-    "CAISH-LT26-DEMO": {
-      "name": "Alex Example",
+    "CAISH-LT26-G-001": {
+      "name": "Lisa Vickers",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-002": {
+      "name": "Cassandra Millar",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-003": {
+      "name": "Emily Jenkins",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-004": {
+      "name": "Lauren Bassett",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-005": {
+      "name": "Olivia Lombardo",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-006": {
+      "name": "Faith Goetzke",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-007": {
+      "name": "Carter Harrison Rogers",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-008": {
+      "name": "Alina Timoshkina",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-009": {
+      "name": "Saachi Yadav",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-010": {
+      "name": "Magda Rutkowska",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-011": {
+      "name": "Lea Fink",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-012": {
+      "name": "Heather Keleher",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-013": {
+      "name": "Edward Parker",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-G-014": {
+      "name": "Steven Levin",
+      "track": "Governance",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-001": {
+      "name": "Indiradharshini Thanigaikumar",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-002": {
+      "name": "Anirudh Krishnan",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-003": {
+      "name": "Krisztina Sinkovics",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-004": {
+      "name": "Moray Grieve",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-005": {
+      "name": "Elliot Kaute",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-006": {
+      "name": "Olubusolami Sogunle",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-007": {
+      "name": "Isak Huo",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-008": {
+      "name": "Dongye Xie",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-009": {
+      "name": "Fabian Antonio Circelli",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-010": {
+      "name": "Hazel Frampton",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-011": {
+      "name": "Xuan Tung Le",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-012": {
+      "name": "Ayse Sila Okcu",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-013": {
+      "name": "Elin Griffiths",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-014": {
+      "name": "Adam Wajed",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-015": {
+      "name": "Adam Benzineb",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-016": {
+      "name": "Adem Kesaev",
+      "track": "Technical",
+      "cohort": "LT26"
+    },
+    "CAISH-LT26-T-017": {
+      "name": "Prishim Luhadiya",
       "track": "Technical",
       "cohort": "LT26"
     }
