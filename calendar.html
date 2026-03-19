@@ -1005,8 +1005,8 @@
                 </div>
 
                 <div class="field">
-                  <label for="f-topic">What would you like to discuss? <span class="req">*</span></label>
-                  <textarea id="f-topic" rows="3" required placeholder="A few lines on what you'd like to cover…"></textarea>
+                  <label for="f-topic">What would you like to discuss? <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
+                  <textarea id="f-topic" rows="3" placeholder="A few lines on what you'd like to cover…"></textarea>
                 </div>
               </div>
 
@@ -2390,11 +2390,19 @@
       `${d.getFullYear()}${pad(d.getMonth()+1)}${pad(d.getDate())}`
       + `T${pad(d.getHours())}${pad(d.getMinutes())}00`;
 
+    const details = [
+      topic ? `Topic: ${topic}` : 'Topic: Not provided',
+      '',
+      S.format === 'virtual'
+        ? 'Check your email for the Google Meet invite.'
+        : 'In-person meeting at Sidney Street.',
+    ].join('\n');
+
     const parts = [
       'https://calendar.google.com/calendar/render?action=TEMPLATE',
       `text=${encodeURIComponent(`Meeting with ${host} \u2013 ${name}`)}`,
       `dates=${fmt(start)}/${fmt(end)}`,
-      `details=${encodeURIComponent(`Topic: ${topic}\n\n${S.format === 'virtual' ? 'Check your email for the Google Meet invite.' : 'In-person meeting at Sidney Street.'}`)}`,
+      `details=${encodeURIComponent(details)}`,
     ];
     // Only set a location for in-person meetings; virtual meetings get their
     // Google Meet link from the calendar invite itself — no fake location needed.
@@ -2437,7 +2445,7 @@
     const email = $('f-email').value.trim();
     const topic = $('f-topic').value.trim();
 
-    if (!name || !email || !topic) { showErr('Please fill in all fields.'); return; }
+    if (!name || !email) { showErr('Please fill in your name and email.'); return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showErr('Please enter a valid email address.'); return; }
     if (!S.format) {
       showErr('Please select a meeting format.');
@@ -2462,7 +2470,7 @@
       row('Format', formatLabel),
       row('Name', name),
       row('Email', email),
-      row('Topic', topic),
+      row('Topic', topic || '--'),
     ].join('');
 
     $('btn-lbl').textContent = `Confirm booking`;
@@ -2608,6 +2616,7 @@
           else if (e === 'blocked_date') { msg = 'That week is unavailable for new meetings. Please choose another date.'; goBack = true; }
           else if (e === 'outside_booking_window') { msg = 'That date is outside the current booking window. Please choose another week.'; goBack = true; }
           else if (e === 'outside_booking_hours') { msg = 'That time now runs past the 6 PM cutoff. Please choose an earlier slot.'; goBack = true; }
+          else if (e === 'Invalid booking data.' || e === 'invalid_booking_data') { msg = 'Some booking details were missing or outdated. Please refresh the page and try again.'; }
           else if (e.includes('availability') || e.includes('calendar service')) msg = 'The calendar service is having trouble right now. Please try again in a moment.';
           else if (e.includes('Too many')) msg = 'Too many booking attempts. Please try again later.';
           errEl.textContent = msg;

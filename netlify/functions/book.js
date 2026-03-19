@@ -254,16 +254,17 @@ function validateBooking(raw) {
   if (!d || typeof d !== 'object') return null;
 
   // Required string fields
-  if (typeof d.name !== 'string' || typeof d.email !== 'string' || typeof d.topic !== 'string') return null;
+  if (typeof d.name !== 'string' || typeof d.email !== 'string') return null;
+  if (typeof d.topic !== 'undefined' && typeof d.topic !== 'string') return null;
   if (typeof d.startISO !== 'string' || typeof d.endISO !== 'string') return null;
 
   const name = d.name.trim();
   const email = d.email.trim();
-  const topic = d.topic.trim();
+  const topic = typeof d.topic === 'string' ? d.topic.trim() : '';
 
   if (!name || name.length > MAX_FIELD.name) return null;
   if (!email || email.length > MAX_FIELD.email) return null;
-  if (!topic || topic.length > MAX_FIELD.topic) return null;
+  if (topic.length > MAX_FIELD.topic) return null;
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return null;
 
   // Enum fields
@@ -573,6 +574,7 @@ function buildBookingEmailContext(booking) {
   const name = escapeHtml(booking.name);
   const email = escapeHtml(booking.email);
   const topic = escapeHtml(booking.topic);
+  const topicDisplay = topic || 'Not provided';
   const mins = booking.mins || 30;
   const who = booking.who || 'both';
   const hostLabel = HOST_LABELS[who] || 'Gaurav & Justin';
@@ -591,6 +593,7 @@ function buildBookingEmailContext(booking) {
     name,
     email,
     topic,
+    topicDisplay,
     mins,
     who,
     hostLabel,
@@ -615,7 +618,7 @@ async function sendHostNotifications(ctx) {
     `Date:     ${ctx.dateStr}`,
     `Time:     ${ctx.timeStr}`,
     `Duration: ${ctx.mins} minutes`,
-    `Topic:    ${ctx.booking.topic}`,
+    `Topic:    ${ctx.booking.topic || 'Not provided'}`,
     '',
     'The calendar invite has been sent and the event is on your Google Calendar.',
   ].join('\n');
@@ -654,7 +657,7 @@ async function sendHostNotifications(ctx) {
         </tr>
         <tr>
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Topic</td>
-          <td style="padding: 10px 14px; font-size: 14px;">${ctx.topic}</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.topicDisplay}</td>
         </tr>
       </table>
       <p style="color: #999; font-size: 12px; margin-top: 16px;">The calendar invite has been sent and the event is on your Google Calendar.</p>
