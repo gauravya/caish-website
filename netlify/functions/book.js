@@ -300,9 +300,15 @@ function isValidDateStr(s) {
 function parseEmailList(value) {
   if (!value) return [];
   return String(value)
-    .split(',')
+    .replace(/\s+and\s+/gi, ',')
+    .split(/[;,]/)
     .map(v => v.trim())
-    .filter(Boolean);
+    .map(v => {
+      const angleMatch = v.match(/<([^<>@\s]+@[^<>@\s]+)>/);
+      return angleMatch ? angleMatch[1].trim() : v;
+    })
+    .filter(Boolean)
+    .filter(v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v));
 }
 
 function uniqueEmails(list) {
@@ -317,7 +323,8 @@ const DEFAULT_NOTIFY_EMAILS = {
 };
 const DEFAULT_RESEND_FROM = 'CAISH Bookings <onboarding@resend.dev>';
 let _warnedDefaultFrom = false;
-let _warnedMissingResendKey = false;
+let _warnedMissingEmailProvider = false;
+let _warnedMissingNotificationFrom = false;
 
 const GLOBAL_NOTIFY_EMAILS = parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS);
 const NOTIFY_EMAILS = {
@@ -327,6 +334,7 @@ const NOTIFY_EMAILS = {
     ...DEFAULT_NOTIFY_EMAILS.gaurav,
   ]),
   gaurav_priority: uniqueEmails([
+    ...parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS_GAURAV_PRIORITY),
     ...parseEmailList(process.env.BOOKING_NOTIFICATION_EMAILS_GAURAV),
     ...GLOBAL_NOTIFY_EMAILS,
     ...DEFAULT_NOTIFY_EMAILS.gaurav_priority,
@@ -349,6 +357,19 @@ const HOST_LABELS = {
   both: 'Gaurav & Justin',
 };
 
+function getPostmarkServerToken() {
+  return (
+    process.env.POSTMARK_SERVER_TOKEN ||
+    process.env.POSTMARK_API_TOKEN ||
+    process.env.POSTMARK_TOKEN ||
+    ''
+  ).trim();
+}
+
+function getPostmarkMessageStream() {
+  return (process.env.POSTMARK_MESSAGE_STREAM || 'outbound').trim();
+}
+
 function getResendApiKey() {
   return (
     process.env.RESEND_API_KEY ||
@@ -361,14 +382,52 @@ function getResendApiKey() {
 function getNotificationFrom() {
   return (
     process.env.NOTIFICATION_FROM ||
+    process.env.BOOKING_NOTIFICATION_FROM ||
     process.env.RESEND_FROM ||
+    process.env.RESEND_SENDER ||
+    process.env.EMAIL_FROM ||
+    process.env.FROM_EMAIL ||
+    process.env.MAIL_FROM ||
     process.env.RESEND_FROM_EMAIL ||
-    DEFAULT_RESEND_FROM
+    process.env.POSTMARK_FROM
   ).trim();
 }
 
 function isValidReplyTo(email) {
   return typeof email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+function getEmailTransport() {
+  const postmarkToken = getPostmarkServerToken();
+  if (postmarkToken) return { provider: 'postmark', token: postmarkToken };
+
+  const resendApiKey = getResendApiKey();
+  if (resendApiKey) return { provider: 'resend', token: resendApiKey };
+
+  if (!_warnedMissingEmailProvider) {
+    console.warn('No email provider configured. Set POSTMARK_SERVER_TOKEN or RESEND_API_KEY to send booking emails.');
+    _warnedMissingEmailProvider = true;
+  }
+  return null;
+}
+
+function resolveNotificationFrom(provider) {
+  const configured = getNotificationFrom();
+  if (configured) return configured;
+
+  if (provider === 'resend') {
+    if (!_warnedDefaultFrom) {
+      console.warn('No notification sender configured. Falling back to onboarding@resend.dev, which Resend only allows for limited testing to your own account address.');
+      _warnedDefaultFrom = true;
+    }
+    return DEFAULT_RESEND_FROM;
+  }
+
+  if (!_warnedMissingNotificationFrom) {
+    console.error('Notification sender address not set. Configure NOTIFICATION_FROM (or BOOKING_NOTIFICATION_FROM / POSTMARK_FROM / RESEND_FROM / RESEND_SENDER / EMAIL_FROM / FROM_EMAIL / MAIL_FROM / RESEND_FROM_EMAIL).');
+    _warnedMissingNotificationFrom = true;
+  }
+  return '';
 }
 
 async function sendResendEmail(apiKey, payload) {
@@ -381,7 +440,84 @@ async function sendResendEmail(apiKey, payload) {
     body: JSON.stringify(payload),
   });
   const body = await res.text();
-  return { ok: res.ok, status: res.status, body };
+  return { ok: res.ok, status: res.status, body, data: parseJsonSafe(body) };
+}
+
+async function sendPostmarkEmail(serverToken, payload) {
+  const res = await fetch('https://api.postmarkapp.com/email', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-Postmark-Server-Token': serverToken,
+    },
+    body: JSON.stringify(payload),
+  });
+  const body = await res.text();
+  const data = parseJsonSafe(body);
+  const errorCode = data && Number.isFinite(Number(data.ErrorCode)) ? Number(data.ErrorCode) : 0;
+  return { ok: res.ok && errorCode === 0, status: res.status, body, data };
+}
+
+async function sendEmailMessage(message) {
+  const transport = getEmailTransport();
+  if (!transport) return { ok: false, skipped: true, provider: 'none', status: 0, body: '' };
+
+  const fromAddr = resolveNotificationFrom(transport.provider);
+  if (!fromAddr) return { ok: false, skipped: true, provider: transport.provider, status: 0, body: '' };
+
+  if (transport.provider === 'postmark') {
+    return {
+      provider: 'postmark',
+      ...(await sendPostmarkEmail(transport.token, {
+        From: fromAddr,
+        To: message.to,
+        Subject: message.subject,
+        TextBody: message.text,
+        HtmlBody: message.html,
+        MessageStream: getPostmarkMessageStream(),
+        ...(message.replyTo ? { ReplyTo: message.replyTo } : {}),
+        ...(message.tag ? { Tag: message.tag } : {}),
+        ...(message.metadata ? { Metadata: message.metadata } : {}),
+      })),
+    };
+  }
+
+  const payload = {
+    from: fromAddr,
+    to: [message.to],
+    subject: message.subject,
+    text: message.text,
+    html: message.html,
+  };
+  if (message.replyTo) payload.replyTo = message.replyTo;
+
+  let resendResult = await sendResendEmail(transport.token, payload);
+  if (!resendResult.ok && message.replyTo) {
+    console.warn(`Email to ${message.to} failed with replyTo; retrying without it.`, resendResult.status, resendResult.body);
+    resendResult = await sendResendEmail(transport.token, {
+      from: fromAddr,
+      to: [message.to],
+      subject: message.subject,
+      text: message.text,
+      html: message.html,
+    });
+  }
+
+  return { provider: 'resend', ...resendResult };
+}
+
+function logEmailResult(kind, recipient, result) {
+  if (!result || result.skipped) return;
+  if (!result.ok) {
+    console.error(`${kind} to ${recipient} failed via ${result.provider}:`, result.status, result.body);
+    return;
+  }
+
+  const id = result.provider === 'postmark'
+    ? (result.data && result.data.MessageID)
+    : (result.data && result.data.id);
+  console.info(`${kind} sent to ${recipient} via ${result.provider}. Id: ${id || 'unknown'}`);
 }
 
 /* ── GAS communication ─────────────────────────────────────────────── */
@@ -423,23 +559,7 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-// Send booking notification email via Resend
-async function sendNotification(booking) {
-  const apiKey = getResendApiKey();
-  if (!apiKey) {
-    if (!_warnedMissingResendKey) {
-      console.warn('Resend API key not set — checked RESEND_API_KEY, RESEND_API_TOKEN, and RESEND_TOKEN. Skipping booking notification email.');
-      _warnedMissingResendKey = true;
-    }
-    return;
-  }
-
-  const fromAddr = getNotificationFrom();
-  if (fromAddr === DEFAULT_RESEND_FROM && !_warnedDefaultFrom) {
-    console.warn('Using fallback Resend sender onboarding@resend.dev. If notifications are failing, set NOTIFICATION_FROM (or RESEND_FROM / RESEND_FROM_EMAIL) to a verified sender.');
-    _warnedDefaultFrom = true;
-  }
-
+function buildBookingEmailContext(booking) {
   const date = new Date(booking.startISO);
   const dateStr = date.toLocaleDateString('en-GB', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -462,87 +582,175 @@ async function sendNotification(booking) {
 
   // Sanitize subject: strip control characters to prevent email header injection
   const safeName = booking.name.replace(/[\r\n\x00-\x1f]/g, ' ');
-  const subject = `New booking with ${hostLabel}: ${safeName} — ${dateStr}`;
   const replyTo = isValidReplyTo(booking.email) ? booking.email.trim() : null;
 
+  return {
+    booking,
+    dateStr,
+    timeStr,
+    name,
+    email,
+    topic,
+    mins,
+    who,
+    hostLabel,
+    notifyTo,
+    format,
+    formatLabel,
+    safeName,
+    replyTo,
+  };
+}
+
+async function sendHostNotifications(ctx) {
+  const subject = `New booking with ${ctx.hostLabel}: ${ctx.safeName} — ${ctx.dateStr}`;
+
   const text = [
-    `Someone just booked a meeting with ${hostLabel}.`,
+    `Someone just booked a meeting with ${ctx.hostLabel}.`,
     '',
-    `Name:     ${booking.name}`,
-    `Email:    ${booking.email}`,
-    `Meeting:  ${hostLabel}`,
-    `Format:   ${formatLabel}`,
-    `Date:     ${dateStr}`,
-    `Time:     ${timeStr}`,
-    `Duration: ${mins} minutes`,
-    `Topic:    ${booking.topic}`,
+    `Name:     ${ctx.booking.name}`,
+    `Email:    ${ctx.booking.email}`,
+    `Meeting:  ${ctx.hostLabel}`,
+    `Format:   ${ctx.formatLabel}`,
+    `Date:     ${ctx.dateStr}`,
+    `Time:     ${ctx.timeStr}`,
+    `Duration: ${ctx.mins} minutes`,
+    `Topic:    ${ctx.booking.topic}`,
     '',
     'The calendar invite has been sent and the event is on your Google Calendar.',
   ].join('\n');
 
   const html = `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 520px; margin: 0 auto;">
-      <h2 style="color: #7e4233; font-size: 20px; font-weight: 600; margin-bottom: 20px;">New meeting booked with ${hostLabel}</h2>
+      <h2 style="color: #7e4233; font-size: 20px; font-weight: 600; margin-bottom: 20px;">New meeting booked with ${ctx.hostLabel}</h2>
       <table style="border-collapse: collapse; width: 100%; border: 1px solid #e4e4e4; border-radius: 8px;">
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; width: 90px; vertical-align: top;">Name</td>
-          <td style="padding: 10px 14px; font-size: 14px;">${name}</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.name}</td>
         </tr>
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Email</td>
-          <td style="padding: 10px 14px; font-size: 14px;"><a href="mailto:${email}" style="color: #7e4233;">${email}</a></td>
+          <td style="padding: 10px 14px; font-size: 14px;"><a href="mailto:${ctx.email}" style="color: #7e4233;">${ctx.email}</a></td>
         </tr>
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Meeting</td>
-          <td style="padding: 10px 14px; font-size: 14px;">With ${hostLabel}</td>
+          <td style="padding: 10px 14px; font-size: 14px;">With ${ctx.hostLabel}</td>
         </tr>
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Format</td>
-          <td style="padding: 10px 14px; font-size: 14px;">${formatLabel}</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.formatLabel}</td>
         </tr>
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Date</td>
-          <td style="padding: 10px 14px; font-size: 14px;">${dateStr}</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.dateStr}</td>
         </tr>
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Time</td>
-          <td style="padding: 10px 14px; font-size: 14px;">${timeStr}</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.timeStr}</td>
         </tr>
         <tr style="border-bottom: 1px solid #f0efec;">
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Duration</td>
-          <td style="padding: 10px 14px; font-size: 14px;">${mins} minutes</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.mins} minutes</td>
         </tr>
         <tr>
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Topic</td>
-          <td style="padding: 10px 14px; font-size: 14px;">${topic}</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.topic}</td>
         </tr>
       </table>
       <p style="color: #999; font-size: 12px; margin-top: 16px;">The calendar invite has been sent and the event is on your Google Calendar.</p>
     </div>`;
 
-  if (!notifyTo.length) {
-    console.warn(`No booking notification recipients configured for "${who}".`);
+  if (!ctx.notifyTo.length) {
+    console.warn(`No booking notification recipients configured for "${ctx.who}".`);
     return;
   }
 
-  for (const recipient of notifyTo) {
+  for (const recipient of ctx.notifyTo) {
     try {
-      const payload = { from: fromAddr, to: [recipient], subject, text, html };
-      if (replyTo) payload.reply_to = replyTo;
-
-      let resendResult = await sendResendEmail(apiKey, payload);
-      if (!resendResult.ok && replyTo) {
-        console.warn(`Notification to ${recipient} failed with reply_to; retrying without reply_to.`, resendResult.status, resendResult.body);
-        resendResult = await sendResendEmail(apiKey, { from: fromAddr, to: [recipient], subject, text, html });
-      }
-
-      if (!resendResult.ok) {
-        console.error(`Notification to ${recipient} failed:`, resendResult.status, resendResult.body);
-      }
+      const result = await sendEmailMessage({
+        to: recipient,
+        subject,
+        text,
+        html,
+        replyTo: ctx.replyTo,
+        tag: 'booking-host-notification',
+        metadata: {
+          booking_type: 'host_notification',
+          booking_host: ctx.who,
+        },
+      });
+      logEmailResult('Host notification', recipient, result);
     } catch (err) {
       console.error(`Notification to ${recipient} error:`, err);
     }
   }
+}
+
+async function sendAttendeeConfirmation(ctx) {
+  const subject = `Your meeting with ${ctx.hostLabel} is booked for ${ctx.dateStr}`;
+  const text = [
+    `Hi ${ctx.booking.name},`,
+    '',
+    `Your meeting with ${ctx.hostLabel} is booked.`,
+    '',
+    `Date:     ${ctx.dateStr}`,
+    `Time:     ${ctx.timeStr}`,
+    `Duration: ${ctx.mins} minutes`,
+    `Format:   ${ctx.formatLabel}`,
+    '',
+    'A calendar invite has been sent to your email address.',
+    'If you need to cancel or change the meeting, please reply to this email.',
+  ].join('\n');
+
+  const html = `
+    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; max-width: 520px; margin: 0 auto;">
+      <h2 style="color: #7e4233; font-size: 20px; font-weight: 600; margin-bottom: 16px;">Your meeting with ${ctx.hostLabel} is booked</h2>
+      <p style="font-size: 14px; line-height: 1.6; color: #222;">Hi ${ctx.name},</p>
+      <p style="font-size: 14px; line-height: 1.6; color: #222;">Your meeting has been booked successfully.</p>
+      <table style="border-collapse: collapse; width: 100%; border: 1px solid #e4e4e4; border-radius: 8px;">
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; width: 90px; vertical-align: top;">With</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.hostLabel}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Date</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.dateStr}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Time</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.timeStr}</td>
+        </tr>
+        <tr style="border-bottom: 1px solid #f0efec;">
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Duration</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.mins} minutes</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Format</td>
+          <td style="padding: 10px 14px; font-size: 14px;">${ctx.formatLabel}</td>
+        </tr>
+      </table>
+      <p style="font-size: 13px; line-height: 1.6; color: #666; margin-top: 16px;">A calendar invite has been sent to your email address. If you need to cancel or change the meeting, you can reply to this message.</p>
+    </div>`;
+
+  const result = await sendEmailMessage({
+    to: ctx.booking.email,
+    subject,
+    text,
+    html,
+    replyTo: ctx.notifyTo[0] || null,
+    tag: 'booking-attendee-confirmation',
+    metadata: {
+      booking_type: 'attendee_confirmation',
+      booking_host: ctx.who,
+    },
+  });
+  logEmailResult('Booking confirmation', ctx.booking.email, result);
+}
+
+async function sendBookingEmails(booking) {
+  const ctx = buildBookingEmailContext(booking);
+  await sendHostNotifications(ctx);
+  await sendAttendeeConfirmation(ctx);
 }
 
 /* ── Main handler ──────────────────────────────────────────────────── */
@@ -628,13 +836,17 @@ exports.handler = async (event) => {
         }
 
         try {
-          await sendNotification(validated);
+          await sendBookingEmails(validated);
         } catch (err) {
           console.error('Notification error:', err);
         }
       }
 
-      return { statusCode: 200, headers: postCorsHeaders(event), body: gasRes.body };
+      return {
+        statusCode: 200,
+        headers: postCorsHeaders(event),
+        body: JSON.stringify(gasResult),
+      };
 
     } else {
       /* ── GET: availability data ── */

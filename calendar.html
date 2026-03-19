@@ -2168,6 +2168,53 @@
   let gcalToken = null;
   let gcalEvents = [];   // [{ start: Date, end: Date }]
   let gcalActive = false;
+  let gcalLoadedWeekKey = '';
+  const GCAL_DEMO_MODE = (() => {
+    try {
+      return new URLSearchParams(window.location.search).get('gcaltest') === '1';
+    } catch {
+      return false;
+    }
+  })();
+
+  function gcalShowLabel() {
+    return GCAL_DEMO_MODE ? 'Overlay demo calendar' : 'Overlay your calendar';
+  }
+
+  function gcalHideLabel() {
+    return GCAL_DEMO_MODE ? 'Hide demo overlay' : 'Hide your calendar';
+  }
+
+  function setGcalToggleLabel(text = gcalShowLabel()) {
+    const span = $('gcal-toggle').querySelector('span');
+    if (span) span.textContent = text;
+  }
+
+  function currentGcalWeekKey() {
+    return S.weekStart ? dsStr(getWeekDates(S.weekStart)[0]) : '';
+  }
+
+  function buildDemoGcalEvents() {
+    if (!S.weekStart) return [];
+    const weekDates = getWeekDates(S.weekStart);
+    return [
+      weekDates[1] && {
+        start: ukSlotToDate(weekDates[1], 12, 10),
+        end: ukSlotToDate(weekDates[1], 12, 40),
+      },
+      weekDates[3] && {
+        start: ukSlotToDate(weekDates[3], 15, 0),
+        end: ukSlotToDate(weekDates[3], 16, 30),
+      },
+    ].filter(Boolean);
+  }
+
+  function parseGoogleEventBoundary(value) {
+    if (!value) return null;
+    if (value.dateTime) return new Date(value.dateTime);
+    if (value.date) return isoToDate(value.date);
+    return null;
+  }
 
   function loadGIS() {
     return new Promise((resolve, reject) => {
@@ -2182,6 +2229,12 @@
 
   async function fetchGcalEvents() {
     if (!gcalToken || !S.weekStart) return;
+    const targetWeekKey = currentGcalWeekKey();
+    if (GCAL_DEMO_MODE) {
+      gcalEvents = buildDemoGcalEvents();
+      gcalLoadedWeekKey = targetWeekKey;
+      return;
+    }
     const weekDates = getWeekDates(S.weekStart);
     const timeMin = new Date(weekDates[0]); timeMin.setHours(0, 0, 0, 0);
     const timeMax = new Date(weekDates[4]); timeMax.setDate(timeMax.getDate() + 1); timeMax.setHours(0, 0, 0, 0);
@@ -2195,19 +2248,25 @@
       if (!res.ok) {
         if (res.status === 401) {
           gcalToken = null; gcalActive = false; gcalEvents = [];
+          gcalLoadedWeekKey = '';
           $('gcal-toggle').classList.remove('active');
-          renderWeekView();
+          setGcalToggleLabel();
         }
+        gcalEvents = [];
+        gcalLoadedWeekKey = '';
         return;
       }
       const data = await res.json();
       gcalEvents = (data.items || [])
-        .filter(ev => ev.start && ev.start.dateTime)
         .map(ev => ({
-          start: new Date(ev.start.dateTime),
-          end:   new Date(ev.end.dateTime),
-        }));
+          start: parseGoogleEventBoundary(ev.start),
+          end: parseGoogleEventBoundary(ev.end),
+        }))
+        .filter(ev => ev.start && ev.end && ev.end > ev.start);
+      gcalLoadedWeekKey = targetWeekKey;
     } catch (err) {
+      gcalEvents = [];
+      gcalLoadedWeekKey = '';
       console.error('Failed to fetch calendar events:', err);
     }
   }
@@ -2215,6 +2274,7 @@
   function applyGcalOverlays() {
     document.querySelectorAll('.gcal-ev').forEach(el => el.remove());
     if (!gcalActive || !gcalEvents.length) return;
+    if (gcalLoadedWeekKey && gcalLoadedWeekKey !== currentGcalWeekKey()) return;
 
     const weekDates = getWeekDates(S.weekStart);
     const children = $('wv-body').children;
@@ -2242,10 +2302,19 @@
 
   async function toggleGcalOverlay() {
     if (gcalActive) {
-      gcalActive = false; gcalEvents = [];
+      gcalActive = false; gcalEvents = []; gcalLoadedWeekKey = '';
       $('gcal-toggle').classList.remove('active');
-      $('gcal-toggle').querySelector('span').textContent = 'Overlay your calendar';
+      setGcalToggleLabel();
       renderWeekView();
+      return;
+    }
+    if (GCAL_DEMO_MODE) {
+      gcalToken = '__demo__';
+      gcalActive = true;
+      $('gcal-toggle').classList.add('active');
+      setGcalToggleLabel(gcalHideLabel());
+      await fetchGcalEvents();
+      applyGcalOverlays();
       return;
     }
     if (!GCAL_CLIENT_ID) {
@@ -2275,12 +2344,12 @@
       gcalToken = token;
       gcalActive = true;
       btn.classList.add('active');
-      label.textContent = 'Hide your calendar';
+      setGcalToggleLabel(gcalHideLabel());
       await fetchGcalEvents();
       applyGcalOverlays();
     } catch (err) {
       console.error('Google Calendar auth error:', err);
-      label.textContent = 'Overlay your calendar';
+      setGcalToggleLabel();
     }
   }
 
@@ -2406,6 +2475,70 @@
     return `<div class="review-row"><span class="review-label">${label}</span><span class="review-value">${esc(value)}</span></div>`;
   }
 
+  async function readJsonResponse(res) {
+    const text = await res.text();
+    const body = text.trim();
+    if (!body) return { data: null, text };
+    try {
+      return { data: JSON.parse(body), text };
+    } catch {
+      return { data: null, text };
+    }
+  }
+
+  async function refreshSelectedDateAvailability(dateStr) {
+    const freshSlots = await fetchSlotsFromServer(dateStr);
+    cacheSet(`${dateStr}_${S.duration}_${S.who}`, freshSlots);
+    return freshSlots;
+  }
+
+  function isSelectedSlotAvailable(slots) {
+    return Array.isArray(slots) && slots.some(sl => sl.h === S.slot.h && sl.m === S.slot.m);
+  }
+
+  async function bookingLikelySucceeded(dateStr) {
+    try {
+      const freshSlots = await refreshSelectedDateAvailability(dateStr);
+      return !isSelectedSlotAvailable(freshSlots);
+    } catch (err) {
+      console.warn('Could not verify booking after response problem:', err);
+      return false;
+    }
+  }
+
+  function rememberLocalBooking() {
+    try {
+      const prevRaw = localStorage.getItem('caish_bk');
+      let prev = null;
+      try { prev = JSON.parse(prevRaw); } catch(_) { prev = prevRaw ? { count: 1, first: Number(prevRaw) } : null; }
+      if (prev && Date.now() - prev.first < 86_400_000) {
+        localStorage.setItem('caish_bk', JSON.stringify({ count: prev.count + 1, first: prev.first }));
+      } else {
+        localStorage.setItem('caish_bk', JSON.stringify({ count: 1, first: Date.now() }));
+      }
+    } catch (err) {
+      console.warn('Could not persist local booking counter:', err);
+    }
+  }
+
+  function showBookingSuccess(messageOverride = '') {
+    const host = HOST_SHORT[S.who];
+    const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTimeDisplay(S.date, S.slot.h, S.slot.m)}`;
+    $('s5-slot').textContent = `${host} \u00b7 ${slotLabel}`;
+    $('s5-gcal').href = S.calLink;
+    $('s5-para').textContent = messageOverride || (
+      S.format === 'in-person'
+        ? `A calendar invite for your in-person meeting with ${host} at Sidney Street has been sent to your email.`
+        : `A Google Meet invite for your meeting with ${host} has been sent to your email. You can accept it to add the event to your calendar.`
+    );
+
+    const cancelTo = CANCEL_EMAIL[S.who];
+    $('s5-cancel').href = `mailto:${cancelTo}?subject=${encodeURIComponent('Cancel meeting \u2013 ' + slotLabel)}&body=${encodeURIComponent('Hi,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
+
+    try { sessionStorage.removeItem('caish_who'); } catch {}
+    go(5);
+  }
+
   /* ── Confirm → actually book ────────────────────── */
   $('btn-confirm').addEventListener('click', async () => {
     const { name, email, topic } = S.formData;
@@ -2420,14 +2553,14 @@
     const configured = CONFIG.gasUrl !== 'YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL';
     const errEl = $('confirm-err');
     errEl.classList.add('hidden');
+    const dateStr = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
+    let bookingRequestStarted = false;
 
     try {
       if (configured) {
         // Re-check availability right before booking to catch concurrent bookings
-        const dateStr = `${S.date.getFullYear()}-${pad(S.date.getMonth()+1)}-${pad(S.date.getDate())}`;
-        const freshSlots = await fetchSlotsFromServer(dateStr);
-        cacheSet(`${dateStr}_${S.duration}_${S.who}`, freshSlots);
-        const stillFree = freshSlots.some(sl => sl.h === S.slot.h && sl.m === S.slot.m);
+        const freshSlots = await refreshSelectedDateAvailability(dateStr);
+        const stillFree = isSelectedSlotAvailable(freshSlots);
         if (!stillFree) {
           // The window changed before confirmation — send them back to the calendar.
           errEl.textContent = 'This time slot is no longer available. Please pick another time.';
@@ -2439,6 +2572,7 @@
           throw new Error('__handled__');
         }
 
+        bookingRequestStarted = true;
         const bookRes = await fetch('/api/book', {
           method:  'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -2451,7 +2585,19 @@
             format:   S.format,
           }),
         });
-        const bookData = await bookRes.json();
+        const { data: bookData, text: bookText } = await readJsonResponse(bookRes);
+        if (!bookRes.ok || !bookData || typeof bookData.ok !== 'boolean') {
+          if (await bookingLikelySucceeded(dateStr)) {
+            console.warn('Booking response was interrupted after the slot disappeared; treating as likely success.', {
+              status: bookRes.status,
+              body: bookText,
+            });
+            rememberLocalBooking();
+            showBookingSuccess('Your meeting appears to be booked, but the confirmation response was interrupted. Please check your email or calendar before trying again.');
+            return;
+          }
+          throw new Error((bookData && bookData.e) || 'Booking confirmation could not be read.');
+        }
         if (!bookData.ok) {
           const e = bookData.e || '';
           let msg = 'Something went wrong. Please email hello@cambridgeaisafety.org directly.';
@@ -2477,32 +2623,17 @@
           mins: S.duration, who: S.who, format: S.format });
       }
 
-      const prevRaw = localStorage.getItem('caish_bk');
-      let prev = null;
-      try { prev = JSON.parse(prevRaw); } catch(_) { prev = prevRaw ? { count: 1, first: Number(prevRaw) } : null; }
-      if (prev && Date.now() - prev.first < 86_400_000) {
-        localStorage.setItem('caish_bk', JSON.stringify({ count: prev.count + 1, first: prev.first }));
-      } else {
-        localStorage.setItem('caish_bk', JSON.stringify({ count: 1, first: Date.now() }));
-      }
-
-      // Wire up success screen
-      const host = HOST_SHORT[S.who];
-      const slotLabel = `${fmtDate(S.date)} \u00b7 ${fmtTimeDisplay(S.date, S.slot.h, S.slot.m)}`;
-      $('s5-slot').textContent = `${host} \u00b7 ${slotLabel}`;
-      $('s5-gcal').href = S.calLink;
-      $('s5-para').textContent = S.format === 'in-person'
-        ? `A calendar invite for your in-person meeting with ${host} at Sidney Street has been sent to your email.`
-        : `A Google Meet invite for your meeting with ${host} has been sent to your email. You can accept it to add the event to your calendar.`;
-
-      const cancelTo = CANCEL_EMAIL[S.who];
-      $('s5-cancel').href = `mailto:${cancelTo}?subject=${encodeURIComponent('Cancel meeting \u2013 ' + slotLabel)}&body=${encodeURIComponent('Hi,\n\nI would like to cancel my meeting on ' + slotLabel + '.\n\nThanks')}`;
-
-      try { sessionStorage.removeItem('caish_who'); } catch {}
-      go(5);
+      rememberLocalBooking();
+      showBookingSuccess();
 
     } catch(err) {
       if (err.message === '__handled__') return;
+      if (bookingRequestStarted && await bookingLikelySucceeded(dateStr)) {
+        console.warn('Booking request failed after the slot disappeared; treating as likely success.', err);
+        rememberLocalBooking();
+        showBookingSuccess('Your meeting appears to be booked, but the confirmation response was interrupted. Please check your email or calendar before trying again.');
+        return;
+      }
       console.error(err);
       errEl.textContent = /availability|calendar service/i.test(err.message)
         ? 'The calendar service is having trouble right now. Please try again in a moment.'
@@ -2537,6 +2668,7 @@
         S.weekStart = getWeekMonday(firstBookableDate());
       }
       renderWeekView();
+      if (gcalActive) fetchGcalEvents().then(applyGcalOverlays);
       prefetchWeekDates();
     }
     if (n === 3 && !S.formFilled) initForm();
@@ -2594,6 +2726,10 @@
 
     // Set timezone label
     $('tz-label').textContent = tzLabel();
+    if (GCAL_DEMO_MODE) {
+      $('gcal-toggle').title = 'Show demo overlay events on this view';
+      setGcalToggleLabel();
+    }
 
     let directWho = null;
     if (path === '/gaurav') directWho = 'gaurav';
