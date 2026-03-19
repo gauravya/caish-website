@@ -63,21 +63,73 @@ function calendarServiceErrorMessage(err) {
 /* ── Server-side in-memory slot cache ──────────────────────────────── */
 const _slotCache = new Map();
 const SLOT_TTL = 5 * 60 * 1000;
+const BOOKING_END_MINUTES = 18 * 60;
+const LONDON_TIME_ZONE = 'Europe/London';
+const LONDON_PARTS_FORMATTER = new Intl.DateTimeFormat('en-GB', {
+  timeZone: LONDON_TIME_ZONE,
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23',
+});
 
-function slotCacheGet(key) {
+function filterSlotsByCutoff(slots, mins) {
+  const duration = Number(mins);
+  if (!Array.isArray(slots) || !Number.isFinite(duration)) return [];
+
+  return slots.reduce((out, slot) => {
+    const h = Number(slot && slot.h);
+    const m = Number(slot && slot.m);
+    if (!Number.isFinite(h) || !Number.isFinite(m)) return out;
+    if ((h * 60) + m + duration <= BOOKING_END_MINUTES) {
+      out.push({ h, m });
+    }
+    return out;
+  }, []);
+}
+
+function getLondonParts(date) {
+  const parts = {};
+  for (const part of LONDON_PARTS_FORMATTER.formatToParts(date)) {
+    if (part.type !== 'literal') parts[part.type] = part.value;
+  }
+  return parts;
+}
+
+function londonDateStamp(date) {
+  const parts = getLondonParts(date);
+  return `${parts.year}-${parts.month}-${parts.day}`;
+}
+
+function londonMinutes(date) {
+  const parts = getLondonParts(date);
+  return (Number(parts.hour) * 60) + Number(parts.minute);
+}
+
+function bookingHoursError(start, end) {
+  if (londonDateStamp(start) !== londonDateStamp(end)) return 'outside_booking_hours';
+  if (londonMinutes(end) > BOOKING_END_MINUTES) return 'outside_booking_hours';
+  return null;
+}
+
+function slotCacheGet(key, mins) {
   const entry = _slotCache.get(key);
   if (!entry) return null;
   if (Date.now() - entry.at > SLOT_TTL) { _slotCache.delete(key); return null; }
-  return entry.data;
+  return Array.isArray(entry.data) ? filterSlotsByCutoff(entry.data, mins) : entry.data;
 }
-function slotCacheSet(key, data) {
-  _slotCache.set(key, { data, at: Date.now() });
+function slotCacheSet(key, data, mins) {
+  const safeData = Array.isArray(data) ? filterSlotsByCutoff(data, mins) : data;
+  _slotCache.set(key, { data: safeData, at: Date.now() });
   if (_slotCache.size > 500) {
     const now = Date.now();
     for (const [k, v] of _slotCache) {
       if (now - v.at > SLOT_TTL) _slotCache.delete(k);
     }
   }
+  return safeData;
 }
 
 /* ── IP-based rate limiter for POST ────────────────────────────────── *
@@ -530,7 +582,9 @@ exports.handler = async (event) => {
         };
       }
 
-      const policyError = bookingRuleError(new Date(validated.startISO), validated.who);
+      const startTime = new Date(validated.startISO);
+      const endTime = new Date(validated.endISO);
+      const policyError = bookingRuleError(startTime, validated.who) || bookingHoursError(startTime, endTime);
       if (policyError) {
         return {
           statusCode: 200,
@@ -587,6 +641,7 @@ exports.handler = async (event) => {
       const params = event.queryStringParameters || {};
       const who = params.who || 'both';
       const mins = params.mins || '30';
+      const durationMinutes = Number(mins);
       const gasWho = getPolicy(who).gasWho;
 
       // Validate GET params
@@ -609,11 +664,11 @@ exports.handler = async (event) => {
         for (const date of dates) {
           const key = `${date}_${mins}_${who}`;
           if (bookingRuleError(isoDateToLocalDate(date), who)) {
-            slotCacheSet(key, []);
+            slotCacheSet(key, [], durationMinutes);
             results[date] = [];
             continue;
           }
-          const cached = slotCacheGet(key);
+          const cached = slotCacheGet(key, durationMinutes);
           if (cached !== null) {
             results[date] = cached;
           } else {
@@ -629,8 +684,7 @@ exports.handler = async (event) => {
             const data = parseJsonSafe(await res.text());
             if (res.ok && data && data.ok && data.batch && data.results) {
               for (const [d, slots] of Object.entries(data.results)) {
-                slotCacheSet(`${d}_${mins}_${who}`, slots);
-                results[d] = slots;
+                results[d] = slotCacheSet(`${d}_${mins}_${who}`, slots, durationMinutes);
               }
               batchOk = true;
             }
@@ -647,9 +701,7 @@ exports.handler = async (event) => {
                 if (!data || !data.ok || !Array.isArray(data.slots)) {
                   throw new Error('Invalid upstream availability response');
                 }
-                const slots = data.slots;
-                slotCacheSet(`${date}_${mins}_${who}`, slots);
-                results[date] = slots;
+                results[date] = slotCacheSet(`${date}_${mins}_${who}`, data.slots, durationMinutes);
               } catch {
                 unavailable.push(date);
               }
@@ -686,11 +738,11 @@ exports.handler = async (event) => {
 
         const key = `${date}_${mins}_${who}`;
         if (bookingRuleError(isoDateToLocalDate(date), who)) {
-          slotCacheSet(key, []);
+          slotCacheSet(key, [], durationMinutes);
           return { statusCode: 200, headers: CORS_GET_CACHED,
             body: JSON.stringify({ ok: true, slots: [] }) };
         }
-        const cached = slotCacheGet(key);
+        const cached = slotCacheGet(key, durationMinutes);
         if (cached !== null) {
           return { statusCode: 200, headers: CORS_GET_CACHED,
             body: JSON.stringify({ ok: true, slots: cached }) };
@@ -718,7 +770,12 @@ exports.handler = async (event) => {
             body: JSON.stringify({ ok: false, e: 'Could not load live availability.' }),
           };
         }
-        slotCacheSet(`${date}_${mins}_${who}`, data.slots);
+        const slots = slotCacheSet(`${date}_${mins}_${who}`, data.slots, durationMinutes);
+        return {
+          statusCode: 200,
+          headers: CORS_GET_CACHED,
+          body: JSON.stringify({ ok: true, slots }),
+        };
       }
 
       return { statusCode: 200, headers: CORS_GET_CACHED, body };

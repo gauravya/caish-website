@@ -531,6 +531,13 @@
     .wv-cell.free.band-top {
       border-top: 2px solid var(--red);
     }
+    .wv-cell.preview {
+      background: rgba(126, 66, 51, 0.14) !important;
+      box-shadow: inset 0 0 0 1px rgba(126, 66, 51, 0.22);
+    }
+    .wv-cell.preview-start {
+      border-top: 2px solid var(--red);
+    }
     .wv-cell.free.band-top .wv-cell-time {
       display: block;
     }
@@ -885,15 +892,16 @@
               <button class="who-card" data-who="gaurav">
                 <div class="who-info">
                   <span class="who-name">Gaurav Yadav</span>
-                  <span class="who-note">Regular calendar. New meetings open one week ahead so deep work time stays protected.</span>
+                  <span class="who-badge">Standard booking</span>
+                  <span class="who-note">Best for most conversations.</span>
                 </div>
                 <span class="who-arrow" aria-hidden="true">&#8594;</span>
               </button>
               <button class="who-card" data-who="gaurav_priority">
                 <div class="who-info">
                   <span class="who-name">Gaurav Yadav</span>
-                  <span class="who-badge">Priority calendar</span>
-                  <span class="who-note">For important or time-sensitive conversations, with lighter restrictions than the regular calendar.</span>
+                  <span class="who-badge">Priority booking</span>
+                  <span class="who-note">Best for urgent or especially important conversations.</span>
                 </div>
                 <span class="who-arrow" aria-hidden="true">&#8594;</span>
               </button>
@@ -1381,8 +1389,8 @@
       shortLabel: 'Gaurav',
       pageLabel: 'Gaurav Yadav',
       orgLabel: 'CAISH co-director',
-      infoNote: 'Regular calendar. New meetings open 7 days ahead so focused work time stays protected.',
-      scheduleNote: 'Regular calendar. New meetings open 7 days ahead.',
+      infoNote: 'Standard booking for most conversations.',
+      scheduleNote: '',
       minLeadDays: 7,
       maxAdvanceDays: 27,
       gasWho: 'gaurav',
@@ -1392,10 +1400,10 @@
     gaurav_priority: {
       label: 'Gaurav Yadav',
       shortLabel: 'Gaurav',
-      pageLabel: 'Gaurav Yadav (Priority calendar)',
+      pageLabel: 'Gaurav Yadav (Priority booking)',
       orgLabel: 'CAISH co-director',
-      infoNote: 'Priority calendar for important or time-sensitive conversations, with lighter restrictions.',
-      scheduleNote: 'Priority calendar for important or time-sensitive conversations.',
+      infoNote: 'Priority booking for urgent or especially important conversations.',
+      scheduleNote: 'Priority booking for urgent or especially important conversations.',
       minLeadDays: 1,
       maxAdvanceDays: 21,
       gasWho: 'gaurav',
@@ -1441,6 +1449,33 @@
   const SLOT_CACHE = {};
   const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minutes
   const LS_PREFIX = 'wv_';
+  const BOOKING_END_MINUTES = 18 * 60;
+
+  function parseSlotCacheKey(key) {
+    const match = String(key).match(/^(\d{4}-\d{2}-\d{2})_(\d+)_(.+)$/);
+    if (!match) return null;
+    return { date: match[1], mins: Number(match[2]), who: match[3] };
+  }
+
+  function filterSlotsByCutoff(slots, mins) {
+    const duration = Number(mins);
+    if (!Array.isArray(slots) || !Number.isFinite(duration)) return [];
+
+    return slots.reduce((out, slot) => {
+      const h = Number(slot && slot.h);
+      const m = Number(slot && slot.m);
+      if (!Number.isFinite(h) || !Number.isFinite(m)) return out;
+      if ((h * 60) + m + duration <= BOOKING_END_MINUTES) {
+        out.push({ h, m });
+      }
+      return out;
+    }, []);
+  }
+
+  function sanitizeSlotsForCacheKey(key, slots) {
+    const meta = parseSlotCacheKey(key);
+    return filterSlotsByCutoff(slots, meta ? meta.mins : NaN);
+  }
 
   // Seed in-memory cache from localStorage (instant render for return visitors)
   (function seedCache() {
@@ -1450,10 +1485,11 @@
         const k = localStorage.key(i);
         if (!k.startsWith(LS_PREFIX)) continue;
         const item = JSON.parse(localStorage.getItem(k));
-        if (!item || !item.s) { localStorage.removeItem(k); continue; }
+        if (!item || !Array.isArray(item.s)) { localStorage.removeItem(k); continue; }
         // Evict entries older than 24 hours
         if (now - item.t > 86400000) { localStorage.removeItem(k); continue; }
-        SLOT_CACHE[k.slice(LS_PREFIX.length)] = { slots: item.s, at: item.t };
+        const cacheKey = k.slice(LS_PREFIX.length);
+        SLOT_CACHE[cacheKey] = { slots: sanitizeSlotsForCacheKey(cacheKey, item.s), at: item.t };
       }
     } catch(e) {}
   })();
@@ -1672,7 +1708,7 @@
     );
     const hasVisibleError = visibleEntries.some(({ entry }) => entry && entry.error);
 
-    const noteParts = [profile.scheduleNote];
+    const noteParts = [profile.scheduleNote].filter(Boolean);
     if (visibleBlocked.length) {
       noteParts.push(`Unavailable during ${visibleBlocked.join(' and ')}.`);
     }
@@ -1720,7 +1756,7 @@
 
   /* ── Week View ─────────────────────────────────── */
   const WV_START_HOUR = 10;
-  const WV_END_HOUR = 18;
+  const WV_END_HOUR = BOOKING_END_MINUTES / 60;
   const WV_ROWS = (WV_END_HOUR - WV_START_HOUR) * 2; // 16 half-hour rows
 
   function getWeekMonday(date) {
@@ -1744,6 +1780,35 @@
 
   function dsStr(d) {
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+  }
+
+  function clearSlotPreview() {
+    $('wv-body').querySelectorAll('.wv-cell.preview, .wv-cell.preview-start').forEach(cell => {
+      cell.classList.remove('preview', 'preview-start');
+    });
+  }
+
+  function previewSlotRange(dateStr, slotMinute) {
+    const startMinute = Number(slotMinute);
+    if (!dateStr || !Number.isFinite(startMinute)) {
+      clearSlotPreview();
+      return;
+    }
+
+    const endMinute = startMinute + S.duration;
+    let markedStart = false;
+    $('wv-body').querySelectorAll(`.wv-cell[data-date="${dateStr}"][data-window-minute]`).forEach(cell => {
+      const windowStart = Number(cell.dataset.windowMinute);
+      if (!Number.isFinite(windowStart)) return;
+      const windowEnd = windowStart + 30;
+      if (startMinute < windowEnd && endMinute > windowStart) {
+        cell.classList.add('preview');
+        if (!markedStart) {
+          cell.classList.add('preview-start');
+          markedStart = true;
+        }
+      }
+    });
   }
 
   function renderWeekView() {
@@ -1826,15 +1891,16 @@
         const isFar = d > max;
         const isBlocked = Boolean(getBlockedRange(d));
         const ds = dsStr(d);
+        const cellData = ` data-date="${ds}" data-window-minute="${h * 60 + m}"`;
 
         if (isPast || isFar) {
-          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} past"></div>`;
+          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} past"${cellData}></div>`;
           return;
         }
         if (isBlocked) {
           let cls = `wv-cell${isHalf ? ' wv-half' : ''} busy`;
           if (row === 0) cls += ' band-top';
-          bodyHtml += `<div class="${cls}" aria-hidden="true">
+          bodyHtml += `<div class="${cls}"${cellData} aria-hidden="true">
             <span class="wv-cell-status">Busy</span>
           </div>`;
           return;
@@ -1843,14 +1909,14 @@
         const info = daySlotSets[ds];
         if (info.slots === null) {
           // Still loading
-          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} loading"></div>`;
+          bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} loading"${cellData}></div>`;
           return;
         }
 
         if (info.error) {
           let cls = `wv-cell${isHalf ? ' wv-half' : ''} error`;
           if (row === 0) cls += ' band-top';
-          bodyHtml += `<div class="${cls}" aria-hidden="true">
+          bodyHtml += `<div class="${cls}"${cellData} aria-hidden="true">
             <span class="wv-cell-status">Error</span>
           </div>`;
           return;
@@ -1881,9 +1947,10 @@
           }
 
           const label = fmtTime(firstSlot.h, firstSlot.m);
+          const slotMinute = firstSlot.h * 60 + firstSlot.m;
           let cls = `wv-cell${isHalf ? ' wv-half' : ''} free`;
           if (isBandTop) cls += ' band-top';
-          bodyHtml += `<div class="${cls}" data-date="${ds}" data-h="${firstSlot.h}" data-m="${firstSlot.m}">
+          bodyHtml += `<div class="${cls}"${cellData} data-slot-minute="${slotMinute}" data-h="${firstSlot.h}" data-m="${firstSlot.m}">
             <span class="wv-cell-time">${label}</span>
           </div>`;
         } else {
@@ -1897,7 +1964,7 @@
 
           let cls = `wv-cell${isHalf ? ' wv-half' : ''} busy`;
           if (isBusyBandTop) cls += ' band-top';
-          bodyHtml += `<div class="${cls}" aria-hidden="true">
+          bodyHtml += `<div class="${cls}"${cellData} aria-hidden="true">
             <span class="wv-cell-status">Busy</span>
           </div>`;
         }
@@ -1905,11 +1972,14 @@
     }
 
     $('wv-body').innerHTML = bodyHtml;
+    clearSlotPreview();
     refreshScheduleErr();
     updateScheduleChrome();
 
     // Click handlers
     $('wv-body').querySelectorAll('.wv-cell.free').forEach(cell => {
+      cell.addEventListener('mouseenter', () => previewSlotRange(cell.dataset.date, cell.dataset.slotMinute));
+      cell.addEventListener('mouseleave', clearSlotPreview);
       cell.addEventListener('click', () => {
         const [yr, mo, dy] = cell.dataset.date.split('-').map(Number);
         S.date = new Date(yr, mo - 1, dy);
@@ -1935,8 +2005,10 @@
     return !entry || (Date.now() - entry.at > CACHE_TTL_MS);
   }
   function cacheSet(key, slots) {
-    SLOT_CACHE[key] = { slots, at: Date.now() };
-    try { localStorage.setItem(LS_PREFIX + key, JSON.stringify({ s: slots, t: Date.now() })); } catch(e) {}
+    const safeSlots = sanitizeSlotsForCacheKey(key, slots);
+    const now = Date.now();
+    SLOT_CACHE[key] = { slots: safeSlots, at: now };
+    try { localStorage.setItem(LS_PREFIX + key, JSON.stringify({ s: safeSlots, t: now })); } catch(e) {}
   }
   function cacheSetError(key, message) {
     SLOT_CACHE[key] = { slots: [], at: Date.now(), error: message };
@@ -1966,7 +2038,7 @@
     if (!res.ok || !data || !data.ok || !Array.isArray(data.slots)) {
       throw new Error((data && data.e) || 'Could not load live availability.');
     }
-    return data.slots;
+    return filterSlotsByCutoff(data.slots, S.duration);
   }
 
   /* ── Batch-prefetch availability for all dates in the booking window ── */
@@ -2001,8 +2073,7 @@
         const slots = [];
         for (let h = startH; h < 18; h++) {
           for (let m = 0; m < 60; m += 30) {
-            const endH = h + Math.floor((m + S.duration) / 60);
-            if (endH >= 19) continue;
+            if ((h * 60) + m + S.duration > BOOKING_END_MINUTES) continue;
             slots.push({ h, m });
           }
         }
@@ -2368,6 +2439,7 @@
           else if (e === 'notice_required') { msg = 'This calendar now requires more notice. Please pick a later week.'; goBack = true; }
           else if (e === 'blocked_date') { msg = 'That week is unavailable for new meetings. Please choose another date.'; goBack = true; }
           else if (e === 'outside_booking_window') { msg = 'That date is outside the current booking window. Please choose another week.'; goBack = true; }
+          else if (e === 'outside_booking_hours') { msg = 'That time now runs past the 6 PM cutoff. Please choose an earlier slot.'; goBack = true; }
           else if (e.includes('availability') || e.includes('calendar service')) msg = 'The calendar service is having trouble right now. Please try again in a moment.';
           else if (e.includes('Too many')) msg = 'Too many booking attempts. Please try again later.';
           errEl.textContent = msg;
