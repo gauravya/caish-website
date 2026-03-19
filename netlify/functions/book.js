@@ -523,16 +523,9 @@ function logEmailResult(kind, recipient, result) {
 
 /* ── GAS communication ─────────────────────────────────────────────── */
 
-// Follow POST redirects manually — standard fetch changes POST→GET on 302
-async function gasPost(url, body, depth) {
-  if (depth > 5) throw new Error('Too many redirects');
-  // Only follow redirects to Google-owned domains
-  if (depth > 0) {
-    const host = new URL(url).hostname;
-    if (!host.endsWith('.google.com') && !host.endsWith('.googleusercontent.com')) {
-      throw new Error('Blocked redirect to non-Google domain');
-    }
-  }
+// Google Apps Script POST responses redirect to a Google-hosted URL that must
+// be read with GET. Re-posting to that redirect target returns 405.
+async function gasPost(url, body) {
   const res = await fetchWithTimeout(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -542,7 +535,20 @@ async function gasPost(url, body, depth) {
   if (res.status >= 300 && res.status < 400) {
     const location = res.headers.get('location');
     if (!location) throw new Error('Calendar service redirect missing location');
-    return gasPost(location, body, depth + 1);
+    const redirectUrl = new URL(location, url);
+    const host = redirectUrl.hostname;
+    if (!host.endsWith('.google.com') && !host.endsWith('.googleusercontent.com')) {
+      throw new Error('Blocked redirect to non-Google domain');
+    }
+
+    const followRes = await fetchWithTimeout(redirectUrl.toString(), {
+      redirect: 'follow',
+    });
+    return {
+      ok: followRes.ok,
+      status: followRes.status,
+      body: await followRes.text(),
+    };
   }
   return {
     ok: res.ok,
@@ -809,7 +815,7 @@ exports.handler = async (event) => {
         ...validated,
         who: getPolicy(validated.who).gasWho,
       });
-      const gasRes = await gasPost(GAS_URL, sanitizedBody, 0);
+      const gasRes = await gasPost(GAS_URL, sanitizedBody);
       if (!gasRes.ok) {
         console.error('GAS POST failed:', gasRes.status, gasRes.body);
         return {
