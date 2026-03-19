@@ -521,11 +521,16 @@
     /* Free cells — white/clean, clearly selectable */
     .wv-cell.free {
       background: var(--white);
+    }
+    .wv-cell.free.startable {
       cursor: pointer;
       transition: background 0.12s, box-shadow 0.12s;
     }
-    .wv-cell.free:hover {
+    .wv-cell.free.startable:hover {
       background: rgba(126, 66, 51, 0.08);
+    }
+    .wv-cell.free.continuation {
+      cursor: default;
     }
     /* First free cell in a consecutive run gets the top accent */
     .wv-cell.free.band-top {
@@ -1402,8 +1407,8 @@
       shortLabel: 'Gaurav',
       pageLabel: 'Gaurav Yadav (Priority booking)',
       orgLabel: 'CAISH co-director',
-      infoNote: 'Priority booking for urgent or especially important conversations.',
-      scheduleNote: 'Priority booking for urgent or especially important conversations.',
+      infoNote: '',
+      scheduleNote: '',
       minLeadDays: 1,
       maxAdvanceDays: 21,
       gasWho: 'gaurav',
@@ -1840,7 +1845,7 @@
     let hdrHtml = '<div class="wv-corner"></div>';
     weekDates.forEach(d => {
       const isToday = d.toDateString() === current.toDateString();
-      const isPast = d < earliest;
+      const isPast = d < current;
       let cls = 'wv-dh';
       if (isToday) cls += ' today';
       else if (isPast) cls += ' past';
@@ -1875,6 +1880,16 @@
       });
     }
 
+    function hasSlotCoveringWindow(slots, hour, minute) {
+      const windowStart = hour * 60 + minute;
+      const windowEnd = windowStart + 30;
+      return slots.some(sl => {
+        const slStart = sl.h * 60 + sl.m;
+        const slEnd = slStart + S.duration;
+        return slStart < windowEnd && slEnd > windowStart;
+      });
+    }
+
     for (let row = 0; row < WV_ROWS; row++) {
       const h = WV_START_HOUR + Math.floor(row / 2);
       const m = (row % 2) * 30;
@@ -1887,17 +1902,18 @@
 
       // 5 day cells
       weekDates.forEach(d => {
-        const isPast = d < earliest;
+        const isPast = d < current;
+        const isBeforeNotice = d >= current && d < earliest;
         const isFar = d > max;
         const isBlocked = Boolean(getBlockedRange(d));
         const ds = dsStr(d);
         const cellData = ` data-date="${ds}" data-window-minute="${h * 60 + m}"`;
 
-        if (isPast || isFar) {
+        if (isPast) {
           bodyHtml += `<div class="wv-cell${isHalf ? ' wv-half' : ''} past"${cellData}></div>`;
           return;
         }
-        if (isBlocked) {
+        if (isBeforeNotice || isFar || isBlocked) {
           let cls = `wv-cell${isHalf ? ' wv-half' : ''} busy`;
           if (row === 0) cls += ' band-top';
           bodyHtml += `<div class="${cls}"${cellData} aria-hidden="true">
@@ -1922,44 +1938,50 @@
           return;
         }
 
-        // Check if any slot exists in this 30-min window
-        const isFree = info.set.has(`${h}:${m}`) || hasSlotInWindow(info.slots, h, m);
+        const isStartable = info.set.has(`${h}:${m}`) || hasSlotInWindow(info.slots, h, m);
+        const isCovered = hasSlotCoveringWindow(info.slots, h, m);
 
-        if (isFree) {
+        if (isCovered) {
           // Find the first available slot in this 30-min window
           let firstSlot = null;
-          for (const sl of info.slots) {
-            const slMin = sl.h * 60 + sl.m;
-            if (slMin >= h * 60 + m && slMin < h * 60 + m + 30) {
-              firstSlot = sl;
-              break;
+          if (isStartable) {
+            for (const sl of info.slots) {
+              const slMin = sl.h * 60 + sl.m;
+              if (slMin >= h * 60 + m && slMin < h * 60 + m + 30) {
+                firstSlot = sl;
+                break;
+              }
             }
           }
           if (!firstSlot) firstSlot = { h, m };
 
-          // Check if previous row in this day was also free (for band styling)
+          // Check if previous row in this day was also covered by a valid slot.
           let isBandTop = true;
           if (row > 0) {
             const prevH = WV_START_HOUR + Math.floor((row - 1) / 2);
             const prevM = ((row - 1) % 2) * 30;
-            const prevFree = info.set.has(`${prevH}:${prevM}`) || hasSlotInWindow(info.slots, prevH, prevM);
-            if (prevFree) isBandTop = false;
+            const prevCovered = hasSlotCoveringWindow(info.slots, prevH, prevM);
+            if (prevCovered) isBandTop = false;
           }
 
           const label = fmtTime(firstSlot.h, firstSlot.m);
           const slotMinute = firstSlot.h * 60 + firstSlot.m;
-          let cls = `wv-cell${isHalf ? ' wv-half' : ''} free`;
+          let cls = `wv-cell${isHalf ? ' wv-half' : ''} free ${isStartable ? 'startable' : 'continuation'}`;
           if (isBandTop) cls += ' band-top';
-          bodyHtml += `<div class="${cls}"${cellData} data-slot-minute="${slotMinute}" data-h="${firstSlot.h}" data-m="${firstSlot.m}">
-            <span class="wv-cell-time">${label}</span>
-          </div>`;
+          if (isStartable) {
+            bodyHtml += `<div class="${cls}"${cellData} data-slot-minute="${slotMinute}" data-h="${firstSlot.h}" data-m="${firstSlot.m}">
+              <span class="wv-cell-time">${label}</span>
+            </div>`;
+          } else {
+            bodyHtml += `<div class="${cls}"${cellData} aria-hidden="true"></div>`;
+          }
         } else {
           let isBusyBandTop = true;
           if (row > 0) {
             const prevH = WV_START_HOUR + Math.floor((row - 1) / 2);
             const prevM = ((row - 1) % 2) * 30;
-            const prevFree = info.set.has(`${prevH}:${prevM}`) || hasSlotInWindow(info.slots, prevH, prevM);
-            if (!prevFree) isBusyBandTop = false;
+            const prevCovered = hasSlotCoveringWindow(info.slots, prevH, prevM);
+            if (!prevCovered) isBusyBandTop = false;
           }
 
           let cls = `wv-cell${isHalf ? ' wv-half' : ''} busy`;
@@ -1977,7 +1999,7 @@
     updateScheduleChrome();
 
     // Click handlers
-    $('wv-body').querySelectorAll('.wv-cell.free').forEach(cell => {
+    $('wv-body').querySelectorAll('.wv-cell.free.startable').forEach(cell => {
       cell.addEventListener('mouseenter', () => previewSlotRange(cell.dataset.date, cell.dataset.slotMinute));
       cell.addEventListener('mouseleave', clearSlotPreview);
       cell.addEventListener('click', () => {
