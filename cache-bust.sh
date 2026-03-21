@@ -41,7 +41,7 @@ echo "styles.css    hash: $CSS_HASH"
 echo "enhancements.js hash: $JS_HASH"
 
 # Files that reference styles.css and enhancements.js
-HTML_FILES=(index.html about.html fellowship.html events.html mars.html desk.html research.html verify.html)
+HTML_FILES=(index.html about.html fellowship.html events.html mars.html desk.html research.html verify.html privacy.html terms.html video.html hannes.html)
 
 # Update CSS version in all HTML files
 for file in "${HTML_FILES[@]}"; do

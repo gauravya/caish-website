@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Video profiles from Cambridge AI Safety Hub.">
+  <title>Video Profiles | Cambridge AI Safety Hub</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://caish.org/video">
+  <meta property="og:title" content="Video Profiles | Cambridge AI Safety Hub">
+  <meta property="og:description" content="Video profiles from Cambridge AI Safety Hub.">
+  <meta property="og:image" content="https://caish.org/images/hannes-front-still-25.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://caish.org/video">
+  <meta name="twitter:title" content="Video Profiles | Cambridge AI Safety Hub">
+  <meta name="twitter:description" content="Video profiles from Cambridge AI Safety Hub.">
+  <meta name="twitter:image" content="https://caish.org/images/hannes-front-still-25.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <!-- DNS Prefetch & Preconnect -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/styles.css?v=188d56a3" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="/images/hannes-front-still-25.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Critical CSS - Inline for instant first paint -->
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{font-family:'Space Mono',monospace;background:#fcf7f1;color:#1a1a1a;line-height:1.8}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    h1{font-size:clamp(2rem,4vw,3rem);line-height:1.2}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.1);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .page-header{max-width:1000px;margin:0 auto;padding:9rem 2.5rem 1rem}
+    .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
+    p{font-size:0.95rem;max-width:52ch;color:#4a4a4a}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.page-header{padding-top:6rem}}
+  </style>
+
+  <!-- Styles (async) -->
+  <noscript><link rel="stylesheet" href="/styles.css?v=188d56a3"></noscript>
+
+  <!-- Enhancements -->
+  <script src="/enhancements.js?v=616c9180" defer fetchpriority="low"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</head>
+<body class="video-page">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home">
+        <img src="/images/logo.png" class="logo" width="50" height="50">
+      </a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <main>
+    <section class="page-header page-header--video" id="main-content">
+      <h1>Video Profiles</h1>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <section class="video-library">
+      <div class="video-library-heading">
+        <h2>Featured Video</h2>
+      </div>
+
+      <div class="video-grid video-grid--single">
+        <article class="video-card">
+          <a
+            href="/hannes"
+            class="video-card-trigger"
+            aria-label="Open Hannes Whittingham video profile"
+            data-preview-src="/videos/hannes-preview.mp4">
+            <span class="video-card-media">
+              <img
+                src="/images/hannes-front-still-25.png"
+                alt="Hannes Whittingham"
+                class="video-card-poster"
+                loading="eager"
+                fetchpriority="high"
+                decoding="async"
+                width="1920"
+                height="1080">
+              <video
+                class="video-card-preview"
+                muted
+                playsinline
+                preload="none"
+                poster="/images/hannes-front-still-25.png"
+                aria-hidden="true"></video>
+              <span class="video-card-overlay"></span>
+            </span>
+
+            <span class="video-card-body">
+              <span class="video-card-kicker">Video Profile</span>
+              <span class="video-card-title">Hannes Whittingham</span>
+              <span class="video-card-role">CEO, Meridian</span>
+
+            </span>
+          </a>
+        </article>
+      </div>
+
+      <p class="video-library-note">More stories coming soon.</p>
+    </section>
+  </main>
+
+  <button class="back-to-top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+      </div>
+      <span class="footer-copy">&copy; 2026 CAISH</span>
+    </div>
+  </footer>
+
+  <script>
+    const MobileNav = {
+      init() {
+        const nav = document.getElementById('mobile-nav');
+        const toggle = document.getElementById('nav-toggle');
+        const close = document.getElementById('mobile-nav-close');
+
+        toggle?.addEventListener('click', () => nav?.classList.add('active'));
+        close?.addEventListener('click', () => nav?.classList.remove('active'));
+        nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+      }
+    };
+
+    const BackToTop = {
+      init() {
+        const btn = document.querySelector('.back-to-top');
+        if (!btn) return;
+        window.addEventListener('scroll', () => {
+          btn.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+        btn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    };
+
+    const VideoCardPreviews = {
+      init() {
+        const cards = Array.from(document.querySelectorAll('.video-card'));
+        if (!cards.length) {
+          return;
+        }
+
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const prefersReducedData = Boolean(connection) && (connection.saveData || /2g/.test(connection.effectiveType || ''));
+        const allowHoverPreview = window.matchMedia('(hover: hover)').matches && !prefersReducedMotion && !prefersReducedData;
+
+        const loadVideoSource = (video, src) => {
+          if (!src) return Promise.resolve(false);
+          if (video.dataset.loadedSrc === src) return Promise.resolve(true);
+
+          return new Promise((resolve) => {
+            const handleLoaded = () => {
+              video.dataset.loadedSrc = src;
+              resolve(true);
+            };
+
+            const handleError = () => resolve(false);
+
+            video.addEventListener('loadeddata', handleLoaded, { once: true });
+            video.addEventListener('error', handleError, { once: true });
+            video.src = src;
+            video.load();
+          });
+        };
+
+        const stopPreview = (card) => {
+          const preview = card.querySelector('.video-card-preview');
+          if (!preview) return;
+
+          card.dataset.previewActive = 'false';
+          card.classList.remove('is-previewing');
+          preview.pause();
+
+          try {
+            preview.currentTime = 0;
+          } catch (_) {}
+        };
+
+        const startPreview = (card) => {
+          if (!allowHoverPreview) return;
+
+          const trigger = card.querySelector('.video-card-trigger');
+          const preview = card.querySelector('.video-card-preview');
+          const previewSrc = trigger?.dataset.previewSrc;
+
+          if (!trigger || !preview || !previewSrc) return;
+
+          card.dataset.previewActive = 'true';
+
+          loadVideoSource(preview, previewSrc).then((loaded) => {
+            if (!loaded || card.dataset.previewActive !== 'true') return;
+
+            card.classList.add('is-previewing');
+
+            try {
+              preview.currentTime = 0;
+            } catch (_) {}
+
+            preview.play().catch(() => {
+              card.classList.remove('is-previewing');
+            });
+          });
+        };
+
+        cards.forEach((card) => {
+          const trigger = card.querySelector('.video-card-trigger');
+
+          if (!trigger) return;
+
+          if (!allowHoverPreview) return;
+
+          trigger.addEventListener('mouseenter', () => startPreview(card));
+          trigger.addEventListener('mouseleave', () => stopPreview(card));
+          trigger.addEventListener('focusin', () => startPreview(card));
+          trigger.addEventListener('focusout', () => stopPreview(card));
+        });
+      }
+    };
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); BackToTop.init(); VideoCardPreviews.init(); })
+      : (() => { MobileNav.init(); BackToTop.init(); VideoCardPreviews.init(); })();
+  </script>
+</body>
+</html>
