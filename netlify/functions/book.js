@@ -574,7 +574,7 @@ function escapeHtml(str) {
     .replace(/'/g, '&#39;');
 }
 
-function buildBookingEmailContext(booking) {
+function buildBookingEmailContext(booking, meetLink) {
   const date = new Date(booking.startISO);
   const dateStr = date.toLocaleDateString('en-GB', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric',
@@ -616,6 +616,7 @@ function buildBookingEmailContext(booking) {
     formatLabel,
     safeName,
     replyTo,
+    meetLink: meetLink || '',
   };
 }
 
@@ -745,6 +746,10 @@ async function sendAttendeeConfirmation(ctx) {
           <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Format</td>
           <td style="padding: 10px 14px; font-size: 14px;">${ctx.formatLabel}</td>
         </tr>
+        ${ctx.meetLink ? `<tr>
+          <td style="padding: 10px 14px; color: #777; font-size: 13px; vertical-align: top;">Link</td>
+          <td style="padding: 10px 14px; font-size: 14px;"><a href="${ctx.meetLink}" style="color: #7e4233;">${ctx.meetLink}</a></td>
+        </tr>` : ''}
       </table>
       <p style="font-size: 13px; line-height: 1.6; color: #666; margin-top: 16px;">A calendar invite has been sent to your email address. If you need to cancel or change the meeting, you can reply to this message.</p>
     </div>`;
@@ -764,8 +769,8 @@ async function sendAttendeeConfirmation(ctx) {
   logEmailResult('Booking confirmation', ctx.booking.email, result);
 }
 
-async function sendBookingEmails(booking) {
-  const ctx = buildBookingEmailContext(booking);
+async function sendBookingEmails(booking, meetLink) {
+  const ctx = buildBookingEmailContext(booking, meetLink);
   await sendHostNotifications(ctx);
   await sendAttendeeConfirmation(ctx);
 }
@@ -853,7 +858,7 @@ exports.handler = async (event) => {
         }
 
         try {
-          await sendBookingEmails(validated);
+          await sendBookingEmails(validated, gasResult.meetLink || '');
         } catch (err) {
           console.error('Notification error:', err);
         }
