@@ -233,11 +233,18 @@ function getBlockedRange(date, who) {
   }) || null;
 }
 
+function londonToday() {
+  // Use London's date, not the server's UTC date, so minLeadDays/maxAdvanceDays
+  // are enforced correctly during BST (UTC+1).
+  const parts = getLondonParts(new Date());
+  return new Date(Number(parts.year), Number(parts.month) - 1, Number(parts.day));
+}
+
 function bookingRuleError(date, who) {
   const day = startOfDay(date);
   const policy = getPolicy(who);
-  const min = addDays(startOfDay(new Date()), policy.minLeadDays);
-  const max = addDays(startOfDay(new Date()), policy.maxAdvanceDays);
+  const min = addDays(londonToday(), policy.minLeadDays);
+  const max = addDays(londonToday(), policy.maxAdvanceDays);
 
   if (day.getDay() === 0 || day.getDay() === 6) return 'outside_booking_window';
   if (day < min) return 'notice_required';
@@ -390,7 +397,8 @@ function getNotificationFrom() {
     process.env.FROM_EMAIL ||
     process.env.MAIL_FROM ||
     process.env.RESEND_FROM_EMAIL ||
-    process.env.POSTMARK_FROM
+    process.env.POSTMARK_FROM ||
+    ''
   ).trim();
 }
 

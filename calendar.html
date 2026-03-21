@@ -2409,6 +2409,9 @@
     if (S.format === 'in-person') {
       parts.push(`location=${encodeURIComponent('53-54 Sidney Street, Cambridge, CB2 3HX')}`);
     }
+    // Pin timezone so the event is correct even if the user's Google Calendar
+    // default timezone differs from their browser timezone.
+    parts.push(`ctz=${encodeURIComponent(USER_TZ)}`);
     return parts.join('&');
   }
 
@@ -2748,17 +2751,21 @@
     else if (params.get('who') && VALID_WHO.includes(params.get('who')))
       directWho = params.get('who');
 
-    // Restore previous selection if page reloads (e.g. during OAuth flow)
+    // Restore previous selection if page reloads (e.g. during OAuth flow).
+    // Treat as a soft restore — still show the back button so the user can
+    // change their selection (unlike a true direct link like /gaurav).
     let savedWho = null;
+    let restoredFromSession = false;
     try { savedWho = sessionStorage.getItem('caish_who'); } catch {}
     if (!directWho && savedWho && VALID_WHO.includes(savedWho)) {
       directWho = savedWho;
+      restoredFromSession = true;
     }
 
     if (directWho) {
       S.who = directWho;
-      S.directLink = true;
-      $('crumbs').classList.add('direct');
+      S.directLink = !restoredFromSession;
+      if (S.directLink) $('crumbs').classList.add('direct');
       updateInfoPanel(directWho);
 
       const label = getProfile(directWho).pageLabel;
