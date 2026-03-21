@@ -897,30 +897,18 @@
               <button class="who-card" data-who="gaurav">
                 <div class="who-info">
                   <span class="who-name">Gaurav Yadav</span>
-                  <span class="who-badge">Standard booking</span>
-                  <span class="who-note">Best for most conversations.</span>
-                </div>
-                <span class="who-arrow" aria-hidden="true">&#8594;</span>
-              </button>
-              <button class="who-card" data-who="gaurav_priority">
-                <div class="who-info">
-                  <span class="who-name">Gaurav Yadav</span>
-                  <span class="who-badge">Priority booking</span>
-                  <span class="who-note">Best for urgent or especially important conversations.</span>
                 </div>
                 <span class="who-arrow" aria-hidden="true">&#8594;</span>
               </button>
               <button class="who-card" data-who="justin">
                 <div class="who-info">
                   <span class="who-name">Justin Dollman</span>
-                  <span class="who-note">Justin&rsquo;s calendar usually opens from the next working day.</span>
                 </div>
                 <span class="who-arrow" aria-hidden="true">&#8594;</span>
               </button>
               <button class="who-card" data-who="both">
                 <div class="who-info">
                   <span class="who-name">Gaurav &amp; Justin</span>
-                  <span class="who-note">Joint meetings follow Gaurav&rsquo;s regular notice window so both calendars stay workable.</span>
                 </div>
                 <span class="who-arrow" aria-hidden="true">&#8594;</span>
               </button>
@@ -930,7 +918,7 @@
           <!-- Step 1 · Week View (date + time combined) -->
           <div class="step" id="s1">
             <button class="step-back" id="back0" style="display:none">&#8592; Back</button>
-            <div class="dur-picker" id="dur-picker">
+            <div class="dur-picker" id="dur-picker" style="display:none">
               <span class="dur-label">Duration</span>
               <div class="dur-btns" role="group" aria-label="Meeting duration">
                 <button class="dur-btn" data-mins="15">15 min</button>
@@ -1394,7 +1382,7 @@
       shortLabel: 'Gaurav',
       pageLabel: 'Gaurav Yadav',
       orgLabel: 'CAISH co-director',
-      infoNote: 'Standard booking for most conversations.',
+      infoNote: '',
       scheduleNote: '',
       minLeadDays: 7,
       maxAdvanceDays: 27,
@@ -1420,8 +1408,8 @@
       shortLabel: 'Justin',
       pageLabel: 'Justin Dollman',
       orgLabel: 'CAISH co-director',
-      infoNote: 'Justin’s calendar usually opens from the next working day.',
-      scheduleNote: 'Justin’s calendar usually opens from the next working day.',
+      infoNote: ‘’,
+      scheduleNote: ‘’,
       minLeadDays: 1,
       maxAdvanceDays: 21,
       gasWho: 'justin',
@@ -1433,8 +1421,8 @@
       shortLabel: 'Gaurav & Justin',
       pageLabel: 'Gaurav & Justin',
       orgLabel: 'CAISH co-directors',
-      infoNote: 'Joint meetings follow Gaurav’s regular notice window so both calendars stay workable.',
-      scheduleNote: 'Joint meetings follow Gaurav’s regular notice window.',
+      infoNote: ‘’,
+      scheduleNote: ‘’,
       minLeadDays: 7,
       maxAdvanceDays: 27,
       gasWho: 'both',
@@ -1886,7 +1874,11 @@
       return slots.some(sl => {
         const slStart = sl.h * 60 + sl.m;
         const slEnd = slStart + S.duration;
-        return slStart < windowEnd && slEnd > windowStart;
+        // A slot covers this window if it starts in it, OR extends at least 15 min into it
+        const overlapStart = Math.max(slStart, windowStart);
+        const overlapEnd = Math.min(slEnd, windowEnd);
+        const overlap = overlapEnd - overlapStart;
+        return overlap >= 15;
       });
     }
 
