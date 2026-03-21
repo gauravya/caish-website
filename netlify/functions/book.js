@@ -583,7 +583,7 @@ function buildBookingEmailContext(booking, meetLink) {
   const timeStr = date.toLocaleTimeString('en-GB', {
     hour: '2-digit', minute: '2-digit',
     timeZone: 'Europe/London',
-  });
+  }) + ' (UK time)';
 
   const name = escapeHtml(booking.name);
   const email = escapeHtml(booking.email);
