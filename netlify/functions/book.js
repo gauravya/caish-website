@@ -1,4 +1,4 @@
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbx3I6JmcW33pQ3LtUxYtJAL7tBCRns3jGKpDjHybLQj2PUHrEGqOTYmBwsujCASDzk/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzlh0szO-2Qshr4Y8fGn63zvvW9mesbCIFqUvmvVFnfwov6oeFVKu_LLFRy9aqC3_A/exec';
 
 /* ── CORS ──────────────────────────────────────────────────────────────
  * GET: open (public availability data — no sensitive info).
