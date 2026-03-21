@@ -1874,11 +1874,7 @@
       return slots.some(sl => {
         const slStart = sl.h * 60 + sl.m;
         const slEnd = slStart + S.duration;
-        // A slot covers this window if it starts in it, OR extends at least 15 min into it
-        const overlapStart = Math.max(slStart, windowStart);
-        const overlapEnd = Math.min(slEnd, windowEnd);
-        const overlap = overlapEnd - overlapStart;
-        return overlap >= 15;
+        return slStart < windowEnd && slEnd > windowStart;
       });
     }
 
