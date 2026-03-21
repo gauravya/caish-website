@@ -27,7 +27,7 @@
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: https:;
       connect-src 'self' https://*.lu.ma https://www.googleapis.com https://accounts.google.com https://forms-eu1.hsforms.com;
-      frame-src https://tally.so https://accounts.google.com;
+      frame-src https://tally.so https://accounts.google.com https://www.youtube.com;
       base-uri 'self';
       form-action 'self' https://tally.so https://share-eu1.hsforms.com;
     """
