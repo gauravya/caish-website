@@ -847,7 +847,7 @@
           <hr class="info-rule" aria-hidden="true">
 
           <ul class="info-meta">
-            <li>
+            <li id="meta-dur-li" style="display:none">
               <!-- clock -->
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
@@ -1408,8 +1408,8 @@
       shortLabel: 'Justin',
       pageLabel: 'Justin Dollman',
       orgLabel: 'CAISH co-director',
-      infoNote: ‘’,
-      scheduleNote: ‘’,
+      infoNote: '',
+      scheduleNote: '',
       minLeadDays: 1,
       maxAdvanceDays: 21,
       gasWho: 'justin',
@@ -1421,8 +1421,8 @@
       shortLabel: 'Gaurav & Justin',
       pageLabel: 'Gaurav & Justin',
       orgLabel: 'CAISH co-directors',
-      infoNote: ‘’,
-      scheduleNote: ‘’,
+      infoNote: '',
+      scheduleNote: '',
       minLeadDays: 7,
       maxAdvanceDays: 27,
       gasWho: 'both',
@@ -1730,6 +1730,7 @@
     $('info-org').style.display = '';
     $('info-desc').textContent = profile.infoNote;
     $('info-desc').style.display = profile.infoNote ? '' : 'none';
+    $('meta-dur-li').style.display = '';
   }
 
   /* ── Who selection ──────────────────────────────── */
