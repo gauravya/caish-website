@@ -1872,13 +1872,22 @@
     function hasSlotCoveringWindow(slots, hour, minute) {
       const windowStart = hour * 60 + minute;
       const windowEnd = windowStart + 30;
-      return slots.some(function(sl) {
-        var slStart = sl.h * 60 + sl.m;
-        var slEnd = slStart + S.duration;
+      return slots.some(sl => {
+        const slStart = sl.h * 60 + sl.m;
+        const slEnd = slStart + S.duration;
+        return slStart < windowEnd && slEnd > windowStart;
+      });
+    }
+
+    function hasSignificantCoverage(slots, hour, minute) {
+      const windowStart = hour * 60 + minute;
+      const windowEnd = windowStart + 30;
+      return slots.some(sl => {
+        const slStart = sl.h * 60 + sl.m;
+        const slEnd = slStart + S.duration;
         if (slStart >= windowEnd || slEnd <= windowStart) return false;
-        // Only count as covering if the slot overlaps at least 15 min of this window
-        var overlapStart = slStart > windowStart ? slStart : windowStart;
-        var overlapEnd = slEnd < windowEnd ? slEnd : windowEnd;
+        const overlapStart = Math.max(slStart, windowStart);
+        const overlapEnd = Math.min(slEnd, windowEnd);
         return (overlapEnd - overlapStart) >= 15;
       });
     }
@@ -1932,7 +1941,7 @@
         }
 
         const isStartable = info.set.has(`${h}:${m}`) || hasSlotInWindow(info.slots, h, m);
-        const isCovered = hasSlotCoveringWindow(info.slots, h, m);
+        const isCovered = isStartable || hasSignificantCoverage(info.slots, h, m);
 
         if (isCovered) {
           // Find the first available slot in this 30-min window
