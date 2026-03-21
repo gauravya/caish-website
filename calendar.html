@@ -1872,10 +1872,14 @@
     function hasSlotCoveringWindow(slots, hour, minute) {
       const windowStart = hour * 60 + minute;
       const windowEnd = windowStart + 30;
-      return slots.some(sl => {
-        const slStart = sl.h * 60 + sl.m;
-        const slEnd = slStart + S.duration;
-        return slStart < windowEnd && slEnd > windowStart;
+      return slots.some(function(sl) {
+        var slStart = sl.h * 60 + sl.m;
+        var slEnd = slStart + S.duration;
+        if (slStart >= windowEnd || slEnd <= windowStart) return false;
+        // Only count as covering if the slot overlaps at least 15 min of this window
+        var overlapStart = slStart > windowStart ? slStart : windowStart;
+        var overlapEnd = slEnd < windowEnd ? slEnd : windowEnd;
+        return (overlapEnd - overlapStart) >= 15;
       });
     }
 
