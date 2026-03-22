@@ -61,6 +61,13 @@
     .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
     .nav-toggle{display:none}
     @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.page-header{padding-top:6rem}}
+
+    .video-hero{max-width:1000px;margin:0 auto;padding:0 2.5rem 3rem}
+    .video-hero-inner{border-radius:14px;overflow:hidden;box-shadow:0 8px 30px rgba(30,20,15,0.12);line-height:0}
+    .video-hero-player{display:block;width:100%;border-radius:14px}
+    .video-hero-note{font-size:0.8rem;color:#999;margin-top:1rem;text-align:center}
+    .video-hero-note a{color:#7e4233;text-decoration:underline;text-underline-offset:2px}
+    @media(max-width:600px){.video-hero{padding:0 1rem 2rem}.video-hero-inner{border-radius:10px}}
   </style>
 
   <!-- Styles (async) -->
@@ -130,23 +137,17 @@
 
     <div class="divider"><div class="divider-line"></div></div>
 
-    <section class="video-profile-page">
-      <div class="video-profile-shell video-profile-shell--single">
-        <article class="video-profile-main">
-          <div class="video-modal-player-shell">
-            <video
-              class="video-modal-player"
-              controls
-              playsinline
-              preload="metadata"
-              poster="/images/hannes-front-still-25.png"
-              title="Hannes Whittingham – Video Profile">
-              <source src="https://pub-fd3e7e854dc549da85f015f509d5ec9a.r2.dev/hannes.mp4" type="video/mp4">
-            </video>
-          </div>
-
-          <p class="video-profile-note">See the full collection at <a href="/video">/video</a>.</p>
-        </article>
+    <section class="video-hero">
+      <div class="video-hero-inner">
+        <video
+          class="video-hero-player"
+          controls
+          playsinline
+          preload="metadata"
+          poster="/images/hannes-front-still-25.png"
+          title="Hannes Whittingham – Video Profile">
+          <source src="https://pub-fd3e7e854dc549da85f015f509d5ec9a.r2.dev/hannes.mp4" type="video/mp4">
+        </video>
       </div>
     </section>
   </main>

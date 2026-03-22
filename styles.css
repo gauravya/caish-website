@@ -1151,12 +1151,32 @@
     background: linear-gradient(135deg, #6d4335 0%, #a56d58 100%);
   }
 
-  .story-spotlight-media img {
+  .story-spotlight-media img,
+  .story-spotlight-media .story-spotlight-preview {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
-    transition: transform 0.6s ease;
+    transition: transform 0.6s ease, opacity 0.3s ease;
+  }
+
+  .story-spotlight-media .story-spotlight-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+  }
+
+  .story-spotlight-media {
+    position: relative;
+  }
+
+  .story-spotlight.is-previewing .story-spotlight-media .story-spotlight-preview {
+    opacity: 1;
+  }
+
+  .story-spotlight.is-previewing .story-spotlight-media img {
+    opacity: 0;
   }
 
   .story-spotlight:hover .story-spotlight-media img,

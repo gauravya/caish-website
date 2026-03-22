@@ -187,9 +187,10 @@
       </div>
     </div>
 
-    <a href="/hannes" class="story-spotlight">
+    <a href="/hannes" class="story-spotlight" data-preview-src="/videos/hannes-hover.mp4">
       <div class="story-spotlight-media">
         <img src="/images/hannes-front-still-25.png" alt="Hannes Whittingham in his video profile" loading="lazy" decoding="async" width="1920" height="1080">
+        <video class="story-spotlight-preview" muted playsinline preload="none" aria-hidden="true"></video>
       </div>
       <div class="story-spotlight-copy">
         <span class="story-spotlight-kicker">Featured</span>
@@ -454,17 +455,53 @@
       }
     };
 
+    const SpotlightPreview = {
+      init() {
+        const spotlights = document.querySelectorAll('.story-spotlight[data-preview-src]');
+        if (!spotlights.length) return;
+        const ok = window.matchMedia('(hover: hover)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!ok) return;
+
+        spotlights.forEach(el => {
+          const video = el.querySelector('.story-spotlight-preview');
+          const src = el.dataset.previewSrc;
+          const startTime = parseFloat(el.dataset.previewStart) || 0;
+          if (!video || !src) return;
+          let loaded = false;
+
+          el.addEventListener('mouseenter', () => {
+            if (!loaded) {
+              video.src = src;
+              video.load();
+              video.addEventListener('loadeddata', () => { loaded = true; play(); }, { once: true });
+            } else { play(); }
+            function play() {
+              try { video.currentTime = startTime; } catch(_) {}
+              video.play().then(() => el.classList.add('is-previewing')).catch(() => {});
+            }
+          });
+          el.addEventListener('mouseleave', () => {
+            el.classList.remove('is-previewing');
+            video.pause();
+            try { video.currentTime = startTime; } catch(_) {}
+          });
+        });
+      }
+    };
+
     document.readyState === 'loading'
       ? document.addEventListener('DOMContentLoaded', () => {
           MobileNav.init();
           BackToTop.init();
           CTAForm.init();
+          SpotlightPreview.init();
           runIdle(() => HomeEvents.init());
         })
       : (() => {
           MobileNav.init();
           BackToTop.init();
           CTAForm.init();
+          SpotlightPreview.init();
           runIdle(() => HomeEvents.init());
         })();
   </script>
