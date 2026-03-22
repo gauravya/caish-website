@@ -1727,7 +1727,7 @@
   /* Team Section */
   .team-section {
     padding-top: var(--space-12);
-    padding-bottom: var(--space-4);
+    padding-bottom: 0;
   }
 
   .team-section h2 { margin-bottom: var(--space-10); }
