@@ -4164,11 +4164,24 @@
     .video-overview-card,
     .video-side-note,
     .video-soon-card,
-    .video-profile-main,
     .video-profile-sidebar,
     .video-modal {
       padding: var(--space-6);
       border-radius: 22px;
+    }
+
+    .video-profile-main {
+      padding: var(--space-4);
+      border-radius: 16px;
+    }
+
+    .video-profile-page {
+      padding-top: var(--space-3);
+      padding-bottom: var(--space-5);
+    }
+
+    .video-modal-player-shell {
+      border-radius: 12px;
     }
 
     .video-card-trigger {
