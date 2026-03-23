@@ -115,14 +115,15 @@ exports.handler = async (event) => {
       return name.includes('how do we solve alignment');
     });
 
-    // Sort by start time ascending (soonest first)
+    const now = new Date();
+
+    // Sort ascending by start time
     events.sort((a, b) => {
       const dateA = new Date((a.event || a).start_at || (a.event || a).start_time);
       const dateB = new Date((b.event || b).start_at || (b.event || b).start_time);
       return dateA - dateB;
     });
 
-    // Get the most recent event
     if (events.length === 0) {
       console.error('No HDWSA events found');
       return {
@@ -132,7 +133,10 @@ exports.handler = async (event) => {
       };
     }
 
-    const nextEvent = events[0];
+    // Pick the next upcoming event; fall back to the most recent past event
+    const nextEvent =
+      events.find(e => new Date((e.event || e).start_at || (e.event || e).start_time) >= now)
+      || events[events.length - 1];
     const eventData = nextEvent.event || nextEvent;
 
     // Get the Luma URL
