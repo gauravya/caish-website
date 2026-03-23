@@ -115,11 +115,11 @@ exports.handler = async (event) => {
       return name.includes('how do we solve alignment');
     });
 
-    // Sort by start time (most recent first)
+    // Sort by start time ascending (soonest first)
     events.sort((a, b) => {
       const dateA = new Date((a.event || a).start_at || (a.event || a).start_time);
       const dateB = new Date((b.event || b).start_at || (b.event || b).start_time);
-      return dateB - dateA;
+      return dateA - dateB;
     });
 
     // Get the most recent event
