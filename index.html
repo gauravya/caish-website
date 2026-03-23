@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload critical resources (render-blocking) -->
-  <link rel="preload" href="/styles.css?v=188d56a3" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/styles.css?v=9310a576" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link rel="preload" href="/images/punting-min.png" as="image" fetchpriority="high">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
@@ -74,10 +74,10 @@
   </style>
 
   <!-- Styles (async) -->
-  <noscript><link rel="stylesheet" href="/styles.css?v=188d56a3"></noscript>
+  <noscript><link rel="stylesheet" href="/styles.css?v=9310a576"></noscript>
 
   <!-- Enhancements -->
-  <script src="/enhancements.js?v=616c9180" defer fetchpriority="low"></script>
+  <script src="/enhancements.js?v=ce9c7731" defer fetchpriority="low"></script>
 
   <!-- Service Worker Registration -->
   <script>
@@ -187,17 +187,71 @@
       </div>
     </div>
 
-    <a href="/hannes" class="story-spotlight" data-preview-src="/videos/hannes-hover.mp4">
-      <div class="story-spotlight-media">
-        <img src="/images/hannes-front-still-25.png" alt="Hannes Whittingham in his video profile" loading="lazy" decoding="async" width="1920" height="1080">
-        <video class="story-spotlight-preview" muted playsinline preload="none" aria-hidden="true"></video>
-      </div>
-      <div class="story-spotlight-copy">
-        <span class="story-spotlight-kicker">Featured</span>
-        <h3>Hannes Whittingham</h3>
-        <p class="story-spotlight-role">CEO, Meridian</p>
-      </div>
-    </a>
+    <div class="stories-spotlight-grid">
+      <article class="video-card video-card--landscape">
+        <a
+          href="/hannes"
+          class="video-card-trigger"
+          aria-label="Open Hannes Whittingham video profile"
+          data-preview-src="/videos/hannes-hover.mp4">
+          <span class="video-card-media">
+            <img
+              src="/images/hannes-front-still-25.png"
+              alt="Hannes Whittingham"
+              class="video-card-poster"
+              loading="lazy"
+              decoding="async"
+              width="1920"
+              height="1080">
+            <video
+              class="video-card-preview"
+              muted
+              playsinline
+              preload="none"
+              poster="/images/hannes-front-still-25.png"
+              aria-hidden="true"></video>
+          </span>
+
+          <span class="video-card-body">
+            <span class="video-card-kicker">Video Profile</span>
+            <span class="video-card-title">Hannes Whittingham</span>
+            <span class="video-card-role">CEO, Meridian</span>
+          </span>
+        </a>
+      </article>
+
+      <article class="video-card video-card--portrait">
+        <a
+          href="/cam"
+          class="video-card-trigger"
+          aria-label="Open Cam Tice video profile"
+          data-preview-src="/videos/cam-hover.mp4">
+          <span class="video-card-media">
+            <img
+              src="/images/cam-still.png"
+              alt="Cam Tice"
+              class="video-card-poster"
+              loading="lazy"
+              decoding="async"
+              width="1920"
+              height="1072">
+            <video
+              class="video-card-preview"
+              muted
+              playsinline
+              preload="none"
+              poster="/images/cam-still.png"
+              aria-hidden="true"></video>
+          </span>
+
+          <span class="video-card-body">
+            <span class="video-card-kicker">Video Profile</span>
+            <span class="video-card-title">Cam Tice</span>
+            <span class="video-card-role">Co-Director, Geodesic Research</span>
+          </span>
+        </a>
+      </article>
+    </div>
   </section>
 
   <div class="divider"><div class="divider-line"></div></div>
@@ -454,53 +508,17 @@
       }
     };
 
-    const SpotlightPreview = {
-      init() {
-        const spotlights = document.querySelectorAll('.story-spotlight[data-preview-src]');
-        if (!spotlights.length) return;
-        const ok = window.matchMedia('(hover: hover)').matches && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (!ok) return;
-
-        spotlights.forEach(el => {
-          const video = el.querySelector('.story-spotlight-preview');
-          const src = el.dataset.previewSrc;
-          const startTime = parseFloat(el.dataset.previewStart) || 0;
-          if (!video || !src) return;
-          let loaded = false;
-
-          el.addEventListener('mouseenter', () => {
-            if (!loaded) {
-              video.src = src;
-              video.load();
-              video.addEventListener('loadeddata', () => { loaded = true; play(); }, { once: true });
-            } else { play(); }
-            function play() {
-              try { video.currentTime = startTime; } catch(_) {}
-              video.play().then(() => el.classList.add('is-previewing')).catch(() => {});
-            }
-          });
-          el.addEventListener('mouseleave', () => {
-            el.classList.remove('is-previewing');
-            video.pause();
-            try { video.currentTime = startTime; } catch(_) {}
-          });
-        });
-      }
-    };
-
     document.readyState === 'loading'
       ? document.addEventListener('DOMContentLoaded', () => {
           MobileNav.init();
           BackToTop.init();
           CTAForm.init();
-          SpotlightPreview.init();
           runIdle(() => HomeEvents.init());
         })
       : (() => {
           MobileNav.init();
           BackToTop.init();
           CTAForm.init();
-          SpotlightPreview.init();
           runIdle(() => HomeEvents.init());
         })();
   </script>

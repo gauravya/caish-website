@@ -43,6 +43,7 @@ const Enhancements = {
       // These are always safe to run
       this.initWarmHovers();
       this.initLinkUnderlines();
+      this.initVideoCardPreviews();
     };
 
     if ('requestIdleCallback' in window) {
@@ -401,6 +402,134 @@ const Enhancements = {
       link.addEventListener('mouseleave', () => {
         link.style.backgroundSize = '0% 1px';
       });
+    });
+  },
+
+  /**
+   * Video card previews - shared hover/focus previews for homepage and library cards
+   */
+  initVideoCardPreviews() {
+    if (this.prefersReducedMotion || this.prefersReducedData) return;
+    if (!window.matchMedia('(hover: hover)').matches) return;
+
+    const cards = Array.from(document.querySelectorAll('.video-card'));
+    if (!cards.length) return;
+
+    let activeCard = null;
+
+    const getCardParts = (card) => ({
+      trigger: card.querySelector('.video-card-trigger[data-preview-src]'),
+      preview: card.querySelector('.video-card-preview')
+    });
+
+    const loadPreviewSource = (preview, src) => {
+      if (!src) return Promise.resolve(false);
+      if (preview.dataset.loadedSrc === src) return Promise.resolve(true);
+      if (preview._loadingSrc === src && preview._loadingPromise) return preview._loadingPromise;
+
+      preview._loadingSrc = src;
+      preview._loadingPromise = new Promise((resolve) => {
+        const cleanup = () => {
+          preview.removeEventListener('loadeddata', handleLoaded);
+          preview.removeEventListener('error', handleError);
+        };
+
+        const handleLoaded = () => {
+          cleanup();
+          preview.dataset.loadedSrc = src;
+          resolve(true);
+        };
+
+        const handleError = () => {
+          cleanup();
+          resolve(false);
+        };
+
+        preview.addEventListener('loadeddata', handleLoaded);
+        preview.addEventListener('error', handleError);
+        preview.src = src;
+        preview.load();
+      }).finally(() => {
+        delete preview._loadingPromise;
+        delete preview._loadingSrc;
+      });
+
+      return preview._loadingPromise;
+    };
+
+    const stopPreview = (card) => {
+      const { trigger, preview } = getCardParts(card);
+      if (!trigger || !preview) return;
+
+      if (activeCard === card) {
+        activeCard = null;
+      }
+
+      card.dataset.previewActive = 'false';
+      card.classList.remove('is-previewing');
+      preview.pause();
+
+      const startTime = parseFloat(trigger.dataset.previewStart) || 0;
+      try {
+        preview.currentTime = startTime;
+      } catch (_) {}
+    };
+
+    const startPreview = (card) => {
+      const { trigger, preview } = getCardParts(card);
+      const previewSrc = trigger?.dataset.previewSrc;
+
+      if (!trigger || !preview || !previewSrc) return;
+
+      if (activeCard && activeCard !== card) {
+        stopPreview(activeCard);
+      }
+
+      activeCard = card;
+      card.dataset.previewActive = 'true';
+      preview.muted = true;
+      preview.playsInline = true;
+      preview.loop = true;
+
+      loadPreviewSource(preview, previewSrc).then((loaded) => {
+        if (!loaded || activeCard !== card || card.dataset.previewActive !== 'true') {
+          return;
+        }
+
+        const startTime = parseFloat(trigger.dataset.previewStart) || 0;
+        try {
+          preview.currentTime = startTime;
+        } catch (_) {}
+
+        preview.play()
+          .then(() => {
+            if (activeCard === card && card.dataset.previewActive === 'true') {
+              card.classList.add('is-previewing');
+            }
+          })
+          .catch(() => {
+            stopPreview(card);
+          });
+      });
+    };
+
+    cards.forEach((card) => {
+      const { trigger } = getCardParts(card);
+      if (!trigger) return;
+
+      trigger.addEventListener('mouseenter', () => startPreview(card));
+      trigger.addEventListener('mouseleave', () => stopPreview(card));
+      trigger.addEventListener('focusin', () => startPreview(card));
+      trigger.addEventListener('focusout', (event) => {
+        if (trigger.contains(event.relatedTarget)) return;
+        stopPreview(card);
+      });
+    });
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden && activeCard) {
+        stopPreview(activeCard);
+      }
     });
   }
 };

@@ -1,0 +1,46 @@
+My name is Hannes, I'm CEO here at Meridian, and at the moment I'm working on
+trying to build the field that we're all working in, so finding talented people
+who can contribute to working on AI safety. All the way back at school I was
+always very interested in what I could do to make the lives of others better. I
+think I realised quite early on that really science was my talent. I think
+that when I was young I actually thought that perhaps I would invent a new
+winterbine, like a more efficient winterbine, something like this. But then when I
+was at university I came across effective altruism and I think that that made
+my ideas about what I could do to help others a lot more concrete and a lot
+more actionable. I sort of tried to find the best job that I could, you know, so
+that I could earn to give. And so I got this job at AstraZeneca, which like
+sort of matched my skills because I knew about chemistry and I knew about
+machine learning. But increasingly as I watched the progress of AI, it became
+much more real to me. And I started to think, you know, perhaps I really need to
+move. I decided to quit my job at AstraZeneca, which was quite scary, and I took a
+break from technical work. I took my bike from Cambridge to Istanbul over four
+months, which was an amazing adventure and like raised some money for effective
+causes that way for a little while to take a break. But then I came back and I
+I decided to move into AI safety. I applied for some programs that at the time I
+wouldn't have been a good candidate for because I didn't know the ecosystem. And
+it took me a little while to find the right advice and figure out the right
+place to start. Yeah, my first role here at Meridian was as a technical AI
+safety research manager. And I launched the Visiting Researcher program, which
+sort of brings researchers here to Meridian and provides them with a community
+and research management. So after a little while of being in this role, I was
+asked to step in as CEO. I think that Meridian has sort of two major roles. The
+first is that since we're here next to the university with some of the best
+talent in the world right next door, one of our roles is to try to find that
+talent and to try to explain to people why this problem is urgent and important.
+But then there's another aspect which is that we actually host a research
+community ourselves. We've incubated a new technical AI safety research lab
+called Geodesic Research, which has taken ownership of a part of AI safety
+that was otherwise neglected. So you can see there that there's sort of like two
+aspects. There's finding the talent and then hosting the research. And these two
+goals actually fit alongside each other very well. It's much more attractive to a
+talented student at the university to enter the field if they can instantly
+come into contact with researchers who are actively working and making a
+difference to AI safety. I think that I'm unusually open as many of the
+people here in the Meridian community are to the idea that technological
+change may come faster than we're intuitively expecting and that the
+consequences might be very far reaching. And I think that there's a strong
+argument that what we do now can make an impact. But there's other things that
+motivate me as well. Since I moved into AI safety, I've suddenly come into contact
+with lots of other people that think about the world in the same way that I do.
+Like they want to fight for a better future. And then there's also just the
+fact that it's so deeply fascinating. There's I think many layers to it. Yeah.
