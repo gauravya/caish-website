@@ -1,4 +1,4 @@
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzlh0szO-2Qshr4Y8fGn63zvvW9mesbCIFqUvmvVFnfwov6oeFVKu_LLFRy9aqC3_A/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbzOoHMaaRNuxAa-OPRvWlTwAaDqeHHk6Uwb1fITXiFtVdFQuYGOnlK84Fxdze706jTS/exec';
 
 /* ── CORS ──────────────────────────────────────────────────────────────
  * GET: open (public availability data — no sensitive info).
@@ -64,6 +64,7 @@ function calendarServiceErrorMessage(err) {
 const _slotCache = new Map();
 const SLOT_TTL = 5 * 60 * 1000;
 const BOOKING_END_MINUTES = 18 * 60;
+const BOOKING_START_MINUTES = { gaurav: 10 * 60, gaurav_priority: 10 * 60, justin: 11 * 60, both: 11 * 60 };
 const LONDON_TIME_ZONE = 'Europe/London';
 const LONDON_PARTS_FORMATTER = new Intl.DateTimeFormat('en-GB', {
   timeZone: LONDON_TIME_ZONE,
@@ -108,8 +109,10 @@ function londonMinutes(date) {
   return (Number(parts.hour) * 60) + Number(parts.minute);
 }
 
-function bookingHoursError(start, end) {
+function bookingHoursError(start, end, who) {
   if (londonDateStamp(start) !== londonDateStamp(end)) return 'outside_booking_hours';
+  const minStart = BOOKING_START_MINUTES[who] || BOOKING_START_MINUTES.both;
+  if (londonMinutes(start) < minStart) return 'outside_booking_hours';
   if (londonMinutes(end) > BOOKING_END_MINUTES) return 'outside_booking_hours';
   return null;
 }
@@ -814,7 +817,7 @@ exports.handler = async (event) => {
 
       const startTime = new Date(validated.startISO);
       const endTime = new Date(validated.endISO);
-      const policyError = bookingRuleError(startTime, validated.who) || bookingHoursError(startTime, endTime);
+      const policyError = bookingRuleError(startTime, validated.who) || bookingHoursError(startTime, endTime, validated.who);
       if (policyError) {
         return {
           statusCode: 200,
