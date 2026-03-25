@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Cambridge Hardware Verification Programme — A six-day intensive for experienced hardware engineers entering AI verification.">
+  <title>Hardware Verification Programme | Cambridge AI Safety Hub</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://caish.org/hardware">
+  <meta property="og:title" content="Cambridge Hardware Verification Programme">
+  <meta property="og:description" content="A six-day intensive for experienced hardware engineers entering AI verification.">
+  <meta property="og:image" content="https://caish.org/images/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://caish.org/hardware">
+  <meta name="twitter:title" content="Cambridge Hardware Verification Programme">
+  <meta name="twitter:description" content="A six-day intensive for experienced hardware engineers entering AI verification.">
+  <meta name="twitter:image" content="https://caish.org/images/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <!-- DNS Prefetch & Preconnect -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Critical CSS -->
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{font-family:'Space Mono',monospace;background:#fcf7f1;color:#1a1a1a;line-height:1.8}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.1);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}}
+  </style>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css?v=9310a576">
+
+  <!-- Enhancements -->
+  <script src="enhancements.js?v=ce9c7731" defer fetchpriority="low"></script>
+
+  <!-- Page-specific styles -->
+  <style>
+    body.chvp-page {
+      background:
+        radial-gradient(circle at top right, rgba(148, 89, 71, 0.08), transparent 28%),
+        radial-gradient(circle at 0% 24%, rgba(177, 113, 91, 0.06), transparent 22%),
+        #fcf7f1;
+    }
+
+    .chvp-hero,
+    .chvp-section,
+    .chvp-eoi {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding-left: var(--space-10);
+      padding-right: var(--space-10);
+    }
+
+    /* ── Hero ── */
+
+    .chvp-hero {
+      padding-top: 7rem;
+      padding-bottom: 2rem;
+    }
+
+    .chvp-hero-top {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: clamp(1.5rem, 4vw, 3rem);
+      align-items: center;
+    }
+
+    .chvp-hero-copy {
+      min-width: 0;
+    }
+
+    .chvp-hero h1 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(2.2rem, 4.4vw, 3.25rem);
+      line-height: 1.06;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .chvp-hero-summary {
+      max-width: 56ch;
+      font-size: 0.96rem;
+      line-height: 1.85;
+      color: var(--dark-grey);
+    }
+
+    .chvp-hero-actions {
+      margin-top: 2rem;
+    }
+
+    .chvp-hero-art {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      min-width: 0;
+    }
+
+    .chvp-hero-art img {
+      width: min(100%, 600px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 24px 42px rgba(26, 26, 26, 0.08));
+    }
+
+    .chvp-btn {
+      display: inline-block;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: #fefefe;
+      background: #945947;
+      padding: 0.75rem 2rem;
+      border-radius: 4px;
+      box-shadow: 0 14px 26px rgba(148, 89, 71, 0.18);
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .chvp-btn:hover {
+      background: #7a4a3b;
+      transform: translateY(-1px);
+      box-shadow: 0 18px 30px rgba(148, 89, 71, 0.22);
+    }
+
+    .chvp-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-top: 3rem;
+    }
+
+    .chvp-overview-item {
+      padding: 1.15rem 1.25rem;
+      border: 1px solid rgba(148, 89, 71, 0.12);
+      border-radius: 12px;
+      background: rgba(255, 252, 248, 0.72);
+      box-shadow:
+        0 12px 28px rgba(60, 48, 35, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    }
+
+    .chvp-overview-item + .chvp-overview-item {
+      border-left: 0;
+    }
+
+    .chvp-overview-label {
+      display: block;
+      font-size: 0.56rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cambridge);
+      margin-bottom: 0.35rem;
+    }
+
+    .chvp-overview-value {
+      max-width: none;
+      font-size: 0.88rem;
+      line-height: 1.5;
+      color: var(--black);
+    }
+
+    /* ── Section layout ── */
+
+    .chvp-section {
+      padding-top: 2.5rem;
+      padding-bottom: 2.5rem;
+    }
+
+    .chvp-section-label {
+      display: block;
+      font-size: 0.56rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--cambridge);
+      margin-bottom: 0.75rem;
+    }
+
+    .chvp-section h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+
+    .chvp-section-intro {
+      max-width: 52ch;
+      font-size: 0.92rem;
+      line-height: 1.8;
+      color: var(--dark-grey);
+      margin-bottom: 2rem;
+    }
+
+    .chvp-programme-lead {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
+      gap: clamp(1.5rem, 4vw, 3rem);
+      align-items: start;
+      margin-bottom: 2rem;
+    }
+
+    .chvp-programme-copy {
+      min-width: 0;
+      min-height: clamp(240px, 28vw, 340px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .chvp-programme-copy .chvp-section-intro {
+      margin-bottom: 0;
+    }
+
+    .chvp-programme-image {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 89, 71, 0.14);
+      background: rgba(248, 241, 234, 0.4);
+      box-shadow: 0 22px 44px rgba(148, 89, 71, 0.1);
+    }
+
+    .chvp-programme-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(26, 26, 26, 0.03) 0%, rgba(26, 26, 26, 0.14) 100%);
+      pointer-events: none;
+    }
+
+    .chvp-programme-image img {
+      width: 100%;
+      height: clamp(240px, 28vw, 340px);
+      object-fit: cover;
+      object-position: center 32%;
+      display: block;
+    }
+
+    /* ── Timeline ── */
+
+    .chvp-timeline {
+      --timeline-frame-offset: 18px;
+      position: relative;
+      display: grid;
+      gap: 0;
+      padding: 1rem 1.3rem;
+      margin: var(--timeline-frame-offset) var(--timeline-frame-offset) calc(var(--timeline-frame-offset) + 0.25rem);
+      border: 1px solid rgba(148, 89, 71, 0.12);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255, 252, 248, 0.72) 0%, rgba(249, 242, 234, 0.62) 100%);
+      box-shadow:
+        0 16px 38px rgba(60, 48, 35, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      overflow: visible;
+    }
+
+    .chvp-timeline::before,
+    .chvp-timeline::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .chvp-timeline::before {
+      transform: translate(calc(-1 * var(--timeline-frame-offset)), var(--timeline-frame-offset));
+      border-left: 1px solid rgba(148, 89, 71, 0.12);
+      border-bottom: 1px solid rgba(148, 89, 71, 0.12);
+      border-bottom-left-radius: 28px;
+    }
+
+    .chvp-timeline::after {
+      transform: translate(var(--timeline-frame-offset), calc(-1 * var(--timeline-frame-offset)));
+      border-top: 1px solid rgba(148, 89, 71, 0.12);
+      border-right: 1px solid rgba(148, 89, 71, 0.12);
+      border-top-right-radius: 28px;
+    }
+
+    .chvp-timeline-item {
+      display: grid;
+      grid-template-columns: 100px minmax(0, 1fr);
+      gap: 1.25rem;
+      align-items: baseline;
+      padding: 1.1rem 0;
+      border-top: 1px solid rgba(148, 89, 71, 0.1);
+    }
+
+    .chvp-timeline-item:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .chvp-timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .chvp-timeline-phase {
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cambridge);
+      padding-top: 0.15rem;
+    }
+
+    .chvp-timeline-title {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--black);
+      margin-bottom: 0.2rem;
+    }
+
+    .chvp-timeline-desc {
+      max-width: none;
+      font-size: 0.85rem;
+      line-height: 1.72;
+      color: var(--dark-grey);
+      margin: 0;
+    }
+
+    /* ── Who it's for ── */
+
+    .chvp-fit-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .chvp-fit-column {
+      padding: 1.4rem 1.5rem;
+      border: 1px solid rgba(148, 89, 71, 0.12);
+      border-radius: 14px;
+      background: rgba(255, 252, 248, 0.68);
+      box-shadow:
+        0 12px 30px rgba(60, 48, 35, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    }
+
+    .chvp-fit-column h3 {
+      font-size: 1.05rem;
+      line-height: 1.35;
+      margin-bottom: 0.6rem;
+    }
+
+    .chvp-fit-column p {
+      max-width: none;
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: var(--dark-grey);
+      margin: 0;
+    }
+
+    .chvp-fit-label {
+      display: block;
+      font-size: 0.56rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cambridge);
+      margin-bottom: 0.55rem;
+    }
+
+    /* ── Gallery ── */
+
+    .chvp-gallery-shell {
+      padding-top: 0.75rem;
+      padding-bottom: 1rem;
+    }
+
+    .chvp-gallery-frame {
+      --gallery-frame-offset: 18px;
+      position: relative;
+      margin: var(--gallery-frame-offset) var(--gallery-frame-offset) calc(var(--gallery-frame-offset) + 0.25rem);
+      padding: 1.1rem;
+      border: 1px solid rgba(148, 89, 71, 0.12);
+      border-radius: 20px;
+      background: linear-gradient(180deg, rgba(255, 252, 248, 0.7) 0%, rgba(249, 242, 234, 0.58) 100%);
+      box-shadow:
+        0 16px 38px rgba(60, 48, 35, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      overflow: visible;
+    }
+
+    .chvp-gallery-frame::before,
+    .chvp-gallery-frame::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .chvp-gallery-frame::before {
+      transform: translate(calc(-1 * var(--gallery-frame-offset)), var(--gallery-frame-offset));
+      border-left: 1px solid rgba(148, 89, 71, 0.12);
+      border-bottom: 1px solid rgba(148, 89, 71, 0.12);
+      border-bottom-left-radius: 28px;
+    }
+
+    .chvp-gallery-frame::after {
+      transform: translate(var(--gallery-frame-offset), calc(-1 * var(--gallery-frame-offset)));
+      border-top: 1px solid rgba(148, 89, 71, 0.12);
+      border-right: 1px solid rgba(148, 89, 71, 0.12);
+      border-top-right-radius: 28px;
+    }
+
+    .chvp-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .chvp-gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid rgba(148, 89, 71, 0.12);
+      background: rgba(255, 252, 248, 0.66);
+      box-shadow:
+        0 18px 42px rgba(60, 48, 35, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+    }
+
+    .chvp-gallery-item img {
+      width: 100%;
+      height: clamp(260px, 31vw, 360px);
+      display: block;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .chvp-gallery-item:hover img {
+      transform: scale(1.015);
+    }
+
+    /* ── EOI ── */
+
+    .chvp-eoi {
+      padding-top: 2.5rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .chvp-eoi-card {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) auto;
+      gap: 1.5rem 2rem;
+      align-items: end;
+      padding: clamp(1.5rem, 3vw, 2.4rem);
+      border-radius: 18px;
+      border: 1px solid rgba(148, 89, 71, 0.16);
+      background:
+        radial-gradient(circle at top right, rgba(148, 89, 71, 0.1), transparent 32%),
+        linear-gradient(180deg, rgba(255, 252, 248, 0.88) 0%, rgba(249, 241, 233, 0.82) 100%);
+      box-shadow:
+        0 20px 46px rgba(60, 48, 35, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.74);
+    }
+
+    .chvp-eoi-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.85rem;
+    }
+
+    .chvp-eoi-label::before {
+      content: '';
+      width: 2.2rem;
+      height: 1px;
+      background: rgba(148, 89, 71, 0.35);
+    }
+
+    .chvp-eoi h2 {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      line-height: 1.1;
+      margin-bottom: 0.7rem;
+    }
+
+    .chvp-eoi-copy > p {
+      max-width: 42ch;
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--dark-grey);
+    }
+
+    .chvp-eoi-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.9rem;
+      justify-self: end;
+    }
+
+    .chvp-eoi-note {
+      max-width: none;
+      margin: 0;
+      font-size: 0.64rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--cambridge);
+    }
+
+    .chvp-eoi-contact {
+      max-width: none;
+      margin: 0;
+      font-size: 0.76rem;
+      color: #6b635d;
+      text-align: right;
+    }
+
+    .chvp-eoi-contact a {
+      color: var(--cambridge);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(148, 89, 71, 0.22);
+    }
+
+    .chvp-eoi-contact a:hover {
+      border-bottom-color: rgba(148, 89, 71, 0.5);
+    }
+
+    /* ── Responsive ── */
+
+    @media (max-width: 900px) {
+      .chvp-hero-top {
+        grid-template-columns: 1fr;
+      }
+
+      .chvp-hero-art {
+        justify-content: flex-start;
+      }
+
+      .chvp-hero-art img {
+        width: min(100%, 480px);
+      }
+
+      .chvp-programme-lead {
+        grid-template-columns: 1fr;
+      }
+
+      .chvp-programme-copy {
+        min-height: 0;
+      }
+
+      .chvp-timeline {
+        --timeline-frame-offset: 12px;
+        border-radius: 18px;
+      }
+
+      .chvp-timeline::before {
+        border-bottom-left-radius: 24px;
+      }
+
+      .chvp-timeline::after {
+        border-top-right-radius: 24px;
+      }
+
+      .chvp-overview-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .chvp-overview-item:nth-child(3) {
+        border-left: 0;
+      }
+
+      .chvp-overview-item:nth-child(n+3) {
+        border-top: 0;
+      }
+
+      .chvp-fit-columns {
+        grid-template-columns: 1fr;
+        gap: 1.75rem;
+      }
+
+      .chvp-gallery {
+        grid-template-columns: 1fr;
+      }
+
+      .chvp-gallery-frame {
+        --gallery-frame-offset: 12px;
+        border-radius: 18px;
+      }
+
+      .chvp-gallery-frame::before {
+        border-bottom-left-radius: 24px;
+      }
+
+      .chvp-gallery-frame::after {
+        border-top-right-radius: 24px;
+      }
+
+      .chvp-eoi-card {
+        grid-template-columns: 1fr;
+        align-items: start;
+      }
+
+      .chvp-eoi-actions {
+        justify-self: start;
+        align-items: flex-start;
+      }
+
+      .chvp-eoi-contact {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .chvp-hero,
+      .chvp-section,
+      .chvp-eoi {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+      }
+
+      .chvp-hero {
+        padding-top: 6rem;
+      }
+
+      .chvp-hero-copy {
+        text-align: center;
+      }
+
+      .chvp-hero-summary {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .chvp-hero-actions {
+        display: flex;
+        justify-content: center;
+      }
+
+      .chvp-hero-art {
+        justify-content: center;
+      }
+
+      .chvp-overview-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .chvp-overview-item + .chvp-overview-item {
+        border-left: 0;
+        border-top: 0;
+      }
+
+      .chvp-timeline-item {
+        grid-template-columns: 1fr;
+        gap: 0.3rem;
+      }
+
+      .chvp-timeline {
+        --timeline-frame-offset: 8px;
+        padding: 0.85rem 1rem;
+        border-radius: 16px;
+      }
+
+      .chvp-timeline::before {
+        border-bottom-left-radius: 20px;
+      }
+
+      .chvp-timeline::after {
+        border-top-right-radius: 20px;
+      }
+
+      .chvp-gallery-frame {
+        --gallery-frame-offset: 8px;
+        margin: var(--gallery-frame-offset) var(--gallery-frame-offset) calc(var(--gallery-frame-offset) + 0.15rem);
+        padding: 0.85rem;
+        border-radius: 16px;
+      }
+
+      .chvp-gallery-frame::before {
+        border-bottom-left-radius: 20px;
+      }
+
+      .chvp-gallery-frame::after {
+        border-top-right-radius: 20px;
+      }
+    }
+  </style>
+</head>
+<body class="chvp-page">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home">
+        <img src="images/logo.png" class="logo" width="50" height="50">
+      </a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li><a href="/events">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li><a href="/events">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <main id="main-content">
+
+    <!-- HERO -->
+    <section class="chvp-hero">
+      <div class="chvp-hero-top">
+        <div class="chvp-hero-copy">
+          <h1>Hardware Verification Programme</h1>
+          <p class="chvp-hero-summary">A six-day programme in Cambridge for experienced hardware engineers to work on AI verification, tackling trusted execution, tamper resistance, confidential computing, and auditable infrastructure for advanced AI systems.</p>
+          <div class="chvp-hero-actions">
+            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="chvp-btn" target="_blank" rel="noopener">Register Interest</a>
+          </div>
+        </div>
+        <div class="chvp-hero-art" aria-hidden="true">
+          <img src="hardware.webp" alt="" loading="eager" decoding="async" width="2000" height="1290">
+        </div>
+      </div>
+
+      <div class="chvp-overview-grid" aria-label="Programme overview">
+        <div class="chvp-overview-item">
+          <span class="chvp-overview-label">When</span>
+          <p class="chvp-overview-value">August 2026</p>
+        </div>
+        <div class="chvp-overview-item">
+          <span class="chvp-overview-label">Where</span>
+          <p class="chvp-overview-value">Cambridge, UK</p>
+        </div>
+        <div class="chvp-overview-item">
+          <span class="chvp-overview-label">Cohort</span>
+          <p class="chvp-overview-value">6 &ndash; 10 engineers</p>
+        </div>
+        <div class="chvp-overview-item">
+          <span class="chvp-overview-label">Cost</span>
+          <p class="chvp-overview-value">Fully funded</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- PROGRAMME -->
+    <section class="chvp-section" id="programme">
+      <div class="chvp-programme-lead">
+        <div class="chvp-programme-copy">
+          <span class="chvp-section-label">The week</span>
+          <h2>How it works</h2>
+          <p class="chvp-section-intro">Mornings are talks and workshops from researchers and engineers working on hardware verification. Afternoons are for scoping out solutions to problems in AI verification. By Day 6, you present a technical proposal to peers and practitioners.</p>
+        </div>
+        <div class="chvp-programme-image">
+          <img src="images/meridian-18.webp" alt="A presentation at Meridian, Cambridge" loading="lazy" decoding="async" width="2000" height="1333">
+        </div>
+      </div>
+
+      <div class="chvp-timeline">
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase">Pre-work</span>
+          <div>
+            <p class="chvp-timeline-title">Context loading</p>
+            <p class="chvp-timeline-desc">Before the week, you&rsquo;ll receive reading lists and short talks covering why AI verification matters and the open problems in the space, so everyone arrives with a shared understanding.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase">Days 1 &ndash; 2</span>
+          <div>
+            <p class="chvp-timeline-title">The landscape</p>
+            <p class="chvp-timeline-desc">Talks on the geopolitical context, hardware-enabled governance mechanisms, and what verification needs to look like. You&rsquo;ll also begin scoping your end-of-week project and finding collaborators.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase">Days 3 &ndash; 4</span>
+          <div>
+            <p class="chvp-timeline-title">Technical deep dive</p>
+            <p class="chvp-timeline-desc">Hardware security, anti-tamper, confidential computing, and specific verification proposals. Sessions led by people building in this space.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase">Day 5</span>
+          <div>
+            <p class="chvp-timeline-title">The organisations</p>
+            <p class="chvp-timeline-desc">Organisations working on AI hardware verification present what they&rsquo;re building, where they&rsquo;re stuck, and what they need.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase">Day 6</span>
+          <div>
+            <p class="chvp-timeline-title">Presentations</p>
+            <p class="chvp-timeline-desc">Present your scoping document and get feedback from peers, mentors, and org representatives.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="chvp-section chvp-gallery-shell" aria-label="Programme gallery">
+      <div class="chvp-gallery-frame">
+        <div class="chvp-gallery">
+          <div class="chvp-gallery-item">
+            <img src="images/meridian-19.webp" alt="Participants gathered around a session at Meridian" loading="lazy" decoding="async" width="2000" height="1333">
+          </div>
+          <div class="chvp-gallery-item">
+            <img src="images/meridian-20.webp" alt="Discussion during a Meridian programme session" loading="lazy" decoding="async" width="2000" height="1333">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHO IT'S FOR -->
+    <section class="chvp-section">
+      <span class="chvp-section-label">Who should apply</span>
+      <h2>Engineers with hardware depth</h2>
+      <p class="chvp-section-intro">We&rsquo;re looking for experienced hardware engineers who want to work on some of the biggest open problems in AI verification. The programme gets you up to speed on verification, AI safety, and how you can contribute.</p>
+
+      <div class="chvp-fit-columns">
+        <div class="chvp-fit-column">
+          <span class="chvp-fit-label">Backgrounds we're looking for</span>
+          <p>You&rsquo;ve spent five or more years in hardware engineering &mdash; electronics design, firmware, FPGAs, embedded systems, secure hardware, or cryptographic implementations. </p>
+        </div>
+        <div class="chvp-fit-column">
+          <span class="chvp-fit-label">What you leave with</span>
+          <p>Context on the verification landscape, a scoped technical problem, and direct relationships with organisations working in this space.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- EOI -->
+    <section class="chvp-eoi" id="apply">
+      <div class="chvp-eoi-card">
+        <div class="chvp-eoi-copy">
+          <span class="chvp-section-label chvp-eoi-label">Next Step</span>
+          <h2>Interested?</h2>
+          <p>Applications open in 2026. Leave your details and we&rsquo;ll be in touch.</p>
+        </div>
+        <div class="chvp-eoi-actions">
+          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="chvp-btn" target="_blank" rel="noopener">Register Interest</a>
+          <p class="chvp-eoi-note">Small cohort. Fully funded. Cambridge-based.</p>
+          <p class="chvp-eoi-contact">Questions? <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a></p>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-legal">
+          Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 CAISH</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    const MobileNav = {
+      init() {
+        const nav = document.getElementById('mobile-nav');
+        const toggle = document.getElementById('nav-toggle');
+        const close = document.getElementById('mobile-nav-close');
+
+        toggle?.addEventListener('click', () => nav?.classList.add('active'));
+        close?.addEventListener('click', () => nav?.classList.remove('active'));
+        nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+      }
+    };
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', () => MobileNav.init())
+      : MobileNav.init();
+  </script>
+
+</body>
+</html>

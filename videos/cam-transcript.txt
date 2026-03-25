@@ -1,0 +1,29 @@
+So my name is Cam Tice. I'm the current co-director of geodesic research, which is an AI safety organization based out of here, based out of Cambridge.
+I was a pre-medicine student, really bent on going to medical school. I spent most of my undergrad university, very heads down in the books, deeply wanting to become a doctor, such that I could reduce suffering.
+I stumbled on a forum that my sister sent me, which was some effective altruist blog post that talked about what can you do to really just reduce suffering in the world.
+And one of the core claims in this blog post or this essay was that physicians in the United States actually probably weren't the best counterfactual, as in there are lots of intelligent people going into medical school.
+So I started thinking about global health as something that I could have a higher leverage on.
+I came away with not being convinced that this was the most impactful thing that I could do.
+A lot of the anxiety stemmed from whether or not I should make this big pivot and really just set aside the last six years of my life that I had tried so hard for.
+I mean, really sacrifice social life, sacrifice family time to go to medical school.
+And yeah, so I started learning Python. I applied to probably like 18 fellowships or had 18 fellowship applications open.
+I wasn't accepted to a single one. And then by the end of the year, applied to a hackathon.
+And yep, we spent three days doing this one little idea I had. And it turned out to be a success. I won the hackathon.
+I mean, I feel like it was yesterday. My career kind of just snowballed.
+Fun side note, I also completed a psychiatry master's degree in the last 12 months.
+But it was during this time that I met Priya Radhmard and Edward Young.
+And we, originally, we just applied to some like random, random grants, like little project grants.
+Two of them were accepted and we were just incredibly excited.
+And we were like, oh yeah, we're three like talented people. We're like friends with each other.
+Why don't we take this and formalize it?
+Called ourselves a geodesic. We were doing some fairly narrow chain of thought research that was mediumly impactful.
+But we kind of felt like there was something bigger waiting for us and really stayed in this,
+not committing to one specific agenda until we were extremely excited about that,
+which led us to our alignment pre-training work, which ended up being fairly impactful and received well by the frontier labs
+and has snowballed into us becoming a more formal organization with more funding.
+I think this is like one of the most important times in human history.
+And the stakes are extremely high.
+But if you're in a position where you have savings built up,
+the facts of the matter is that we need more intelligent people thinking about the most important problem,
+which is like how do we create safe and aligned AI and how do we prepare society for this huge technological shift?
+I would be very surprised if we don't look back in five to ten years and people don't just like thank you for making the jump now.
