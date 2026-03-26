@@ -125,6 +125,13 @@
   status = 301
   force = true
 
+# Hardware EOI → Airtable form
+[[redirects]]
+  from = "/hardware-eoi"
+  to = "https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form"
+  status = 301
+  force = true
+
 # Clean URLs
 [[redirects]]
   from = "/*"
