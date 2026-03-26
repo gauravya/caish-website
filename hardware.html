@@ -87,7 +87,7 @@
 
     .chvp-hero-top {
       display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      grid-template-columns: minmax(0, 0.85fr) minmax(340px, 1.15fr);
       gap: clamp(1.5rem, 4vw, 3rem);
       align-items: center;
     }
@@ -98,11 +98,15 @@
 
     .chvp-hero h1 {
       font-family: 'Libre Baskerville', Georgia, serif;
-      font-weight: 400;
+      font-weight: 300;
       font-size: clamp(2.2rem, 4.4vw, 3.25rem);
       line-height: 1.06;
       letter-spacing: -0.02em;
       margin-bottom: 1rem;
+    }
+
+    .chvp-initial {
+      font-weight: 700;
     }
 
     .chvp-hero-summary {
@@ -754,14 +758,14 @@
     <section class="chvp-hero">
       <div class="chvp-hero-top">
         <div class="chvp-hero-copy">
-          <h1>Hardware Verification Programme</h1>
+          <h1><span class="chvp-initial">H</span>ardware <span class="chvp-initial">V</span>erification <span class="chvp-initial">P</span>rogramme</h1>
           <p class="chvp-hero-summary">A six-day programme in Cambridge for experienced hardware engineers to work on AI verification, tackling trusted execution, tamper resistance, confidential computing, and auditable infrastructure for advanced AI systems.</p>
           <div class="chvp-hero-actions">
             <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="chvp-btn" target="_blank" rel="noopener">Register Interest</a>
           </div>
         </div>
         <div class="chvp-hero-art" aria-hidden="true">
-          <img src="hardware.webp" alt="" loading="eager" decoding="async" width="2000" height="1290">
+          <img src="hardware.png" alt="" loading="eager" decoding="async" width="2164" height="1952">
         </div>
       </div>
 
@@ -776,7 +780,7 @@
         </div>
         <div class="chvp-overview-item">
           <span class="chvp-overview-label">Cohort</span>
-          <p class="chvp-overview-value">6 &ndash; 10 engineers</p>
+          <p class="chvp-overview-value">10 engineers</p>
         </div>
         <div class="chvp-overview-item">
           <span class="chvp-overview-label">Cost</span>

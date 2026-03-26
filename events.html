@@ -264,7 +264,7 @@
           html += '<h2>Upcoming Events</h2>';
           html += rsvpNote;
           html += '<div class="events-grid">';
-          upcoming.forEach(entry => {
+          upcoming.slice(0, 3).forEach(entry => {
             html += this.renderEventCard(entry, false);
           });
           html += '</div>';
@@ -273,7 +273,7 @@
         if (past.length > 0) {
           html += '<h2 class="past-events-heading">Recent Events</h2>';
           html += '<div class="events-grid past-events">';
-          past.forEach(entry => {
+          past.slice(-3).forEach(entry => {
             html += this.renderEventCard(entry, true);
           });
           html += '</div>';
