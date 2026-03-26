@@ -125,11 +125,11 @@
   status = 301
   force = true
 
-# Hardware EOI → Airtable form
+# Hardware EOI — serve HTML (for social cards) then meta-refresh to Airtable
 [[redirects]]
   from = "/hardware-eoi"
-  to = "https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form"
-  status = 301
+  to = "/hardware-eoi.html"
+  status = 200
   force = true
 
 # Clean URLs
