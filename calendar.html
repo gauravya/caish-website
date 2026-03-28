@@ -1459,7 +1459,10 @@
       const m = Number(slot && slot.m);
       if (!Number.isFinite(h) || !Number.isFinite(m)) return out;
       if ((h * 60) + m + duration <= BOOKING_END_MINUTES) {
-        out.push({ h, m });
+        const entry = { h, m };
+        if (slot.startISO) entry.startISO = slot.startISO;
+        if (slot.endISO)   entry.endISO   = slot.endISO;
+        out.push(entry);
       }
       return out;
     }, []);
@@ -1897,10 +1900,10 @@
       const m = (row % 2) * 30;
       const isHalf = m === 30;
 
-      // Time label
+      // Time label — show in visitor's local timezone (use Monday as reference date)
       let timeCls = 'wv-time';
       if (isHalf) timeCls += ' wv-half';
-      bodyHtml += `<div class="${timeCls}"><span>${fmtTime(h, m)}</span></div>`;
+      bodyHtml += `<div class="${timeCls}"><span>${fmtLocalTime(weekDates[0], h, m)}</span></div>`;
 
       // 5 day cells
       weekDates.forEach(d => {
@@ -1966,7 +1969,7 @@
             if (prevCovered) isBandTop = false;
           }
 
-          const label = fmtTime(firstSlot.h, firstSlot.m);
+          const label = fmtLocalTime(d, firstSlot.h, firstSlot.m);
           const slotMinute = firstSlot.h * 60 + firstSlot.m;
           let cls = `wv-cell${isHalf ? ' wv-half' : ''} free ${isStartable ? 'startable' : 'continuation'}`;
           if (isBandTop) cls += ' band-top';
