@@ -158,18 +158,16 @@
     .chvp-overview-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-      margin-top: 3rem;
+      gap: 0.75rem;
+      margin-top: 2.5rem;
     }
 
     .chvp-overview-item {
-      padding: 1.15rem 1.25rem;
+      padding: 1rem 1.15rem;
       border: 1px solid rgba(148, 89, 71, 0.12);
-      border-radius: 12px;
+      border-radius: 4px;
       background: rgba(255, 252, 248, 0.72);
-      box-shadow:
-        0 12px 28px rgba(60, 48, 35, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+      box-shadow: 0 2px 6px rgba(60, 48, 35, 0.04);
     }
 
     .chvp-overview-item + .chvp-overview-item {
@@ -195,8 +193,8 @@
     /* ── Section layout ── */
 
     .chvp-section {
-      padding-top: 2.5rem;
-      padding-bottom: 2.5rem;
+      padding-top: 2rem;
+      padding-bottom: 2rem;
     }
 
     .chvp-section-label {
@@ -245,10 +243,10 @@
     .chvp-programme-image {
       position: relative;
       overflow: hidden;
-      border-radius: 16px;
+      border-radius: 6px;
       border: 1px solid rgba(148, 89, 71, 0.14);
       background: rgba(248, 241, 234, 0.4);
-      box-shadow: 0 22px 44px rgba(148, 89, 71, 0.1);
+      box-shadow: 0 4px 12px rgba(148, 89, 71, 0.08);
     }
 
     .chvp-programme-image::after {
@@ -265,46 +263,20 @@
       object-fit: cover;
       object-position: center 32%;
       display: block;
+      filter: saturate(1.15) contrast(1.05);
     }
 
     /* ── Timeline ── */
 
     .chvp-timeline {
-      --timeline-frame-offset: 18px;
       position: relative;
       display: grid;
       gap: 0;
       padding: 1rem 1.3rem;
-      margin: var(--timeline-frame-offset) var(--timeline-frame-offset) calc(var(--timeline-frame-offset) + 0.25rem);
       border: 1px solid rgba(148, 89, 71, 0.12);
-      border-radius: 20px;
+      border-radius: 6px;
       background: linear-gradient(180deg, rgba(255, 252, 248, 0.72) 0%, rgba(249, 242, 234, 0.62) 100%);
-      box-shadow:
-        0 16px 38px rgba(60, 48, 35, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.72);
-      overflow: visible;
-    }
-
-    .chvp-timeline::before,
-    .chvp-timeline::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .chvp-timeline::before {
-      transform: translate(calc(-1 * var(--timeline-frame-offset)), var(--timeline-frame-offset));
-      border-left: 1px solid rgba(148, 89, 71, 0.12);
-      border-bottom: 1px solid rgba(148, 89, 71, 0.12);
-      border-bottom-left-radius: 28px;
-    }
-
-    .chvp-timeline::after {
-      transform: translate(var(--timeline-frame-offset), calc(-1 * var(--timeline-frame-offset)));
-      border-top: 1px solid rgba(148, 89, 71, 0.12);
-      border-right: 1px solid rgba(148, 89, 71, 0.12);
-      border-top-right-radius: 28px;
+      box-shadow: 0 2px 8px rgba(60, 48, 35, 0.05);
     }
 
     .chvp-timeline-item {
@@ -358,13 +330,11 @@
     }
 
     .chvp-fit-column {
-      padding: 1.4rem 1.5rem;
+      padding: 1.25rem 1.35rem;
       border: 1px solid rgba(148, 89, 71, 0.12);
-      border-radius: 14px;
+      border-radius: 4px;
       background: rgba(255, 252, 248, 0.68);
-      box-shadow:
-        0 12px 30px rgba(60, 48, 35, 0.05),
-        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      box-shadow: 0 2px 6px rgba(60, 48, 35, 0.04);
     }
 
     .chvp-fit-column h3 {
@@ -448,39 +418,11 @@
     }
 
     .chvp-gallery-frame {
-      --gallery-frame-offset: 18px;
-      position: relative;
-      margin: var(--gallery-frame-offset) var(--gallery-frame-offset) calc(var(--gallery-frame-offset) + 0.25rem);
-      padding: 1.1rem;
+      padding: 1rem;
       border: 1px solid rgba(148, 89, 71, 0.12);
-      border-radius: 20px;
+      border-radius: 6px;
       background: linear-gradient(180deg, rgba(255, 252, 248, 0.7) 0%, rgba(249, 242, 234, 0.58) 100%);
-      box-shadow:
-        0 16px 38px rgba(60, 48, 35, 0.06),
-        inset 0 1px 0 rgba(255, 255, 255, 0.72);
-      overflow: visible;
-    }
-
-    .chvp-gallery-frame::before,
-    .chvp-gallery-frame::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-
-    .chvp-gallery-frame::before {
-      transform: translate(calc(-1 * var(--gallery-frame-offset)), var(--gallery-frame-offset));
-      border-left: 1px solid rgba(148, 89, 71, 0.12);
-      border-bottom: 1px solid rgba(148, 89, 71, 0.12);
-      border-bottom-left-radius: 28px;
-    }
-
-    .chvp-gallery-frame::after {
-      transform: translate(var(--gallery-frame-offset), calc(-1 * var(--gallery-frame-offset)));
-      border-top: 1px solid rgba(148, 89, 71, 0.12);
-      border-right: 1px solid rgba(148, 89, 71, 0.12);
-      border-top-right-radius: 28px;
+      box-shadow: 0 2px 8px rgba(60, 48, 35, 0.05);
     }
 
     .chvp-gallery {
@@ -492,12 +434,10 @@
     .chvp-gallery-item {
       position: relative;
       overflow: hidden;
-      border-radius: 18px;
+      border-radius: 4px;
       border: 1px solid rgba(148, 89, 71, 0.12);
       background: rgba(255, 252, 248, 0.66);
-      box-shadow:
-        0 18px 42px rgba(60, 48, 35, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.72);
+      box-shadow: 0 2px 8px rgba(60, 48, 35, 0.06);
     }
 
     .chvp-gallery-item img {
@@ -506,6 +446,7 @@
       display: block;
       object-fit: cover;
       transition: transform 0.4s ease;
+      filter: saturate(1.15) contrast(1.05);
     }
 
     .chvp-gallery-item:hover img {
@@ -523,16 +464,14 @@
       display: grid;
       grid-template-columns: minmax(0, 1.2fr) auto;
       gap: 1.5rem 2rem;
-      align-items: end;
-      padding: clamp(1.5rem, 3vw, 2.4rem);
-      border-radius: 18px;
+      align-items: center;
+      padding: clamp(1.5rem, 3vw, 2.2rem);
+      border-radius: 6px;
       border: 1px solid rgba(148, 89, 71, 0.16);
       background:
         radial-gradient(circle at top right, rgba(148, 89, 71, 0.1), transparent 32%),
         linear-gradient(180deg, rgba(255, 252, 248, 0.88) 0%, rgba(249, 241, 233, 0.82) 100%);
-      box-shadow:
-        0 20px 46px rgba(60, 48, 35, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.74);
+      box-shadow: 0 3px 10px rgba(60, 48, 35, 0.06);
     }
 
     .chvp-eoi-label {
@@ -621,16 +560,7 @@
       }
 
       .chvp-timeline {
-        --timeline-frame-offset: 12px;
-        border-radius: 18px;
-      }
-
-      .chvp-timeline::before {
-        border-bottom-left-radius: 24px;
-      }
-
-      .chvp-timeline::after {
-        border-top-right-radius: 24px;
+        border-radius: 6px;
       }
 
       .chvp-overview-grid {
@@ -655,16 +585,7 @@
       }
 
       .chvp-gallery-frame {
-        --gallery-frame-offset: 12px;
-        border-radius: 18px;
-      }
-
-      .chvp-gallery-frame::before {
-        border-bottom-left-radius: 24px;
-      }
-
-      .chvp-gallery-frame::after {
-        border-top-right-radius: 24px;
+        border-radius: 6px;
       }
 
       .chvp-eoi-card {
@@ -727,32 +648,13 @@
       }
 
       .chvp-timeline {
-        --timeline-frame-offset: 8px;
         padding: 0.85rem 1rem;
-        border-radius: 16px;
-      }
-
-      .chvp-timeline::before {
-        border-bottom-left-radius: 20px;
-      }
-
-      .chvp-timeline::after {
-        border-top-right-radius: 20px;
+        border-radius: 4px;
       }
 
       .chvp-gallery-frame {
-        --gallery-frame-offset: 8px;
-        margin: var(--gallery-frame-offset) var(--gallery-frame-offset) calc(var(--gallery-frame-offset) + 0.15rem);
         padding: 0.85rem;
-        border-radius: 16px;
-      }
-
-      .chvp-gallery-frame::before {
-        border-bottom-left-radius: 20px;
-      }
-
-      .chvp-gallery-frame::after {
-        border-top-right-radius: 20px;
+        border-radius: 4px;
       }
     }
   </style>
@@ -908,9 +810,9 @@
 
     <!-- WHO IT'S FOR -->
     <section class="chvp-section">
-      <span class="chvp-section-label">Who should apply</span>
+      <span class="chvp-section-label">Who this is for</span>
       <h2>Engineers with hardware depth</h2>
-      <p class="chvp-section-intro">We&rsquo;re looking for experienced hardware engineers who want to work on some of the biggest open problems in AI verification. The programme gets you up to speed on verification, AI safety, and how you can contribute.</p>
+      <p class="chvp-section-intro">AI verification has hard unsolved problems in trusted execution, tamper evidence, and confidential computing. The people best placed to work on them are experienced hardware engineers &mdash; but most don&rsquo;t know the field exists yet. This programme bridges that gap.</p>
 
       <div class="chvp-fit-columns">
         <div class="chvp-fit-column">
