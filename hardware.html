@@ -390,6 +390,56 @@
       margin-bottom: 0.55rem;
     }
 
+    /* ── Residents ── */
+
+    .chvp-residents {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .chvp-resident {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .chvp-resident-photo {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(148, 89, 71, 0.15);
+    }
+
+    .chvp-resident-info h3 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1rem;
+      font-weight: 400;
+      margin: 0 0 0.2rem;
+    }
+
+    .chvp-resident-info p {
+      font-size: 0.82rem;
+      line-height: 1.5;
+      color: var(--dark-grey);
+      margin: 0;
+    }
+
+    .chvp-resident-placeholder {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      border: 2px dashed rgba(148, 89, 71, 0.2);
+      background: rgba(248, 241, 234, 0.4);
+    }
+
+    .chvp-resident-tbc {
+      font-style: italic;
+      color: var(--dark-grey);
+    }
+
     /* ── Gallery ── */
 
     .chvp-gallery-shell {
@@ -876,13 +926,42 @@
 
     <div class="divider"><div class="divider-line"></div></div>
 
+    <!-- Residents -->
+    <section class="chvp-section">
+      <span class="chvp-section-label">Residents</span>
+      <h2>Who you'll learn from</h2>
+      <div class="chvp-residents">
+        <div class="chvp-resident">
+          <img src="images/peter-drotos.jpeg" alt="Péter Drótos" class="chvp-resident-photo">
+          <div class="chvp-resident-info">
+            <h3>Péter Drótos</h3>
+            <p>Ex-ARM. Future of Life Institute.</p>
+          </div>
+        </div>
+        <div class="chvp-resident">
+          <img src="images/harrison.jpeg" alt="Harrison Gietz" class="chvp-resident-photo">
+          <div class="chvp-resident-info">
+            <h3>Harrison Gietz</h3>
+            <p>Longview Philanthropy.</p>
+          </div>
+        </div>
+        <div class="chvp-resident chvp-resident--tbc">
+          <div class="chvp-resident-placeholder"></div>
+          <div class="chvp-resident-info">
+            <p class="chvp-resident-tbc">More to be confirmed</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
     <!-- EOI -->
     <section class="chvp-eoi" id="apply">
       <div class="chvp-eoi-card">
         <div class="chvp-eoi-copy">
           <span class="chvp-section-label chvp-eoi-label">Next Step</span>
           <h2>Interested?</h2>
-          <p>Applications open in 2026. Leave your details and we&rsquo;ll be in touch.</p>
         </div>
         <div class="chvp-eoi-actions">
           <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="chvp-btn" target="_blank" rel="noopener">Register Interest</a>

@@ -19,15 +19,15 @@
     Permissions-Policy = "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()"
 
     # Content Security Policy
-    # Allows: self, Google Fonts, Tally forms, Google Identity Services (calendar overlay), and inline scripts
+    # Allows: self, Google Fonts, Tally forms, and inline scripts
     Content-Security-Policy = """
       default-src 'self';
-      script-src 'self' 'unsafe-inline' https://tally.so https://accounts.google.com;
-      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://accounts.google.com;
+      script-src 'self' 'unsafe-inline' https://tally.so;
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: https:;
-      connect-src 'self' https://*.lu.ma https://www.googleapis.com https://accounts.google.com https://forms-eu1.hsforms.com;
-      frame-src https://tally.so https://accounts.google.com https://www.youtube.com;
+      connect-src 'self' https://*.lu.ma https://forms-eu1.hsforms.com;
+      frame-src https://tally.so https://www.youtube.com;
       media-src 'self' https://pub-fd3e7e854dc549da85f015f509d5ec9a.r2.dev;
       base-uri 'self';
       form-action 'self' https://tally.so https://share-eu1.hsforms.com;
@@ -69,42 +69,6 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
 
-# Keep GAS warm — runs every 5 minutes, prevents 3-10s cold starts
-[functions."warmup"]
-  schedule = "*/5 * * * *"
-
-# Route /api/book to the serverless function (which proxies to GAS)
-[[redirects]]
-  from = "/api/book"
-  to = "/.netlify/functions/book"
-  status = 200
-  force = true
-
-# Direct booking URLs — serve calendar.html (JS reads pathname)
-[[redirects]]
-  from = "/gaurav"
-  to = "/calendar.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/gaurav-priority"
-  to = "/calendar.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/justin"
-  to = "/calendar.html"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/both"
-  to = "/calendar.html"
-  status = 200
-  force = true
-
 # Certificate verification — all /verify/* paths serve verify.html (JS reads pathname)
 [[redirects]]
   from = "/verify/*"
@@ -117,13 +81,6 @@
   for = "/data/*"
   [headers.values]
     Cache-Control = "public, max-age=3600, stale-while-revalidate=86400"
-
-# Legacy /book URL → redirect to /calendar
-[[redirects]]
-  from = "/book"
-  to = "/calendar"
-  status = 301
-  force = true
 
 # Hardware EOI — serve HTML (for social cards) then meta-refresh to Airtable
 [[redirects]]
