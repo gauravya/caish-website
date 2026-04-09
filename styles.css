@@ -2964,6 +2964,284 @@
     color: var(--cambridge);
   }
 
+  /* =============================================
+     MARS V - Application Open Components
+     ============================================= */
+
+  /* Two-phase application explainer */
+  .mars-phases {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0 2rem;
+  }
+  .mars-phase {
+    padding: 1.75rem;
+    border: 1px solid var(--light-grey);
+    border-radius: 10px;
+    background: var(--white);
+    position: relative;
+  }
+  .mars-phase--active {
+    border-color: var(--cambridge);
+    box-shadow: 0 0 0 1px var(--cambridge);
+  }
+  .mars-phase-number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: var(--cambridge);
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+  }
+  .mars-phase--locked .mars-phase-number {
+    background: var(--mid-grey);
+  }
+  .mars-phase h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+  }
+  .mars-phase p {
+    font-size: 0.85rem;
+    max-width: none;
+    line-height: 1.7;
+  }
+  .mars-phase-badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.65rem;
+    border-radius: 3px;
+    margin-bottom: 0.75rem;
+  }
+  .mars-phase--active .mars-phase-badge {
+    background: rgba(148, 89, 71, 0.1);
+    color: var(--cambridge);
+  }
+  .mars-phase--locked .mars-phase-badge {
+    background: rgba(138, 138, 138, 0.1);
+    color: var(--mid-grey);
+  }
+
+  /* Section break images */
+  .mars-section-image {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 2.5rem;
+  }
+  .mars-section-image img {
+    width: 100%;
+    aspect-ratio: 21/6;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+  }
+
+  /* Mentor search */
+  .mentor-search {
+    width: 100%;
+    padding: 0.8rem 1.1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    border: 1px solid var(--light-grey);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--black);
+    margin-bottom: 0.75rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .mentor-search:focus {
+    border-color: var(--cambridge);
+  }
+  .mentor-search::placeholder {
+    color: var(--mid-grey);
+  }
+
+  /* Mentor filter pills */
+  .mentor-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1.5rem;
+  }
+  .mentor-filter {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid var(--light-grey);
+    border-radius: 20px;
+    background: transparent;
+    color: var(--mid-grey);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .mentor-filter:hover {
+    border-color: var(--cambridge);
+    color: var(--cambridge);
+  }
+  .mentor-filter.active {
+    background: var(--cambridge);
+    border-color: var(--cambridge);
+    color: #fff;
+  }
+
+  /* No results message */
+  .mentor-no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--mid-grey);
+    font-size: 0.85rem;
+    display: none;
+  }
+
+  /* Mentor project cards */
+  .mentor-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .mentor-card {
+    padding: 1.75rem;
+    background: var(--white);
+    border: 1px solid var(--light-grey);
+    border-radius: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    cursor: pointer;
+  }
+  .mentor-card:hover {
+    border-color: rgba(148, 89, 71, 0.3);
+    box-shadow: 0 4px 20px rgba(148, 89, 71, 0.08);
+  }
+  .mentor-card[hidden] {
+    display: none;
+  }
+  .mentor-card.expanded {
+    border-color: rgba(148, 89, 71, 0.2);
+  }
+
+  /* Card header: avatar + identity + spots */
+  .mentor-card-top {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+  .mentor-avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-family: var(--font-serif);
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .mentor-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .mentor-card-identity {
+    flex: 1;
+    min-width: 0;
+  }
+  .mentor-card-identity h4 {
+    font-family: var(--font-serif);
+    font-size: 1rem;
+    font-weight: 400;
+    margin-bottom: 0.15rem;
+    color: var(--black);
+    line-height: 1.3;
+  }
+  .mentor-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+  }
+  .mentor-card-org {
+    font-size: 0.72rem;
+    color: var(--mid-grey);
+    margin-bottom: 0;
+  }
+  .mentor-card-spots {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--cambridge);
+    background: rgba(148, 89, 71, 0.08);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+
+  /* Card summary (always visible) */
+  .mentor-card-summary {
+    font-size: 0.82rem;
+    color: var(--dark-grey);
+    line-height: 1.7;
+    margin-top: 0.85rem;
+    margin-bottom: 0;
+    max-width: none;
+  }
+
+  /* Expand toggle */
+  .mentor-card-toggle {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--cambridge);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 0.5rem;
+    display: inline-block;
+  }
+  .mentor-card-toggle:hover {
+    text-decoration: underline;
+  }
+
+  /* Card detail (hidden by default) */
+  .mentor-card-detail {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--light-grey);
+  }
+  .mentor-card-detail[hidden] {
+    display: none;
+  }
+  .mentor-card-desc {
+    font-size: 0.82rem;
+    color: var(--dark-grey);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+    max-width: none;
+  }
+  .mentor-card-looking {
+    font-size: 0.78rem;
+    color: var(--mid-grey);
+    line-height: 1.65;
+    margin-bottom: 0;
+    max-width: none;
+  }
+  .mentor-card-looking strong {
+    color: var(--dark-grey);
+  }
+
   /* Alumni Orgs */
   .alumni-orgs {
     margin: 1.5rem 0;
@@ -4968,6 +5246,27 @@
 
     .mentors-toggle.expanded {
       display: none;
+    }
+
+    /* MARS V Application Components - Mobile */
+    .mars-phases {
+      grid-template-columns: 1fr;
+    }
+
+    .mentor-cards-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .mentor-filters {
+      gap: 0.3rem;
+    }
+
+    .mars-section-image {
+      padding: 0 1.25rem;
+    }
+
+    .mars-section-image img {
+      aspect-ratio: 16/6;
     }
 
     .fellows-section {
