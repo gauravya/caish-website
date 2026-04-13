@@ -2830,7 +2830,16 @@
   .timeline-point:hover .timeline-label {
     color: var(--dark-grey);
   }
-  
+
+  .timeline-date {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--cambridge);
+    margin-top: 0.25rem;
+    letter-spacing: 0.02em;
+  }
+
   .mars-working-image {
     margin: 1.5rem 0;
     text-align: center;
@@ -2894,48 +2903,42 @@
   /* Mentors Grid */
   .mentors-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2rem 1.5rem;
     margin: 1.5rem 0;
   }
-  
+
   .mentor {
-    text-align: center;
-    padding: 1.25rem 1rem;
-    background: var(--white, #fff);
-    border-radius: 12px;
-    border: 1px solid var(--light-grey);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    text-align: left;
   }
 
-  .mentor:hover {
-    border-color: rgba(126, 66, 51, 0.25);
-    box-shadow: 0 2px 12px rgba(126, 66, 51, 0.08);
-  }
-  
   .mentor-photo {
-    width: 100px;
-    height: 100px;
+    width: 100%;
+    aspect-ratio: 1;
     object-fit: cover;
+    object-position: center 20%;
     background: var(--cream);
-    border-radius: 50%;
-    margin-bottom: 0.75rem;
-    border: 2px solid rgba(126, 66, 51, 0.2);
+    border-radius: 6px;
+    margin-bottom: 0.6rem;
+    display: block;
   }
   
   .mentor h4 {
     font-family: var(--font-serif);
-    font-size: 0.85rem;
+    font-size: 0.82rem;
     font-weight: 400;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.1rem;
+    line-height: 1.3;
   }
-  
+
   .mentor-org {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--mid-grey);
-    margin-bottom: 0.15rem;
+    margin-bottom: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
-  
+
   .mentor-area {
     font-size: 0.65rem;
     color: var(--mid-grey);
@@ -2943,26 +2946,6 @@
     margin-bottom: 0;
   }
 
-  /* Mentors Toggle - hidden by default, shown on mobile */
-  .mentors-toggle {
-    display: none;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    margin-top: 1rem;
-    background: transparent;
-    border: 1px solid var(--light-grey);
-    border-radius: 8px;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--mid-grey);
-    cursor: pointer;
-    transition: all 0.2s ease;
-  }
-
-  .mentors-toggle:hover {
-    border-color: var(--cambridge);
-    color: var(--cambridge);
-  }
 
   /* =============================================
      MARS V - Application Open Components
@@ -2986,22 +2969,15 @@
     border-color: var(--cambridge);
     box-shadow: 0 0 0 1px var(--cambridge);
   }
-  .mars-phase-number {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background: var(--cambridge);
-    color: #fff;
+  .mars-phase-status {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-size: 0.7rem;
+    color: var(--mid-grey);
     margin-bottom: 0.75rem;
+    margin-top: 0;
   }
-  .mars-phase--locked .mars-phase-number {
-    background: var(--mid-grey);
+  .mars-phase--active .mars-phase-status {
+    color: var(--cambridge);
   }
   .mars-phase h3 {
     font-size: 1.05rem;
@@ -4917,13 +4893,9 @@
     }
 
     .mars-hero-grid {
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       padding: 0 1.25rem;
       gap: 3px;
-    }
-
-    .mars-hero-grid img:nth-child(n+7) {
-      display: none;
     }
 
     .mars-hero-buttons {
@@ -4987,7 +4959,7 @@
     }
 
     .mentors-grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
     }
 
     .fellows-tracks {
@@ -5227,25 +5199,15 @@
   
     .mentors-grid {
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-4);
+      gap: 1rem 0.75rem;
     }
 
-    /* Hide extra mentors on mobile by default */
-    .mentor-extra {
-      display: none;
+    .mentor h4 {
+      font-size: 0.75rem;
     }
 
-    .mentors-grid.expanded .mentor-extra {
-      display: block;
-    }
-
-    /* Show toggle button on mobile */
-    .mentors-toggle {
-      display: block;
-    }
-
-    .mentors-toggle.expanded {
-      display: none;
+    .mentor-org {
+      font-size: 0.58rem;
     }
 
     /* MARS V Application Components - Mobile */
@@ -5253,12 +5215,12 @@
       grid-template-columns: 1fr;
     }
 
-    .mentor-cards-grid {
-      grid-template-columns: 1fr;
+    .mars-phase h3 {
+      font-size: 0.95rem;
     }
 
-    .mentor-filters {
-      gap: 0.3rem;
+    .mars-phase p {
+      font-size: 0.8rem;
     }
 
     .mars-section-image {
@@ -5267,6 +5229,15 @@
 
     .mars-section-image img {
       aspect-ratio: 16/6;
+    }
+
+    .mars-cta-stats {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .mars-cta-stats-divider {
+      display: none;
     }
 
     .fellows-section {

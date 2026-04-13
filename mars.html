@@ -9,16 +9,18 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://caish.org/mars">
-  <meta property="og:title" content="MARS Programme | Cambridge AI Safety Hub">
-  <meta property="og:description" content="Mentorship for Alignment Researchers - A research programme pairing ambitious mentees with established mentors.">
-  <meta property="og:image" content="https://caish.org/images/meridian-9.jpg">
+  <meta property="og:title" content="MARS V | AI Safety Research Mentorship">
+  <meta property="og:description" content="A research programme pairing early-career researchers with leading AI safety mentors. One week in person, then 12-16 weeks of remote collaboration culminating in publications.">
+  <meta property="og:image" content="https://caish.org/images/meridian-3.jpg">
+  <meta property="og:image:width" content="5616">
+  <meta property="og:image:height" content="3744">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://caish.org/mars">
-  <meta name="twitter:title" content="MARS Programme | Cambridge AI Safety Hub">
-  <meta name="twitter:description" content="Mentorship for Alignment Researchers - A research programme pairing ambitious mentees with established mentors.">
-  <meta name="twitter:image" content="https://caish.org/images/meridian-9.jpg">
+  <meta name="twitter:title" content="MARS V | AI Safety Research Mentorship">
+  <meta name="twitter:description" content="A research programme pairing early-career researchers with leading AI safety mentors. One week in person, then 12-16 weeks of remote collaboration culminating in publications.">
+  <meta name="twitter:image" content="https://caish.org/images/meridian-3.jpg">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="/images/favicon.png">
@@ -57,10 +59,13 @@
     .mars-hero-header--centered .mars-hero-inner{max-width:650px;margin:0 auto}
     .mars-hero-header--centered .mars-hero-summary{margin-left:auto;margin-right:auto}
     .mars-hero-header--centered .mars-hero-buttons{justify-content:center}
+    .mars-hero-header--centered .mars-rolling-note{margin-left:auto;margin-right:auto}
     .mars-hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;max-width:880px;margin:0 auto;padding:0 2.5rem}
     .mars-hero-grid img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;border-radius:3px}
     .mars-hero-header .label{font-size:0.65rem;letter-spacing:0.25em;text-transform:uppercase;color:#7e4233;font-weight:700;margin-bottom:1rem;display:block}
     .mars-hero-summary{font-size:1rem;line-height:1.8;color:#4a4a4a;max-width:60ch;margin-bottom:2rem}
+    .mars-rolling-note{max-width:40rem;margin:1rem 0 0;padding:0.9rem 1.1rem;border:1px solid rgba(126,66,51,0.18);border-radius:10px;background:rgba(126,66,51,0.06);font-size:0.82rem;line-height:1.7;color:#7e4233}
+    .mars-rolling-note strong{color:#5f2e23}
     .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
     p{font-size:0.95rem;max-width:52ch;color:#4a4a4a}
     .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
@@ -71,7 +76,7 @@
     body.has-banner .mars-hero-header{padding-top:calc(7rem + 2.2rem)}
     .btn-primary{display:inline-block;padding:0.75rem 2rem;background:#1a1a1a;color:#fefefe;font-family:'Space Mono',monospace;font-size:0.8rem;text-decoration:none;border-radius:6px}
     .nav-toggle{display:none}
-    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.mars-hero-header{padding:6rem 1.25rem 1.5rem}.mars-hero-header--centered .mars-hero-inner{max-width:100%}.mars-hero-grid{grid-template-columns:repeat(2,1fr);padding:0 1.25rem;gap:3px}.mars-hero-grid img:nth-child(n+7){display:none}.mars-hero-buttons{flex-direction:column;align-items:stretch}.mars-hero-buttons .btn-primary{text-align:center}}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.mars-hero-header{padding:6rem 1.25rem 1.5rem}.mars-hero-header--centered .mars-hero-inner{max-width:100%}.mars-hero-grid{grid-template-columns:repeat(3,1fr);padding:0 1.25rem;gap:3px}.mars-hero-buttons{flex-direction:column;align-items:stretch}.mars-hero-buttons .btn-primary{text-align:center}}
   </style>
 
   <!-- Styles (async) -->
@@ -137,12 +142,13 @@
 
   <section class="mars-hero-header mars-hero-header--centered" id="main-content">
     <div class="mars-hero-inner">
+      <span class="label">Rolling Applications Open</span>
       <h1>MARS V</h1>
-      <p class="mars-hero-summary">A part-time programme where teams of 2&ndash;4 work with experienced mentors to produce published research. We provide a kick-off week in Cambridge, compute, and research management.</p>
+      <p class="mars-hero-summary">A part-time research programme pairing teams of 2&ndash;4 with experienced mentors to produce published AI safety research. We provide a one-week in-person kick-off, compute, and research management support.</p>
       <div class="btn-wrapper mars-hero-buttons">
-        <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagdOMbNzconNqm6i/form" target="_blank" rel="noopener">Mentee EOI</a>
-        <a class="btn-primary btn-secondary" href="https://airtable.com/appTWateAQcC3Av4v/pagkVL5IjDuYfO5wL/form" target="_blank" rel="noopener">Mentor Application</a>
+        <a class="btn-primary" href="https://airtable.com/appTWateAQcC3Av4v/pagO8JNxKCIHkAFqk/form" target="_blank" rel="noopener">General Application</a>
       </div>
+      <p class="mars-rolling-note"><strong>Applications are reviewed on a rolling basis.</strong> We encourage applying early: strong Stage 1 candidates can be advanced to Stage 2 before the final deadline of May 3, 2026 at 23:59 Anywhere on Earth (AoE).</p>
     </div>
   </section>
 
@@ -150,12 +156,6 @@
     <img src="/images/meridian-9.jpg" alt="" loading="eager" decoding="async">
     <img src="/images/meridian-11.jpg" alt="" loading="eager" decoding="async">
     <img src="/images/meridian-17.jpg" alt="" loading="eager" decoding="async">
-    <img src="/images/meridian-8.jpg" alt="" loading="eager" decoding="async">
-    <img src="/images/meridian-15.jpg" alt="" loading="eager" decoding="async">
-    <img src="/images/meridian-10.jpg" alt="" loading="eager" decoding="async">
-    <img src="/images/meridian-14.jpg" alt="" loading="eager" decoding="async">
-    <img src="/images/meridian-12.jpg" alt="" loading="eager" decoding="async">
-    <img src="/images/meridian-16.jpg" alt="" loading="eager" decoding="async">
   </div>
 
   <section class="mars-section">
@@ -168,29 +168,34 @@
       <div class="timeline-container">
         <div class="timeline-scroll">
           <div class="timeline-track">
-            <button class="timeline-point" data-step="1" data-title="Application" data-content="You'll apply to work with a specific mentor on a research question. We review applications alongside the mentor, and if you're a strong fit, there may be a short interview. Once accepted, we'll help arrange travel to Cambridge for the kickoff week.">
+            <button class="timeline-point" data-step="1" data-title="Apply" data-content="Stage 1: Submit a general application with your background and research interests. Applications are reviewed on a rolling basis, and strong candidates may be invited to Stage 2 before the final deadline. In Stage 2, invited candidates apply directly to a specific mentor, who runs their own selection and chooses their team.">
               <span class="timeline-number">1</span>
-              <span class="timeline-label">Application</span>
+              <span class="timeline-label">Apply</span>
+              <span class="timeline-date">Apr - May</span>
             </button>
             <span class="timeline-connector"></span>
-            <button class="timeline-point" data-step="2" data-title="Prework" data-content="2&ndash;4 weeks before the kick-off, you'll meet your team, scope out your project in detail, and assign what you'll tackle during the kick-off week. This will allow you to arrive in Cambridge ready to hit the ground running.">
+            <button class="timeline-point" data-step="2" data-title="Prework" data-content="2-4 weeks before the kick-off, you'll meet your team, scope out your project in detail, and assign what you'll tackle during the in-person kick-off week. This will allow you to arrive ready to hit the ground running.">
               <span class="timeline-number">2</span>
               <span class="timeline-label">Prework</span>
+              <span class="timeline-date">Jun</span>
             </button>
             <span class="timeline-connector" data-duration="2-4 weeks"></span>
-            <button class="timeline-point" data-step="3" data-title="Kick-off week" data-content="One week in Cambridge with your mentor, fellow participants, and the CAISH team. Because you've already scoped the project and know your team, this week is about building momentum - making a serious start on the research and leaving with real results.">
+            <button class="timeline-point" data-step="3" data-title="Kick-off week" data-content="One week in person with your mentor, fellow participants, and the CAISH team. You'll be assigned to one of two cohort weeks (Jul 13-19 or Jul 20-26). Because you've already scoped the project and know your team, this week is about building momentum and making a serious start on the research.">
               <span class="timeline-number">3</span>
               <span class="timeline-label">Kick-off<br>week</span>
+              <span class="timeline-date">Jul 13-19 or 20-26</span>
             </button>
             <span class="timeline-connector" data-duration="1 week"></span>
-            <button class="timeline-point" data-step="4" data-title="Remote phase" data-content="You'll continue working remotely, around 8 hours per week, with regular check-ins from your mentor and a research manager. We cover compute costs and provide Claude Max subscriptions for technical streams.">
+            <button class="timeline-point" data-step="4" data-title="Remote phase" data-content="You'll continue working remotely part-time, around 8-15 hours per week, with regular check-ins from your mentor and a research manager. We cover compute costs and provide Claude Max subscriptions for technical streams.">
               <span class="timeline-number">4</span>
-              <span class="timeline-label">Remote phase</span>
+              <span class="timeline-label">Remote<br>phase</span>
+              <span class="timeline-date">Aug - Sep</span>
             </button>
-            <span class="timeline-connector" data-duration="8-12 weeks"></span>
+            <span class="timeline-connector" data-duration="8-10 weeks"></span>
             <button class="timeline-point" data-step="5" data-title="Final output" data-content="At the end of the programme, you'll present your work. We expect a concrete output: a paper, blog post, or other form that shares your research with the field.">
               <span class="timeline-number">5</span>
-              <span class="timeline-label">Final output</span>
+              <span class="timeline-label">Final<br>output</span>
+              <span class="timeline-date">Oct</span>
             </button>
             <span class="timeline-connector"></span>
             <button class="timeline-point" data-step="6" data-title="What comes next" data-content="We provide career support for full-time AI safety roles. Strong participants are invited to apply for Meridian's visiting researcher programme or accelerator week, where you can seek grants to continue your work.">
@@ -202,86 +207,140 @@
         <div class="timeline-detail timeline-detail--hidden" id="timeline-detail"></div>
       </div>
 
+      <div class="mars-section-image" aria-hidden="true">
+        <img src="/images/meridian-8.jpg" alt="" loading="lazy" decoding="async">
+      </div>
+
       <div class="divider"><div class="divider-line"></div></div>
 
-      <h2>Our Mentors</h2>
-      <p>Work directly with researchers from Redwood Research, MIRI, Stanford, UK AISI, and more.</p>
+      <h2>How to Apply</h2>
+      <p>MARS V uses a two-phase application process so we can match strong candidates with the right mentor. <strong>Applications are reviewed on a rolling basis</strong>, so applying early is beneficial.</p>
+
+      <div class="mars-phases">
+        <div class="mars-phase mars-phase--active">
+          <span class="mars-phase-badge">Stage 1</span>
+          <p class="mars-phase-status">Rolling review through May 3, 2026, 23:59 Anywhere on Earth (AoE)</p>
+          <h3>General Application</h3>
+          <p>Tell us about your background, research interests, and why you want to work on AI safety. We review applications as they come in, and strong candidates may be invited to Stage 2.</p>
+          <div class="btn-wrapper" style="margin-top:1.25rem">
+            <a class="btn-primary" href="https://airtable.com/appTWateAQcC3Av4v/pagO8JNxKCIHkAFqk/form" target="_blank" rel="noopener">Apply Now</a>
+          </div>
+        </div>
+        <div class="mars-phase mars-phase--locked">
+          <span class="mars-phase-badge">Stage 2</span>
+          <p class="mars-phase-status">Opens for invited candidates; final deadline May 10, 2026</p>
+          <h3>Mentor Application</h3>
+          <p>Invited candidates browse detailed mentor projects and apply directly to their preferred mentor. Mentors run their own selection process and choose their team.</p>
+        </div>
+      </div>
+
+      <div class="divider"><div class="divider-line"></div></div>
+
+      <h2>Select Mentors</h2>
+      <p>Detailed mentor projects, prerequisites, and application questions will be shared with Stage 2 candidates.</p>
 
       <div class="mentors-grid">
         <div class="mentor">
-          <img src="/images/thumbs/tracy.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+          <img src="/images/mentors/tracy.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Tyler Tracy">
           <h4>Tyler Tracy</h4>
           <p class="mentor-org">Redwood Research</p>
-          <p class="mentor-area">AI Control</p>
         </div>
         <div class="mentor">
-          <img src="/images/thumbs/weil.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Gabriel Weil</h4>
-          <p class="mentor-org">LawAI</p>
-          <p class="mentor-area">AI Liability and Insurance</p>
+          <img src="/images/mentors/rishub-jain.jpg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Rishub Jain">
+          <h4>Rishub Jain</h4>
+          <p class="mentor-org">Google DeepMind</p>
         </div>
         <div class="mentor">
-          <img src="/images/thumbs/logan-min.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Logan Riggs-Smith</h4>
-          <p class="mentor-org">Independent</p>
-          <p class="mentor-area">Mechanistic Interpretability</p>
+          <img src="/images/mentors/kevin-wei.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Kevin Wei">
+          <h4>Kevin Wei</h4>
+          <p class="mentor-org">RAND</p>
         </div>
         <div class="mentor">
-          <img src="/images/thumbs/gentzel-min.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Matthew Gentzel</h4>
-          <p class="mentor-org">Longview Philanthropy</p>
-          <p class="mentor-area">AGI Preparedness</p>
-        </div>
-        <div class="mentor">
-          <img src="/images/thumbs/erich-min.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Erich Grunewald</h4>
+          <img src="/images/mentors/clarissa-koh.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Clarissa Koh">
+          <h4>Clarissa Koh</h4>
           <p class="mentor-org">IAPS</p>
-          <p class="mentor-area">Compute Governance</p>
         </div>
         <div class="mentor">
-          <img src="/images/doom.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+          <img src="/images/mentors/michelle-nie.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Michelle Nie">
+          <h4>Michelle Nie</h4>
+          <p class="mentor-org">CNAS</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/yossi-gandelsman.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Yossi Gandelsman">
+          <h4>Yossi Gandelsman</h4>
+          <p class="mentor-org">Reve</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/lindley-lentati.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Lindley Lentati">
+          <h4>Lindley Lentati</h4>
+          <p class="mentor-org">Cambridge Inference</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/tianyi-qiu.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Tianyi Qiu">
+          <h4>Tianyi Qiu</h4>
+          <p class="mentor-org">Prevail / Stanford</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/zhonghao-he.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Zhonghao He">
+          <h4>Zhonghao He</h4>
+          <p class="mentor-org">Prevail / Oxford</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/francisco-ferreira.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Francisco Ferreira da Silva">
+          <h4>Francisco Ferreira da Silva</h4>
+          <p class="mentor-org">Pivotal Research</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/battista-biggio.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Battista Biggio">
+          <h4>Battista Biggio</h4>
+          <p class="mentor-org">University of Cagliari</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/james-lucassen.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="James Lucassen">
+          <h4>James Lucassen</h4>
+          <p class="mentor-org">Redwood Research</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/jacob-davies.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Jacob Davies">
+          <h4>Jacob Davies</h4>
+          <p class="mentor-org">Independent</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/rhea-karty.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Rhea Karty">
+          <h4>Rhea Karty</h4>
+          <p class="mentor-org">ERA / Harvard</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/pablo-villalobos.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Pablo Villalobos">
+          <h4>Pablo Villalobos</h4>
+          <p class="mentor-org">Independent</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/thomas-dooms.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Thomas Dooms">
           <h4>Thomas Dooms</h4>
           <p class="mentor-org">Goodfire</p>
-          <p class="mentor-area">Mechanistic Interpretability</p>
         </div>
-        <div class="mentor mentor-extra">
-          <img src="/images/thumbs/mylius.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Simon Mylius</h4>
-          <p class="mentor-org">MIT Future Tech Team</p>
-          <p class="mentor-area">Governance Mapping</p>
-        </div>
-        <div class="mentor mentor-extra">
-          <img src="/images/thumbs/zhijing.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Zhijing Jin</h4>
-          <p class="mentor-org">Max Planck Institute, University of Toronto</p>
-          <p class="mentor-area">Tamper-resistance</p>
-        </div>
-        <div class="mentor mentor-extra">
-          <img src="/images/thumbs/barnett.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Peter Barnett</h4>
-          <p class="mentor-org">MIRI</p>
-          <p class="mentor-area">Tracking Algorithmic Innovations</p>
-        </div>
-        <div class="mentor mentor-extra">
-          <img src="/images/thumbs/frazier.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
+        <div class="mentor">
+          <img src="/images/mentors/kevin-frazier.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Kevin Frazier">
           <h4>Kevin Frazier</h4>
-          <p class="mentor-org">Abundance Institute</p>
-          <p class="mentor-area">Institutional Capacity for AI Governance</p>
+          <p class="mentor-org">Abundance Institute / LawAI</p>
         </div>
-        <div class="mentor mentor-extra">
-          <img src="/images/thumbs/hase.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Peter Hase</h4>
-          <p class="mentor-org">Stanford</p>
-          <p class="mentor-area">Mechanistic Interpretability</p>
+        <div class="mentor">
+          <img src="/images/mentors/peter-drotos.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Péter Drótos">
+          <h4>Péter Drótos</h4>
+          <p class="mentor-org">Future of Life Institute</p>
         </div>
-        <div class="mentor mentor-extra">
-          <img src="/images/thumbs/monika.png" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200">
-          <h4>Monika Jotautaite</h4>
-          <p class="mentor-org">Independent</p>
-          <p class="mentor-area">AI Control</p>
+        <div class="mentor">
+          <img src="/images/mentors/james-petrie.jpeg" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="James Petrie">
+          <h4>James Petrie</h4>
+          <p class="mentor-org">Future of Life Institute</p>
+        </div>
+        <div class="mentor">
+          <img src="/images/mentors/peter-salib.webp" class="mentor-photo" loading="lazy" decoding="async" width="200" height="200" alt="Peter Salib">
+          <h4>Peter Salib</h4>
+          <p class="mentor-org">University of Houston / Forethought</p>
         </div>
       </div>
-      <button class="mentors-toggle" id="mentors-toggle">Show more mentors</button>
 
       <div class="divider"><div class="divider-line"></div></div>
 
@@ -321,21 +380,25 @@
       <h2>Where Our Alumni Go Next</h2>
       <div class="alumni-orgs">
         <div class="alumni-orgs-track">
-          <div class="alumni-org-logo"><img src="images/apollo.png" alt="Apollo Research"></div>
-          <div class="alumni-org-logo"><img src="images/lasr.png" alt="LASR Labs"></div>
-          <div class="alumni-org-logo"><img src="images/mats.png" alt="MATS"></div>
-          <div class="alumni-org-logo"><img src="images/aisi.png" alt="AISI"></div>
-          <div class="alumni-org-logo"><img src="images/geodesic.png" alt="Geodesic Research"></div>
-          <div class="alumni-org-logo"><img src="images/anthropic.png" alt="Anthropic"></div>
-          <div class="alumni-org-logo"><img src="images/gray.png" alt="Gray Swan"></div>
-          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="images/apollo.png" alt=""></div>
-          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="images/lasr.png" alt=""></div>
-          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="images/mats.png" alt=""></div>
-          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="images/aisi.png" alt=""></div>
-          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="images/geodesic.png" alt=""></div>
-          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="images/anthropic.png" alt=""></div>
-          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="images/gray.png" alt=""></div>
+          <div class="alumni-org-logo"><img src="/images/apollo.png" alt="Apollo Research"></div>
+          <div class="alumni-org-logo"><img src="/images/lasr.png" alt="LASR Labs"></div>
+          <div class="alumni-org-logo"><img src="/images/mats.png" alt="MATS"></div>
+          <div class="alumni-org-logo"><img src="/images/aisi.png" alt="AISI"></div>
+          <div class="alumni-org-logo"><img src="/images/geodesic.png" alt="Geodesic Research"></div>
+          <div class="alumni-org-logo"><img src="/images/anthropic.png" alt="Anthropic"></div>
+          <div class="alumni-org-logo"><img src="/images/gray.png" alt="Gray Swan"></div>
+          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="/images/apollo.png" alt=""></div>
+          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="/images/lasr.png" alt=""></div>
+          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="/images/mats.png" alt=""></div>
+          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="/images/aisi.png" alt=""></div>
+          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="/images/geodesic.png" alt=""></div>
+          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="/images/anthropic.png" alt=""></div>
+          <div class="alumni-org-logo alumni-org-logo--dup" aria-hidden="true"><img src="/images/gray.png" alt=""></div>
         </div>
+      </div>
+
+      <div class="mars-section-image" aria-hidden="true">
+        <img src="/images/meridian-10.jpg" alt="" loading="lazy" decoding="async">
       </div>
 
       <div class="divider"><div class="divider-line"></div></div>
@@ -367,11 +430,13 @@
               <h4>How is MARS different from other programmes?</h4>
               <p>MARS is <strong>part-time</strong> and <strong>hybrid</strong>. Unlike fully in-person, full-time programmes (MATS, ERA) or fully remote ones (SPAR, FIG), MARS is compatible with concurrent studies or employment for both mentors and mentees.</p>
               <h4>What research areas does MARS cover?</h4>
-              <p><strong>Technical AI safety</strong> (e.g., AI control, interpretability, evals, CoT faithfulness) and <strong>AI governance &amp; policy</strong> (e.g., international agreements, compute governance, hardware-enabled mechanisms). Specific MARS V projects are still forthcoming.</p>
+              <p><strong>Technical AI safety</strong> (AI control, interpretability, evaluations, robustness, scalable oversight) and <strong>AI governance &amp; policy</strong> (international agreements, AI law, political philosophy, compute governance). See the full list of mentors and projects above.</p>
+              <h4>How does the two-stage application work?</h4>
+              <p>In <strong>Stage 1</strong>, you submit a general application with your background and interests. Applications are reviewed on a rolling basis, so strong candidates may be advanced before the final Stage 1 deadline. If invited, you advance to <strong>Stage 2</strong>, where you apply directly to a specific mentor whose project interests you. The mentor runs their own selection (interviews, coding tests, etc.) and chooses their team.</p>
               <h4>When does the programme run?</h4>
-              <p>MARS V&rsquo;s in-person component will run during the Northern Hemisphere summer (June and/or July). Applications open ~mid April, with a deadline of ~late April. If you can&rsquo;t participate in MARS V but want to join MARS VI (December 2026), please fill out the mentee EOI above.</p>
+              <p>MARS V runs from July to October 2026. The in-person weeks are July 13-26, followed by 8-10 weeks of remote part-time research ending in October. If you can&rsquo;t participate in MARS V but want to join MARS VI (December 2026), please submit a Stage 1 application and note your preference.</p>
               <h4>Is there any cost to participate?</h4>
-              <p>No. MARS is free &mdash; CAISH provides travel funding, accommodation, office space, and meals during the in-person sprint week.</p>
+              <p>No. MARS is free - CAISH provides travel funding, accommodation, office space, and meals during the in-person sprint week.</p>
               <h4>What support and resources are provided?</h4>
               <p>Teams receive a $2k+ compute budget, Claude Max (5x) for technical streams, a dedicated research manager, office space and catering during the sprint week, and travel funding and accommodation.</p>
               <h4>Who runs MARS?</h4>
@@ -385,17 +450,17 @@
             </button>
             <div class="faq-answer" hidden>
               <h4>Time Commitment</h4>
-              <p>Participants should expect to spend 8&ndash;15+ hours/week on their project. The programme includes 2&ndash;4 weeks of pre-work, a 1-week in-person kick-off in Cambridge, followed by 10&ndash;12 weeks of remote part-time research.</p>
+              <p>Participants should expect to spend 8&ndash;15+ hours/week on their project. The programme includes 2-4 weeks of pre-work, a 1-week in-person kick-off (Jul 13-19 or Jul 20-26), followed by 8-10 weeks of remote part-time research through October.</p>
               <h4>Weekly Check-Ins</h4>
-              <p>Throughout the duration of the program, you are expected to check-in:</p>
+              <p>Throughout the duration of the programme, you are expected to check-in:</p>
               <ul>
                 <li>With your teammates once a week. It&rsquo;ll be up to your team to coordinate meeting times or create co-working systems.</li>
-                <li>With your supervisor once a week. The format of check-ins with your supervisor will be at their discretion.</li>
+                <li>With your mentor once a week. The format of check-ins with your mentor will be at their discretion.</li>
               </ul>
               <p>You will also be assigned a research manager who will support your work throughout the programme. While you&rsquo;ll coordinate with your team, the research manager provides external accountability and guidance to help keep your project on track.</p>
-              <p>We will also have program-wide events and check-ins, including socials, co-working sessions, and guest speakers. More details on these events will be announced to accepted participants.</p>
+              <p>We will also have programme-wide events and check-ins, including socials, co-working sessions, and guest speakers. More details on these events will be announced to accepted participants.</p>
               <h4>MARS Research Symposium</h4>
-              <p>This event will take place at the end of the program, where each research group presents their research.</p>
+              <p>This event will take place at the end of the programme, where each research group presents their research.</p>
             </div>
           </article>
           <article class="faq-card">
@@ -410,14 +475,14 @@
               <h4>What will I need to provide?</h4>
               <ul>
                 <li>A project description (theory of change, what mentees will do, expected output)</li>
-                <li>Application questions for prospective mentees (coding tests, essays, research design tasks &mdash; whatever fits your project)</li>
+                <li>Application questions for prospective mentees (coding tests, essays, research design tasks - whatever fits your project)</li>
                 <li>Regular mentorship time during the remote phase (weekly team meetings at minimum)</li>
                 <li>Attendance at the in-person kick-off week is strongly preferred but not absolutely required</li>
               </ul>
               <h4>Time commitment</h4>
-              <p><strong>In-person</strong> (1 week): Work alongside your mentees in Cambridge. <strong>Remote</strong> (~12&ndash;16 weeks, part-time): Expect 1&ndash;3 hours per week for group meetings and async communication. The exact structure is up to you.</p>
+              <p><strong>In-person</strong> (1 week): Work alongside your mentees in person. <strong>Remote</strong> (~12&ndash;16 weeks, part-time): Expect 1&ndash;3 hours per week for group meetings and async communication. The exact structure is up to you.</p>
               <h4>Who will I mentor?</h4>
-              <p>University students and early-career researchers with an interest in AI safety. Most mentees have completed introductory AI safety programmes and have some coding/research experience. You&rsquo;ll typically have 2&ndash;4 mentees on your team, and you run Stage II of the application process, giving you complete control over your team&rsquo;s composition.</p>
+              <p>University students and early-career researchers with an interest in AI safety. Most mentees have completed introductory AI safety programmes and have some coding/research experience. You&rsquo;ll typically have 2&ndash;4 mentees on your team, and you run Stage 2 of the application process, giving you complete control over your team&rsquo;s composition.</p>
               <h4>What support do I get?</h4>
               <ul>
                 <li>A curated applicant pool (saving you time during selection)</li>
@@ -426,7 +491,7 @@
                 <li>Compute budget for your team if needed</li>
               </ul>
               <h4>What kind of output is expected?</h4>
-              <p>Almost without exception, the deliverable is one or more publications &mdash; LessWrong posts, conference papers, arXiv preprints, or academic articles.</p>
+              <p>Almost without exception, the deliverable is one or more publications - LessWrong posts, conference papers, arXiv preprints, or academic articles.</p>
             </div>
           </article>
         </div>
@@ -434,7 +499,7 @@
       </div>
 
       <div class="mars-application">
-        <h2>MARS V</h2>
+        <h2>MARS V - Rolling Applications Open</h2>
         <div class="mars-cta-stats">
           <div class="mars-cta-stat">
             <span class="mars-cta-stat-value">$2k+</span>
@@ -443,7 +508,7 @@
           <div class="mars-cta-stats-divider"></div>
           <div class="mars-cta-stat">
             <span class="mars-cta-stat-value">1 week</span>
-            <span class="mars-cta-stat-label">Kick-off in Cambridge</span>
+            <span class="mars-cta-stat-label">In-person kick-off</span>
           </div>
           <div class="mars-cta-stats-divider"></div>
           <div class="mars-cta-stat">
@@ -452,8 +517,7 @@
           </div>
         </div>
         <div class="btn-wrapper">
-          <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagdOMbNzconNqm6i/form" target="_blank" rel="noopener">Mentee EOI</a>
-          <a class="btn-primary btn-secondary" href="https://airtable.com/appTWateAQcC3Av4v/pagkVL5IjDuYfO5wL/form" target="_blank" rel="noopener">Mentor Application</a>
+          <a class="btn-primary" href="https://airtable.com/appTWateAQcC3Av4v/pagO8JNxKCIHkAFqk/form" target="_blank" rel="noopener">General Application</a>
         </div>
       </div>
     </div>
@@ -552,22 +616,9 @@
       }
     };
 
-    const MentorsToggle = {
-      init() {
-        const toggle = document.getElementById('mentors-toggle');
-        const grid = document.querySelector('.mentors-grid');
-        if (!toggle || !grid) return;
-
-        toggle.addEventListener('click', () => {
-          grid.classList.add('expanded');
-          toggle.classList.add('expanded');
-        });
-      }
-    };
-
     document.readyState === 'loading'
-      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); Timeline.init(); BackToTop.init(); MentorsToggle.init(); })
-      : (() => { MobileNav.init(); Timeline.init(); BackToTop.init(); MentorsToggle.init(); })();
+      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); Timeline.init(); BackToTop.init(); })
+      : (() => { MobileNav.init(); Timeline.init(); BackToTop.init(); })();
   </script>
   <script>
     (() => {
