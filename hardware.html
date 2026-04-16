@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI verification — trusted execution, tamper resistance, confidential computing, and auditable infrastructure.">
-  <title>Hardware Verification Programme | Cambridge AI Safety Hub</title>
+  <meta name="description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI hardware assurance. 20 engineers, fully funded, £1,500 stipend.">
+  <title>Hardware Assurance Programme | Cambridge AI Safety Hub</title>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://caish.org/hardware">
-  <meta property="og:title" content="Hardware Verification Programme">
-  <meta property="og:description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI verification. 10 engineers, fully funded. August 2026.">
+  <meta property="og:title" content="Hardware Assurance Programme">
+  <meta property="og:description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI hardware assurance. 20 engineers, fully funded, £1,500 stipend. August 2026.">
   <meta property="og:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://caish.org/hardware">
-  <meta name="twitter:title" content="Hardware Verification Programme">
-  <meta name="twitter:description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI verification. 10 engineers, fully funded. August 2026.">
+  <meta name="twitter:title" content="Hardware Assurance Programme">
+  <meta name="twitter:description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI hardware assurance. 20 engineers, fully funded, £1,500 stipend. August 2026.">
   <meta name="twitter:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Favicon -->
@@ -63,12 +63,41 @@
   <!-- Page-specific styles -->
   <style>
     body.chvp-page {
-      background:
-        radial-gradient(circle at top right, rgba(148, 89, 71, 0.08), transparent 28%),
-        radial-gradient(circle at 0% 24%, rgba(177, 113, 91, 0.06), transparent 22%),
-        #fcf7f1;
+      --chvp-ink: #1c1c1c;
+      --chvp-muted: #6a6a6a;
+      --chvp-paper: rgba(238, 238, 238, 0.92);
+      --chvp-panel: rgba(239, 239, 239, 0.9);
+      --chvp-line: rgba(80, 80, 80, 0.18);
+      --chvp-line-strong: rgba(80, 80, 80, 0.34);
+      --chvp-accent: #9a9a9a;
+      --chvp-accent-strong: #3a3a3a;
+      font-family: var(--font-mono);
+      color: var(--black);
+      background-color: #e8e8e8;
+      background-image:
+        linear-gradient(rgba(80, 80, 80, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(80, 80, 80, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, #e8e8e8 0%, #eeeeee 40%, #f4f4f4 100%);
+      background-size: 2.2rem 2.2rem, 2.2rem 2.2rem, auto;
     }
 
+    body.chvp-page::after {
+      height: min(1200px, 95vh);
+      background:
+        radial-gradient(ellipse 76% 44% at 82% 8%, rgba(80, 80, 80, 0.08) 0%, rgba(80, 80, 80, 0.018) 32%, transparent 68%),
+        radial-gradient(ellipse 70% 38% at 18% 14%, rgba(130, 130, 130, 0.05) 0%, rgba(130, 130, 130, 0.012) 32%, transparent 68%),
+        linear-gradient(180deg, rgba(220, 220, 220, 0.3) 0%, rgba(235, 235, 235, 0.12) 20%, rgba(248, 248, 248, 0) 78%);
+    }
+
+    body.chvp-page nav {
+      background: rgba(234, 234, 234, 0.82);
+      border-bottom: 1px solid rgba(80, 80, 80, 0.14);
+      backdrop-filter: blur(10px) saturate(1.04);
+      -webkit-backdrop-filter: blur(10px) saturate(1.04);
+    }
+
+    body.chvp-page .nav-inner,
+    body.chvp-page .divider,
     .chvp-hero,
     .chvp-section,
     .chvp-eoi {
@@ -78,154 +107,324 @@
       padding-right: var(--space-10);
     }
 
-    /* ── Hero ── */
-
-    .chvp-hero {
-      padding-top: 7rem;
-      padding-bottom: 2rem;
-    }
-
-    .chvp-hero-top {
-      display: grid;
-      grid-template-columns: minmax(0, 0.85fr) minmax(340px, 1.15fr);
-      gap: clamp(1.5rem, 4vw, 3rem);
-      align-items: center;
-    }
-
-    .chvp-hero-copy {
-      min-width: 0;
-    }
-
-    .chvp-hero h1 {
-      font-family: 'Libre Baskerville', Georgia, serif;
-      font-weight: 300;
-      font-size: clamp(2.2rem, 4.4vw, 3.25rem);
-      line-height: 1.06;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-    }
-
-    .chvp-initial {
-      font-weight: 700;
-    }
-
-    .chvp-hero-summary {
-      max-width: 56ch;
-      font-size: 0.96rem;
-      line-height: 1.85;
+    body.chvp-page .nav-links a {
+      font-size: 0.75rem;
       color: var(--dark-grey);
     }
 
+    body.chvp-page .nav-links a::after {
+      background: linear-gradient(90deg, rgba(80, 80, 80, 0.82), rgba(130, 130, 130, 0.72));
+    }
+
+    body.chvp-page .nav-links a.active {
+      color: var(--black);
+    }
+
+    body.chvp-page .nav-toggle span {
+      background: var(--black);
+    }
+
+    body.chvp-page ::selection {
+      background: rgba(130, 130, 130, 0.28);
+      color: var(--black);
+    }
+
+    body.chvp-page ::-moz-selection {
+      background: rgba(130, 130, 130, 0.28);
+      color: var(--black);
+    }
+
+    body.chvp-page .mobile-nav {
+      background: rgba(234, 234, 234, 0.96);
+      backdrop-filter: blur(10px) saturate(1.04);
+      -webkit-backdrop-filter: blur(10px) saturate(1.04);
+    }
+
+    body.chvp-page .mobile-nav > ul > li {
+      border-bottom: 1px solid rgba(80, 80, 80, 0.11);
+    }
+
+    body.chvp-page .mobile-nav-close {
+      color: var(--black);
+    }
+
+    body.chvp-page .divider-line {
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(80, 80, 80, 0.12) 14%,
+        rgba(130, 130, 130, 0.18) 34%,
+        rgba(80, 80, 80, 0.26) 50%,
+        rgba(130, 130, 130, 0.18) 66%,
+        rgba(80, 80, 80, 0.12) 86%,
+        transparent 100%
+      );
+    }
+
+    body.chvp-page .divider-line::after {
+      background: linear-gradient(90deg, transparent, rgba(80, 80, 80, 0.08), transparent);
+    }
+
+    /* ── Hero ── */
+
+    .chvp-hero {
+      padding-top: 5.75rem;
+      padding-bottom: 1.75rem;
+    }
+
+    .chvp-hero-top {
+      position: relative;
+      padding: clamp(1.5rem, 3vw, 2.3rem);
+      padding-right: clamp(18rem, 34vw, 27rem);
+      padding-bottom: clamp(1.15rem, 2vw, 1.55rem);
+      border: 1px solid rgba(80, 80, 80, 0.14);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgb(240, 240, 240) 0%, rgb(232, 232, 232) 100%);
+      box-shadow: 0 10px 24px rgba(72, 72, 72, 0.06), 0 2px 8px rgba(0, 0, 0, 0.03);
+      overflow: hidden;
+    }
+
+    .chvp-hero-top::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 86% 20%, rgba(80, 80, 80, 0.12), transparent 34%),
+        linear-gradient(rgba(80, 80, 80, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(80, 80, 80, 0.06) 1px, transparent 1px);
+      background-size: auto, 2rem 2rem, 2rem 2rem;
+      opacity: 0.9;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.96), rgba(0, 0, 0, 0.38));
+      -webkit-mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.96), rgba(0, 0, 0, 0.38));
+      pointer-events: none;
+    }
+
+    .chvp-hero-top::after {
+      content: '';
+      position: absolute;
+      inset: 0.9rem;
+      border: 1px solid rgba(80, 80, 80, 0.08);
+      border-radius: 16px;
+      pointer-events: none;
+    }
+
+    .chvp-hero-copy {
+      position: relative;
+      z-index: 2;
+      min-width: 0;
+      max-width: 34rem;
+    }
+
+    .chvp-hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+      font-size: 0.63rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+    }
+
+    .chvp-hero-kicker::before {
+      content: '';
+      width: 3rem;
+      height: 1px;
+      background: rgba(80, 80, 80, 0.34);
+    }
+
+    .chvp-hero h1 {
+      font-family: var(--font-serif);
+      font-weight: 400;
+      font-size: clamp(2.55rem, 5vw, 4.15rem);
+      line-height: 1.06;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.1rem;
+      max-width: 8ch;
+      color: var(--black);
+      text-wrap: balance;
+    }
+
+    .chvp-title-accent {
+      color: var(--chvp-accent-strong);
+    }
+
+    .chvp-hero-summary {
+      max-width: 34ch;
+      font-size: 1rem;
+      line-height: 1.8;
+      font-weight: 400;
+      color: #555555;
+      text-wrap: pretty;
+    }
+
     .chvp-hero-actions {
-      margin-top: 2rem;
+      margin-top: 1.5rem;
     }
 
     .chvp-hero-art {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      min-width: 0;
+      position: absolute;
+      right: clamp(-1.4rem, 0vw, -0.25rem);
+      top: 49%;
+      width: clamp(360px, 38vw, 500px);
+      transform: translateY(-52%);
+      z-index: 1;
+      pointer-events: none;
     }
 
     .chvp-hero-art img {
-      width: min(100%, 600px);
+      width: 100%;
       height: auto;
       display: block;
-      filter: drop-shadow(0 24px 42px rgba(26, 26, 26, 0.08));
+      padding: 0;
+      border: 0;
+      border-radius: 0;
+      background: transparent;
+      opacity: 0.88;
+      filter: grayscale(0.18) saturate(0.78) contrast(1.04) drop-shadow(0 16px 28px rgba(80, 80, 80, 0.08));
     }
 
     .chvp-btn {
-      display: inline-block;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: #fefefe;
-      background: #945947;
-      padding: 0.75rem 2rem;
-      border-radius: 4px;
-      box-shadow: 0 14px 26px rgba(148, 89, 71, 0.18);
-      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      min-width: 0;
     }
 
-    .chvp-btn:hover {
-      background: #7a4a3b;
-      transform: translateY(-1px);
-      box-shadow: 0 18px 30px rgba(148, 89, 71, 0.22);
+    body.chvp-page .btn-primary {
+      background: linear-gradient(135deg, #282828 0%, #4a4a4a 45%, #333333 100%);
+      border-color: rgba(80, 80, 80, 0.18);
+      box-shadow:
+        0 2px 4px rgba(0, 0, 0, 0.07),
+        0 8px 16px rgba(80, 80, 80, 0.08);
+    }
+
+    body.chvp-page .btn-primary::after {
+      background: linear-gradient(135deg, transparent 0%, rgba(130, 130, 130, 0.18) 50%, transparent 100%);
+    }
+
+    body.chvp-page .btn-primary:hover {
+      border-color: rgba(80, 80, 80, 0.3);
+      box-shadow:
+        0 4px 8px rgba(80, 80, 80, 0.08),
+        0 12px 22px rgba(0, 0, 0, 0.1);
+    }
+
+    .chvp-btn.btn-primary {
+      font-size: 0.72rem;
+      letter-spacing: 0.09em;
+    }
+
+    .chvp-btn.btn-primary.btn-secondary {
+      background: rgba(80, 80, 80, 0.08);
+      color: var(--chvp-accent-strong);
+      border-color: rgba(80, 80, 80, 0.26);
+      box-shadow: none;
+    }
+
+    .chvp-btn.btn-primary.btn-secondary::before,
+    .chvp-btn.btn-primary.btn-secondary::after {
+      display: none;
+    }
+
+    .chvp-btn.btn-primary.btn-secondary:hover {
+      background: rgba(80, 80, 80, 0.12);
+      border-color: rgba(80, 80, 80, 0.38);
+      box-shadow: none;
+    }
+
+    .chvp-btn.btn-primary.chvp-btn--solid {
+      background: linear-gradient(135deg, #333333 0%, #555555 100%);
+      border-color: rgba(68, 68, 68, 0.22);
+      box-shadow: 0 8px 18px rgba(68, 68, 68, 0.14);
+    }
+
+    .chvp-btn.btn-primary.chvp-btn--solid::after {
+      background: linear-gradient(135deg, transparent 0%, rgba(140, 140, 140, 0.2) 55%, transparent 100%);
+    }
+
+    .chvp-btn.btn-primary.chvp-btn--solid:hover {
+      border-color: rgba(68, 68, 68, 0.34);
+      box-shadow: 0 10px 22px rgba(68, 68, 68, 0.18);
     }
 
     .chvp-overview-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-      margin-top: 2.5rem;
+      gap: 0;
+      margin-top: 1.2rem;
+      border: 1px solid var(--chvp-line);
+      border-radius: 18px;
+      background: rgb(238, 238, 238);
+      overflow: hidden;
     }
 
     .chvp-overview-item {
-      padding: 1rem 1.15rem;
-      border: 1px solid rgba(148, 89, 71, 0.12);
-      border-radius: 4px;
-      background: rgba(255, 252, 248, 0.72);
-      box-shadow: 0 2px 6px rgba(60, 48, 35, 0.04);
+      padding: 1.15rem 1.3rem 1.2rem;
+      background: none;
     }
 
     .chvp-overview-item + .chvp-overview-item {
-      border-left: 0;
+      border-left: 1px solid rgba(80, 80, 80, 0.12);
+      padding-left: 1.3rem;
     }
 
     .chvp-overview-label {
       display: block;
-      font-size: 0.56rem;
-      letter-spacing: 0.18em;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--cambridge);
-      margin-bottom: 0.35rem;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 0.5rem;
     }
 
     .chvp-overview-value {
       max-width: none;
-      font-size: 0.88rem;
-      line-height: 1.5;
+      font-size: 1.02rem;
+      line-height: 1.45;
+      font-weight: 400;
       color: var(--black);
     }
 
     /* ── Section layout ── */
 
     .chvp-section {
-      padding-top: 2rem;
-      padding-bottom: 2rem;
+      padding-top: 3.75rem;
+      padding-bottom: 3.75rem;
     }
 
     .chvp-section-label {
       display: block;
-      font-size: 0.56rem;
-      letter-spacing: 0.22em;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--cambridge);
-      margin-bottom: 0.75rem;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 1rem;
     }
 
     .chvp-section h2 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      line-height: 1.15;
+      font-family: var(--font-serif);
+      font-size: clamp(1.65rem, 3vw, 2.25rem);
+      line-height: 1.18;
       margin-bottom: 1rem;
+      font-weight: 400;
+      color: var(--black);
+      text-wrap: balance;
     }
 
     .chvp-section-intro {
       max-width: 52ch;
-      font-size: 0.92rem;
-      line-height: 1.8;
-      color: var(--dark-grey);
-      margin-bottom: 2rem;
+      font-size: 1.03rem;
+      line-height: 1.78;
+      font-weight: 400;
+      color: #555555;
+      margin-bottom: 2.5rem;
+      text-wrap: pretty;
     }
 
     .chvp-programme-lead {
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(300px, 0.82fr);
-      gap: clamp(1.5rem, 4vw, 3rem);
+      gap: clamp(2rem, 5vw, 4rem);
       align-items: start;
-      margin-bottom: 2rem;
+      margin-bottom: 3rem;
     }
 
     .chvp-programme-copy {
@@ -243,17 +442,17 @@
     .chvp-programme-image {
       position: relative;
       overflow: hidden;
-      border-radius: 6px;
-      border: 1px solid rgba(148, 89, 71, 0.14);
-      background: rgba(248, 241, 234, 0.4);
-      box-shadow: 0 4px 12px rgba(148, 89, 71, 0.08);
+      background: rgba(238, 238, 238, 0.9);
+      border: 1px solid var(--chvp-line);
+      border-radius: 20px;
     }
 
     .chvp-programme-image::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(26, 26, 26, 0.03) 0%, rgba(26, 26, 26, 0.14) 100%);
+      inset: 0.65rem;
+      border: 1px solid rgba(80, 80, 80, 0.08);
+      border-radius: 14px;
       pointer-events: none;
     }
 
@@ -263,7 +462,8 @@
       object-fit: cover;
       object-position: center 32%;
       display: block;
-      filter: saturate(1.15) contrast(1.05);
+      transform: none;
+      filter: saturate(0.95) contrast(1.02);
     }
 
     /* ── Timeline ── */
@@ -272,25 +472,30 @@
       position: relative;
       display: grid;
       gap: 0;
-      padding: 1rem 1.3rem;
-      border: 1px solid rgba(148, 89, 71, 0.12);
-      border-radius: 6px;
-      background: linear-gradient(180deg, rgba(255, 252, 248, 0.72) 0%, rgba(249, 242, 234, 0.62) 100%);
-      box-shadow: 0 2px 8px rgba(60, 48, 35, 0.05);
+      padding: 0;
+      border-top: 1px solid var(--chvp-line);
     }
 
     .chvp-timeline-item {
       display: grid;
-      grid-template-columns: 100px minmax(0, 1fr);
-      gap: 1.25rem;
-      align-items: baseline;
-      padding: 1.1rem 0;
-      border-top: 1px solid rgba(148, 89, 71, 0.1);
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 2rem;
+      align-items: start;
+      padding: 1.5rem 0;
+      border-top: 1px solid rgba(80, 80, 80, 0.12);
+    }
+
+    .chvp-timeline-item > div {
+      padding: 0.95rem 1.1rem 1rem;
+      border: 1px solid rgba(80, 80, 80, 0.1);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgb(242, 242, 242), rgb(236, 236, 236));
+      box-shadow: 0 6px 14px rgba(80, 80, 80, 0.03);
     }
 
     .chvp-timeline-item:first-child {
       border-top: 0;
-      padding-top: 0;
+      padding-top: 1.5rem;
     }
 
     .chvp-timeline-item:last-child {
@@ -298,27 +503,30 @@
     }
 
     .chvp-timeline-phase {
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
+      font-size: 0.66rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--cambridge);
-      padding-top: 0.15rem;
+      color: var(--chvp-accent-strong);
+      padding-top: 1rem;
     }
 
     .chvp-timeline-title {
       font-family: var(--font-serif);
-      font-size: 1rem;
-      line-height: 1.4;
+      font-size: 1.22rem;
+      line-height: 1.28;
       color: var(--black);
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.5rem;
+      font-weight: 400;
     }
 
     .chvp-timeline-desc {
       max-width: none;
-      font-size: 0.85rem;
-      line-height: 1.72;
-      color: var(--dark-grey);
+      font-size: 1rem;
+      line-height: 1.76;
+      font-weight: 400;
+      color: #555555;
       margin: 0;
+      text-wrap: pretty;
     }
 
     /* ── Who it's for ── */
@@ -326,38 +534,41 @@
     .chvp-fit-columns {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.25rem;
+      gap: 1rem;
     }
 
     .chvp-fit-column {
-      padding: 1.25rem 1.35rem;
-      border: 1px solid rgba(148, 89, 71, 0.12);
-      border-radius: 4px;
-      background: rgba(255, 252, 248, 0.68);
-      box-shadow: 0 2px 6px rgba(60, 48, 35, 0.04);
+      padding: 1.35rem 1.25rem;
+      border: 1px solid var(--chvp-line);
+      border-radius: 18px;
+      background: rgba(238, 238, 238, 0.9);
     }
 
     .chvp-fit-column h3 {
-      font-size: 1.1rem;
-      line-height: 1.35;
-      margin-bottom: 0.5rem;
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      line-height: 1.28;
+      margin-bottom: 0.8rem;
+      font-weight: 400;
+      color: var(--black);
     }
 
     .chvp-fit-column p {
       max-width: none;
-      font-size: 0.94rem;
-      line-height: 1.7;
-      color: var(--dark-grey);
+      font-size: 0.97rem;
+      line-height: 1.72;
+      font-weight: 400;
+      color: #585858;
       margin: 0;
     }
 
     .chvp-fit-label {
       display: block;
-      font-size: 0.56rem;
-      letter-spacing: 0.18em;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--cambridge);
-      margin-bottom: 0.55rem;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 0.65rem;
     }
 
     /* ── Residents ── */
@@ -365,44 +576,59 @@
     .chvp-residents {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1.5rem;
-      margin-top: 1.5rem;
+      gap: 1rem;
+      margin-top: 2rem;
     }
 
     .chvp-resident {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 1.2rem;
+      padding: 1.05rem 1.1rem;
+      border: 1px solid rgba(80, 80, 80, 0.14);
+      border-radius: 18px;
+      background: rgba(238, 238, 238, 0.92);
+      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .chvp-resident:hover {
+      border-color: var(--chvp-line);
+      background: rgba(242, 242, 242, 0.96);
+      transform: translateY(-2px);
     }
 
     .chvp-resident-photo {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
+      width: 80px;
+      height: 80px;
+      border-radius: 14px;
       object-fit: cover;
-      border: 2px solid rgba(148, 89, 71, 0.15);
+      border: 1px solid var(--chvp-line);
     }
 
     .chvp-resident-info h3 {
-      font-family: 'Libre Baskerville', Georgia, serif;
-      font-size: 1rem;
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
       font-weight: 400;
-      margin: 0 0 0.2rem;
+      margin: 0 0 0.25rem;
+      color: var(--black);
     }
 
     .chvp-resident-info p {
-      font-size: 0.82rem;
-      line-height: 1.5;
-      color: var(--dark-grey);
+      font-size: 0.88rem;
+      line-height: 1.58;
+      font-weight: 400;
+      color: #585858;
       margin: 0;
+      max-width: 20ch;
+      text-wrap: pretty;
     }
 
     .chvp-resident-placeholder {
-      width: 72px;
-      height: 72px;
-      border-radius: 50%;
-      border: 2px dashed rgba(148, 89, 71, 0.2);
-      background: rgba(248, 241, 234, 0.4);
+      width: 80px;
+      height: 80px;
+      border-radius: 14px;
+      border: 1px dashed rgba(80, 80, 80, 0.26);
+      background: linear-gradient(180deg, rgba(80, 80, 80, 0.08), rgba(80, 80, 80, 0.02));
     }
 
     .chvp-resident-tbc {
@@ -413,16 +639,12 @@
     /* ── Gallery ── */
 
     .chvp-gallery-shell {
-      padding-top: 0.75rem;
-      padding-bottom: 1rem;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
     }
 
     .chvp-gallery-frame {
-      padding: 1rem;
-      border: 1px solid rgba(148, 89, 71, 0.12);
-      border-radius: 6px;
-      background: linear-gradient(180deg, rgba(255, 252, 248, 0.7) 0%, rgba(249, 242, 234, 0.58) 100%);
-      box-shadow: 0 2px 8px rgba(60, 48, 35, 0.05);
+      padding: 0;
     }
 
     .chvp-gallery {
@@ -434,10 +656,18 @@
     .chvp-gallery-item {
       position: relative;
       overflow: hidden;
-      border-radius: 4px;
-      border: 1px solid rgba(148, 89, 71, 0.12);
-      background: rgba(255, 252, 248, 0.66);
-      box-shadow: 0 2px 8px rgba(60, 48, 35, 0.06);
+      background: rgba(238, 238, 238, 0.92);
+      border: 1px solid var(--chvp-line);
+      border-radius: 20px;
+    }
+
+    .chvp-gallery-item::after {
+      content: '';
+      position: absolute;
+      inset: 0.65rem;
+      border: 1px solid rgba(80, 80, 80, 0.08);
+      border-radius: 14px;
+      pointer-events: none;
     }
 
     .chvp-gallery-item img {
@@ -445,60 +675,61 @@
       height: clamp(260px, 31vw, 360px);
       display: block;
       object-fit: cover;
-      transition: transform 0.4s ease;
-      filter: saturate(1.15) contrast(1.05);
+      transition: transform 0.45s ease, filter 0.45s ease;
+      filter: saturate(0.94) contrast(1.02);
     }
 
     .chvp-gallery-item:hover img {
       transform: scale(1.015);
+      filter: saturate(1) contrast(1.04);
     }
 
     /* ── EOI ── */
 
     .chvp-eoi {
-      padding-top: 2.5rem;
-      padding-bottom: 1.5rem;
+      padding-top: 3.5rem;
+      padding-bottom: 3rem;
     }
 
     .chvp-eoi-card {
       display: grid;
-      grid-template-columns: minmax(0, 1.2fr) auto;
-      gap: 1.5rem 2rem;
+      grid-template-columns: minmax(0, 1.1fr) auto;
+      gap: 1.5rem 2.5rem;
       align-items: center;
-      padding: clamp(1.5rem, 3vw, 2.2rem);
-      border-radius: 6px;
-      border: 1px solid rgba(148, 89, 71, 0.16);
-      background:
-        radial-gradient(circle at top right, rgba(148, 89, 71, 0.1), transparent 32%),
-        linear-gradient(180deg, rgba(255, 252, 248, 0.88) 0%, rgba(249, 241, 233, 0.82) 100%);
-      box-shadow: 0 3px 10px rgba(60, 48, 35, 0.06);
+      padding: 1.5rem 1.6rem;
+      border: 1px solid var(--chvp-line);
+      border-radius: 22px;
+      background: linear-gradient(180deg, rgba(238, 238, 238, 0.96), rgba(230, 230, 230, 0.96));
     }
 
     .chvp-eoi-label {
       display: inline-flex;
       align-items: center;
       gap: 0.65rem;
-      margin-bottom: 0.85rem;
+      margin-bottom: 1rem;
     }
 
     .chvp-eoi-label::before {
-      content: '';
-      width: 2.2rem;
-      height: 1px;
-      background: rgba(148, 89, 71, 0.35);
+      display: none;
     }
 
     .chvp-eoi h2 {
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      line-height: 1.1;
-      margin-bottom: 0.7rem;
+      font-family: var(--font-serif);
+      font-size: clamp(1.65rem, 3vw, 2.15rem);
+      line-height: 1.15;
+      margin-bottom: 0.85rem;
+      font-weight: 400;
+      color: var(--black);
+      text-wrap: balance;
     }
 
     .chvp-eoi-copy > p {
       max-width: 42ch;
-      font-size: 0.9rem;
-      line-height: 1.75;
-      color: var(--dark-grey);
+      font-size: 0.98rem;
+      line-height: 1.74;
+      font-weight: 400;
+      color: #585858;
+      text-wrap: pretty;
     }
 
     .chvp-eoi-actions {
@@ -513,42 +744,125 @@
       max-width: none;
       margin: 0;
       font-size: 0.64rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--cambridge);
+      color: var(--chvp-accent-strong);
     }
 
     .chvp-eoi-contact {
       max-width: none;
       margin: 0;
-      font-size: 0.76rem;
-      color: #6b635d;
+      font-size: 0.82rem;
+      color: var(--dark-grey);
       text-align: right;
     }
 
     .chvp-eoi-contact a {
-      color: var(--cambridge);
-      text-decoration: none;
-      border-bottom: 1px solid rgba(148, 89, 71, 0.22);
+      color: var(--chvp-accent-strong);
+      border-bottom: 1px solid rgba(80, 80, 80, 0.22);
     }
 
     .chvp-eoi-contact a:hover {
-      border-bottom-color: rgba(148, 89, 71, 0.5);
+      border-bottom-color: rgba(80, 80, 80, 0.38);
+    }
+
+    body.chvp-page .mobile-nav-expand {
+      border-color: rgba(80, 80, 80, 0.16);
+      background: rgba(240, 240, 240, 0.94);
+      box-shadow: 0 6px 14px rgba(80, 80, 80, 0.06);
+    }
+
+    body.chvp-page .mobile-nav-expand::before {
+      border-right-color: var(--chvp-accent-strong);
+      border-bottom-color: var(--chvp-accent-strong);
+    }
+
+    body.chvp-page .mobile-nav-expand:hover {
+      background: rgba(244, 247, 250, 1);
+      border-color: rgba(80, 80, 80, 0.26);
+      box-shadow: 0 8px 18px rgba(80, 80, 80, 0.09);
+    }
+
+    body.chvp-page .mobile-nav-expand[aria-expanded="true"] {
+      background: rgba(80, 80, 80, 0.08);
+      border-color: rgba(80, 80, 80, 0.28);
+    }
+
+    body.chvp-page .mobile-nav-children li::before {
+      background: rgba(80, 80, 80, 0.28);
+    }
+
+    body.chvp-page .mobile-nav-child-link {
+      border-color: rgba(80, 80, 80, 0.1);
+      background: rgba(240, 240, 240, 0.84);
+      box-shadow: 0 4px 12px rgba(80, 80, 80, 0.05);
+    }
+
+    body.chvp-page .mobile-nav-child-link:hover {
+      border-color: rgba(80, 80, 80, 0.2);
+      box-shadow: 0 6px 16px rgba(80, 80, 80, 0.07);
+    }
+
+    body.chvp-page .mobile-nav-child-context {
+      color: var(--chvp-accent-strong);
+    }
+
+    body.chvp-page .mobile-nav-child-link.active,
+    body.chvp-page .mobile-nav-child-link[aria-current="page"] {
+      border-color: rgba(80, 80, 80, 0.24);
+      background: rgba(237, 241, 245, 0.98);
+      box-shadow: 0 6px 16px rgba(80, 80, 80, 0.06);
+    }
+
+    body.chvp-page .mobile-nav-children a.active .mobile-nav-child-context,
+    body.chvp-page .mobile-nav-children a[aria-current="page"] .mobile-nav-child-context {
+      color: var(--chvp-accent-strong);
+    }
+
+    body.chvp-page footer {
+      margin-top: 0.5rem;
+    }
+
+    body.chvp-page footer::before {
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(80, 80, 80, 0.12) 15%,
+        rgba(130, 130, 130, 0.18) 35%,
+        rgba(80, 80, 80, 0.22) 50%,
+        rgba(130, 130, 130, 0.18) 65%,
+        rgba(80, 80, 80, 0.12) 85%,
+        transparent 100%
+      );
     }
 
     /* ── Responsive ── */
 
     @media (max-width: 900px) {
       .chvp-hero-top {
+        padding-right: clamp(1.5rem, 3vw, 2.3rem);
+        display: grid;
         grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+
+      .chvp-hero-copy {
+        max-width: none;
       }
 
       .chvp-hero-art {
-        justify-content: flex-start;
+        position: relative;
+        right: auto;
+        top: auto;
+        width: min(100%, 380px);
+        transform: none;
+        justify-self: center;
+        pointer-events: auto;
       }
 
       .chvp-hero-art img {
-        width: min(100%, 480px);
+        width: 100%;
+        opacity: 0.96;
       }
 
       .chvp-programme-lead {
@@ -559,20 +873,21 @@
         min-height: 0;
       }
 
-      .chvp-timeline {
-        border-radius: 6px;
-      }
-
       .chvp-overview-grid {
         grid-template-columns: 1fr 1fr;
+      }
+
+      .chvp-overview-item:nth-child(3),
+      .chvp-overview-item:nth-child(4) {
+        border-top: 1px solid rgba(80, 80, 80, 0.12);
       }
 
       .chvp-overview-item:nth-child(3) {
         border-left: 0;
       }
 
-      .chvp-overview-item:nth-child(n+3) {
-        border-top: 0;
+      .chvp-residents {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .chvp-fit-columns {
@@ -582,10 +897,6 @@
 
       .chvp-gallery {
         grid-template-columns: 1fr;
-      }
-
-      .chvp-gallery-frame {
-        border-radius: 6px;
       }
 
       .chvp-eoi-card {
@@ -612,16 +923,45 @@
       }
 
       .chvp-hero {
-        padding-top: 6rem;
+        padding-top: 5rem;
+      }
+
+      .chvp-hero-top {
+        padding: 1.15rem 1rem 1.25rem;
+        gap: 1rem;
       }
 
       .chvp-hero-copy {
+        display: grid;
+        justify-items: center;
         text-align: center;
+        max-width: none;
+      }
+
+      .chvp-hero-kicker {
+        justify-content: center;
+        gap: 0.7rem;
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+      }
+
+      .chvp-hero-kicker::before {
+        width: 2.3rem;
+      }
+
+      .chvp-hero h1 {
+        font-size: clamp(2.35rem, 12vw, 3.25rem);
+        margin-bottom: 0.9rem;
+        margin-left: auto;
+        margin-right: auto;
       }
 
       .chvp-hero-summary {
+        max-width: 25ch;
         margin-left: auto;
         margin-right: auto;
+        font-size: 0.95rem;
+        line-height: 1.74;
       }
 
       .chvp-hero-actions {
@@ -630,7 +970,9 @@
       }
 
       .chvp-hero-art {
-        justify-content: center;
+        width: min(100%, 320px);
+        justify-self: center;
+        margin-top: 0.15rem;
       }
 
       .chvp-overview-grid {
@@ -639,7 +981,7 @@
 
       .chvp-overview-item + .chvp-overview-item {
         border-left: 0;
-        border-top: 0;
+        border-top: 1px solid rgba(80, 80, 80, 0.12);
       }
 
       .chvp-timeline-item {
@@ -647,14 +989,20 @@
         gap: 0.3rem;
       }
 
-      .chvp-timeline {
-        padding: 0.85rem 1rem;
-        border-radius: 4px;
+      .chvp-timeline-phase {
+        padding-top: 0;
       }
 
-      .chvp-gallery-frame {
-        padding: 0.85rem;
-        border-radius: 4px;
+      .chvp-fit-column,
+      .chvp-resident,
+      .chvp-eoi-card {
+        padding-left: 1rem;
+        padding-right: 1rem;
+      }
+
+      .chvp-residents {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
     }
   </style>
@@ -710,10 +1058,11 @@
     <section class="chvp-hero">
       <div class="chvp-hero-top">
         <div class="chvp-hero-copy">
-          <h1><span class="chvp-initial">H</span>ardware <span class="chvp-initial">V</span>erification <span class="chvp-initial">P</span>rogramme</h1>
-          <p class="chvp-hero-summary">AI chips are being deployed in systems where nobody can independently verify what&rsquo;s running on them. This is a six-day programme in Cambridge for experienced hardware engineers to work on that problem &mdash; trusted execution, tamper resistance, confidential computing, and auditable infrastructure.</p>
+          <span class="chvp-hero-kicker">Cambridge, August 2026</span>
+          <h1><span class="chvp-title-accent">Hardware Assurance</span> Programme</h1>
+          <p class="chvp-hero-summary">Export controls are tightening. The EU AI Act enters force in August. International agreements on AI development are being drafted. All of them depend on something we can&rsquo;t yet do: verify what&rsquo;s running on AI hardware. This six-day programme brings experienced hardware engineers and strong technical graduates to Cambridge to work on that problem. Fully funded, with a £1,500 stipend.</p>
           <div class="chvp-hero-actions">
-            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="chvp-btn" target="_blank" rel="noopener">Register Interest</a>
+            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary btn-secondary chvp-btn" target="_blank" rel="noopener">Register Interest</a>
           </div>
         </div>
         <div class="chvp-hero-art" aria-hidden="true">
@@ -732,11 +1081,11 @@
         </div>
         <div class="chvp-overview-item">
           <span class="chvp-overview-label">Cohort</span>
-          <p class="chvp-overview-value">10 engineers</p>
+          <p class="chvp-overview-value">20 engineers</p>
         </div>
         <div class="chvp-overview-item">
-          <span class="chvp-overview-label">Cost</span>
-          <p class="chvp-overview-value">Fully funded</p>
+          <span class="chvp-overview-label">Support</span>
+          <p class="chvp-overview-value">Fully funded + £1,500 stipend</p>
         </div>
       </div>
     </section>
@@ -749,10 +1098,10 @@
         <div class="chvp-programme-copy">
           <span class="chvp-section-label">The week</span>
           <h2>How it works</h2>
-          <p class="chvp-section-intro">Mornings are talks and workshops from researchers and engineers working on hardware verification. Afternoons are working sessions with residents. By Day 6, you present to peers and practitioners.</p>
+          <p class="chvp-section-intro">Six days of talks, working sessions, and project scoping with researchers and practitioners building hardware assurance infrastructure. By Day 6, you present a technical proposal.</p>
         </div>
         <div class="chvp-programme-image">
-          <img src="images/meridian-18.webp" alt="A presentation at Meridian, Cambridge" loading="lazy" decoding="async" width="2000" height="1333">
+          <img src="images/meridian-21.jpg" alt="A presentation at Meridian, Cambridge" loading="lazy" decoding="async" width="5616" height="3744">
         </div>
       </div>
 
@@ -761,35 +1110,35 @@
           <span class="chvp-timeline-phase">Pre-work</span>
           <div>
             <p class="chvp-timeline-title">Context loading</p>
-            <p class="chvp-timeline-desc">Readings and two live sessions before the week, so you arrive with context on where hardware verification stands and what&rsquo;s open.</p>
+            <p class="chvp-timeline-desc">Four weeks out, a kick-off call introduces the programme and distributes the core reading list (O&rsquo;Gara, FlexHEG, Petrie&rsquo;s research priorities). Two weeks out, small-group discussion calls work through the readings and start surfacing project interests. You arrive ready to work.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Days 1 &ndash; 2</span>
           <div>
-            <p class="chvp-timeline-title">Why this matters and what&rsquo;s been tried</p>
-            <p class="chvp-timeline-desc">Talks on the geopolitical context, hardware-enabled governance mechanisms, and what verification needs to look like. You&rsquo;ll also begin scoping your end-of-week project and finding collaborators.</p>
+            <p class="chvp-timeline-title">Why this matters</p>
+            <p class="chvp-timeline-desc">The regulatory and geopolitical landscape. The threat models that make this hard. What&rsquo;s been proposed so far, from compute accounting to location verification. You meet the residents, form project groups, and start scoping.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Days 3 &ndash; 4</span>
           <div>
-            <p class="chvp-timeline-title">What&rsquo;s been built and what&rsquo;s missing</p>
-            <p class="chvp-timeline-desc">Hardware security, anti-tamper, confidential computing, and specific verification proposals. Sessions led by people building in this space.</p>
+            <p class="chvp-timeline-title">Technical deep dives</p>
+            <p class="chvp-timeline-desc">Tamper resistance and tamper-evident enclosures. Confidential computing and multi-chip TEEs. Attestation protocols, network taps, inference verification. Cryptographic approaches including ZKPs and proof-of-useful-work. Sessions led by people actively building these systems, paired with working time on your own project.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Day 5</span>
           <div>
-            <p class="chvp-timeline-title">Where the teams are stuck</p>
-            <p class="chvp-timeline-desc">Organisations working on AI hardware verification present what they&rsquo;re building, where they&rsquo;re stuck, and what they need.</p>
+            <p class="chvp-timeline-title">Who is building what</p>
+            <p class="chvp-timeline-desc">Organisations working on hardware assurance present their current work, where they are stuck, and what they need. Amodo, Lucid Computing, Longview Philanthropy, and others. Time reserved for direct conversations about collaboration and hiring.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Day 6</span>
           <div>
             <p class="chvp-timeline-title">Presentations</p>
-            <p class="chvp-timeline-desc">Present your scoping document and get feedback from peers, mentors, and org representatives.</p>
+            <p class="chvp-timeline-desc">Present your scoping document to peers, residents, and representatives from the organisations working in this space. You leave with a technical proposal, feedback on it, and relationships with the people who can help take it further.</p>
           </div>
         </div>
       </div>
@@ -799,10 +1148,10 @@
       <div class="chvp-gallery-frame">
         <div class="chvp-gallery">
           <div class="chvp-gallery-item">
-            <img src="images/meridian-19.webp" alt="Participants gathered around a session at Meridian" loading="lazy" decoding="async" width="2000" height="1333">
+            <img src="images/meridian-22.jpg" alt="Participants gathered around a session at Meridian" loading="lazy" decoding="async" width="5616" height="3744">
           </div>
           <div class="chvp-gallery-item">
-            <img src="images/meridian-20.webp" alt="Discussion during a Meridian programme session" loading="lazy" decoding="async" width="2000" height="1333">
+            <img src="images/meridian-23.jpg" alt="Discussion during a Meridian programme session" loading="lazy" decoding="async" width="5616" height="3744">
           </div>
         </div>
       </div>
@@ -811,16 +1160,46 @@
     <!-- WHO IT'S FOR -->
     <section class="chvp-section">
       <span class="chvp-section-label">Who this is for</span>
-      <h2>Engineers with hardware depth</h2>
+      <h2>People who can do the work</h2>
 
-      <div class="chvp-fit-columns" style="margin-top: 1.25rem;">
+      <div class="chvp-fit-columns" style="margin-top: 1.75rem;">
         <div class="chvp-fit-column">
-          <span class="chvp-fit-label">Backgrounds we're looking for</span>
-          <p>You&rsquo;ve spent five or more years in hardware engineering &mdash; electronics design, firmware, FPGAs, embedded systems, secure hardware, or cryptographic implementations. </p>
+          <span class="chvp-fit-label">Backgrounds we&rsquo;re looking for</span>
+          <p>Experienced hardware engineers with five or more years in chip design, firmware, FPGAs, embedded systems, secure hardware, or cryptographic implementations. PhD students in electrical engineering, computer engineering, or related disciplines are also welcome. If you are willing to tackle a new and unfamiliar problem and can bring technical depth to it, please apply.</p>
         </div>
         <div class="chvp-fit-column">
           <span class="chvp-fit-label">What you leave with</span>
-          <p>A working understanding of what hardware verification needs to look like, and direct relationships with the people and organisations building it.</p>
+          <p>A scoped technical proposal you developed during the week. Direct relationships with organisations hiring and funding in this space. A path into further work if you want one.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- OPEN PROBLEMS -->
+    <section class="chvp-section">
+      <span class="chvp-section-label">What you'd work on</span>
+      <h2>Open problems</h2>
+      <p class="chvp-section-intro">A few examples to give a flavour. The field has many more than these, and new ones are surfacing as the work matures. The programme is designed as an on-ramp: participants who want to keep going after the week will be connected with organisations, funders, and projects where they can spend more time on the problem.</p>
+
+      <div class="chvp-fit-columns" style="margin-top: 1.75rem;">
+        <div class="chvp-fit-column">
+          <span class="chvp-fit-label">Tamper-evident enclosures for AI hardware</span>
+          <p>AI accelerators dissipate 1,200W and need liquid cooling. How do you seal them in a tamper-evident enclosure while keeping them cool? Insights from nuclear monitoring and banking HSMs may transfer, but nobody has done this for GPUs.</p>
+        </div>
+        <div class="chvp-fit-column">
+          <span class="chvp-fit-label">Mutually trusted attestation hardware</span>
+          <p>For international agreements, both parties need to trust the attestation hardware. The prover needs confidence it won&rsquo;t exfiltrate data. The verifier needs confidence the attestations are genuine. How do you build hardware that highly sceptical actors on both sides can trust?</p>
+        </div>
+      </div>
+      <div class="chvp-fit-columns" style="margin-top: 1rem;">
+        <div class="chvp-fit-column">
+          <span class="chvp-fit-label">Inference verification at scale</span>
+          <p>Can you verify that a deployed AI model matches the one that was safety-tested, without disrupting the workload? Approaches include network taps with randomised recomputation and input-output fingerprinting. Prototyping and red-teaming are needed.</p>
+        </div>
+        <div class="chvp-fit-column">
+          <span class="chvp-fit-label">Workload classification from hardware telemetry</span>
+          <p>Can you determine what a chip is doing from external signals like power draw, memory access patterns, and network traffic, without seeing the workload itself?</p>
         </div>
       </div>
     </section>
@@ -830,35 +1209,35 @@
     <!-- Residents -->
     <section class="chvp-section">
       <span class="chvp-section-label">Residents</span>
-      <h2>Who you'll learn from</h2>
-      <p class="chvp-section-intro">Residents are people with deep context on hardware verification who join the programme to give talks, run sessions, and work alongside you.</p>
+      <h2>Who you'll work with</h2>
+      <p class="chvp-section-intro">Researchers and practitioners who join the programme to give talks, run sessions, and work alongside participants.</p>
       <div class="chvp-residents">
         <div class="chvp-resident">
-          <img src="images/peter-drotos.webp" alt="Péter Drótos" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <img src="images/mentors/peter-drotos.jpeg" alt="Péter Drótos" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>Péter Drótos</h3>
-            <p>Ex-ARM. Future of Life Institute.</p>
+            <p>Hardware Engineer at the Future of Life Institute. 8 years as an ASIC verification engineer at ARM.</p>
           </div>
         </div>
         <div class="chvp-resident">
-          <img src="images/harrison.webp" alt="Harrison Gietz" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <img src="images/mentors/harrison.jpeg" alt="Harrison Gietz" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>Harrison Gietz</h3>
-            <p>Longview Philanthropy.</p>
+            <p>AI Programme Associate at Longview Philanthropy.</p>
           </div>
         </div>
         <div class="chvp-resident">
-          <img src="images/james-petrie.webp" alt="James Petrie" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <img src="images/mentors/james-petrie.jpeg" alt="James Petrie" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>James Petrie</h3>
-            <p>Future of Life Institute.</p>
+            <p>Compute Security and Governance Specialist at the Future of Life Institute. Former firmware engineer at Intel.</p>
           </div>
         </div>
         <div class="chvp-resident">
-          <img src="images/yannick-muhlhauser.webp" alt="Yannick Mühlhäuser" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <img src="images/mentors/yannick.jpeg" alt="Yannick Mühlhäuser" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>Yannick Mühlhäuser</h3>
-            <p>Future of Life Institute.</p>
+            <p>Policy Researcher at the Future of Life Institute.</p>
           </div>
         </div>
         <div class="chvp-resident chvp-resident--tbc">
@@ -878,10 +1257,11 @@
         <div class="chvp-eoi-copy">
           <span class="chvp-section-label chvp-eoi-label">Next Step</span>
           <h2>Interested?</h2>
+          <p>Twenty spots. Fully funded with a &pound;1,500 stipend. Register interest and we&rsquo;ll be in touch.</p>
         </div>
         <div class="chvp-eoi-actions">
-          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="chvp-btn" target="_blank" rel="noopener">Register Interest</a>
-          <p class="chvp-eoi-note">Small cohort. Fully funded. Cambridge-based.</p>
+          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register Interest</a>
+          <p class="chvp-eoi-note">Small cohort. Fully funded. £1,500 stipend.</p>
           <p class="chvp-eoi-contact">Questions? <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a></p>
         </div>
       </div>
