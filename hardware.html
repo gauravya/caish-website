@@ -496,6 +496,11 @@
       background: var(--chvp-paper);
       border: 1px solid var(--chvp-line);
       border-radius: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .chvp-programme-image:hover {
+      transform: translateY(-4px);
     }
 
     .chvp-programme-image img {
@@ -679,6 +684,7 @@
     .chvp-residents {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: 1fr;
       gap: 1rem;
       margin-top: 2rem;
     }
@@ -691,7 +697,13 @@
       border: 1px solid var(--chvp-line);
       border-radius: 18px;
       background: var(--chvp-paper);
+      height: 100%;
       transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+    }
+
+    .chvp-resident--tbc {
+      grid-column: span 2;
+      justify-content: center;
     }
 
     .chvp-resident:hover {
@@ -763,6 +775,7 @@
       background: var(--chvp-paper);
       border: 1px solid var(--chvp-line);
       border-radius: 20px;
+      transition: transform 0.3s ease;
     }
 
     .chvp-gallery-item img {
@@ -770,13 +783,11 @@
       height: clamp(260px, 31vw, 360px);
       display: block;
       object-fit: cover;
-      transition: transform 0.45s ease, filter 0.45s ease;
       filter: saturate(0.82) contrast(1.04) brightness(0.85);
     }
 
-    .chvp-gallery-item:hover img {
-      transform: scale(1.015);
-      filter: saturate(0.92) contrast(1.06) brightness(0.92);
+    .chvp-gallery-item:hover {
+      transform: translateY(-4px);
     }
 
     /* ── EOI ── */
@@ -1071,6 +1082,10 @@
       .chvp-residents {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+      }
+
+      .chvp-resident--tbc {
+        grid-column: auto;
       }
     }
   </style>
