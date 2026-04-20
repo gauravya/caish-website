@@ -299,7 +299,15 @@
       content: '';
       width: 3rem;
       height: 1px;
-      background: rgba(184, 196, 219, 0.4);
+      background: linear-gradient(
+        to right,
+        rgba(184, 196, 219, 0.7) 0%,
+        rgba(184, 196, 219, 0.7) 19%,
+        transparent 19%,
+        transparent 21%,
+        rgba(184, 196, 219, 0.7) 21%,
+        rgba(184, 196, 219, 0.7) 100%
+      );
     }
 
     .chvp-hero h1 {
@@ -698,12 +706,13 @@
       border-radius: 18px;
       background: var(--chvp-paper);
       height: 100%;
+      color: inherit;
+      text-decoration: none;
       transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
     }
 
     .chvp-resident--tbc {
-      grid-column: span 2;
-      justify-content: center;
+      justify-content: flex-start;
     }
 
     .chvp-resident:hover {
@@ -1083,10 +1092,6 @@
         grid-template-columns: 1fr;
         gap: 1.5rem;
       }
-
-      .chvp-resident--tbc {
-        grid-column: auto;
-      }
     }
   </style>
 </head>
@@ -1149,7 +1154,7 @@
           <h1>Hardware Assurance Programme</h1>
           <p class="chvp-hero-summary">Hardware assurance is a new, unsolved technical field: building chips that can make verifiable claims about what they&rsquo;re computing, where they are, and at what scale. Six days in Cambridge to work on it together.</p>
           <div class="chvp-hero-actions">
-            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary btn-secondary chvp-btn" target="_blank" rel="noopener">Register Interest</a>
+            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register Interest</a>
           </div>
         </div>
       </div>
@@ -1168,7 +1173,7 @@
         </div>
         <div class="chvp-hero-stat">
           <span class="chvp-hero-stat-label">Support</span>
-          <p class="chvp-hero-stat-value">Fully funded, &pound;1,500 stipend</p>
+          <p class="chvp-hero-stat-value">&pound;1,500 stipend + expenses</p>
         </div>
       </div>
     </section>
@@ -1193,7 +1198,7 @@
           <span class="chvp-timeline-phase">Pre-work</span>
           <div>
             <p class="chvp-timeline-title">Context loading</p>
-            <p class="chvp-timeline-desc">Four weeks out: kick-off call and core reading list. Two weeks out: small-group discussions to work through the readings and surface project interests.</p>
+            <p class="chvp-timeline-desc">Four weeks out: kick-off call and core reading list.<br>Two weeks out: small-group discussions to work through the readings and surface project interests.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
@@ -1260,34 +1265,41 @@
       <h2>Who you'll work with</h2>
       <p class="chvp-section-intro">Residents are domain experts in hardware assurance who join the programme to give talks, run technical sessions, and give feedback on participant projects.</p>
       <div class="chvp-residents">
-        <div class="chvp-resident">
+        <a class="chvp-resident" href="https://www.linkedin.com/in/peter-drotos-93955b187/" target="_blank" rel="noopener" aria-label="Péter Drótos on LinkedIn">
           <img src="images/mentors/peter-drotos.jpeg" alt="Péter Drótos" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>Péter Drótos</h3>
             <p>Hardware Engineer at the Future of Life Institute. 8 years as an ASIC verification engineer at ARM.</p>
           </div>
-        </div>
-        <div class="chvp-resident">
+        </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/harrison-gietz/" target="_blank" rel="noopener" aria-label="Harrison Gietz on LinkedIn">
           <img src="images/mentors/harrison.jpeg" alt="Harrison Gietz" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>Harrison Gietz</h3>
             <p>AI Programme Associate at Longview Philanthropy.</p>
           </div>
-        </div>
-        <div class="chvp-resident">
+        </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/james-petrie/" target="_blank" rel="noopener" aria-label="James Petrie on LinkedIn">
           <img src="images/mentors/james-petrie.jpeg" alt="James Petrie" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>James Petrie</h3>
             <p>Compute Security and Governance Specialist at the Future of Life Institute. Former firmware engineer at Intel.</p>
           </div>
-        </div>
-        <div class="chvp-resident">
+        </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/yannick-m%C3%BChlh%C3%A4user-719962224/" target="_blank" rel="noopener" aria-label="Yannick Mühlhäuser on LinkedIn">
           <img src="images/mentors/yannick.jpeg" alt="Yannick Mühlhäuser" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>Yannick Mühlhäuser</h3>
             <p>Policy Researcher at the Future of Life Institute.</p>
           </div>
-        </div>
+        </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/naci-cankaya-26962a311/" target="_blank" rel="noopener" aria-label="Naci Cankaya on LinkedIn">
+          <img src="images/mentors/naci-cankaya.jpeg" alt="Naci Cankaya" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Naci Cankaya</h3>
+            <p>Technical AI Governance Researcher at the Machine Intelligence Research Institute.</p>
+          </div>
+        </a>
         <div class="chvp-resident chvp-resident--tbc">
           <div class="chvp-resident-placeholder"></div>
           <div class="chvp-resident-info">
@@ -1356,7 +1368,7 @@
         <div class="chvp-eoi-copy">
           <span class="chvp-section-label chvp-eoi-label">Next Step</span>
           <h2>Interested?</h2>
-          <p>Twenty spots. Fully funded with a &pound;1,500 stipend. Register interest and we&rsquo;ll be in touch.</p>
+          <p>Twenty spots. Travel, accommodation and food covered, plus a &pound;1,500 stipend. Register interest and we&rsquo;ll be in touch.</p>
         </div>
         <div class="chvp-eoi-actions">
           <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register Interest</a>
