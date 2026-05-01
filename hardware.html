@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI hardware assurance. 20 engineers, fully funded, £1,500 stipend.">
+  <meta name="description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend.">
   <title>Hardware Assurance Programme | Cambridge AI Safety Hub</title>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://caish.org/hardware">
   <meta property="og:title" content="Hardware Assurance Programme">
-  <meta property="og:description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI hardware assurance. 20 engineers, fully funded, £1,500 stipend. 17-22 August 2026.">
+  <meta property="og:description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026.">
   <meta property="og:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://caish.org/hardware">
   <meta name="twitter:title" content="Hardware Assurance Programme">
-  <meta name="twitter:description" content="A six-day programme in Cambridge for experienced hardware engineers to work on AI hardware assurance. 20 engineers, fully funded, £1,500 stipend. 17-22 August 2026.">
+  <meta name="twitter:description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026.">
   <meta name="twitter:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Favicon -->
@@ -65,7 +65,7 @@
     body.chvp-page {
       --chvp-ink: #e8edf7;
       --chvp-ink-strong: #ffffff;
-      --chvp-muted: #8a94ac;
+      --chvp-muted: #c0cce0;
       --chvp-paper: rgba(255, 255, 255, 0.03);
       --chvp-panel: rgba(255, 255, 255, 0.05);
       --chvp-line: rgba(180, 200, 230, 0.12);
@@ -336,7 +336,20 @@
       text-wrap: pretty;
     }
 
+    .chvp-hero-meta-note {
+      margin: 0;
+      font-size: 0.78rem;
+      letter-spacing: 0.02em;
+      line-height: 1.5;
+      color: var(--chvp-accent-strong);
+      max-width: 22ch;
+    }
+
     .chvp-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem 1.25rem;
       margin-top: 1.75rem;
     }
 
@@ -589,6 +602,41 @@
       border-bottom: 1px solid rgba(184, 196, 219, 0.3);
     }
 
+    .chvp-timeline-logos {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.85rem 1.4rem;
+      margin-top: 1rem;
+    }
+
+    .chvp-timeline-logos-label {
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      margin-right: 0.15rem;
+    }
+
+    .chvp-timeline-logo {
+      display: inline-flex;
+      align-items: center;
+      height: 1.5rem;
+      opacity: 0.42;
+      transition: opacity 0.2s ease;
+    }
+
+    .chvp-timeline-logo:hover {
+      opacity: 1;
+    }
+
+    .chvp-timeline-logo img {
+      height: 100%;
+      width: auto;
+      object-fit: contain;
+      display: block;
+    }
+
     .chvp-timeline-desc a:hover {
       color: var(--chvp-ink-strong);
       border-bottom-color: rgba(184, 196, 219, 0.6);
@@ -598,7 +646,7 @@
 
     .chvp-fit-columns {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 1rem;
     }
 
@@ -634,6 +682,80 @@
       text-transform: uppercase;
       color: var(--chvp-accent-strong);
       margin-bottom: 0.65rem;
+    }
+
+    .chvp-fit-column .chvp-fit-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.7rem 0;
+      font-size: 0.97rem;
+      line-height: 1.62;
+      color: var(--chvp-muted);
+    }
+
+    .chvp-fit-column .chvp-fit-list li {
+      padding-left: 1rem;
+      position: relative;
+      margin-bottom: 0.45rem;
+    }
+
+    .chvp-fit-column .chvp-fit-list li:last-child {
+      margin-bottom: 0;
+    }
+
+    .chvp-fit-column .chvp-fit-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.78em;
+      width: 0.45rem;
+      height: 1px;
+      background: var(--chvp-accent-strong);
+    }
+
+    .chvp-fit-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      margin-top: 2rem;
+    }
+
+    .chvp-fit-tile {
+      position: relative;
+      padding: 1.3rem 1.25rem 1.4rem;
+      border: 1px solid var(--chvp-line);
+      border-radius: 16px;
+      background: var(--chvp-paper);
+      transition: border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .chvp-fit-tile:hover {
+      border-color: var(--chvp-line-strong);
+      transform: translateY(-1px);
+    }
+
+    .chvp-fit-tile-label {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 0.7rem;
+    }
+
+    .chvp-fit-tile p {
+      margin: 0;
+      font-size: 0.94rem;
+      line-height: 1.62;
+      color: var(--chvp-ink);
+    }
+
+    .chvp-fit-coda {
+      margin-top: 1.75rem;
+      font-size: 0.97rem;
+      line-height: 1.7;
+      color: var(--chvp-muted);
+      max-width: 72ch;
     }
 
     /* ── Problems ── */
@@ -865,6 +987,57 @@
       color: var(--chvp-accent-strong);
     }
 
+    .chvp-eoi-deadline {
+      max-width: none;
+      margin: 0;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      text-align: right;
+    }
+
+    .chvp-process {
+      list-style: none;
+      padding: 0;
+      margin: 1.4rem 0 0;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .chvp-process li {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 0.85rem;
+      align-items: start;
+    }
+
+    .chvp-process-step {
+      display: inline-block;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      padding: 0.22rem 0.6rem;
+      border: 1px solid var(--chvp-line-strong);
+      border-radius: 999px;
+      white-space: nowrap;
+      margin-top: 0.18rem;
+    }
+
+    .chvp-process p {
+      margin: 0;
+      font-size: 0.94rem;
+      line-height: 1.6;
+      color: var(--chvp-ink);
+      max-width: 52ch;
+    }
+
+    .chvp-process p strong {
+      color: var(--chvp-ink-strong);
+      font-weight: 500;
+    }
+
     .chvp-eoi-contact {
       max-width: none;
       margin: 0;
@@ -939,13 +1112,21 @@
 
     body.chvp-page footer {
       margin-top: 0.5rem;
-      color: var(--chvp-muted);
+      color: var(--chvp-ink-strong);
     }
 
+    body.chvp-page .footer-legal,
+    body.chvp-page .footer-copy {
+      color: var(--chvp-ink);
+    }
+
+    body.chvp-page .footer-legal a,
     body.chvp-page footer a {
-      color: var(--chvp-accent-strong);
+      color: var(--chvp-ink-strong);
+      border-bottom-color: rgba(232, 237, 247, 0.3);
     }
 
+    body.chvp-page .footer-legal a:hover,
     body.chvp-page footer a:hover {
       color: var(--chvp-ink-strong);
     }
@@ -987,6 +1168,10 @@
       .chvp-problems {
         grid-template-columns: 1fr;
         gap: 1.75rem;
+      }
+
+      .chvp-fit-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
       .chvp-gallery {
@@ -1154,7 +1339,8 @@
           <h1>Hardware Assurance Programme</h1>
           <p class="chvp-hero-summary">Hardware assurance is a new, unsolved technical field: building chips that can make verifiable claims about what they&rsquo;re computing, where they are, and at what scale. Six days in Cambridge to work on it together.</p>
           <div class="chvp-hero-actions">
-            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register Interest</a>
+            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pagpuaD2AcBD7ubbo/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Apply now</a>
+            <p class="chvp-hero-meta-note">Apply by 7 June, AoE. Includes a 30&ndash;45 min interview.</p>
           </div>
         </div>
       </div>
@@ -1168,8 +1354,8 @@
           <p class="chvp-hero-stat-value">Cambridge, UK</p>
         </div>
         <div class="chvp-hero-stat">
-          <span class="chvp-hero-stat-label">Cohort</span>
-          <p class="chvp-hero-stat-value">20 engineers</p>
+          <span class="chvp-hero-stat-label">Programme size</span>
+          <p class="chvp-hero-stat-value">Cohort of 20</p>
         </div>
         <div class="chvp-hero-stat">
           <span class="chvp-hero-stat-label">Support</span>
@@ -1233,7 +1419,22 @@
           <span class="chvp-timeline-phase">Day 5</span>
           <div>
             <p class="chvp-timeline-title">Who is building what</p>
-            <p class="chvp-timeline-desc">Organisations working on hardware assurance present their current work, where they are stuck, and what they need. Talks from <a href="https://futureoflife.org/" target="_blank" rel="noopener">Future of Life Institute</a>, <a href="https://amododesign.com/" target="_blank" rel="noopener">Amodo</a>, <a href="https://tampersec.com/" target="_blank" rel="noopener">Tampersec</a>, and <a href="https://seldonlab.com/" target="_blank" rel="noopener">Seldon Labs</a>. Time reserved for direct conversations about collaboration and hiring.</p>
+            <p class="chvp-timeline-desc">Organisations building in this space present their current work, where they are stuck, and what they need. Time reserved for direct conversations about collaboration and hiring.</p>
+            <div class="chvp-timeline-logos">
+              <span class="chvp-timeline-logos-label">Talks from</span>
+              <a class="chvp-timeline-logo" href="https://futureoflife.org/" target="_blank" rel="noopener" aria-label="Future of Life Institute">
+                <img src="images/orgs/fli.png" alt="Future of Life Institute" loading="lazy" onerror="this.parentElement.style.display='none'">
+              </a>
+              <a class="chvp-timeline-logo" href="https://amododesign.com/" target="_blank" rel="noopener" aria-label="Amodo">
+                <img src="images/orgs/amodo.png" alt="Amodo" loading="lazy" onerror="this.parentElement.style.display='none'">
+              </a>
+              <a class="chvp-timeline-logo" href="https://tampersec.com/" target="_blank" rel="noopener" aria-label="Tampersec">
+                <img src="images/orgs/tampersec.png" alt="Tampersec" loading="lazy">
+              </a>
+              <a class="chvp-timeline-logo" href="https://seldonlab.com/" target="_blank" rel="noopener" aria-label="Seldon Lab">
+                <img src="images/orgs/seldon.png" alt="Seldon Lab" loading="lazy">
+              </a>
+            </div>
           </div>
         </div>
         <div class="chvp-timeline-item">
@@ -1300,6 +1501,13 @@
             <p>Technical AI Governance Researcher at the Machine Intelligence Research Institute.</p>
           </div>
         </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/daniel-reuter-6040a821b/" target="_blank" rel="noopener" aria-label="Daniel Reuter on LinkedIn">
+          <img src="images/mentors/daniel-reuter.jpeg" alt="Daniel Reuter" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Daniel Reuter</h3>
+            <p>Scholar, Machine Alignment, Transparency and Security.</p>
+          </div>
+        </a>
         <div class="chvp-resident chvp-resident--tbc">
           <div class="chvp-resident-placeholder"></div>
           <div class="chvp-resident-info">
@@ -1313,18 +1521,34 @@
 
     <!-- WHO IT'S FOR -->
     <section class="chvp-section">
-      <span class="chvp-section-label">Who this is for</span>
       <h2>Who should apply</h2>
+      <p class="chvp-section-intro">Hardware assurance pulls from across a technical stack. We&rsquo;re looking for engineers, researchers, PhD students, and people with unusual backgrounds who can bring technical depth across these areas.</p>
 
-      <div class="chvp-fit-columns" style="margin-top: 1.75rem;">
-        <div class="chvp-fit-column">
-          <span class="chvp-fit-label">Backgrounds we&rsquo;re looking for</span>
-          <p>Experienced engineers working on chip design, firmware, FPGAs, embedded systems, secure hardware, cryptography, formal verification, or systems engineering. PhD researchers in electrical engineering, computer engineering, cryptography, or related disciplines. People with unusual backgrounds who can bring technical depth to the problem.</p>
-        </div>
-        <div class="chvp-fit-column">
-          <span class="chvp-fit-label">What you leave with</span>
-          <p>A scoped technical proposal you developed during the week. Direct relationships with organisations hiring and funding in this space. A clear path into further work.</p>
-        </div>
+      <div class="chvp-fit-grid">
+        <article class="chvp-fit-tile">
+          <span class="chvp-fit-tile-label">Silicon &amp; firmware</span>
+          <p>Chip and silicon designers (RTL, ASIC, SoC), FPGA engineers, firmware and embedded systems engineers.</p>
+        </article>
+        <article class="chvp-fit-tile">
+          <span class="chvp-fit-tile-label">Hardware security</span>
+          <p>Hardware security and tamper protection specialists.</p>
+        </article>
+        <article class="chvp-fit-tile">
+          <span class="chvp-fit-tile-label">Cryptography &amp; formal methods</span>
+          <p>Applied cryptographers, zero-knowledge proof system builders, and formal methods researchers.</p>
+        </article>
+        <article class="chvp-fit-tile">
+          <span class="chvp-fit-tile-label">Trusted execution</span>
+          <p>Trusted execution environment, attestation, secure boot, and root-of-trust engineers.</p>
+        </article>
+        <article class="chvp-fit-tile">
+          <span class="chvp-fit-tile-label">ML systems</span>
+          <p>ML systems engineers with distributed training infrastructure experience (NCCL, Megatron, DeepSpeed, or equivalent).</p>
+        </article>
+        <article class="chvp-fit-tile">
+          <span class="chvp-fit-tile-label">Networking</span>
+          <p>High-performance networking engineers, especially those with line-rate observation experience.</p>
+        </article>
       </div>
     </section>
 
@@ -1366,12 +1590,27 @@
     <section class="chvp-eoi" id="apply">
       <div class="chvp-eoi-card">
         <div class="chvp-eoi-copy">
-          <span class="chvp-section-label chvp-eoi-label">Next Step</span>
-          <h2>Interested?</h2>
-          <p>Twenty spots. Travel, accommodation and food covered, plus a &pound;1,500 stipend. Register interest and we&rsquo;ll be in touch.</p>
+          <span class="chvp-section-label chvp-eoi-label">Applications open</span>
+          <h2>Apply</h2>
+          <p>Twenty spots. Travel, accommodation, and food covered, plus a &pound;1,500 stipend.</p>
+          <ol class="chvp-process">
+            <li>
+              <span class="chvp-process-step">Step 1</span>
+              <p><strong>Submit your application.</strong> Reviewed on a rolling basis. Final deadline 7 June, AoE.</p>
+            </li>
+            <li>
+              <span class="chvp-process-step">Step 2</span>
+              <p><strong>Interview.</strong> A 30&ndash;45 minute live call for shortlisted applicants. Invitations from week of 11 May.</p>
+            </li>
+            <li>
+              <span class="chvp-process-step">Step 3</span>
+              <p><strong>Decision and pre-work.</strong> Offers follow shortly after the interview. Pre-work begins 20 July, ahead of the in-person week.</p>
+            </li>
+          </ol>
         </div>
         <div class="chvp-eoi-actions">
-          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register Interest</a>
+          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pagpuaD2AcBD7ubbo/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Apply now</a>
+          <p class="chvp-eoi-deadline">Applications close 7 June, AoE</p>
           <p class="chvp-eoi-contact">Questions? <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a></p>
         </div>
       </div>
