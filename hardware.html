@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend.">
+  <meta name="description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. Register your interest.">
   <title>Hardware Assurance Programme | Cambridge AI Safety Hub</title>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://caish.org/hardware">
   <meta property="og:title" content="Hardware Assurance Programme">
-  <meta property="og:description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026.">
+  <meta property="og:description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026. Register your interest.">
   <meta property="og:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://caish.org/hardware">
   <meta name="twitter:title" content="Hardware Assurance Programme">
-  <meta name="twitter:description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026.">
+  <meta name="twitter:description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026. Register your interest.">
   <meta name="twitter:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Favicon -->
@@ -833,10 +833,6 @@
       transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
     }
 
-    .chvp-resident--tbc {
-      justify-content: flex-start;
-    }
-
     .chvp-resident:hover {
       border-color: var(--chvp-line-strong);
       background: var(--chvp-panel);
@@ -870,17 +866,27 @@
       text-wrap: pretty;
     }
 
-    .chvp-resident-placeholder {
-      width: 80px;
-      height: 80px;
-      border-radius: 14px;
-      border: 1px dashed rgba(184, 196, 219, 0.24);
-      background: linear-gradient(180deg, rgba(184, 196, 219, 0.06), rgba(184, 196, 219, 0.02));
+    .chvp-residents-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin: 1.75rem 0 0;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      opacity: 0.7;
+      white-space: nowrap;
     }
 
-    .chvp-resident-tbc {
-      font-style: italic;
-      color: var(--chvp-muted);
+    .chvp-residents-note::before,
+    .chvp-residents-note::after {
+      content: '';
+      flex: none;
+      width: 2.5rem;
+      height: 1px;
+      background: var(--chvp-line-strong);
     }
 
     /* ── Gallery ── */
@@ -1292,7 +1298,7 @@
         <li><a href="/desk">Alignment Desk</a></li>
         <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
         <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
-        <li><a href="/events">Events</a></li>
+        <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
         <li><a href="/about">About</a></li>
       </ul>
       <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
@@ -1318,7 +1324,7 @@
         </ul>
       </li>
       <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
-      <li><a href="/events">Events</a></li>
+      <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
       <li><a href="/about">About</a></li>
     </ul>
   </div>
@@ -1339,8 +1345,8 @@
           <h1>Hardware Assurance Programme</h1>
           <p class="chvp-hero-summary">Hardware assurance is a new, unsolved technical field: building chips that can make verifiable claims about what they&rsquo;re computing, where they are, and at what scale. Six days in Cambridge to work on it together.</p>
           <div class="chvp-hero-actions">
-            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pagpuaD2AcBD7ubbo/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Apply now</a>
-            <p class="chvp-hero-meta-note">Apply by 7 June, AoE. Includes a 30&ndash;45 min interview.</p>
+            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register interest</a>
+            <p class="chvp-hero-meta-note">We&rsquo;ll email you when applications open.</p>
           </div>
         </div>
       </div>
@@ -1508,13 +1514,8 @@
             <p>Scholar, Machine Alignment, Transparency and Security.</p>
           </div>
         </a>
-        <div class="chvp-resident chvp-resident--tbc">
-          <div class="chvp-resident-placeholder"></div>
-          <div class="chvp-resident-info">
-            <p class="chvp-resident-tbc">More to be confirmed</p>
-          </div>
-        </div>
       </div>
+      <p class="chvp-residents-note">More residents coming soon</p>
     </section>
 
     <div class="divider"><div class="divider-line"></div></div>
@@ -1590,27 +1591,13 @@
     <section class="chvp-eoi" id="apply">
       <div class="chvp-eoi-card">
         <div class="chvp-eoi-copy">
-          <span class="chvp-section-label chvp-eoi-label">Applications open</span>
-          <h2>Apply</h2>
-          <p>Twenty spots. Travel, accommodation, and food covered, plus a &pound;1,500 stipend.</p>
-          <ol class="chvp-process">
-            <li>
-              <span class="chvp-process-step">Step 1</span>
-              <p><strong>Submit your application.</strong> Reviewed on a rolling basis. Final deadline 7 June, AoE.</p>
-            </li>
-            <li>
-              <span class="chvp-process-step">Step 2</span>
-              <p><strong>Interview.</strong> A 30&ndash;45 minute live call for shortlisted applicants. Invitations from week of 11 May.</p>
-            </li>
-            <li>
-              <span class="chvp-process-step">Step 3</span>
-              <p><strong>Decision and pre-work.</strong> Offers follow shortly after the interview. Pre-work begins 20 July, ahead of the in-person week.</p>
-            </li>
-          </ol>
+          <span class="chvp-section-label chvp-eoi-label">Expression of interest</span>
+          <h2>Register your interest</h2>
+          <p>Twenty spots. Travel, accommodation, and food covered, plus a &pound;1,500 stipend. Register below and we&rsquo;ll be in touch with details before applications open.</p>
         </div>
         <div class="chvp-eoi-actions">
-          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pagpuaD2AcBD7ubbo/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Apply now</a>
-          <p class="chvp-eoi-deadline">Applications close 7 June, AoE</p>
+          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register interest</a>
+          <p class="chvp-eoi-deadline">We&rsquo;ll email when applications open</p>
           <p class="chvp-eoi-contact">Questions? <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a></p>
         </div>
       </div>

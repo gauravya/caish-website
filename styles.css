@@ -6342,7 +6342,9 @@ a[target="_blank"]:not(.btn):not(.btn-primary):not(.event-card):not(.home-event-
 /* Don't show on images or buttons */
 .cta-image a::after,
 .mentor a::after,
-.footer-legal a::after {
+.footer-legal a::after,
+.nav-links a::after,
+.mobile-nav a::after {
   content: none !important;
 }
 
