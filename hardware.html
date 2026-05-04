@@ -814,79 +814,71 @@
     .chvp-residents {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-auto-rows: 1fr;
-      gap: 1rem;
-      margin-top: 2rem;
+      gap: 2.5rem 1.85rem;
+      margin-top: 2.5rem;
     }
 
     .chvp-resident {
       display: flex;
-      align-items: flex-start;
-      gap: 1.2rem;
-      padding: 1.05rem 1.1rem;
-      border: 1px solid var(--chvp-line);
-      border-radius: 18px;
-      background: var(--chvp-paper);
-      height: 100%;
+      flex-direction: column;
+      gap: 1.4rem;
+      padding: 0;
+      border: 0;
+      background: none;
       color: inherit;
       text-decoration: none;
-      transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
-    }
-
-    .chvp-resident:hover {
-      border-color: var(--chvp-line-strong);
-      background: var(--chvp-panel);
-      transform: translateY(-2px);
     }
 
     .chvp-resident-photo {
-      width: 80px;
-      height: 80px;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
       border-radius: 14px;
       object-fit: cover;
-      border: 1px solid var(--chvp-line);
-      filter: saturate(0.92) contrast(1.02);
+      object-position: center 25%;
+      border: 1px solid rgba(180, 200, 230, 0.08);
+      filter: saturate(0.85) contrast(1.04) brightness(0.9);
+      display: block;
+      transition: filter 0.4s ease, transform 0.4s ease, border-color 0.4s ease;
+    }
+
+    .chvp-resident:hover .chvp-resident-photo {
+      filter: saturate(1) contrast(1.05) brightness(1);
+      transform: translateY(-3px);
+      border-color: rgba(184, 196, 219, 0.22);
+    }
+
+    .chvp-resident-info {
+      padding: 0 0.15rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
     }
 
     .chvp-resident-info h3 {
-      font-family: var(--font-serif);
-      font-size: 1.08rem;
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-variation-settings: "opsz" 72, "SOFT" 30;
+      font-size: 1.32rem;
+      line-height: 1.15;
+      letter-spacing: -0.01em;
       font-weight: 400;
-      margin: 0 0 0.25rem;
+      margin: 0;
       color: var(--chvp-ink-strong);
     }
 
     .chvp-resident-info p {
-      font-size: 0.88rem;
-      line-height: 1.58;
+      font-size: 0.9rem;
+      line-height: 1.65;
       font-weight: 400;
       color: var(--chvp-muted);
       margin: 0;
-      max-width: 20ch;
+      max-width: none;
       text-wrap: pretty;
+      transition: color 0.3s ease;
     }
 
-    .chvp-residents-note {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      margin: 1.75rem 0 0;
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--chvp-accent-strong);
-      opacity: 0.7;
-      white-space: nowrap;
-    }
-
-    .chvp-residents-note::before,
-    .chvp-residents-note::after {
-      content: '';
-      flex: none;
-      width: 2.5rem;
-      height: 1px;
-      background: var(--chvp-line-strong);
+    .chvp-resident:hover .chvp-resident-info p {
+      color: var(--chvp-ink);
     }
 
     /* ── Gallery ── */
@@ -1137,6 +1129,10 @@
       color: var(--chvp-ink-strong);
     }
 
+    body.chvp-page a[target="_blank"]::after {
+      content: none !important;
+    }
+
     body.chvp-page footer::before {
       background: linear-gradient(
         90deg,
@@ -1273,7 +1269,6 @@
 
       .chvp-fit-column,
       .chvp-problem,
-      .chvp-resident,
       .chvp-eoi-card {
         padding-left: 1rem;
         padding-right: 1rem;
@@ -1281,7 +1276,11 @@
 
       .chvp-residents {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
+        gap: 2.75rem;
+      }
+
+      .chvp-resident-info h3 {
+        font-size: 1.4rem;
       }
     }
   </style>
@@ -1446,8 +1445,8 @@
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Day 6</span>
           <div>
-            <p class="chvp-timeline-title">Present your proposal</p>
-            <p class="chvp-timeline-desc">Present your scoping document to peers, residents, and representatives from the organisations working in this space. You leave with a technical proposal, feedback on it, and relationships with the people who can help take it further.</p>
+            <p class="chvp-timeline-title">Present and plan what comes next</p>
+            <p class="chvp-timeline-desc">Present your work to peers, residents, and representatives from organisations building in the space. The afternoon turns to next steps: how to apply for <a href="https://coefficientgiving.org/funds/global-catastrophic-risks-opportunities/career-development-and-transition-funding/" target="_blank" rel="noopener">Coefficient Giving&rsquo;s Career Development and Transition Funding</a> if you&rsquo;re considering a transition into the field, <a href="https://bluedot.org/programs/rapid-grants" target="_blank" rel="noopener">BlueDot Impact&rsquo;s Rapid Grants</a> (up to $10,000) for kicking off your own project, and time to plan next steps and start interviewing with the organisations represented in the room.</p>
           </div>
         </div>
       </div>
@@ -1470,7 +1469,7 @@
     <section class="chvp-section">
       <span class="chvp-section-label">Residents</span>
       <h2>Who you'll work with</h2>
-      <p class="chvp-section-intro">Residents are domain experts in hardware assurance who join the programme to give talks, run technical sessions, and give feedback on participant projects.</p>
+      <p class="chvp-section-intro">Residents are domain experts in hardware assurance who join the programme to give talks, run technical sessions, and give feedback on participant projects. More residents will be announced soon.</p>
       <div class="chvp-residents">
         <a class="chvp-resident" href="https://www.linkedin.com/in/peter-drotos-93955b187/" target="_blank" rel="noopener" aria-label="Péter Drótos on LinkedIn">
           <img src="images/mentors/peter-drotos.jpeg" alt="Péter Drótos" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
@@ -1515,7 +1514,6 @@
           </div>
         </a>
       </div>
-      <p class="chvp-residents-note">More residents coming soon</p>
     </section>
 
     <div class="divider"><div class="divider-line"></div></div>
@@ -1598,6 +1596,7 @@
         <div class="chvp-eoi-actions">
           <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register interest</a>
           <p class="chvp-eoi-deadline">We&rsquo;ll email when applications open</p>
+          <p class="chvp-eoi-contact">Know someone who&rsquo;d be a fit? <a href="mailto:hello@cambridgeaisafety.org?subject=HAP%20referral">Refer them</a>.</p>
           <p class="chvp-eoi-contact">Questions? <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a></p>
         </div>
       </div>
