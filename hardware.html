@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. Register your interest.">
+  <meta name="description" content="A six-day programme in Cambridge for engineers, researchers, and PhD students working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. Applications open.">
   <title>Hardware Assurance Programme | Cambridge AI Safety Hub</title>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://caish.org/hardware">
   <meta property="og:title" content="Hardware Assurance Programme">
-  <meta property="og:description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026. Register your interest.">
+  <meta property="og:description" content="A six-day programme in Cambridge for engineers, researchers, and PhD students working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026. Applications open.">
   <meta property="og:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://caish.org/hardware">
   <meta name="twitter:title" content="Hardware Assurance Programme">
-  <meta name="twitter:description" content="A six-day programme in Cambridge for experienced engineers and researchers working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026. Register your interest.">
+  <meta name="twitter:description" content="A six-day programme in Cambridge for engineers, researchers, and PhD students working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026. Applications open.">
   <meta name="twitter:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Favicon -->
@@ -65,21 +65,24 @@
     body.chvp-page {
       --chvp-ink: #e8edf7;
       --chvp-ink-strong: #ffffff;
-      --chvp-muted: #c0cce0;
-      --chvp-paper: rgba(255, 255, 255, 0.03);
-      --chvp-panel: rgba(255, 255, 255, 0.05);
-      --chvp-line: rgba(180, 200, 230, 0.12);
-      --chvp-line-strong: rgba(180, 200, 230, 0.24);
-      --chvp-accent: #7a88a3;
-      --chvp-accent-strong: #b8c4db;
-      --chvp-bg: #05081a;
+      --chvp-copy: #d8e1f0;
+      --chvp-muted: #c8d3e5;
+      --chvp-paper: rgba(255, 255, 255, 0.04);
+      --chvp-panel: rgba(255, 255, 255, 0.065);
+      --chvp-line: rgba(190, 207, 236, 0.13);
+      --chvp-line-strong: rgba(205, 220, 246, 0.26);
+      --chvp-accent: #8795ae;
+      --chvp-accent-strong: #c2cde1;
+      --chvp-bg: #010514;
       font-family: var(--font-mono);
       color: var(--chvp-ink);
       background-color: var(--chvp-bg);
+      letter-spacing: 0;
+      text-rendering: optimizeLegibility;
       background-image:
         linear-gradient(rgba(180, 200, 230, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(180, 200, 230, 0.05) 1px, transparent 1px),
-        linear-gradient(180deg, #05081a 0%, #070b22 50%, #03051a 100%);
+        linear-gradient(180deg, #010514 0%, #010514 100%);
       background-size: 2.2rem 2.2rem, 2.2rem 2.2rem, auto;
     }
 
@@ -92,7 +95,7 @@
     }
 
     body.chvp-page nav {
-      background: rgba(5, 8, 26, 0.78);
+      background: rgba(1, 5, 20, 0.84);
       border-bottom: 1px solid rgba(180, 200, 230, 0.12);
       backdrop-filter: blur(12px) saturate(1.05);
       -webkit-backdrop-filter: blur(12px) saturate(1.05);
@@ -131,6 +134,12 @@
       color: var(--chvp-ink-strong);
     }
 
+    body.chvp-page h1,
+    body.chvp-page h2,
+    body.chvp-page h3 {
+      letter-spacing: 0;
+    }
+
     body.chvp-page .nav-toggle span {
       background: var(--chvp-ink);
     }
@@ -146,7 +155,7 @@
     }
 
     body.chvp-page .mobile-nav {
-      background: rgba(5, 8, 26, 0.96);
+      background: rgba(1, 5, 20, 0.96);
       backdrop-filter: blur(12px) saturate(1.05);
       -webkit-backdrop-filter: blur(12px) saturate(1.05);
     }
@@ -164,7 +173,7 @@
     }
 
     body.chvp-page .nav-dropdown {
-      background: rgba(9, 14, 34, 0.96);
+      background: rgba(1, 7, 24, 0.96);
       border: 1px solid rgba(180, 200, 230, 0.14);
     }
 
@@ -268,7 +277,7 @@
     .chvp-hero-stat-label {
       font-family: var(--font-mono);
       font-size: 0.58rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--chvp-accent-strong);
     }
@@ -276,10 +285,10 @@
     .chvp-hero-stat-value {
       font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
       font-variation-settings: "opsz" 72, "SOFT" 30;
-      font-size: clamp(1.3rem, 1.9vw, 1.65rem);
+      font-size: 1.34rem;
       font-weight: 400;
       line-height: 1.15;
-      letter-spacing: -0.01em;
+      letter-spacing: 0;
       color: var(--chvp-ink-strong);
       max-width: none;
     }
@@ -314,9 +323,9 @@
       font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
       font-weight: 400;
       font-variation-settings: "opsz" 144, "SOFT" 50;
-      font-size: clamp(2.75rem, 5.8vw, 4.75rem);
+      font-size: 4.45rem;
       line-height: 1;
-      letter-spacing: -0.025em;
+      letter-spacing: 0;
       margin-bottom: 1.35rem;
       max-width: 14ch;
       color: var(--chvp-ink-strong);
@@ -332,7 +341,7 @@
       font-size: 1.02rem;
       line-height: 1.8;
       font-weight: 400;
-      color: var(--chvp-muted);
+      color: var(--chvp-copy);
       text-wrap: pretty;
     }
 
@@ -465,15 +474,16 @@
     .chvp-section-label {
       display: block;
       font-size: 0.62rem;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--chvp-accent-strong);
       margin-bottom: 1rem;
     }
 
     .chvp-section h2 {
-      font-family: var(--font-serif);
-      font-size: clamp(1.65rem, 3vw, 2.25rem);
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-variation-settings: "opsz" 72, "SOFT" 35;
+      font-size: 2.05rem;
       line-height: 1.18;
       margin-bottom: 1rem;
       font-weight: 400;
@@ -484,7 +494,7 @@
     .chvp-section-intro {
       max-width: 52ch;
       font-size: 1.03rem;
-      line-height: 1.78;
+      line-height: 1.82;
       font-weight: 400;
       color: var(--chvp-muted);
       margin-bottom: 2.5rem;
@@ -554,11 +564,13 @@
     }
 
     .chvp-timeline-item > div {
-      padding: 1rem 1.2rem 1.05rem;
+      padding: 1.1rem 1.3rem 1.15rem;
       border: 1px solid var(--chvp-line);
       border-radius: 16px;
-      background: var(--chvp-paper);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.028));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.035),
+        0 10px 28px rgba(0, 0, 0, 0.12);
     }
 
     .chvp-timeline-item:first-child {
@@ -572,7 +584,7 @@
 
     .chvp-timeline-phase {
       font-size: 0.7rem;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--chvp-accent-strong);
       padding-top: 1.15rem;
@@ -588,18 +600,27 @@
     }
 
     .chvp-timeline-desc {
-      max-width: none;
+      max-width: 66ch;
       font-size: 1rem;
-      line-height: 1.76;
+      line-height: 1.8;
       font-weight: 400;
       color: var(--chvp-muted);
       margin: 0;
       text-wrap: pretty;
     }
 
+    .chvp-timeline-desc + .chvp-timeline-desc {
+      margin-top: 0.6rem;
+    }
+
     .chvp-timeline-desc a {
-      color: var(--chvp-ink);
-      border-bottom: 1px solid rgba(184, 196, 219, 0.3);
+      color: var(--chvp-ink-strong);
+      border-bottom: 0;
+      text-decoration: none;
+      background-image: linear-gradient(rgba(194, 205, 225, 0.46), rgba(194, 205, 225, 0.46));
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      background-size: 100% 1px;
     }
 
     .chvp-timeline-logos {
@@ -637,9 +658,18 @@
       display: block;
     }
 
+    .chvp-timeline-logo img.chvp-logo-invert {
+      filter: brightness(0) invert(1);
+    }
+
     .chvp-timeline-desc a:hover {
       color: var(--chvp-ink-strong);
-      border-bottom-color: rgba(184, 196, 219, 0.6);
+      text-decoration: none;
+    }
+
+    .chvp-timeline-desc a:focus,
+    .chvp-timeline-desc a:active {
+      text-decoration: none;
     }
 
     /* ── Who it's for ── */
@@ -758,6 +788,126 @@
       max-width: 72ch;
     }
 
+    .chvp-twin-panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.1rem;
+      margin-top: 2rem;
+    }
+
+    .chvp-twin-panel {
+      padding: 1.65rem 1.55rem;
+      border: 1px solid var(--chvp-line);
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.025));
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.035),
+        0 12px 34px rgba(0, 0, 0, 0.13);
+    }
+
+    .chvp-twin-panel-label {
+      display: block;
+      font-size: 0.68rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 0.85rem;
+    }
+
+    .chvp-twin-panel p {
+      margin: 0;
+      max-width: 64ch;
+      font-size: 0.97rem;
+      line-height: 1.78;
+      color: var(--chvp-copy);
+      text-wrap: pretty;
+    }
+
+    .chvp-twin-panel p + p {
+      margin-top: 0.85rem;
+    }
+
+    .chvp-twin-panel a {
+      color: var(--chvp-ink-strong);
+      border-bottom: 0;
+      text-decoration: none;
+      background-image: linear-gradient(rgba(194, 205, 225, 0.46), rgba(194, 205, 225, 0.46));
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      background-size: 100% 1px;
+    }
+
+    .chvp-twin-panel a:hover {
+      text-decoration: none;
+    }
+
+    .chvp-twin-panel a:focus,
+    .chvp-twin-panel a:active {
+      text-decoration: none;
+    }
+
+    .chvp-archetypes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-top: 2.5rem;
+    }
+
+    .chvp-archetype {
+      position: relative;
+      max-width: 52ch;
+      padding: 2rem 0;
+    }
+
+    .chvp-archetype:nth-child(-n + 2) {
+      padding-top: 0;
+    }
+
+    .chvp-archetype:nth-child(n + 3) {
+      border-top: 2px solid rgba(190, 207, 236, 0.13);
+    }
+
+    .chvp-archetype:nth-child(odd) {
+      padding-right: 2.25rem;
+      border-right: 2px solid rgba(190, 207, 236, 0.13);
+    }
+
+    .chvp-archetype:nth-child(even) {
+      padding-left: 2.25rem;
+    }
+
+    .chvp-archetype h3 {
+      font-family: var(--font-serif);
+      font-size: 1.34rem;
+      line-height: 1.2;
+      color: var(--chvp-ink-strong);
+      font-weight: 400;
+      margin-bottom: 0.65rem;
+    }
+
+    .chvp-archetype p {
+      margin: 0;
+      font-size: 0.96rem;
+      line-height: 1.76;
+      color: var(--chvp-copy);
+      text-wrap: pretty;
+    }
+
+    .chvp-archetype p + p {
+      margin-top: 0.55rem;
+      color: var(--chvp-muted);
+      font-size: 0.88rem;
+    }
+
+    .chvp-archetypes-coda {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--chvp-line);
+      font-size: 0.9rem;
+      color: var(--chvp-muted);
+      max-width: 64ch;
+    }
+
     /* ── Problems ── */
 
     .chvp-problems {
@@ -772,8 +922,15 @@
       padding: 2rem 1.85rem 1.85rem;
       border: 1px solid var(--chvp-line);
       border-radius: 20px;
-      background: var(--chvp-paper);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.052), rgba(255, 255, 255, 0.024));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.028);
       transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    }
+
+    .chvp-problem--center {
+      grid-column: 1 / -1;
+      justify-self: center;
+      width: calc(50% - 0.625rem);
     }
 
     .chvp-problem:hover {
@@ -786,7 +943,7 @@
       display: block;
       font-family: var(--font-mono);
       font-size: 0.72rem;
-      letter-spacing: 0.22em;
+      letter-spacing: 0.18em;
       color: var(--chvp-accent-strong);
       margin-bottom: 0.9rem;
     }
@@ -802,11 +959,12 @@
     }
 
     .chvp-problem p {
-      max-width: none;
+      max-width: 58ch;
       font-size: 0.98rem;
-      line-height: 1.74;
+      line-height: 1.8;
       color: var(--chvp-muted);
       margin: 0;
+      text-wrap: pretty;
     }
 
     /* ── Residents ── */
@@ -860,7 +1018,7 @@
       font-variation-settings: "opsz" 72, "SOFT" 30;
       font-size: 1.32rem;
       line-height: 1.15;
-      letter-spacing: -0.01em;
+      letter-spacing: 0;
       font-weight: 400;
       margin: 0;
       color: var(--chvp-ink-strong);
@@ -868,7 +1026,7 @@
 
     .chvp-resident-info p {
       font-size: 0.9rem;
-      line-height: 1.65;
+      line-height: 1.72;
       font-weight: 400;
       color: var(--chvp-muted);
       margin: 0;
@@ -879,6 +1037,45 @@
 
     .chvp-resident:hover .chvp-resident-info p {
       color: var(--chvp-ink);
+    }
+
+    .chvp-resident--placeholder {
+      cursor: default;
+    }
+
+    .chvp-resident--placeholder .chvp-resident-photo {
+      border: 1px dashed rgba(184, 196, 219, 0.22);
+      background: rgba(255, 255, 255, 0.015);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(184, 196, 219, 0.45);
+      filter: none;
+    }
+
+    .chvp-resident--placeholder .chvp-resident-photo span {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .chvp-resident--placeholder .chvp-resident-info h3 {
+      color: rgba(232, 237, 247, 0.5);
+    }
+
+    .chvp-resident--placeholder .chvp-resident-info p {
+      color: rgba(192, 204, 224, 0.5);
+    }
+
+    .chvp-resident--placeholder:hover .chvp-resident-photo {
+      filter: none;
+      transform: none;
+      border-color: rgba(184, 196, 219, 0.22);
+    }
+
+    .chvp-resident--placeholder:hover .chvp-resident-info p {
+      color: rgba(192, 204, 224, 0.5);
     }
 
     /* ── Gallery ── */
@@ -934,8 +1131,10 @@
       padding: 1.75rem 1.85rem;
       border: 1px solid var(--chvp-line);
       border-radius: 22px;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.064) 0%, rgba(255, 255, 255, 0.03) 100%);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.045),
+        0 16px 42px rgba(0, 0, 0, 0.16);
     }
 
     .chvp-eoi-label {
@@ -950,8 +1149,9 @@
     }
 
     .chvp-eoi h2 {
-      font-family: var(--font-serif);
-      font-size: clamp(1.65rem, 3vw, 2.15rem);
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-variation-settings: "opsz" 72, "SOFT" 35;
+      font-size: 2rem;
       line-height: 1.15;
       margin-bottom: 0.85rem;
       font-weight: 400;
@@ -962,9 +1162,9 @@
     .chvp-eoi-copy > p {
       max-width: 42ch;
       font-size: 0.98rem;
-      line-height: 1.74;
+      line-height: 1.8;
       font-weight: 400;
-      color: var(--chvp-muted);
+      color: var(--chvp-copy);
       text-wrap: pretty;
     }
 
@@ -989,7 +1189,8 @@
       max-width: none;
       margin: 0;
       font-size: 0.68rem;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.1em;
+      line-height: 1.45;
       text-transform: uppercase;
       color: var(--chvp-accent-strong);
       text-align: right;
@@ -1037,21 +1238,70 @@
     }
 
     .chvp-eoi-contact {
-      max-width: none;
+      max-width: 32ch;
       margin: 0;
       font-size: 0.82rem;
       color: var(--chvp-muted);
       text-align: right;
     }
 
+    .chvp-eoi-extras {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem 2rem;
+      margin-top: 1.25rem;
+      padding: 0 0.5rem;
+      font-size: 0.85rem;
+    }
+
+    .chvp-eoi-extras p {
+      margin: 0;
+      max-width: none;
+      font-size: inherit;
+      line-height: 1.6;
+      color: var(--chvp-muted);
+    }
+
+    .chvp-eoi-extras a {
+      color: var(--chvp-accent-strong);
+      border-bottom: 0;
+      text-decoration: none;
+      background-image: linear-gradient(rgba(184, 196, 219, 0.46), rgba(184, 196, 219, 0.46));
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      background-size: 100% 1px;
+    }
+
+    .chvp-eoi-extras a:hover {
+      color: var(--chvp-ink-strong);
+      text-decoration: none;
+    }
+
+    .chvp-eoi-extras a:focus,
+    .chvp-eoi-extras a:active {
+      text-decoration: none;
+    }
+
     .chvp-eoi-contact a {
       color: var(--chvp-accent-strong);
-      border-bottom: 1px solid rgba(184, 196, 219, 0.26);
+      border-bottom: 0;
+      text-decoration: none;
+      background-image: linear-gradient(rgba(184, 196, 219, 0.46), rgba(184, 196, 219, 0.46));
+      background-repeat: no-repeat;
+      background-position: 0 100%;
+      background-size: 100% 1px;
     }
 
     .chvp-eoi-contact a:hover {
       color: var(--chvp-ink-strong);
-      border-bottom-color: rgba(184, 196, 219, 0.48);
+      text-decoration: none;
+    }
+
+    .chvp-eoi-contact a:focus,
+    .chvp-eoi-contact a:active {
+      text-decoration: none;
     }
 
     body.chvp-page .mobile-nav-expand {
@@ -1149,6 +1399,15 @@
     /* ── Responsive ── */
 
     @media (max-width: 900px) {
+      .chvp-hero h1 {
+        font-size: 3.45rem;
+      }
+
+      .chvp-section h2,
+      .chvp-eoi h2 {
+        font-size: 1.9rem;
+      }
+
       .chvp-hero-meta {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem 2rem;
@@ -1172,8 +1431,42 @@
         gap: 1.75rem;
       }
 
+      .chvp-problem--center {
+        width: auto;
+      }
+
       .chvp-fit-grid {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chvp-twin-panels {
+        grid-template-columns: 1fr;
+      }
+
+      .chvp-archetypes {
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+
+      .chvp-archetype,
+      .chvp-archetype:nth-child(odd),
+      .chvp-archetype:nth-child(even) {
+        max-width: none;
+        padding-left: 0;
+        padding-right: 0;
+        border-right: 0;
+      }
+
+      .chvp-archetype:nth-child(-n + 2) {
+        padding-top: 1.7rem;
+      }
+
+      .chvp-archetype:first-child {
+        padding-top: 0;
+      }
+
+      .chvp-archetype:nth-child(n + 2) {
+        border-top: 2px solid rgba(190, 207, 236, 0.13);
       }
 
       .chvp-gallery {
@@ -1216,6 +1509,11 @@
         padding-top: 1.5rem;
         grid-template-columns: 1fr;
         gap: 1.25rem;
+        text-align: center;
+      }
+
+      .chvp-hero-stat {
+        align-items: center;
       }
 
       .chvp-reg--tl,
@@ -1249,13 +1547,18 @@
       }
 
       .chvp-hero h1 {
-        font-size: clamp(2.35rem, 11vw, 3.1rem);
+        font-size: 2.65rem;
         margin-bottom: 0.9rem;
       }
 
       .chvp-hero-summary {
         font-size: 0.95rem;
         line-height: 1.74;
+      }
+
+      .chvp-section h2,
+      .chvp-eoi h2 {
+        font-size: 1.75rem;
       }
 
       .chvp-timeline-item {
@@ -1268,6 +1571,7 @@
       }
 
       .chvp-fit-column,
+      .chvp-twin-panel,
       .chvp-problem,
       .chvp-eoi-card {
         padding-left: 1rem;
@@ -1276,7 +1580,22 @@
 
       .chvp-residents {
         grid-template-columns: 1fr;
-        gap: 2.75rem;
+        gap: 2.35rem;
+      }
+
+      .chvp-resident {
+        align-items: center;
+        text-align: center;
+      }
+
+      .chvp-resident-photo {
+        width: min(100%, 260px);
+      }
+
+      .chvp-resident-info {
+        max-width: 28rem;
+        padding: 0;
+        align-items: center;
       }
 
       .chvp-resident-info h3 {
@@ -1342,10 +1661,10 @@
         <div class="chvp-hero-copy">
           <span class="chvp-hero-kicker">Cambridge, 17-22 August 2026</span>
           <h1>Hardware Assurance Programme</h1>
-          <p class="chvp-hero-summary">Hardware assurance is a new, unsolved technical field: building chips that can make verifiable claims about what they&rsquo;re computing, where they are, and at what scale. Six days in Cambridge to work on it together.</p>
+          <p class="chvp-hero-summary">Six days in Cambridge to build the mechanisms that let third parties verify what AI chips are computing, where they are operating, and at what scale.</p>
           <div class="chvp-hero-actions">
-            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register interest</a>
-            <p class="chvp-hero-meta-note">We&rsquo;ll email you when applications open.</p>
+            <a href="https://airtable.com/app8d6sDud8MgJ4XD/pagpuaD2AcBD7ubbo/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Apply now</a>
+            <p class="chvp-hero-meta-note">Applications close 7 June 2026, 23:59 Anywhere on Earth.</p>
           </div>
         </div>
       </div>
@@ -1360,12 +1679,33 @@
         </div>
         <div class="chvp-hero-stat">
           <span class="chvp-hero-stat-label">Programme size</span>
-          <p class="chvp-hero-stat-value">Cohort of 20</p>
+          <p class="chvp-hero-stat-value">Cohort of twenty</p>
         </div>
         <div class="chvp-hero-stat">
           <span class="chvp-hero-stat-label">Support</span>
           <p class="chvp-hero-stat-value">&pound;1,500 stipend + expenses</p>
         </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
+    <!-- WHAT THIS IS FOR -->
+    <section class="chvp-section">
+      <span class="chvp-section-label">Background</span>
+      <h2>What this is for</h2>
+
+      <div class="chvp-twin-panels">
+        <article class="chvp-twin-panel">
+          <span class="chvp-twin-panel-label">The problem</span>
+          <p>AI governance increasingly depends on claims about how compute is used. Voluntary safety commitments from frontier labs and bilateral discussions between major powers turn on questions about where training runs happen, what hardware is involved, and whether deployed systems match evaluated versions. Today, many of those claims are difficult to check independently.</p>
+          <p>Without practical verification tools, those claims rest on trust alone. The technical infrastructure to verify them independently doesn&rsquo;t yet exist.</p>
+        </article>
+        <article class="chvp-twin-panel">
+          <span class="chvp-twin-panel-label">The work</span>
+          <p>Hardware assurance builds mechanisms for verifying what AI hardware is doing, where it is, and at what scale, while preserving confidentiality where needed. This includes tamper-evident enclosures, telemetry and network monitoring, attestation protocols, and cryptographic approaches to inference verification.</p>
+          <p>The technical work to make these systems real is undersupplied. This programme is for the engineers and researchers who can change that. The field is still small enough that a handful of talent can meaningfully shape its direction.</p>
+        </article>
       </div>
     </section>
 
@@ -1377,7 +1717,7 @@
         <div class="chvp-programme-copy">
           <span class="chvp-section-label">The week</span>
           <h2>How it works</h2>
-          <p class="chvp-section-intro">Six days of talks, working sessions, and project scoping with researchers and practitioners building hardware assurance infrastructure. By Day 6, you present a technical proposal.</p>
+          <p class="chvp-section-intro">Six days of talks, working sessions, and project work with researchers and practitioners building hardware assurance infrastructure. By Day 6, you present what you&rsquo;ve worked on.</p>
         </div>
         <div class="chvp-programme-image">
           <img src="images/meridian-21.jpg" alt="A presentation at Meridian, Cambridge" loading="lazy" decoding="async" width="5616" height="3744">
@@ -1388,43 +1728,43 @@
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Pre-work</span>
           <div>
-            <p class="chvp-timeline-title">Context loading</p>
-            <p class="chvp-timeline-desc">Four weeks out: kick-off call and core reading list.<br>Two weeks out: small-group discussions to work through the readings and surface project interests.</p>
+            <p class="chvp-timeline-title">Preparation</p>
+            <p class="chvp-timeline-desc">Structured preparation so the cohort starts Day 1 with shared context. Four weeks out, an opening call and core reading list.<br>Two weeks out, small-group discussions to work through the readings and surface project interests.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Day 1</span>
           <div>
             <p class="chvp-timeline-title">Arrive and orient</p>
-            <p class="chvp-timeline-desc">Opening session. Meet the residents and your cohort. The regulatory and geopolitical landscape.</p>
+            <p class="chvp-timeline-desc">Welcome and introductions. Meet the residents and the cohort.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Day 2</span>
           <div>
             <p class="chvp-timeline-title">Threat models and proposals</p>
-            <p class="chvp-timeline-desc">The threat models that make this hard. What&rsquo;s been proposed so far, from compute accounting to location verification. Form project groups.</p>
+            <p class="chvp-timeline-desc">Threat models for chip-level verification, including how operators might try to defeat it. The proposals that have emerged so far, from compute accounting to location verification.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Day 3</span>
           <div>
             <p class="chvp-timeline-title">Technical deep dive I</p>
-            <p class="chvp-timeline-desc">Tamper resistance, confidential computing, attestation. Afternoon: working time on your project.</p>
+            <p class="chvp-timeline-desc">Tamper resistance, confidential computing, root-of-trust primitives. Afternoons are project work plus drop-in office hours with the residents.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Day 4</span>
           <div>
             <p class="chvp-timeline-title">Technical deep dive II</p>
-            <p class="chvp-timeline-desc">Inference verification and cryptographic approaches including zero-knowledge proofs. Afternoon: working time on your project.</p>
+            <p class="chvp-timeline-desc">Inference verification, attestation protocols, and cryptographic approaches including zero-knowledge proofs. Afternoons are project work plus one-to-one project reviews and feedback from the residents.</p>
           </div>
         </div>
         <div class="chvp-timeline-item">
           <span class="chvp-timeline-phase">Day 5</span>
           <div>
             <p class="chvp-timeline-title">Who is building what</p>
-            <p class="chvp-timeline-desc">Organisations building in this space present their current work, where they are stuck, and what they need. Time reserved for direct conversations about collaboration and hiring.</p>
+            <p class="chvp-timeline-desc">Organisations building in this space present their current work, the technical bottlenecks they are facing, and what they need. Time reserved for direct conversations about collaboration and hiring.</p>
             <div class="chvp-timeline-logos">
               <span class="chvp-timeline-logos-label">Talks from</span>
               <a class="chvp-timeline-logo" href="https://futureoflife.org/" target="_blank" rel="noopener" aria-label="Future of Life Institute">
@@ -1439,6 +1779,9 @@
               <a class="chvp-timeline-logo" href="https://seldonlab.com/" target="_blank" rel="noopener" aria-label="Seldon Lab">
                 <img src="images/orgs/seldon.png" alt="Seldon Lab" loading="lazy">
               </a>
+              <a class="chvp-timeline-logo" href="https://coefficientgiving.org/" target="_blank" rel="noopener" aria-label="Coefficient Giving">
+                <img src="images/orgs/coefficient.png" alt="Coefficient Giving" loading="lazy" class="chvp-logo-invert">
+              </a>
             </div>
           </div>
         </div>
@@ -1446,7 +1789,8 @@
           <span class="chvp-timeline-phase">Day 6</span>
           <div>
             <p class="chvp-timeline-title">Present and plan what comes next</p>
-            <p class="chvp-timeline-desc">Present your work to peers, residents, and representatives from organisations building in the space. The afternoon turns to next steps: how to apply for <a href="https://coefficientgiving.org/funds/global-catastrophic-risks-opportunities/career-development-and-transition-funding/" target="_blank" rel="noopener">Coefficient Giving&rsquo;s Career Development and Transition Funding</a> if you&rsquo;re considering a transition into the field, <a href="https://bluedot.org/programs/rapid-grants" target="_blank" rel="noopener">BlueDot Impact&rsquo;s Rapid Grants</a> (up to $10,000) for kicking off your own project, and time to plan next steps and start interviewing with the organisations represented in the room.</p>
+            <p class="chvp-timeline-desc">Present your work to peers, residents, and representatives from organisations building in the space.</p>
+            <p class="chvp-timeline-desc">The afternoon turns to what comes after the week. How to apply for <a href="https://coefficientgiving.org/funds/global-catastrophic-risks-opportunities/career-development-and-transition-funding/" target="_blank" rel="noopener">Coefficient Giving&rsquo;s Career Development and Transition Funding</a> if you&rsquo;re considering moving into the field, <a href="https://bluedot.org/programs/rapid-grants" target="_blank" rel="noopener">BlueDot Impact&rsquo;s Rapid Grants</a> (up to $10,000) for kicking off your own project, and time to plan with the organisations represented in the room.</p>
           </div>
         </div>
       </div>
@@ -1469,7 +1813,7 @@
     <section class="chvp-section">
       <span class="chvp-section-label">Residents</span>
       <h2>Who you'll work with</h2>
-      <p class="chvp-section-intro">Residents are domain experts in hardware assurance who join the programme to give talks, run technical sessions, and give feedback on participant projects. More residents will be announced soon.</p>
+      <p class="chvp-section-intro">Residents are domain experts in hardware assurance who join the programme to give talks, run technical sessions, and give feedback on participant projects.</p>
       <div class="chvp-residents">
         <a class="chvp-resident" href="https://www.linkedin.com/in/peter-drotos-93955b187/" target="_blank" rel="noopener" aria-label="Péter Drótos on LinkedIn">
           <img src="images/mentors/peter-drotos.jpeg" alt="Péter Drótos" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
@@ -1510,9 +1854,23 @@
           <img src="images/mentors/daniel-reuter.jpeg" alt="Daniel Reuter" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
           <div class="chvp-resident-info">
             <h3>Daniel Reuter</h3>
-            <p>Scholar, Machine Alignment, Transparency and Security.</p>
+            <p>MATS Scholar (Machine Alignment, Transparency and Security).</p>
           </div>
         </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/mehmetsencan/" target="_blank" rel="noopener" aria-label="Mehmet Sencan on LinkedIn">
+          <img src="images/mentors/mehmet-sencan.jpeg" alt="Mehmet Sencan" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Mehmet Sencan</h3>
+            <p>CEO at Earendil.</p>
+          </div>
+        </a>
+        <div class="chvp-resident chvp-resident--placeholder" aria-hidden="true">
+          <div class="chvp-resident-photo"><span>+</span></div>
+          <div class="chvp-resident-info">
+            <h3>More coming soon</h3>
+            <p>Additional residents will be announced shortly.</p>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -1521,34 +1879,41 @@
     <!-- WHO IT'S FOR -->
     <section class="chvp-section">
       <h2>Who should apply</h2>
-      <p class="chvp-section-intro">Hardware assurance pulls from across a technical stack. We&rsquo;re looking for engineers, researchers, PhD students, and people with unusual backgrounds who can bring technical depth across these areas.</p>
+      <p class="chvp-section-intro">Hardware assurance pulls from across the technical stack. The cohort is a mix of engineers, researchers, and PhD students with depth in one of these areas.</p>
 
-      <div class="chvp-fit-grid">
-        <article class="chvp-fit-tile">
-          <span class="chvp-fit-tile-label">Silicon &amp; firmware</span>
-          <p>Chip and silicon designers (RTL, ASIC, SoC), FPGA engineers, firmware and embedded systems engineers.</p>
+      <div class="chvp-archetypes">
+        <article class="chvp-archetype">
+          <h3>Silicon and firmware</h3>
+          <p>Tamper-evident hardware, silicon-level attestation, and firmware that participates in verification protocols.</p>
+          <p>Backgrounds in RTL, ASIC, SoC, FPGA, or embedded systems.</p>
         </article>
-        <article class="chvp-fit-tile">
-          <span class="chvp-fit-tile-label">Hardware security</span>
-          <p>Hardware security and tamper protection specialists.</p>
+        <article class="chvp-archetype">
+          <h3>Hardware security</h3>
+          <p>Mechanisms that hold up under physical attack and adversarial probing.</p>
+          <p>Backgrounds in secure hardware, side-channel countermeasures, or tamper protection.</p>
         </article>
-        <article class="chvp-fit-tile">
-          <span class="chvp-fit-tile-label">Cryptography &amp; formal methods</span>
-          <p>Applied cryptographers, zero-knowledge proof system builders, and formal methods researchers.</p>
+        <article class="chvp-archetype">
+          <h3>Cryptography and formal methods</h3>
+          <p>Making proof-of-inference practical, formally verifying attestation protocols, building zero-knowledge tooling.</p>
+          <p>Backgrounds in applied cryptography, zero-knowledge proof systems, or formal methods.</p>
         </article>
-        <article class="chvp-fit-tile">
-          <span class="chvp-fit-tile-label">Trusted execution</span>
-          <p>Trusted execution environment, attestation, secure boot, and root-of-trust engineers.</p>
+        <article class="chvp-archetype">
+          <h3>Trusted execution</h3>
+          <p>Designing how labs and chips can prove what they&rsquo;re running to a third party.</p>
+          <p>Backgrounds in TEEs, attestation, secure boot, or root-of-trust systems.</p>
         </article>
-        <article class="chvp-fit-tile">
-          <span class="chvp-fit-tile-label">ML systems</span>
-          <p>ML systems engineers with distributed training infrastructure experience (NCCL, Megatron, DeepSpeed, or equivalent).</p>
+        <article class="chvp-archetype">
+          <h3>ML systems</h3>
+          <p>Figuring out what&rsquo;s actually verifiable in real ML workloads, and how.</p>
+          <p>Backgrounds in distributed training (NCCL, Megatron, DeepSpeed) or large-scale inference.</p>
         </article>
-        <article class="chvp-fit-tile">
-          <span class="chvp-fit-tile-label">Networking</span>
-          <p>High-performance networking engineers, especially those with line-rate observation experience.</p>
+        <article class="chvp-archetype">
+          <h3>Networking</h3>
+          <p>Network-level instrumentation that detects training-scale workloads from outside the rack.</p>
+          <p>Backgrounds in high-performance networking, line-rate packet processing, or deep packet inspection.</p>
         </article>
       </div>
+
     </section>
 
     <div class="divider"><div class="divider-line"></div></div>
@@ -1557,13 +1922,13 @@
     <section class="chvp-section">
       <span class="chvp-section-label">What you'd work on</span>
       <h2>Open problems</h2>
-      <p class="chvp-section-intro">A few examples to give a flavour. The field has many more, and new ones are surfacing as the work matures. The programme is designed as an on-ramp: after the week, participants are connected with organisations, funders, and projects to take their work further.</p>
+      <p class="chvp-section-intro">Some examples of open problems. Participants spend the week tackling one and present their work on Day 6.</p>
 
       <div class="chvp-problems">
         <article class="chvp-problem">
           <span class="chvp-problem-num">01</span>
           <h3>Tamper-evident enclosures for AI hardware</h3>
-          <p>AI accelerators dissipate 1,200W and need liquid cooling. How do you seal them in a tamper-evident enclosure while keeping them cool? Insights from nuclear monitoring and banking HSMs may transfer, but this hasn&rsquo;t been done for GPUs.</p>
+          <p>AI accelerators dissipate 1,200W and need liquid cooling. How do you seal them in a tamper-evident enclosure while keeping them cool? Insights from nuclear monitoring and banking HSMs may transfer, but this hasn&rsquo;t been done for GPUs. Without it, no third party can verify what is running on a chip cluster, regardless of what the operator claims.</p>
         </article>
         <article class="chvp-problem">
           <span class="chvp-problem-num">02</span>
@@ -1580,25 +1945,32 @@
           <h3>Workload classification from hardware telemetry</h3>
           <p>Can you determine what a chip is doing from external signals like power draw, memory access patterns, and network traffic, without seeing the workload itself?</p>
         </article>
+        <article class="chvp-problem chvp-problem--center">
+          <span class="chvp-problem-num">05</span>
+          <h3>Your own idea</h3>
+          <p>Use the pre-work to scope it. Use the week to build the first version, with feedback from the residents and peers.</p>
+        </article>
       </div>
     </section>
 
     <div class="divider"><div class="divider-line"></div></div>
 
-    <!-- EOI -->
+    <!-- APPLY -->
     <section class="chvp-eoi" id="apply">
       <div class="chvp-eoi-card">
         <div class="chvp-eoi-copy">
-          <span class="chvp-section-label chvp-eoi-label">Expression of interest</span>
-          <h2>Register your interest</h2>
-          <p>Twenty spots. Travel, accommodation, and food covered, plus a &pound;1,500 stipend. Register below and we&rsquo;ll be in touch with details before applications open.</p>
+          <span class="chvp-section-label chvp-eoi-label">Apply</span>
+          <h2>Apply now</h2>
+          <p>Cohort of twenty. Travel, accommodation, and food covered, plus a &pound;1,500 stipend.</p>
         </div>
         <div class="chvp-eoi-actions">
-          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register interest</a>
-          <p class="chvp-eoi-deadline">We&rsquo;ll email when applications open</p>
-          <p class="chvp-eoi-contact">Know someone who&rsquo;d be a fit? <a href="mailto:hello@cambridgeaisafety.org?subject=HAP%20referral">Refer them</a>.</p>
-          <p class="chvp-eoi-contact">Questions? <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a></p>
+          <a href="https://airtable.com/app8d6sDud8MgJ4XD/pagpuaD2AcBD7ubbo/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Apply now</a>
+          <p class="chvp-eoi-deadline">Closes 7 June 2026, 23:59 AoE</p>
         </div>
+      </div>
+      <div class="chvp-eoi-extras">
+        <p><a href="https://airtable.com/app8d6sDud8MgJ4XD/paggAKt7sX2yi5eQg/form" target="_blank" rel="noopener">Refer someone</a>. £500 if they join.</p>
+        <p>Questions? <a href="mailto:hello@cambridgeaisafety.org">hello@cambridgeaisafety.org</a></p>
       </div>
     </section>
 
