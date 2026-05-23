@@ -34,7 +34,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload critical resources (render-blocking) -->
-  <link rel="preload" href="/styles.css?v=6be4a467" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/styles.css?v=62b122a0" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link rel="preload" href="/images/punting-min.png" as="image" fetchpriority="high">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
@@ -47,7 +47,7 @@
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
     html{font-size:16px;-webkit-font-smoothing:antialiased}
-    body{font-family:'Space Mono',monospace;background:#fcf7f1;color:#1a1a1a;line-height:1.8;overflow-x:hidden}
+    body{font-family:'Space Mono',monospace;background:#fbfbfa;color:#1a1a1a;line-height:1.8;overflow-x:hidden}
     h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
     h1{font-size:clamp(2.4rem,5.5vw,3.8rem);line-height:1.2}
     nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.1);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
@@ -74,10 +74,10 @@
   </style>
 
   <!-- Styles (async) -->
-  <noscript><link rel="stylesheet" href="/styles.css?v=6be4a467"></noscript>
+  <noscript><link rel="stylesheet" href="/styles.css?v=62b122a0"></noscript>
 
   <!-- Enhancements -->
-  <script src="/enhancements.js?v=ce9c7731" defer fetchpriority="low"></script>
+  <script src="/enhancements.js?v=43722280" defer fetchpriority="low"></script>
 
   <!-- Service Worker Registration -->
   <script>
@@ -144,49 +144,89 @@
     </div>
   </section>
 
-  <div class="divider"><div class="divider-line"></div></div>
+  <section id="join" class="newsletter-band" aria-labelledby="newsletter-title">
+    <div class="newsletter-band-inner">
+      <div class="newsletter-mark" aria-hidden="true">
+        <img src="/images/mailing.png" alt="" width="1370" height="1148" loading="lazy" decoding="async">
+      </div>
+      <div class="newsletter-copy">
+        <h2 id="newsletter-title">Stay in touch</h2>
+        <p>Occasional electronic mailings on programmes we are running, application deadlines, and ways to get involved with CAISH.</p>
+      </div>
+      <form id="cta-signup-form" class="newsletter-form" novalidate>
+        <div class="newsletter-form-row">
+          <input type="email" id="cta-email" class="newsletter-input" placeholder="Email address" required autocomplete="email" aria-label="Email address">
+          <button type="submit" class="newsletter-submit">
+            <span class="newsletter-submit-text">Sign up</span>
+            <span class="newsletter-submit-loading" hidden>Sending&hellip;</span>
+          </button>
+        </div>
+        <p class="newsletter-form-msg" id="cta-form-msg" hidden></p>
+      </form>
+    </div>
+  </section>
 
   <section id="initiatives" class="initiatives">
-    <h2>Core Initiatives</h2>
-    <div class="initiatives-focus-grid">
-      <article class="initiative-focus-card">
-        <span class="initiative-num">01</span>
-        <h3>Student Programming</h3>
-        <p>We help Cambridge students discover AI safety, build technical or governance context, publish their thinking, and meet researchers and professionals working in the field.</p>
-        <div class="initiative-program-list" aria-label="Student programme pages">
-          <a href="/fellowship" class="initiative-program">
-            <span>Alignment Fellowship</span>
+    <div class="initiatives-header">
+      <h2>Core Initiatives</h2>
+      <p class="initiatives-intro">CAISH is Cambridge&rsquo;s home base for people who want the transition to superintelligence to go well. We bring promising students and professionals into AI safety, then help them contribute in three ways:</p>
+    </div>
+
+    <div class="what-we-do" aria-label="What CAISH does">
+      <div class="what-we-do-item">
+        <span class="what-we-do-label">Learn the field</span>
+        <p>Fellowships and introductory programming for students and professionals in Cambridge building technical or governance context.</p>
+      </div>
+      <div class="what-we-do-item">
+        <span class="what-we-do-label">Meet the people</span>
+        <p>Events and socials that make it easier to find peers, mentors, and collaborators in Cambridge.</p>
+      </div>
+      <div class="what-we-do-item">
+        <span class="what-we-do-label">Build useful work</span>
+        <p>Writing support, mentored research, and scoped projects that lead to concrete outputs.</p>
+      </div>
+    </div>
+
+    <div class="programme-groups" aria-label="CAISH programme groups">
+      <article class="programme-group">
+        <div class="programme-group-copy">
+          <h3>For Cambridge</h3>
+          <p>For students, academics, and the broader professional community in Cambridge who want to build AI safety context, find collaborators, and stay connected to the local community.</p>
+        </div>
+        <div class="programme-group-links" aria-label="Cambridge programme pages">
+          <a href="/fellowship" class="programme-group-link">
+            <span class="programme-group-title">Alignment Fellowship</span>
             <small>An introductory course with technical and governance tracks.</small>
           </a>
-          <a href="/desk" class="initiative-program">
-            <span>Alignment Desk</span>
+          <a href="/desk" class="programme-group-link">
+            <span class="programme-group-title">Alignment Desk</span>
             <small>A writing accelerator for developing and publishing AI safety pieces.</small>
           </a>
-          <a href="https://luma.com/meridian" target="_blank" rel="noopener" class="initiative-program">
-            <span>Socials &amp; Events</span>
-            <small>Open events bringing together students and professionals in the Cambridge AI safety community.</small>
+          <a href="https://luma.com/meridian" target="_blank" rel="noopener" class="programme-group-link">
+            <span class="programme-group-title">Socials &amp; Events</span>
+            <small>Open events for students and professionals in the Cambridge AI safety community.</small>
           </a>
         </div>
       </article>
-      <article class="initiative-focus-card">
-        <span class="initiative-num">02</span>
-        <h3>Fieldbuilding Programming</h3>
-        <p>We run career-pipeline programmes for people who want to transition full-time into AI safety, providing supervised projects, concrete outputs, and career support.</p>
-        <div class="initiative-program-list" aria-label="Fieldbuilding programme pages">
-          <a href="/mars" class="initiative-program">
-            <span>MARS</span>
+
+      <article class="programme-group">
+        <div class="programme-group-copy">
+          <h3>For Career Transitions</h3>
+          <p>We run part-time programmes for people exploring a full-time move into AI safety, with supervised projects, concrete outputs, and career support.</p>
+        </div>
+        <div class="programme-group-links" aria-label="Fieldbuilding programme pages">
+          <a href="/mars" class="programme-group-link">
+            <span class="programme-group-title">MARS</span>
             <small>Part-time technical AI safety and governance research with mentors from organisations including Redwood Research, IAPS, and Google DeepMind.</small>
           </a>
-          <a href="/hardware" class="initiative-program">
-            <span>Hardware Assurance Programme</span>
+          <a href="/hardware" class="programme-group-link">
+            <span class="programme-group-title">Hardware Assurance Programme</span>
             <small>Scoped projects for hardware engineers exploring a transition into AI assurance, verification, and compute governance work.</small>
           </a>
         </div>
       </article>
     </div>
   </section>
-
-  <div class="divider"><div class="divider-line"></div></div>
 
   <section class="stories-spotlight">
     <div class="stories-spotlight-header">
@@ -218,12 +258,15 @@
               preload="none"
               poster="/images/hannes-front-still-25.png"
               aria-hidden="true"></video>
-          </span>
-
-          <span class="video-card-body">
-            <span class="video-card-kicker">Video Profile</span>
-            <span class="video-card-title">Hannes Whittingham</span>
-            <span class="video-card-role">CEO, Meridian</span>
+            <span class="video-card-overlay" aria-hidden="true">
+              <span class="video-card-cta">
+                <span class="video-card-play"></span>
+                <span class="video-card-cta-copy">
+                  <span class="video-card-interaction">Watch profile</span>
+                  <strong>Hannes Whittingham</strong>
+                </span>
+              </span>
+            </span>
           </span>
         </a>
       </article>
@@ -250,56 +293,21 @@
               preload="none"
               poster="/images/cam-still.png"
               aria-hidden="true"></video>
-          </span>
-
-          <span class="video-card-body">
-            <span class="video-card-kicker">Video Profile</span>
-            <span class="video-card-title">Cam Tice</span>
-            <span class="video-card-role">Co-Director, Geodesic Research</span>
+            <span class="video-card-overlay" aria-hidden="true">
+              <span class="video-card-cta">
+                <span class="video-card-play"></span>
+                <span class="video-card-cta-copy">
+                  <span class="video-card-interaction">Watch profile</span>
+                  <strong>Cam Tice</strong>
+                </span>
+              </span>
+            </span>
           </span>
         </a>
       </article>
     </div>
   </section>
 
-  <div class="divider"><div class="divider-line"></div></div>
-
-  <section id="events" class="events">
-    <div class="events-header">
-      <div>
-        <h2>Upcoming Events</h2>
-      </div>
-      <a href="https://luma.com/meridian" target="_blank" rel="noopener" class="events-link">View all events</a>
-    </div>
-    <div id="home-events-container">
-      <div class="skeleton-container">
-        <div class="skeleton-event"><div class="skeleton-date"></div><div class="skeleton-info"><div class="skeleton-title"></div><div class="skeleton-location"></div></div></div>
-        <div class="skeleton-event"><div class="skeleton-date"></div><div class="skeleton-info"><div class="skeleton-title"></div><div class="skeleton-location"></div></div></div>
-        <div class="skeleton-event"><div class="skeleton-date"></div><div class="skeleton-info"><div class="skeleton-title"></div><div class="skeleton-location"></div></div></div>
-      </div>
-    </div>
-  </section>
-
-  <section id="join" class="cta dark-bg">
-    <div class="cta-inner cta-inner--simple">
-      <div class="cta-simple">
-        <div class="cta-copy">
-          <p class="cta-label">Newsletter</p>
-          <h2>Sign up for updates</h2>
-        </div>
-        <form id="cta-signup-form" class="cta-form" novalidate>
-          <div class="cta-form-row">
-            <input type="email" id="cta-email" class="cta-input" placeholder="Enter your email" required autocomplete="email" aria-label="Email address">
-            <button type="submit" class="cta-submit">
-              <span class="cta-submit-text">Subscribe</span>
-              <span class="cta-submit-loading" hidden>Sending&hellip;</span>
-            </button>
-          </div>
-          <p class="cta-form-msg" id="cta-form-msg" hidden></p>
-        </form>
-      </div>
-    </div>
-  </section>
   </main>
 
   <!-- Back to Top Button -->
@@ -332,96 +340,7 @@
       }
     };
 
-    const HomeEvents = {
-      escapeHtml(unsafe) {
-        if (typeof unsafe !== 'string') return '';
-        return unsafe
-          .replace(/&/g, '&amp;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;')
-          .replace(/"/g, '&quot;')
-          .replace(/'/g, '&#039;');
-      },
-
-      async init() {
-        const container = document.getElementById('home-events-container');
-        if (!container) return;
-
-        try {
-          const response = await fetch('/.netlify/functions/events?limit=3');
-          const data = await response.json();
-
-          if (!response.ok) {
-            throw new Error(data.error || 'Failed to load events');
-          }
-
-          this.renderEvents(container, data.events);
-        } catch (error) {
-          console.error('Error loading events:', error);
-          container.innerHTML = '<div class="events-empty">Events coming soon.</div>';
-        }
-      },
-
-      formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('en-GB', {
-          weekday: 'short',
-          day: 'numeric',
-          month: 'short'
-        });
-      },
-
-      formatTime(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleTimeString('en-GB', {
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-      },
-
-      renderEvents(container, events) {
-        // Filter to only upcoming events
-        const now = new Date();
-        const upcoming = events.filter(e => {
-          const event = e.event || e;
-          const startDate = new Date(event.start_at || event.start_time);
-          return startDate >= now;
-        });
-
-        if (!upcoming || upcoming.length === 0) {
-          container.innerHTML = '<div class="events-empty">No upcoming events. Check back soon!</div>';
-          return;
-        }
-
-        let html = '<div class="home-events-list">';
-        upcoming.forEach(entry => {
-          const event = entry.event || entry;
-          const name = event.name || 'Untitled Event';
-          const startAt = event.start_at || event.start_time;
-          const url = event.url || (event.api_id ? `https://lu.ma/${event.api_id}` : '#');
-          const location = event.geo_address_info?.city || event.location || 'Cambridge';
-
-          html += `
-            <a href="${this.escapeHtml(url)}" target="_blank" rel="noopener" class="home-event-item">
-              <div class="home-event-date">
-                <span class="home-event-day">${this.escapeHtml(this.formatDate(startAt))}</span>
-                <span class="home-event-time">${this.escapeHtml(this.formatTime(startAt))}</span>
-              </div>
-              <div class="home-event-info">
-                <h3 class="home-event-title">${this.escapeHtml(name)}</h3>
-                <span class="home-event-location">${this.escapeHtml(location)}</span>
-              </div>
-              <span class="home-event-arrow">&rarr;</span>
-            </a>
-          `;
-        });
-        html += '</div>';
-
-        container.innerHTML = html;
-      }
-    };
-
-    const CTAForm = {
+    const NewsletterForm = {
       init() {
         const form = document.getElementById('cta-signup-form');
         if (!form) return;
@@ -434,9 +353,9 @@
       async submit(form) {
         const email = document.getElementById('cta-email');
         const msg = document.getElementById('cta-form-msg');
-        const submitText = form.querySelector('.cta-submit-text');
-        const submitLoading = form.querySelector('.cta-submit-loading');
-        const btn = form.querySelector('.cta-submit');
+        const submitText = form.querySelector('.newsletter-submit-text');
+        const submitLoading = form.querySelector('.newsletter-submit-loading');
+        const btn = form.querySelector('.newsletter-submit');
 
         if (!email.value || !email.validity.valid) {
           this.showMsg(msg, 'Please enter a valid email address.', true);
@@ -485,15 +404,7 @@
       showMsg(el, text, isError) {
         el.textContent = text;
         el.hidden = false;
-        el.className = 'cta-form-msg ' + (isError ? 'cta-form-error' : 'cta-form-success');
-      }
-    };
-
-    const runIdle = (fn) => {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(fn, { timeout: 1500 });
-      } else {
-        setTimeout(fn, 1);
+        el.className = 'newsletter-form-msg ' + (isError ? 'newsletter-form-error' : 'newsletter-form-success');
       }
     };
 
@@ -520,14 +431,12 @@
       ? document.addEventListener('DOMContentLoaded', () => {
           MobileNav.init();
           BackToTop.init();
-          CTAForm.init();
-          runIdle(() => HomeEvents.init());
+          NewsletterForm.init();
         })
       : (() => {
           MobileNav.init();
           BackToTop.init();
-          CTAForm.init();
-          runIdle(() => HomeEvents.init());
+          NewsletterForm.init();
         })();
   </script>
 </body>

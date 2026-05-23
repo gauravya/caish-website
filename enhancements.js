@@ -180,7 +180,7 @@ const Enhancements = {
    */
   initScrollReveal() {
     const revealElements = document.querySelectorAll(
-      '.initiative-item, .event-card, .home-event-item, .timeline-point, ' +
+      '.initiative-item, .event-card, .timeline-point, ' +
       '.feature, .expectation, .track, .mentor, .research-card, .team-member, ' +
       '.mission-text, .mission-image, .about-text, .about-image, ' +
       '.fellowship-content > p, .mars-content > p, .director, ' +
