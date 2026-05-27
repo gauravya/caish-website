@@ -96,6 +96,13 @@
   status = 200
   force = true
 
+# EOI — instant redirect to Airtable form
+[[redirects]]
+  from = "/eoi"
+  to = "https://airtable.com/appJHPLBwGSa1eM4g/pagOfdY1xdlYd1LQM/form"
+  status = 301
+  force = true
+
 # Clean URLs
 [[redirects]]
   from = "/*"
