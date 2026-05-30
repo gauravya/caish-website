@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A four-unit reading course on AI verification: motivation, research agendas, mechanisms, and project ideation.">
+  <title>AI Verification | Course | Cambridge AI Safety Hub</title>
+
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="preload" href="/styles.css?v=62b122a0" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{font-family:'Space Mono',monospace;background:#fbfbfa;color:#1a1a1a;line-height:1.75}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.12);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}}
+  </style>
+
+  <noscript><link rel="stylesheet" href="/styles.css?v=62b122a0"></noscript>
+  <script src="/enhancements.js?v=43722280" defer fetchpriority="low"></script>
+
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260528c">
+  <script src="/course/verification/course.js?v=20260528c" defer></script>
+</head>
+<body class="course-page">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home"><img src="/images/logo.png" alt="Cambridge AI Safety Hub" class="logo" width="50" height="50"></a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+
+    <section class="course-hero">
+      <span class="course-hero-kicker">Cambridge AI Safety Hub · Reading Course</span>
+      <h1>AI Verification</h1>
+      <p class="course-hero-summary">A structured reading course on the technical and political infrastructure for verifying claims about AI development. The course moves from motivation, to the research agendas now forming, to concrete mechanisms, and then into project scoping.</p>
+      <p class="course-hero-summary">Use it as a weekly reading sequence, an independent introduction, or the recommended pre-work for the Hardware Assurance Programme. Progress is saved locally in your browser, so you can move through the units without making an account.</p>
+    </section>
+
+    <section class="course-dashboard" aria-label="Course syllabus">
+      <aside class="course-start-panel">
+        <h2>Four units. One route into verification work.</h2>
+        <p>Start with the governance problem, then move into current agendas, mechanism families, and a project-scoping pass.</p>
+        <div class="course-stat-grid" aria-label="Course load">
+          <div><strong>34</strong><span>readings</span></div>
+          <div><strong>4</strong><span>units</span></div>
+        </div>
+        <a class="course-primary-action" href="/course/verification/1.html">Start Unit 01</a>
+        <a class="course-secondary-action" href="/hardware">Hardware Assurance Programme</a>
+      </aside>
+
+      <div class="course-syllabus">
+        <div class="course-syllabus-head">
+          <p>Open a unit, mark readings as done, and come back where you left off.</p>
+        </div>
+
+        <details class="course-module" open>
+          <summary>
+            <span class="course-module-num">1</span>
+            <span class="course-module-copy">
+              <strong>Why this matters</strong>
+              <small>4 readings · motivation and historical anchors</small>
+            </span>
+          </summary>
+          <div class="course-module-lessons">
+            <a href="/course/verification/1.html#read-1-1" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Computing power as a governance target</strong><small>Core argument</small></span></a>
+            <a href="/course/verification/1.html#read-1-2" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>International AI Safety Report 2025</strong><small>Risk consensus</small></span></a>
+            <a href="/course/verification/1.html#read-1-3" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Why alignment is hard</strong><small>Assurance limits</small></span></a>
+            <a href="/course/verification/1.html#read-1-4" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Nuclear verification lessons</strong><small>Historical case study</small></span></a>
+          </div>
+        </details>
+
+        <details class="course-module" open>
+          <summary>
+            <span class="course-module-num">2</span>
+            <span class="course-module-copy">
+              <strong>What people are pursuing</strong>
+              <small>7 readings · agendas and field map</small>
+            </span>
+          </summary>
+          <div class="course-module-lessons">
+            <a href="/course/verification/2.html#read-2-1" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Technical AI governance open problems</strong><small>Field overview</small></span></a>
+            <a href="/course/verification/2.html#read-2-2" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Hardware-enabled mechanisms</strong><small>Hardware taxonomy</small></span></a>
+            <a href="/course/verification/2.html#read-2-3" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Frontier AI auditing</strong><small>Auditing agenda</small></span></a>
+            <a href="/course/verification/2.html" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Agreement design and compute governance</strong><small>Four further readings</small></span></a>
+          </div>
+        </details>
+
+        <details class="course-module" open>
+          <summary>
+            <span class="course-module-num">3</span>
+            <span class="course-module-copy">
+              <strong>How we could do this</strong>
+              <small>23 readings · mechanism families</small>
+            </span>
+          </summary>
+          <div class="course-module-lessons">
+            <a href="/course/verification/3.html#mech-hardware" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Hardware-rooted approaches</strong><small>Secure chips, flexHEG, memory</small></span></a>
+            <a href="/course/verification/3.html#mech-inference" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Inference verification</strong><small>Statistical and cryptographic checks</small></span></a>
+            <a href="/course/verification/3.html#mech-telemetry" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Telemetry and detection</strong><small>Networks, timing, training rules</small></span></a>
+            <a href="/course/verification/3.html#mech-attestation" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Attestation and audit</strong><small>TEEs, certification, cloud chokepoints</small></span></a>
+            <a href="/course/verification/3.html#mech-components" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Cross-cutting components</strong><small>Training data, erasure, surveys</small></span></a>
+          </div>
+        </details>
+
+        <details class="course-module" open>
+          <summary>
+            <span class="course-module-num">4</span>
+            <span class="course-module-copy">
+              <strong>Project ideation</strong>
+              <small>prompts · move from reading to doing</small>
+            </span>
+          </summary>
+          <div class="course-module-lessons">
+            <a href="/course/verification/4.html#theory-of-change" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Theory of change</strong><small>Where would the result plug in?</small></span></a>
+            <a href="/course/verification/4.html#scoping" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Scoping a project</strong><small>Smallest useful experiment</small></span></a>
+            <a href="/course/verification/4.html#further" class="course-lesson"><span class="course-lesson-dot"></span><span><strong>Where to take it further</strong><small>Programme, RFDs, supervisors, feedback</small></span></a>
+          </div>
+        </details>
+      </div>
+    </section>
+
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-legal">
+          Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 CAISH</span>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>

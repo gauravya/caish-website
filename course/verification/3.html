@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Unit 03: How we could do this. Part of the CAISH AI Verification reading course.">
+  <title>Unit 03 · How we could do this | AI Verification | CAISH</title>
+
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="preload" href="/styles.css?v=62b122a0" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{font-family:'Space Mono',monospace;background:#fbfbfa;color:#1a1a1a;line-height:1.75}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.12);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}}
+  </style>
+
+  <noscript><link rel="stylesheet" href="/styles.css?v=62b122a0"></noscript>
+  <script src="/enhancements.js?v=43722280" defer fetchpriority="low"></script>
+
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260528c">
+  <script src="/course/verification/course.js?v=20260528c" defer></script>
+</head>
+<body class="course-page" data-unit="3">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home"><img src="/images/logo.png" alt="Cambridge AI Safety Hub" class="logo" width="50" height="50"></a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+
+    <div class="course-shell course-shell--unit">
+      <aside class="course-nav" aria-label="Course navigation">
+        <span class="course-nav-label">Contents</span>
+        <ol>
+          <li><a href="/course/verification/"><span>Overview</span><strong>Landing page</strong></a></li>
+          <li><a href="/course/verification/1.html" class=""><span>Unit 01</span><strong>Why this matters</strong></a></li>
+          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>What people are pursuing</strong></a></li>
+          <li><a href="/course/verification/3.html" class="active"><span>Unit 03</span><strong>How we could do this</strong></a></li>
+          <li><a href="/course/verification/4.html" class=""><span>Unit 04</span><strong>Project ideation</strong></a></li>
+        </ol>
+        <div class="course-progress-panel" aria-label="Course progress">
+          <div class="course-progress-topline">
+            <span>Readings marked</span>
+            <strong id="course-progress-count">0</strong>
+          </div>
+          <p class="course-progress-note">Saved in this browser only.</p>
+        </div>
+      </aside>
+
+      <div class="course-content">
+        <section class="course-unit">
+          <span class="course-unit-label">Unit 03</span>
+          <h2>How we could actually do this</h2>
+          <p class="course-unit-intro">This is the engineering unit. It is organised by mechanism family rather than author or year, so you can move from the policy motivation into the practical question: what would actually let a third party verify claims about AI development.</p>
+
+          <h3 id="mech-hardware" class="course-section-header">Hardware-rooted approaches</h3>
+          <p class="course-unit-intro">Hardware-rooted approaches try to build tamper evidence and governance hooks into chips, packaging, memory, or the cluster surrounding them. They are physically grounded, but their deployment cycles are slow and their threat models have to be unusually explicit.</p>
+
+          <div class="course-readings">
+            <article class="course-reading" id="read-3-1" data-reading-id="unit-3-reading-1">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.1</span>
+              </div>
+              <h3>Secure, Governable Chips</h3>
+              <p class="course-reading-authors">Aarne, Fist, Withers (CNAS, 2024)</p>
+              <p class="course-reading-why">A policy-forward case for embedding governance mechanisms in chips. Read for the design constraints this would place on chip vendors and deployers.</p>
+              <span class="course-reading-note">Available via cnas.org.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-2" data-reading-id="unit-3-reading-2">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.2</span>
+              </div>
+              <h3>Hardware-Enabled Governance Mechanisms</h3>
+              <p class="course-reading-authors">Kulp et al. (RAND, 2024)</p>
+              <p class="course-reading-why">A concrete catalogue of possible on-chip governance mechanisms and deployment paths. Useful for understanding vendor incentives and engineering trade-offs.</p>
+              <span class="course-reading-note">Available via rand.org.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-3" data-reading-id="unit-3-reading-3">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.3</span>
+              </div>
+              <h3>Flexible Hardware-Enabled Guarantees (flexHEG)</h3>
+              <p class="course-reading-authors">Petrie, Hodgkins et al. (2025)</p>
+              <p class="course-reading-why">A detailed proposal for a tamper-resistant compute-governance device. Read for the architecture and for the threat-model assumptions it depends on.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2506.15093" target="_blank" rel="noopener">→ arXiv:2506.15093</a>
+            </article>
+
+            <article class="course-reading" id="read-3-4" data-reading-id="unit-3-reading-4">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.4</span>
+              </div>
+              <h3>Guaranteeable Memory: An HBM-Based Chiplet for Verifiable AI Workloads</h3>
+              <p class="course-reading-authors">Petrie (2025)</p>
+              <p class="course-reading-why">A chiplet-level proposal for making memory participate in verifiable AI workloads. Read as a lower-level counterpart to flexHEG-style system designs.</p>
+              <span class="course-reading-note">Available via the AI Security Forum.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-5" data-reading-id="unit-3-reading-5">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.5</span>
+              </div>
+              <h3>Guardain: Protecting Emerging Generative AI Workloads on Heterogeneous NPU</h3>
+              <p class="course-reading-authors">Dhar et al. (IEEE S&amp;P, 2025)</p>
+              <p class="course-reading-why">A hardware security paper focused on protecting generative workloads on NPUs. Read for the accelerator-engineering view of where protection can sit.</p>
+              <span class="course-reading-note">Available via IEEE Xplore.</span>
+            </article>
+          </div>
+
+          <h3 id="mech-inference" class="course-section-header">Inference verification</h3>
+          <p class="course-unit-intro">Inference verification asks whether a deployed model is the model that was safety-tested, without revealing weights or disrupting production workloads. The approaches range from practical statistical checks to heavier cryptographic proofs.</p>
+
+          <div class="course-readings">
+            <article class="course-reading" id="read-3-6" data-reading-id="unit-3-reading-6">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.6</span>
+              </div>
+              <h3>Verifying LLM Inference to Detect Model Weight Exfiltration</h3>
+              <p class="course-reading-authors">Rinberg, Karvonen, Hoover, Reuter, Warr (2025)</p>
+              <p class="course-reading-why">The practical statistical framing of inference verification. Read for FSSL, Token-DiFR, and the limits of detecting model-weight exfiltration from outputs.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2511.02620" target="_blank" rel="noopener">→ arXiv:2511.02620</a>
+            </article>
+
+            <article class="course-reading" id="read-3-7" data-reading-id="unit-3-reading-7">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.7</span>
+              </div>
+              <h3>DiFR: Inference Verification Despite Nondeterminism</h3>
+              <p class="course-reading-authors">Karvonen et al. (2025)</p>
+              <p class="course-reading-why">The companion paper on verification despite nondeterminism. Read alongside Rinberg et al. for the current practical picture of API inference checks.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2511.20621" target="_blank" rel="noopener">→ arXiv:2511.20621</a>
+            </article>
+
+            <article class="course-reading" id="read-3-8" data-reading-id="unit-3-reading-8">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.8</span>
+              </div>
+              <h3>zkLLM: Zero Knowledge Proofs for Large Language Models</h3>
+              <p class="course-reading-authors">Sun et al. (CCS '24)</p>
+              <p class="course-reading-why">The zero-knowledge route for LLM inference. Read for what ZK proofs can guarantee, and the overheads that still make the approach difficult.</p>
+              <span class="course-reading-note">Available via the ACM Digital Library.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-9" data-reading-id="unit-3-reading-9">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.9</span>
+              </div>
+              <h3>Verifiable evaluations of machine learning models using zkSNARKs</h3>
+              <p class="course-reading-authors">South et al. (2024)</p>
+              <p class="course-reading-why">A lighter-weight use of zkSNARKs for verifiable model evaluation. Useful for thinking about audits where the model or data cannot be revealed.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2402.02675" target="_blank" rel="noopener">→ arXiv:2402.02675</a>
+            </article>
+
+            <article class="course-reading" id="read-3-10" data-reading-id="unit-3-reading-10">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.10</span>
+              </div>
+              <h3>ZKML: An Optimizing System for ML Inference in Zero-Knowledge Proofs</h3>
+              <p class="course-reading-authors">Chen et al. (EuroSys '24)</p>
+              <p class="course-reading-why">The systems side of ZK inference: compilers, runtime optimisations, and the engineering work needed to make proofs less expensive.</p>
+              <span class="course-reading-note">Available via the ACM Digital Library.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-11" data-reading-id="unit-3-reading-11">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.11</span>
+              </div>
+              <h3>Trustless Audits without Revealing Data or Models</h3>
+              <p class="course-reading-authors">Waiwitlikhit et al. (ICML, 2024)</p>
+              <p class="course-reading-why">A privacy-preserving audit scheme that lets claims about a model and dataset be checked without revealing either. Read for the threat model.</p>
+              <span class="course-reading-note">Available via the ICML proceedings.</span>
+            </article>
+          </div>
+
+          <h3 id="mech-telemetry" class="course-section-header">Telemetry &amp; detection</h3>
+          <p class="course-unit-intro">Telemetry approaches infer what a system is doing from network traffic, timing, memory access, power, or other observable signals. They matter when verification must work at cluster scale or without chip-vendor cooperation.</p>
+
+          <div class="course-readings">
+            <article class="course-reading" id="read-3-12" data-reading-id="unit-3-reading-12">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.12</span>
+              </div>
+              <h3>The Fundamentals and Feasibility of Secure Network Taps for Verifying AI Datacenter Use</h3>
+              <p class="course-reading-authors">Cankaya et al. (2026)</p>
+              <p class="course-reading-why">A network-layer treatment of workload classification in AI datacentres. Read for what secure taps can and cannot reveal at scale.</p>
+              <span class="course-reading-note">Forthcoming.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-13" data-reading-id="unit-3-reading-13">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.13</span>
+              </div>
+              <h3>Timing and Memory Telemetry on GPUs for AI Governance</h3>
+              <p class="course-reading-authors">Monfared et al. (2026)</p>
+              <p class="course-reading-why">The chip-level analogue to network telemetry. Read for how timing and memory signals might support governance claims about GPU workloads.</p>
+              <span class="course-reading-note">Forthcoming.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-14" data-reading-id="unit-3-reading-14">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.14</span>
+              </div>
+              <h3>What does it take to catch a Chinchilla? Verifying Rules on Large-Scale Neural Network Training</h3>
+              <p class="course-reading-authors">Shavit (2023)</p>
+              <p class="course-reading-why">A training-compute verification proposal. Read for the mechanics of detecting whether large-scale training rules are being followed.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2303.11341" target="_blank" rel="noopener">→ arXiv:2303.11341</a>
+            </article>
+          </div>
+
+          <h3 id="mech-attestation" class="course-section-header">Attestation &amp; audit</h3>
+          <p class="course-unit-intro">Attestation and audit approaches create institutional or technical routes for a third party to trust specific claims: what ran, where it ran, who certified it, and which intermediary can be held responsible.</p>
+
+          <div class="course-readings">
+            <article class="course-reading" id="read-3-15" data-reading-id="unit-3-reading-15">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.15</span>
+              </div>
+              <h3>Attestable Audits: Verifiable AI Safety Benchmarks Using Trusted Execution Environments</h3>
+              <p class="course-reading-authors">Schabl et al. (2025)</p>
+              <p class="course-reading-why">A TEE-based approach to verifiable AI safety benchmarks. Read for the promise and fragility of trusting secure execution environments.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2506.23706" target="_blank" rel="noopener">→ arXiv:2506.23706</a>
+            </article>
+
+            <article class="course-reading" id="read-3-16" data-reading-id="unit-3-reading-16">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.16</span>
+              </div>
+              <h3>International Governance of Civilian AI: A Jurisdictional Certification Approach</h3>
+              <p class="course-reading-authors">Trager (2023)</p>
+              <p class="course-reading-why">An alternative trust model based on jurisdictional certification. Useful when hardware alone cannot carry the verification burden.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2308.15514" target="_blank" rel="noopener">→ arXiv:2308.15514</a>
+            </article>
+
+            <article class="course-reading" id="read-3-17" data-reading-id="unit-3-reading-17">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.17</span>
+              </div>
+              <h3>Governing Through the Cloud: The Intermediary Role of Compute Providers in AI Regulation</h3>
+              <p class="course-reading-authors">Heim et al. (Oxford Martin, 2024)</p>
+              <p class="course-reading-why">The cloud-provider chokepoint argument. Read for why compute providers may be central institutional actors in any realistic verification regime.</p>
+              <span class="course-reading-note">Available via Oxford Martin.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-18" data-reading-id="unit-3-reading-18">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.18</span>
+              </div>
+              <h3>Verification Methods for International AI Agreements</h3>
+              <p class="course-reading-authors">Wasil et al. (2024)</p>
+              <p class="course-reading-why">A comparative survey across hardware, cryptographic, inspection, and institutional mechanisms. Read for deciding which mechanism fits which agreement.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2408.16074" target="_blank" rel="noopener">→ arXiv:2408.16074</a>
+            </article>
+          </div>
+
+          <h3 id="mech-components" class="course-section-header">Cross-cutting components</h3>
+          <p class="course-unit-intro">Some work contributes a component rather than a whole verification regime. These pieces are useful for project ideas that combine hardware, software, cryptography, and audit design.</p>
+
+          <div class="course-readings">
+            <article class="course-reading" id="read-3-19" data-reading-id="unit-3-reading-19">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.19</span>
+              </div>
+              <h3>Tools for verifying neural models' training data</h3>
+              <p class="course-reading-authors">Choi et al. (NeurIPS '23)</p>
+              <p class="course-reading-why">A training-data verification problem: how can a verifier check what data a model was trained on. Read as a counterpoint to inference-focused mechanisms.</p>
+              <span class="course-reading-note">Available via the NeurIPS proceedings.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-20" data-reading-id="unit-3-reading-20">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.20</span>
+              </div>
+              <h3>Software-Based Memory Erasure with relaxed isolation requirements</h3>
+              <p class="course-reading-authors">Bursuc et al. (2024)</p>
+              <p class="course-reading-why">A memory-erasure protocol relevant to audits that require proof that sensitive data, weights, or checkpoints have actually been destroyed.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2401.06626" target="_blank" rel="noopener">→ arXiv:2401.06626</a>
+            </article>
+
+            <article class="course-reading" id="read-3-21" data-reading-id="unit-3-reading-21">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.21</span>
+              </div>
+              <h3>Off-Chip Compute Verification</h3>
+              <p class="course-reading-authors">Baker (2026)</p>
+              <p class="course-reading-why">The cluster-level version of compute verification. Useful for regimes that cannot rely on modified chips or vendor cooperation.</p>
+              <span class="course-reading-note">Forthcoming.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-22" data-reading-id="unit-3-reading-22">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.22</span>
+              </div>
+              <h3>Verification Mechanisms</h3>
+              <p class="course-reading-authors">Peigne et al. (2026)</p>
+              <p class="course-reading-why">A broad survey of verification mechanisms. Read alongside the other taxonomies to compare how researchers are carving up the space.</p>
+              <span class="course-reading-note">Forthcoming.</span>
+            </article>
+
+            <article class="course-reading" id="read-3-23" data-reading-id="unit-3-reading-23">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 3.23</span>
+              </div>
+              <h3>AI Security Forum — Requests for Discussion</h3>
+              <p class="course-reading-authors">AI Security Forum (2024-2025)</p>
+              <p class="course-reading-why">Short problem-shaped requests for discussion. Treat these as project seeds: each one points at a concrete verification gap.</p>
+              <span class="course-reading-note">Available via aisecurityforum.org.</span>
+            </article>
+          </div>
+        </section>
+
+        <div class="course-unit-pager" role="navigation" aria-label="Unit navigation">
+    <a href="/course/verification/2.html">
+      <span class="course-unit-pager-label">← Unit 02</span>
+      <span class="course-unit-pager-title">What people are pursuing</span>
+    </a>
+    <a href="/course/verification/4.html" class="course-unit-pager-next">
+      <span class="course-unit-pager-label">Unit 04 →</span>
+      <span class="course-unit-pager-title">Project ideation</span>
+    </a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-legal">
+          Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 CAISH</span>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>

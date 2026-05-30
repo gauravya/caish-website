@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Unit 04: Project ideation. Part of the CAISH AI Verification reading course.">
+  <title>Unit 04 · Project ideation | AI Verification | CAISH</title>
+
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="preload" href="/styles.css?v=62b122a0" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{font-family:'Space Mono',monospace;background:#fbfbfa;color:#1a1a1a;line-height:1.75}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.12);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}}
+  </style>
+
+  <noscript><link rel="stylesheet" href="/styles.css?v=62b122a0"></noscript>
+  <script src="/enhancements.js?v=43722280" defer fetchpriority="low"></script>
+
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260528c">
+  <script src="/course/verification/course.js?v=20260528c" defer></script>
+</head>
+<body class="course-page" data-unit="4">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home"><img src="/images/logo.png" alt="Cambridge AI Safety Hub" class="logo" width="50" height="50"></a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+
+    <div class="course-shell course-shell--unit">
+      <aside class="course-nav" aria-label="Course navigation">
+        <span class="course-nav-label">Contents</span>
+        <ol>
+          <li><a href="/course/verification/"><span>Overview</span><strong>Landing page</strong></a></li>
+          <li><a href="/course/verification/1.html" class=""><span>Unit 01</span><strong>Why this matters</strong></a></li>
+          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>What people are pursuing</strong></a></li>
+          <li><a href="/course/verification/3.html" class=""><span>Unit 03</span><strong>How we could do this</strong></a></li>
+          <li><a href="/course/verification/4.html" class="active"><span>Unit 04</span><strong>Project ideation</strong></a></li>
+        </ol>
+        <div class="course-progress-panel" aria-label="Course progress">
+          <div class="course-progress-topline">
+            <span>Readings marked</span>
+            <strong id="course-progress-count">0</strong>
+          </div>
+          <p class="course-progress-note">Saved in this browser only.</p>
+        </div>
+      </aside>
+
+      <div class="course-content">
+        <section class="course-unit">
+          <span class="course-unit-label">Unit 04</span>
+          <h2>Project ideation</h2>
+          <p class="course-unit-intro">Units 1-3 give you the landscape. This unit helps you decide where effort might compound: implementing a small piece of a published mechanism, sharpening an open question, or testing an assumption the field keeps repeating.</p>
+          <p class="course-unit-intro">The goal is not to write a grand proposal. The goal is to make your theory of change, smallest experiment, and failure conditions explicit enough that the project can actually begin.</p>
+
+          <h3 id="theory-of-change" class="course-section-header">Theory of change</h3>
+          <p class="course-unit-intro">Verification work can become technically interesting without becoming useful. Before committing, identify which institution, decision, or policy lever your result would plug into.</p>
+
+          <div class="course-toc-placeholder">
+            <span class="course-toc-placeholder-label">Reading on theory of change</span>
+            <h3>Links to come</h3>
+            <p>Curated set of theory-of-change resources will go here. Expect two to four short pieces that walk through what theory of change means for technical AI safety and verification work, and how to write one for your own project.</p>
+            <p style="font-size:0.85rem;color:var(--course-fine);font-style:italic;">Course author note: links to be added.</p>
+          </div>
+
+          <h3 id="scoping" class="course-section-header">Scoping a project</h3>
+          <p class="course-unit-intro">Work through these prompts in a notebook or with a collaborator. Aim for one sentence per prompt. The point is to force choices, not to produce polished prose.</p>
+
+          <ul class="course-prompts">
+            <li>Which mechanism family from Unit 3 are you most drawn to, and why is your existing technical background useful there.</li>
+            <li>Pick one specific paper from that family. What is the smallest extension of it that would teach you something the field does not already know.</li>
+            <li>If your project succeeded, what would change in the world. Who would act on the result. Who is the named person or institution you can picture using it.</li>
+            <li>What is the cheapest experiment that would tell you whether the project is worth doing at all.</li>
+            <li>What is your biggest unknown right now, and which other reading or which conversation would resolve it.</li>
+            <li>What would make you abandon the project. Pre-commit to the failure conditions before you start.</li>
+          </ul>
+
+          <h3 id="further" class="course-section-header">Where to take this further</h3>
+          <p class="course-unit-intro">A few concrete routes if you want to move from reading into applied work.</p>
+
+          <ul class="course-prompts">
+            <li>The <a href="/hardware">Hardware Assurance Programme</a> is the most direct route from this course to applied project work. Six days in Cambridge with residents from FLI, MIRI, Intel, ARM, and others working on the open problems above.</li>
+            <li>The AI Security Forum's RFD list is the closest thing to a public problem queue. Pick one, scope it down, and start.</li>
+            <li>If you are based at a university, identify the closest faculty member (hardware security, cryptography, or AI policy) and ask if they would supervise even an informal reading group on one of the agendas in Unit 2.</li>
+            <li>If you write up your project sketch and want feedback, the Cambridge AI Safety Hub team is happy to read drafts. Email <a href="mailto:hello@caish.org">hello@caish.org</a>.</li>
+          </ul>
+        </section>
+
+        <div class="course-unit-pager" role="navigation" aria-label="Unit navigation">
+    <a href="/course/verification/3.html">
+      <span class="course-unit-pager-label">← Unit 03</span>
+      <span class="course-unit-pager-title">How we could do this</span>
+    </a>
+    <a href="/hardware" class="course-unit-pager-next">
+      <span class="course-unit-pager-label">Next →</span>
+      <span class="course-unit-pager-title">Hardware Assurance Programme</span>
+    </a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-legal">
+          Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 CAISH</span>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>

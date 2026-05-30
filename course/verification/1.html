@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Unit 01: Why this matters. Part of the CAISH AI Verification reading course.">
+  <title>Unit 01 · Why this matters | AI Verification | CAISH</title>
+
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link rel="preload" href="/styles.css?v=62b122a0" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{font-family:'Space Mono',monospace;background:#fbfbfa;color:#1a1a1a;line-height:1.75}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.12);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}}
+  </style>
+
+  <noscript><link rel="stylesheet" href="/styles.css?v=62b122a0"></noscript>
+  <script src="/enhancements.js?v=43722280" defer fetchpriority="low"></script>
+
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260528c">
+  <script src="/course/verification/course.js?v=20260528c" defer></script>
+</head>
+<body class="course-page" data-unit="1">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home"><img src="/images/logo.png" alt="Cambridge AI Safety Hub" class="logo" width="50" height="50"></a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <main id="main-content">
+
+    <div class="course-shell course-shell--unit">
+      <aside class="course-nav" aria-label="Course navigation">
+        <span class="course-nav-label">Contents</span>
+        <ol>
+          <li><a href="/course/verification/"><span>Overview</span><strong>Landing page</strong></a></li>
+          <li><a href="/course/verification/1.html" class="active"><span>Unit 01</span><strong>Why this matters</strong></a></li>
+          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>What people are pursuing</strong></a></li>
+          <li><a href="/course/verification/3.html" class=""><span>Unit 03</span><strong>How we could do this</strong></a></li>
+          <li><a href="/course/verification/4.html" class=""><span>Unit 04</span><strong>Project ideation</strong></a></li>
+        </ol>
+        <div class="course-progress-panel" aria-label="Course progress">
+          <div class="course-progress-topline">
+            <span>Readings marked</span>
+            <strong id="course-progress-count">0</strong>
+          </div>
+          <p class="course-progress-note">Saved in this browser only.</p>
+        </div>
+      </aside>
+
+      <div class="course-content">
+        <section class="course-unit">
+          <span class="course-unit-label">Unit 01</span>
+          <h2>Why this matters</h2>
+          <p class="course-unit-intro">Frontier AI development is concentrating in a small number of labs running clusters that cost billions to build and that outside institutions cannot currently observe. This unit makes the case that governance claims only matter when someone can check whether they are true.</p>
+          <p class="course-unit-intro">Start with compute as a governable input, ground the argument in the current AI risk consensus, then use nuclear arms-control verification as a historical anchor for what mature verification regimes actually require.</p>
+
+          <div class="course-readings">
+            <article class="course-reading" id="read-1-1" data-reading-id="unit-1-reading-1">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 1.1</span>
+              </div>
+              <h3>Computing Power and the Governance of Artificial Intelligence</h3>
+              <p class="course-reading-authors">Sastry, Heim, Anderljung et al. (2024)</p>
+              <p class="course-reading-why">The canonical argument that compute is more governable than data, talent, or algorithmic insight. Read for the strategic frame: AI governance worth building depends on whether claims about compute can be verified.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2402.08797" target="_blank" rel="noopener">→ arXiv:2402.08797</a>
+            </article>
+
+            <article class="course-reading" id="read-1-2" data-reading-id="unit-1-reading-2">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 1.2</span>
+              </div>
+              <h3>International AI Safety Report 2025</h3>
+              <p class="course-reading-authors">Bengio et al. (2025)</p>
+              <p class="course-reading-why">The closest the field has to a consensus risk statement written for governments. Read the risk sections to understand what verification is ultimately trying to make governable.</p>
+              <span class="course-reading-note">Available at gov.uk/government/publications/international-ai-safety-report-2025.</span>
+            </article>
+
+            <article class="course-reading" id="read-1-3" data-reading-id="unit-1-reading-3">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 1.3</span>
+              </div>
+              <h3>Foundational Challenges in Assuring Alignment and Safety of Large Language Models</h3>
+              <p class="course-reading-authors">Anwar et al. (2024)</p>
+              <p class="course-reading-why">If alignment were solved, the case for external verification would be weaker. Read for the open problems that make assurance through behaviour alone unreliable.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2404.09932" target="_blank" rel="noopener">→ arXiv:2404.09932</a>
+            </article>
+
+            <article class="course-reading" id="read-1-4" data-reading-id="unit-1-reading-4">
+              <div class="course-reading-meta">
+                <span class="course-reading-num">READ 1.4</span>
+              </div>
+              <h3>Nuclear Arms Control Verification and Lessons for AI Treaties</h3>
+              <p class="course-reading-authors">Baker (2023)</p>
+              <p class="course-reading-why">A concrete account of treaty verification in another high-stakes domain. Read for institutional architecture, on-site inspection, seals, failure modes, and which lessons transfer to AI.</p>
+              <a class="course-reading-link" href="https://arxiv.org/abs/2304.04123" target="_blank" rel="noopener">→ arXiv:2304.04123</a>
+            </article>
+          </div>
+        </section>
+
+        <div class="course-unit-pager" role="navigation" aria-label="Unit navigation">
+    <a href="/course/verification/">
+      <span class="course-unit-pager-label">← Back</span>
+      <span class="course-unit-pager-title">Course overview</span>
+    </a>
+    <a href="/course/verification/2.html" class="course-unit-pager-next">
+      <span class="course-unit-pager-label">Unit 02 →</span>
+      <span class="course-unit-pager-title">What people are pursuing</span>
+    </a>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-legal">
+          Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 CAISH</span>
+      </div>
+    </footer>
+  </main>
+
+</body>
+</html>

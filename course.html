@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The Hardware Assurance Programme pre-work curriculum. Four weeks of structured reading and discussion to bring the cohort to a shared starting point on Day 1.">
+  <title>Course | Hardware Assurance Programme | Cambridge AI Safety Hub</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://caish.org/hardware/course">
+  <meta property="og:title" content="Hardware Assurance Programme — Course">
+  <meta property="og:description" content="Four weeks of structured pre-work to bring the cohort to a shared starting point on Day 1.">
+  <meta property="og:image" content="https://caish.org/images/hardware-social.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://caish.org/hardware/course">
+  <meta name="twitter:title" content="Hardware Assurance Programme — Course">
+  <meta name="twitter:description" content="Four weeks of structured pre-work to bring the cohort to a shared starting point on Day 1.">
+  <meta name="twitter:image" content="https://caish.org/images/hardware-social.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/favicon.png">
+
+  <!-- DNS Prefetch & Preconnect -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+
+  <!-- Critical CSS -->
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+    body{font-family:'Space Mono',monospace;background:#fbfbfa;color:#1a1a1a;line-height:1.8}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.1);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}}
+  </style>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css?v=c89875ef">
+
+  <!-- Enhancements -->
+  <script src="enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
+
+  <!-- Page-specific styles -->
+  <style>
+    body.chvp-page {
+      --chvp-ink: #e8edf7;
+      --chvp-ink-strong: #ffffff;
+      --chvp-copy: #d8e1f0;
+      --chvp-muted: #c8d3e5;
+      --chvp-paper: rgba(255, 255, 255, 0.04);
+      --chvp-panel: rgba(255, 255, 255, 0.065);
+      --chvp-line: rgba(190, 207, 236, 0.13);
+      --chvp-line-strong: rgba(205, 220, 246, 0.26);
+      --chvp-accent: #8795ae;
+      --chvp-accent-strong: #c2cde1;
+      --chvp-bg: #010514;
+      font-family: var(--font-mono);
+      color: var(--chvp-ink);
+      background-color: var(--chvp-bg);
+      letter-spacing: 0;
+      text-rendering: optimizeLegibility;
+      background-image:
+        linear-gradient(rgba(180, 200, 230, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(180, 200, 230, 0.05) 1px, transparent 1px),
+        linear-gradient(180deg, #010514 0%, #010514 100%);
+      background-size: 2.2rem 2.2rem, 2.2rem 2.2rem, auto;
+    }
+
+    body.chvp-page::after {
+      height: min(1200px, 95vh);
+      background:
+        radial-gradient(ellipse 76% 44% at 82% 8%, rgba(140, 170, 230, 0.12) 0%, rgba(140, 170, 230, 0.025) 32%, transparent 68%),
+        radial-gradient(ellipse 70% 38% at 18% 14%, rgba(120, 150, 210, 0.09) 0%, rgba(120, 150, 210, 0.018) 32%, transparent 68%),
+        linear-gradient(180deg, rgba(180, 200, 230, 0.06) 0%, rgba(180, 200, 230, 0.015) 24%, transparent 70%);
+    }
+
+    body.chvp-page nav {
+      background: rgba(1, 5, 20, 0.84);
+      border-bottom: 1px solid rgba(180, 200, 230, 0.12);
+      backdrop-filter: blur(12px) saturate(1.05);
+      -webkit-backdrop-filter: blur(12px) saturate(1.05);
+    }
+
+    body.chvp-page .logo {
+      filter: invert(1) brightness(1.3);
+      opacity: 0.85;
+    }
+
+    body.chvp-page .nav-links a {
+      font-size: 0.75rem;
+      color: rgba(232, 237, 247, 0.72);
+    }
+
+    body.chvp-page .nav-links a:hover { color: var(--chvp-ink-strong); }
+    body.chvp-page .nav-links a.active { color: var(--chvp-ink-strong); }
+
+    body.chvp-page h1,
+    body.chvp-page h2,
+    body.chvp-page h3 { letter-spacing: 0; }
+
+    body.chvp-page .nav-toggle span { background: var(--chvp-ink); }
+
+    body.chvp-page ::selection {
+      background: rgba(184, 196, 219, 0.32);
+      color: var(--chvp-ink-strong);
+    }
+
+    body.chvp-page .mobile-nav {
+      background: rgba(1, 5, 20, 0.96);
+      backdrop-filter: blur(12px) saturate(1.05);
+    }
+
+    body.chvp-page .mobile-nav a { color: var(--chvp-ink); }
+    body.chvp-page .mobile-nav > ul > li { border-bottom: 1px solid rgba(180, 200, 230, 0.08); }
+    body.chvp-page .mobile-nav-close { color: var(--chvp-ink); }
+    body.chvp-page .nav-dropdown { background: rgba(1, 7, 24, 0.96); border: 1px solid rgba(180, 200, 230, 0.14); }
+    body.chvp-page .nav-dropdown a { color: rgba(232, 237, 247, 0.72); }
+    body.chvp-page .nav-dropdown a:hover { color: var(--chvp-ink-strong); }
+
+    /* ── Course hero ── */
+
+    .chvp-course-hero {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 7rem 2.5rem 3rem;
+      position: relative;
+    }
+
+    .chvp-course-hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1rem;
+      font-size: 0.63rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+    }
+
+    .chvp-course-hero-kicker::before {
+      content: '';
+      width: 3rem;
+      height: 1px;
+      background: linear-gradient(
+        to right,
+        rgba(184, 196, 219, 0.7) 0%,
+        rgba(184, 196, 219, 0.7) 19%,
+        transparent 19%,
+        transparent 21%,
+        rgba(184, 196, 219, 0.7) 21%,
+        rgba(184, 196, 219, 0.7) 100%
+      );
+    }
+
+    .chvp-course-hero h1 {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-weight: 400;
+      font-variation-settings: "opsz" 144, "SOFT" 50;
+      font-size: 4.45rem;
+      line-height: 1;
+      margin-bottom: 1.35rem;
+      color: var(--chvp-ink-strong);
+      text-wrap: balance;
+    }
+
+    .chvp-course-hero-summary {
+      max-width: 56ch;
+      font-size: 1.02rem;
+      line-height: 1.8;
+      color: var(--chvp-copy);
+    }
+
+    /* ── Overview grid (4-week summary) ── */
+
+    .chvp-course-overview {
+      max-width: 1100px;
+      margin: 2.5rem auto 4rem;
+      padding: 0 2.5rem;
+    }
+
+    .chvp-course-overview-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--chvp-line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.025);
+      overflow: hidden;
+    }
+
+    .chvp-overview-cell {
+      padding: 1.4rem 1.5rem 1.5rem;
+    }
+
+    .chvp-overview-cell + .chvp-overview-cell {
+      border-left: 1px solid var(--chvp-line);
+    }
+
+    .chvp-overview-cell-label {
+      display: block;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 0.5rem;
+    }
+
+    .chvp-overview-cell-title {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-size: 1.15rem;
+      color: var(--chvp-ink-strong);
+      line-height: 1.3;
+      margin-bottom: 0.5rem;
+    }
+
+    .chvp-overview-cell-desc {
+      font-size: 0.83rem;
+      color: var(--chvp-muted);
+      line-height: 1.55;
+    }
+
+    /* ── Course shell: sidebar + content ── */
+
+    .chvp-course-shell {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2.5rem 6rem;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 4rem;
+      position: relative;
+    }
+
+    .chvp-course-nav {
+      position: sticky;
+      top: 6rem;
+      align-self: start;
+      padding-top: 0.5rem;
+      max-height: calc(100vh - 8rem);
+      overflow-y: auto;
+    }
+
+    .chvp-course-nav-label {
+      display: block;
+      font-size: 0.6rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 1rem;
+    }
+
+    .chvp-course-nav ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .chvp-course-nav > ol > li {
+      margin-bottom: 1.15rem;
+      padding-left: 0;
+    }
+
+    .chvp-course-nav > ol > li > a {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--chvp-muted);
+      text-decoration: none;
+      padding: 0.35rem 0;
+      border-left: 2px solid transparent;
+      padding-left: 0.75rem;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .chvp-course-nav > ol > li > a:hover {
+      color: var(--chvp-ink-strong);
+      border-left-color: var(--chvp-accent-strong);
+    }
+
+    .chvp-course-nav > ol > li > a.active {
+      color: var(--chvp-ink-strong);
+      border-left-color: var(--chvp-accent-strong);
+    }
+
+    .chvp-course-nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.4rem 0 0 0;
+    }
+
+    .chvp-course-nav ul li {
+      margin-bottom: 0.15rem;
+    }
+
+    .chvp-course-nav ul li a {
+      display: block;
+      font-size: 0.72rem;
+      color: rgba(200, 211, 229, 0.55);
+      text-decoration: none;
+      padding: 0.25rem 0 0.25rem 1.5rem;
+      border-left: 1px solid transparent;
+      transition: color 0.2s ease;
+    }
+
+    .chvp-course-nav ul li a:hover {
+      color: var(--chvp-ink);
+    }
+
+    /* ── Main content ── */
+
+    .chvp-course-content {
+      min-width: 0;
+    }
+
+    .chvp-course-week {
+      padding-top: 2rem;
+      padding-bottom: 4rem;
+      scroll-margin-top: 5.5rem;
+    }
+
+    .chvp-course-week + .chvp-course-week {
+      border-top: 1px solid var(--chvp-line);
+    }
+
+    .chvp-course-week-label {
+      display: inline-block;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 1rem;
+    }
+
+    .chvp-course-week h2 {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-variation-settings: "opsz" 72, "SOFT" 35;
+      font-size: 2.4rem;
+      line-height: 1.15;
+      margin-bottom: 1.2rem;
+      color: var(--chvp-ink-strong);
+      text-wrap: balance;
+    }
+
+    .chvp-course-week-intro {
+      font-size: 1.02rem;
+      line-height: 1.8;
+      color: var(--chvp-copy);
+      max-width: 58ch;
+      margin-bottom: 2.5rem;
+    }
+
+    .chvp-course-section-header {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-size: 1.25rem;
+      color: var(--chvp-ink-strong);
+      margin-top: 2.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Reading cards ── */
+
+    .chvp-readings {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+    }
+
+    .chvp-reading-card {
+      padding: 1.6rem 1.7rem 1.7rem;
+      border: 1px solid var(--chvp-line);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.022));
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.028);
+      transition: border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    }
+
+    .chvp-reading-card:hover {
+      border-color: var(--chvp-line-strong);
+      background: var(--chvp-panel);
+      transform: translateY(-1px);
+    }
+
+    .chvp-reading-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+    }
+
+    .chvp-reading-num {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--chvp-accent-strong);
+    }
+
+    .chvp-reading-time {
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: var(--chvp-muted);
+      padding-left: 0.85rem;
+      border-left: 1px solid var(--chvp-line);
+    }
+
+    .chvp-reading-tag {
+      display: inline-block;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      padding: 0.18rem 0.55rem;
+      border: 1px solid var(--chvp-line-strong);
+      border-radius: 999px;
+    }
+
+    .chvp-reading-card h3 {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-size: 1.25rem;
+      line-height: 1.3;
+      color: var(--chvp-ink-strong);
+      margin-bottom: 0.4rem;
+    }
+
+    .chvp-reading-authors {
+      font-size: 0.85rem;
+      color: var(--chvp-muted);
+      margin-bottom: 1rem;
+    }
+
+    .chvp-reading-why {
+      font-size: 0.94rem;
+      line-height: 1.72;
+      color: var(--chvp-copy);
+      margin-bottom: 1rem;
+      max-width: 64ch;
+    }
+
+    .chvp-reading-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      color: var(--chvp-accent-strong);
+      text-decoration: none;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .chvp-reading-link:hover {
+      color: var(--chvp-ink-strong);
+      border-bottom-color: var(--chvp-accent-strong);
+    }
+
+    .chvp-reading-link-note {
+      font-size: 0.78rem;
+      color: var(--chvp-muted);
+      font-style: italic;
+    }
+
+    /* Optional reading */
+    .chvp-reading-card--optional {
+      border-style: dashed;
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    /* ── Track tabs (Week 2) ── */
+
+    .chvp-track-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 2rem 0 2rem;
+      padding: 0.4rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--chvp-line);
+      border-radius: 14px;
+    }
+
+    .chvp-track-tab {
+      background: none;
+      border: 1px solid transparent;
+      color: var(--chvp-muted);
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      padding: 0.55rem 0.95rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .chvp-track-tab:hover {
+      color: var(--chvp-ink-strong);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .chvp-track-tab.active {
+      color: var(--chvp-ink-strong);
+      background: rgba(184, 196, 219, 0.14);
+      border-color: var(--chvp-line-strong);
+    }
+
+    .chvp-track-content {
+      animation: fade-in 0.2s ease;
+    }
+
+    .chvp-track-content[hidden] {
+      display: none;
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .chvp-track-content h3 {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-size: 1.4rem;
+      color: var(--chvp-ink-strong);
+      margin-bottom: 0.6rem;
+    }
+
+    .chvp-track-content-desc {
+      font-size: 0.94rem;
+      color: var(--chvp-copy);
+      line-height: 1.72;
+      margin-bottom: 1.6rem;
+      max-width: 62ch;
+    }
+
+    /* ── Discussion / call boxes ── */
+
+    .chvp-discussion {
+      margin-top: 2rem;
+      padding: 1.6rem 1.7rem;
+      border: 1px solid var(--chvp-line-strong);
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(184, 196, 219, 0.06), rgba(255, 255, 255, 0.015));
+    }
+
+    .chvp-discussion-label {
+      display: block;
+      font-size: 0.62rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      margin-bottom: 0.85rem;
+    }
+
+    .chvp-discussion h3 {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-size: 1.2rem;
+      color: var(--chvp-ink-strong);
+      margin-bottom: 0.75rem;
+    }
+
+    .chvp-discussion p {
+      font-size: 0.94rem;
+      color: var(--chvp-copy);
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      max-width: 62ch;
+    }
+
+    .chvp-discussion-prompts {
+      margin: 0;
+      padding-left: 1.5rem;
+      list-style: none;
+    }
+
+    .chvp-discussion-prompts li {
+      font-size: 0.92rem;
+      color: var(--chvp-copy);
+      line-height: 1.65;
+      margin-bottom: 0.65rem;
+      padding-left: 0;
+      position: relative;
+    }
+
+    .chvp-discussion-prompts li::before {
+      content: '→';
+      position: absolute;
+      left: -1.5rem;
+      color: var(--chvp-accent-strong);
+      font-size: 0.85rem;
+      top: 0.15rem;
+    }
+
+    /* ── Reading load summary table (end of page) ── */
+
+    .chvp-course-summary {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 6rem;
+      border-top: 1px solid var(--chvp-line);
+    }
+
+    .chvp-course-summary h2 {
+      font-family: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+      font-size: 1.8rem;
+      color: var(--chvp-ink-strong);
+      margin-bottom: 1.5rem;
+    }
+
+    .chvp-load-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    .chvp-load-table th,
+    .chvp-load-table td {
+      padding: 0.85rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid var(--chvp-line);
+      font-size: 0.92rem;
+    }
+
+    .chvp-load-table th {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--chvp-accent-strong);
+      font-weight: 400;
+    }
+
+    .chvp-load-table td {
+      color: var(--chvp-copy);
+    }
+
+    .chvp-load-table tr:last-child td {
+      font-family: var(--font-mono);
+      color: var(--chvp-ink-strong);
+      border-bottom: none;
+    }
+
+    /* ── Back link to programme page ── */
+
+    .chvp-course-backlink {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.78rem;
+      letter-spacing: 0.06em;
+      color: var(--chvp-accent-strong);
+      text-decoration: none;
+      margin-top: 1.5rem;
+      transition: color 0.2s ease;
+    }
+
+    .chvp-course-backlink:hover {
+      color: var(--chvp-ink-strong);
+    }
+
+    /* ── Responsive ── */
+
+    @media (max-width: 980px) {
+      .chvp-course-shell {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+
+      .chvp-course-nav {
+        position: static;
+        max-height: none;
+        padding: 1.25rem 1.5rem;
+        border: 1px solid var(--chvp-line);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .chvp-course-nav > ol > li {
+        margin-bottom: 0.5rem;
+      }
+
+      .chvp-course-nav ul {
+        display: none;
+      }
+
+      .chvp-course-overview-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .chvp-overview-cell + .chvp-overview-cell {
+        border-left: none;
+      }
+
+      .chvp-overview-cell:nth-child(odd) {
+        border-right: 1px solid var(--chvp-line);
+      }
+
+      .chvp-overview-cell:nth-child(-n+2) {
+        border-bottom: 1px solid var(--chvp-line);
+      }
+
+      .chvp-course-hero h1 { font-size: 3.2rem; }
+    }
+
+    @media (max-width: 600px) {
+      .chvp-course-hero { padding: 6rem 1.5rem 2rem; }
+      .chvp-course-hero h1 { font-size: 2.4rem; }
+      .chvp-course-overview { padding: 0 1.5rem; margin-bottom: 2.5rem; }
+      .chvp-course-overview-grid { grid-template-columns: 1fr; }
+      .chvp-overview-cell { border-left: none !important; border-right: none !important; }
+      .chvp-overview-cell + .chvp-overview-cell { border-top: 1px solid var(--chvp-line); }
+      .chvp-overview-cell:nth-child(-n+2) { border-bottom: none; }
+      .chvp-course-shell { padding: 0 1.5rem 4rem; }
+      .chvp-course-week h2 { font-size: 1.85rem; }
+      .chvp-reading-card { padding: 1.3rem 1.4rem 1.45rem; }
+      .chvp-reading-card h3 { font-size: 1.1rem; }
+      .chvp-track-tabs { padding: 0.3rem; gap: 0.3rem; }
+      .chvp-track-tab { font-size: 0.72rem; padding: 0.45rem 0.7rem; }
+      .chvp-course-summary { padding: 2rem 1.5rem 4rem; }
+      .chvp-load-table { font-size: 0.84rem; }
+      .chvp-load-table th, .chvp-load-table td { padding: 0.6rem 0.5rem; }
+    }
+  </style>
+</head>
+
+<body class="chvp-page">
+
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home"><img src="images/logo.png" alt="Cambridge AI Safety Hub" class="logo"></a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <main id="main-content">
+
+    <!-- Hero -->
+    <section class="chvp-course-hero">
+      <span class="chvp-course-hero-kicker">Hardware Assurance Programme · Pre-Work Curriculum</span>
+      <h1>Course</h1>
+      <p class="chvp-course-hero-summary">Four weeks of structured reading and discussion to bring the cohort to a shared starting point on Day 1. Roughly 12-15 hours of work split across foundations, your chosen track, depth plus small-group discussions, and a light landing week.</p>
+      <a href="/hardware" class="chvp-course-backlink">← Back to programme</a>
+    </section>
+
+    <!-- Overview grid -->
+    <section class="chvp-course-overview" aria-label="Course overview">
+      <div class="chvp-course-overview-grid">
+        <div class="chvp-overview-cell">
+          <span class="chvp-overview-cell-label">Week 1 · T-4</span>
+          <p class="chvp-overview-cell-title">Foundations</p>
+          <p class="chvp-overview-cell-desc">Shared context for the whole cohort. Three core readings plus the opening call.</p>
+        </div>
+        <div class="chvp-overview-cell">
+          <span class="chvp-overview-cell-label">Week 2 · T-3</span>
+          <p class="chvp-overview-cell-title">Your track</p>
+          <p class="chvp-overview-cell-desc">Pick one of five tracks aligned with the open problems and go deep.</p>
+        </div>
+        <div class="chvp-overview-cell">
+          <span class="chvp-overview-cell-label">Week 3 · T-2</span>
+          <p class="chvp-overview-cell-title">Adjacent depth</p>
+          <p class="chvp-overview-cell-desc">One reading outside your track plus a 90-minute small-group discussion call.</p>
+        </div>
+        <div class="chvp-overview-cell">
+          <span class="chvp-overview-cell-label">Week 4 · T-1</span>
+          <p class="chvp-overview-cell-title">Landing</p>
+          <p class="chvp-overview-cell-desc">Resident primers and logistics. Arrive in Cambridge ready to work.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Course shell: sidebar + content -->
+    <div class="chvp-course-shell">
+
+      <!-- Sidebar -->
+      <aside class="chvp-course-nav" aria-label="Course navigation">
+        <span class="chvp-course-nav-label">Contents</span>
+        <ol>
+          <li><a href="#week-1">Week 1 · Foundations</a></li>
+          <li>
+            <a href="#week-2">Week 2 · Your Track</a>
+            <ul>
+              <li><a href="#week-2" data-track-link="a">A · Tamper-evident</a></li>
+              <li><a href="#week-2" data-track-link="b">B · Attestation</a></li>
+              <li><a href="#week-2" data-track-link="c">C · Inference verification</a></li>
+              <li><a href="#week-2" data-track-link="d">D · Workload classification</a></li>
+              <li><a href="#week-2" data-track-link="e">E · Your own idea</a></li>
+            </ul>
+          </li>
+          <li><a href="#week-3">Week 3 · Adjacent + Discussion</a></li>
+          <li><a href="#week-4">Week 4 · Landing</a></li>
+          <li><a href="#load">Reading load summary</a></li>
+        </ol>
+      </aside>
+
+      <!-- Main content -->
+      <div class="chvp-course-content">
+
+        <!-- WEEK 1 -->
+        <section id="week-1" class="chvp-course-week">
+          <span class="chvp-course-week-label">Week 1 · T-4 · Foundations</span>
+          <h2>Foundations</h2>
+          <p class="chvp-course-week-intro">Everyone reads the same three core readings. By end of Week 1 the whole cohort can have a substantive conversation about why AI verification matters, what mechanisms have been proposed, and where the technical infrastructure is today.</p>
+
+          <h3 class="chvp-course-section-header">Core readings (all participants)</h3>
+
+          <div class="chvp-readings">
+
+            <article class="chvp-reading-card">
+              <div class="chvp-reading-meta-row">
+                <span class="chvp-reading-num">READ 01</span>
+                <span class="chvp-reading-time">90 min</span>
+                <span class="chvp-reading-tag">Strategic frame</span>
+              </div>
+              <h3>Hardware-Enabled Mechanisms for Verifying Responsible AI Development</h3>
+              <p class="chvp-reading-authors">Aarne, Fist, Withers, Maas, et al. (2024)</p>
+              <p class="chvp-reading-why">The canonical paper on HEMs. Read for the strategic frame: why hardware-rooted verification is the missing layer in current AI governance, and the taxonomy of mechanisms (location verification, network verification, offline licensing, workload verification). This is the paper everyone in the cohort will reference.</p>
+              <span class="chvp-reading-link-note">Link circulated via cohort email at T-4.</span>
+            </article>
+
+            <article class="chvp-reading-card">
+              <div class="chvp-reading-meta-row">
+                <span class="chvp-reading-num">READ 02</span>
+                <span class="chvp-reading-time">2–3 hours</span>
+                <span class="chvp-reading-tag">Technical taxonomy</span>
+              </div>
+              <h3>FlexHEG Report — Project 2 highlights</h3>
+              <p class="chvp-reading-authors">Future of Life Institute and FlexHEG consortium (2025)</p>
+              <p class="chvp-reading-why">The most concrete technical roadmap published. Focus on the sections covering network-tap design, secure enclosure architectures, and the trust-establishment protocol between prover and verifier. Skim the parts on adversary modelling. Read carefully the parts on what is buildable today vs in 5+ years.</p>
+              <span class="chvp-reading-link-note">Link circulated via cohort email at T-4.</span>
+            </article>
+
+            <article class="chvp-reading-card">
+              <div class="chvp-reading-meta-row">
+                <span class="chvp-reading-num">READ 03</span>
+                <span class="chvp-reading-time">60 min</span>
+                <span class="chvp-reading-tag">Technical anchor</span>
+              </div>
+              <h3>Verifying LLM Inference to Prevent Model Weight Exfiltration</h3>
+              <p class="chvp-reading-authors">Rinberg, Karvonen, Hoover, Reuter, Warr (2025)</p>
+              <p class="chvp-reading-why">Read for the technique itself (Fixed-Seed Sampling Likelihood, Token-DiFR) and as an example of how to think about verification as a statistical problem. Daniel Reuter is one of HAP's residents. This is current resident work, not historical reference. Bring questions for him.</p>
+              <a class="chvp-reading-link" href="https://arxiv.org/abs/2511.02620" target="_blank" rel="noopener">→ Paper on arXiv (2511.02620)</a>
+            </article>
+
+            <article class="chvp-reading-card chvp-reading-card--optional">
+              <div class="chvp-reading-meta-row">
+                <span class="chvp-reading-num">READ 04</span>
+                <span class="chvp-reading-time">30 min</span>
+                <span class="chvp-reading-tag">Optional · accessible explainer</span>
+              </div>
+              <h3>Defending Against Model Weight Exfiltration Through Inference Verification</h3>
+              <p class="chvp-reading-authors">Rinberg et al. — LessWrong post (2025)</p>
+              <p class="chvp-reading-why">The same Rinberg paper made more accessible. If you are reading the original paper and finding it dense, read this first.</p>
+              <span class="chvp-reading-link-note">Link circulated via cohort email at T-4.</span>
+            </article>
+
+          </div>
+
+          <div class="chvp-discussion">
+            <span class="chvp-discussion-label">Opening call · mid-Week 1</span>
+            <h3>Opening call (90 minutes)</h3>
+            <p>Residents introduce themselves (5 min each, background and what they are excited to discuss). Each participant introduces themselves (2 min, background and what you want to work on). Then open discussion on the readings for the rest of the call.</p>
+            <p>You do not need to have your project picked yet. You should know which open-problem area pulls you most.</p>
+          </div>
+        </section>
+
+        <!-- WEEK 2 -->
+        <section id="week-2" class="chvp-course-week">
+          <span class="chvp-course-week-label">Week 2 · T-3 · Your Track</span>
+          <h2>Your Track</h2>
+          <p class="chvp-course-week-intro">In Week 1 you saw the whole landscape. In Week 2 you go deep on one of five open-problem tracks. Pick the track closest to your background and curiosity. You can change later — these are not binding.</p>
+
+          <div class="chvp-track-tabs" role="tablist" aria-label="Track selector">
+            <button class="chvp-track-tab active" data-track="a" role="tab" aria-selected="true">A · Tamper-evident</button>
+            <button class="chvp-track-tab" data-track="b" role="tab" aria-selected="false">B · Attestation</button>
+            <button class="chvp-track-tab" data-track="c" role="tab" aria-selected="false">C · Inference verification</button>
+            <button class="chvp-track-tab" data-track="d" role="tab" aria-selected="false">D · Workload classification</button>
+            <button class="chvp-track-tab" data-track="e" role="tab" aria-selected="false">E · Your own idea</button>
+          </div>
+
+          <!-- Track A -->
+          <div class="chvp-track-content" data-track="a">
+            <h3>Track A · Tamper-evident enclosures</h3>
+            <p class="chvp-track-content-desc">For people drawn to the physical-security side of HAP: how do you build enclosures around 1,200W liquid-cooled accelerators that a state actor with physical access cannot tamper with undetectably.</p>
+
+            <div class="chvp-readings">
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ A1</span>
+                  <span class="chvp-reading-time">45 min</span>
+                </div>
+                <h3>AI Security Forum RFD 006 — Secure Enclosure (SCIF) for AI Clusters</h3>
+                <p class="chvp-reading-authors">James Petrie (HAP resident) (2024)</p>
+                <p class="chvp-reading-why">The shortest, most concrete framing of the tamper-evident enclosure problem at HAP scale. James will be in the room. Bring questions about why current SCIF designs do not survive the thermal envelope of frontier accelerators.</p>
+                <span class="chvp-reading-link-note">Link circulated via cohort email at T-3.</span>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ A2</span>
+                  <span class="chvp-reading-time">60 min</span>
+                </div>
+                <h3>Banking HSM design overview</h3>
+                <p class="chvp-reading-authors">Pick any accessible introduction</p>
+                <p class="chvp-reading-why">HSMs have solved the small-scale tamper-evidence problem for thirty years. The interesting question is what transfers when you go from a 50W device to a 1,200W liquid-cooled accelerator. Come to the programme with three things you think transfer and one thing you think does not.</p>
+                <span class="chvp-reading-link-note">Suggested introductions circulated with track assignment.</span>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ A3</span>
+                  <span class="chvp-reading-time">60–90 min</span>
+                </div>
+                <h3>Nuclear monitoring tamper-evidence literature</h3>
+                <p class="chvp-reading-authors">One accessible paper — IAEA safeguards handbook or a Sandia survey</p>
+                <p class="chvp-reading-why">The other domain with deep tamper-evidence engineering. What did IAEA learn from forty years of treaty inspection? Frangible seals, optical fibres, polymer films — what is portable to AI hardware.</p>
+                <span class="chvp-reading-link-note">Specific reading assigned per participant.</span>
+              </article>
+            </div>
+          </div>
+
+          <!-- Track B -->
+          <div class="chvp-track-content" data-track="b" hidden>
+            <h3>Track B · Mutually trusted attestation hardware</h3>
+            <p class="chvp-track-content-desc">For people drawn to the trust-establishment problem: how do you build hardware that both prover and verifier trust, given each has different threat models and incentives.</p>
+
+            <div class="chvp-readings">
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ B1</span>
+                  <span class="chvp-reading-time">30 min</span>
+                </div>
+                <h3>AI Security Forum RFD 008 — Attested Logging with Existing Hardware</h3>
+                <p class="chvp-reading-authors">James Petrie (2024)</p>
+                <p class="chvp-reading-why">Frames the attestation question through existing-hardware lenses. The starting point for understanding what is already shipped and where the gaps are.</p>
+                <span class="chvp-reading-link-note">Link circulated via cohort email at T-3.</span>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ B2</span>
+                  <span class="chvp-reading-time">45 min</span>
+                </div>
+                <h3>Trail of Bits — Confidential Computing blog series</h3>
+                <p class="chvp-reading-authors">Trail of Bits (ongoing)</p>
+                <p class="chvp-reading-why">Industry-grade analysis of what TEEs actually deliver vs claim. Read at least two posts. The audit-focused ones are best.</p>
+                <a class="chvp-reading-link" href="https://blog.trailofbits.com/" target="_blank" rel="noopener">→ Trail of Bits blog</a>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ B3</span>
+                  <span class="chvp-reading-time">60 min</span>
+                </div>
+                <h3>WireTap, Battering RAM, or TEE.fail</h3>
+                <p class="chvp-reading-authors">Pick one (2025)</p>
+                <p class="chvp-reading-why">Recent attacks redefining the TEE threat model. They matter because the "trust the silicon" assumption is now substantively contested. Bring one specific attack mechanism you find most worrying for AI verification.</p>
+                <span class="chvp-reading-link-note">Links to each attack paper circulated with track assignment.</span>
+              </article>
+            </div>
+          </div>
+
+          <!-- Track C -->
+          <div class="chvp-track-content" data-track="c" hidden>
+            <h3>Track C · Inference verification at scale</h3>
+            <p class="chvp-track-content-desc">For people drawn to the statistical and cryptographic angles: how do you verify that a deployed AI model matches what was safety-tested, without disrupting workloads or revealing weights.</p>
+
+            <div class="chvp-readings">
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ C1</span>
+                  <span class="chvp-reading-time">60 min</span>
+                  <span class="chvp-reading-tag">Re-read from Week 1</span>
+                </div>
+                <h3>Verifying LLM Inference to Prevent Model Weight Exfiltration</h3>
+                <p class="chvp-reading-authors">Rinberg, Karvonen, Hoover, Reuter, Warr (2025)</p>
+                <p class="chvp-reading-why">Now read more carefully. Focus on Section 4 (the FSSL estimators) and Section 5 (the empirical results). Note where the authors are most and least confident.</p>
+                <a class="chvp-reading-link" href="https://arxiv.org/abs/2511.02620" target="_blank" rel="noopener">→ Paper on arXiv</a>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ C2</span>
+                  <span class="chvp-reading-time">30 min</span>
+                </div>
+                <h3>Defeating Nondeterminism in LLM Inference</h3>
+                <p class="chvp-reading-authors">Thinking Machines (2025)</p>
+                <p class="chvp-reading-why">Concurrent and complementary to Rinberg et al. Frames the nondeterminism problem from the production-inference angle. Skim for the core argument and the proposed solution.</p>
+                <a class="chvp-reading-link" href="https://thinkingmachines.ai/blog/defeating-nondeterminism-in-llm-inference/" target="_blank" rel="noopener">→ Blog post</a>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ C3</span>
+                  <span class="chvp-reading-time">90 min</span>
+                </div>
+                <h3>zkLLM or VeriLLM</h3>
+                <p class="chvp-reading-authors">Pick whichever is more current</p>
+                <p class="chvp-reading-why">Goal: understand what zero-knowledge proofs of inference can actually deliver today (in overhead terms) and what is still aspirational.</p>
+                <span class="chvp-reading-link-note">Specific paper assigned with track confirmation.</span>
+              </article>
+            </div>
+          </div>
+
+          <!-- Track D -->
+          <div class="chvp-track-content" data-track="d" hidden>
+            <h3>Track D · Workload classification from hardware telemetry</h3>
+            <p class="chvp-track-content-desc">For people drawn to side-channel analysis: can you determine what a chip is doing from power, EM, memory access patterns, or network traffic alone.</p>
+
+            <div class="chvp-readings">
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ D1</span>
+                  <span class="chvp-reading-time">30 min</span>
+                </div>
+                <h3>AI Security Forum RFD 001 — Side-Channel Leakage from LLM Inference</h3>
+                <p class="chvp-reading-authors">Gabriel Kulp (2024)</p>
+                <p class="chvp-reading-why">The framing document. Power, EM, acoustic, thermal. Which side-channel is most promising for distinguishing inference from training, and why no one has published the experiment yet.</p>
+                <span class="chvp-reading-link-note">Link circulated via cohort email at T-3.</span>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ D2</span>
+                  <span class="chvp-reading-time">60 min</span>
+                </div>
+                <h3>Input-Dependent Power Usage in GPUs</h3>
+                <p class="chvp-reading-authors">Gregersen et al.</p>
+                <p class="chvp-reading-why">The starting empirical evidence that GPU workload is recoverable from power traces. Read for the methodology, not the specific results. The techniques transfer to AI workload classification.</p>
+                <span class="chvp-reading-link-note">Link circulated with track assignment.</span>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ D3</span>
+                  <span class="chvp-reading-time">45 min</span>
+                </div>
+                <h3>AI Security Forum RFD 002 — MoE Expert Fingerprinting</h3>
+                <p class="chvp-reading-authors">Gabriel Kulp (2024)</p>
+                <p class="chvp-reading-why">The cleverer attack vector. MoE routing creates distinctive computational signatures. If you can fingerprint them, you can recover token sequences from physical observations alone.</p>
+                <span class="chvp-reading-link-note">Link circulated via cohort email at T-3.</span>
+              </article>
+            </div>
+          </div>
+
+          <!-- Track E -->
+          <div class="chvp-track-content" data-track="e" hidden>
+            <h3>Track E · Your own idea (cross-cutting)</h3>
+            <p class="chvp-track-content-desc">For people proposing their own project (tile 05 on the programme page). Week 2 looks different — you ground your proposal in the field's existing structure and pick adjacent readings to fill gaps.</p>
+
+            <div class="chvp-readings">
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ E1</span>
+                  <span class="chvp-reading-time">60 min</span>
+                </div>
+                <h3>Open Problems in Technical AI Governance</h3>
+                <p class="chvp-reading-authors">Reuel, Hardy, Smith et al. (2024)</p>
+                <p class="chvp-reading-why">The Stanford catalogue. Use it to ground your own proposal in the field's existing structure. Make sure you are not proposing something already named as a known-unsolved problem without realising.</p>
+                <a class="chvp-reading-link" href="https://arxiv.org/abs/2407.14981" target="_blank" rel="noopener">→ Paper on arXiv (2407.14981)</a>
+              </article>
+
+              <article class="chvp-reading-card">
+                <div class="chvp-reading-meta-row">
+                  <span class="chvp-reading-num">READ E2 + E3</span>
+                  <span class="chvp-reading-time">Variable</span>
+                </div>
+                <h3>Two readings from adjacent tracks</h3>
+                <p class="chvp-reading-authors">Picked with the programme team</p>
+                <p class="chvp-reading-why">Email the programme team your project sketch and ask for reading suggestions by end of Week 2. We will pick two from the other tracks that fill the gaps most relevant to your proposal.</p>
+                <span class="chvp-reading-link-note">Email hello@cambridgeaisafety.org with your sketch.</span>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <!-- WEEK 3 -->
+        <section id="week-3" class="chvp-course-week">
+          <span class="chvp-course-week-label">Week 3 · T-2 · Adjacent Depth + Discussion</span>
+          <h2>Adjacent Depth + Discussion</h2>
+          <p class="chvp-course-week-intro">Two things happen this week. First, you read one paper outside your track to broaden context. Second, you participate in a small-group discussion call with 3-4 other participants from adjacent tracks, plus one resident.</p>
+
+          <h3 class="chvp-course-section-header">Adjacent reading</h3>
+
+          <div class="chvp-readings">
+            <article class="chvp-reading-card">
+              <div class="chvp-reading-meta-row">
+                <span class="chvp-reading-num">READ 05</span>
+                <span class="chvp-reading-time">45–60 min</span>
+                <span class="chvp-reading-tag">Outside your track</span>
+              </div>
+              <h3>Pick one reading from a different track</h3>
+              <p class="chvp-reading-authors">Your choice from Track A, B, C, or D readings</p>
+              <p class="chvp-reading-why">The goal is to be conversational about a problem area you are not working on, so the cohort can think across tracks during the programme week. Pick one that sits closest to your existing background but in a different track.</p>
+            </article>
+
+            <article class="chvp-reading-card chvp-reading-card--optional">
+              <div class="chvp-reading-meta-row">
+                <span class="chvp-reading-num">READ 06</span>
+                <span class="chvp-reading-time">30 min</span>
+                <span class="chvp-reading-tag">Optional</span>
+              </div>
+              <h3>Field convergence points</h3>
+              <p class="chvp-reading-authors">HAP internal summary</p>
+              <p class="chvp-reading-why">A short summary of where the field broadly agrees something is unsolved — proof-of-training, on-chip FLOP metering, multi-cluster training detection. These are strong candidates for projects that produce lasting work after the week.</p>
+              <span class="chvp-reading-link-note">Summary circulated via cohort email at T-2.</span>
+            </article>
+          </div>
+
+          <div class="chvp-discussion">
+            <span class="chvp-discussion-label">Small-group discussion · 90 minutes</span>
+            <h3>Discussion call</h3>
+            <p>Groups of 4-5 participants plus one resident, organised by adjacency rather than identical tracks. Come prepared with written notes (2-3 sentences each) on these prompts. The discussion uses them as starting points rather than as a checklist to burn through.</p>
+            <ul class="chvp-discussion-prompts">
+              <li>What's the most interesting thing you've read so far?</li>
+              <li>Where is your track's strongest published result, and what's the most important thing still unsolved?</li>
+              <li>What experiment would you most want to run, given access to a frontier data centre?</li>
+              <li>What are you scared the cohort week will miss?</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- WEEK 4 -->
+        <section id="week-4" class="chvp-course-week">
+          <span class="chvp-course-week-label">Week 4 · T-1 · Landing</span>
+          <h2>Landing</h2>
+          <p class="chvp-course-week-intro">Light. The goal of Week 4 is that by the time you land in Cambridge on Sunday 16 August, you are ready to work — not still reading.</p>
+
+          <div class="chvp-readings">
+            <article class="chvp-reading-card">
+              <div class="chvp-reading-meta-row">
+                <span class="chvp-reading-num">READ 07</span>
+                <span class="chvp-reading-time">~60 min total</span>
+                <span class="chvp-reading-tag">Resident work primers</span>
+              </div>
+              <h3>One short piece per resident</h3>
+              <p class="chvp-reading-authors">Curated by the programme team</p>
+              <p class="chvp-reading-why">Read one short piece by each resident to know who you are working with. Plan for ~10 minutes per resident. The programme team will send a curated set the week before arrival.</p>
+              <span class="chvp-reading-link-note">Resident primer set circulated via cohort email at T-1.</span>
+            </article>
+
+            <article class="chvp-reading-card">
+              <div class="chvp-reading-meta-row">
+                <span class="chvp-reading-num">READ 08</span>
+                <span class="chvp-reading-time">15 min</span>
+                <span class="chvp-reading-tag">Logistics</span>
+              </div>
+              <h3>Programme handbook</h3>
+              <p class="chvp-reading-authors">HAP programme team</p>
+              <p class="chvp-reading-why">Day-by-day schedule, Cambridge logistics (arrival, accommodation at Wilde, venue, meals), dev environment notes per track, what to bring and what not to.</p>
+              <span class="chvp-reading-link-note">Handbook circulated via cohort email at T-1.</span>
+            </article>
+          </div>
+
+          <div class="chvp-discussion">
+            <span class="chvp-discussion-label">Day 1 prep</span>
+            <h3>Day 1 checklist</h3>
+            <p>One-page checklist for the morning of 17 August. Laptop ready, accommodation confirmed, any signed forms returned. Light admin only — most of the prep is already done by this point.</p>
+          </div>
+        </section>
+
+      </div>
+    </div>
+
+    <!-- Reading load summary -->
+    <section id="load" class="chvp-course-summary">
+      <h2>Reading load summary</h2>
+      <table class="chvp-load-table">
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Required reading</th>
+            <th>Discussion / calls</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Week 1</td>
+            <td>3 readings (~4 hours)</td>
+            <td>Opening call (90 min)</td>
+            <td>~5–6 hours</td>
+          </tr>
+          <tr>
+            <td>Week 2</td>
+            <td>3 track readings (~3–4 hours)</td>
+            <td>None</td>
+            <td>~3–4 hours</td>
+          </tr>
+          <tr>
+            <td>Week 3</td>
+            <td>1 adjacent reading (~1 hour)</td>
+            <td>Small-group call (90 min)</td>
+            <td>~2–3 hours</td>
+          </tr>
+          <tr>
+            <td>Week 4</td>
+            <td>Resident primers + logistics (~1 hour)</td>
+            <td>None</td>
+            <td>~1 hour</td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td></td>
+            <td>~12–14 hours</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <a href="/hardware" class="chvp-course-backlink">← Back to programme</a>
+    </section>
+
+    <footer>
+      <div class="footer-inner">
+        <div class="footer-legal">
+          Cambridge AI Safety Hub is a project of <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a>, a Community Interest Company registered at Companies House (company number 13653958). <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+        </div>
+        <span class="footer-copy">&copy; 2026 CAISH</span>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    // Mobile nav
+    const MobileNav = {
+      init() {
+        const nav = document.getElementById('mobile-nav');
+        const toggle = document.getElementById('nav-toggle');
+        const close = document.getElementById('mobile-nav-close');
+
+        toggle?.addEventListener('click', () => nav?.classList.add('active'));
+        close?.addEventListener('click', () => nav?.classList.remove('active'));
+        nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+      }
+    };
+
+    // Track tab switching
+    const TrackTabs = {
+      init() {
+        const tabs = document.querySelectorAll('.chvp-track-tab');
+        const contents = document.querySelectorAll('.chvp-track-content');
+        const sidebarLinks = document.querySelectorAll('[data-track-link]');
+
+        function switchTrack(track) {
+          tabs.forEach(t => {
+            const active = t.dataset.track === track;
+            t.classList.toggle('active', active);
+            t.setAttribute('aria-selected', active ? 'true' : 'false');
+          });
+          contents.forEach(c => {
+            const active = c.dataset.track === track;
+            if (active) c.removeAttribute('hidden');
+            else c.setAttribute('hidden', '');
+          });
+        }
+
+        tabs.forEach(t => {
+          t.addEventListener('click', () => switchTrack(t.dataset.track));
+        });
+
+        sidebarLinks.forEach(link => {
+          link.addEventListener('click', (e) => {
+            const track = link.dataset.trackLink;
+            if (track) switchTrack(track);
+          });
+        });
+      }
+    };
+
+    // Sidebar active section highlighting
+    const SidebarActive = {
+      init() {
+        const sections = document.querySelectorAll('.chvp-course-week, #load');
+        const links = document.querySelectorAll('.chvp-course-nav > ol > li > a');
+
+        function onScroll() {
+          let current = '';
+          sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 200) current = section.id;
+          });
+          links.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href === '#' + current) link.classList.add('active');
+            else link.classList.remove('active');
+          });
+        }
+
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+      }
+    };
+
+    function initAll() {
+      MobileNav.init();
+      TrackTabs.init();
+      SidebarActive.init();
+    }
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', initAll)
+      : initAll();
+  </script>
+
+</body>
+</html>

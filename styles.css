@@ -1175,8 +1175,24 @@
   .programme-groups {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-8);
+    gap: var(--space-12);
     margin-top: var(--space-6);
+    position: relative;
+  }
+
+  .programme-groups::before {
+    content: '';
+    position: absolute;
+    top: var(--space-2);
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 26, 26, 0.12),
+      rgba(26, 26, 26, 0.06)
+    );
+    transform: translateX(-50%);
   }
 
   .programme-group {
@@ -5333,6 +5349,10 @@
       grid-template-columns: 1fr;
       gap: var(--space-8);
       padding-top: var(--space-6);
+    }
+
+    .programme-groups::before {
+      content: none;
     }
 
     .programme-group-copy p {
