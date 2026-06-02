@@ -64,7 +64,7 @@ const CourseProgress = {
 
   renderProgress() {
     const allCourseReadings = [
-      'unit-1-reading-1', 'unit-1-reading-2', 'unit-1-reading-3', 'unit-1-reading-4',
+      'unit-1-reading-1', 'unit-1-reading-2', 'unit-1-reading-3', 'unit-1-reading-4', 'unit-1-reading-5',
       'unit-2-reading-1', 'unit-2-reading-2', 'unit-2-reading-3', 'unit-2-reading-4', 'unit-2-reading-5', 'unit-2-reading-6', 'unit-2-reading-7',
       'unit-3-reading-1', 'unit-3-reading-2', 'unit-3-reading-3', 'unit-3-reading-4', 'unit-3-reading-5', 'unit-3-reading-6', 'unit-3-reading-7', 'unit-3-reading-8', 'unit-3-reading-9', 'unit-3-reading-10', 'unit-3-reading-11', 'unit-3-reading-12', 'unit-3-reading-13', 'unit-3-reading-14', 'unit-3-reading-15', 'unit-3-reading-16', 'unit-3-reading-17', 'unit-3-reading-18', 'unit-3-reading-19', 'unit-3-reading-20', 'unit-3-reading-21', 'unit-3-reading-22', 'unit-3-reading-23'
     ];
