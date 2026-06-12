@@ -3125,6 +3125,28 @@
     letter-spacing: 0.02em;
   }
 
+  .timeline-point--current .timeline-number {
+    background: #7e4233;
+    border-color: #7e4233;
+    color: var(--white);
+    box-shadow: 0 0 0 4px rgba(126, 66, 51, 0.15);
+  }
+
+  .timeline-point--current .timeline-label {
+    color: #7e4233;
+    font-weight: 600;
+  }
+
+  .timeline-current-tag {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #7e4233;
+    margin-top: 0.3rem;
+  }
+
   .mars-working-image {
     margin: 1.5rem 0;
     text-align: center;
