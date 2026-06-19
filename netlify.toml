@@ -103,13 +103,6 @@
   status = 301
   force = true
 
-# Hiring — instant redirect to Airtable form
-[[redirects]]
-  from = "/hiring"
-  to = "https://airtable.com/appJHPLBwGSa1eM4g/pagtA6CHREoxMvien/form"
-  status = 301
-  force = true
-
 # Clean URLs
 [[redirects]]
   from = "/*"
