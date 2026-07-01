@@ -404,6 +404,36 @@
       margin-top: 1rem;
     }
 
+    .policy-early-apply {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      margin-top: -0.4rem;
+      padding: 1.25rem 0 2.6rem;
+      border-bottom: 1px solid rgba(22, 24, 23, 0.1);
+    }
+
+    .policy-early-apply span {
+      display: block;
+      margin-bottom: 0.28rem;
+      color: var(--policy-accent);
+      font-size: 0.75rem;
+      line-height: 1.5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .policy-early-apply strong {
+      display: block;
+      max-width: 44ch;
+      color: var(--policy-ink);
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
     .policy-card-grid,
     .policy-logistics {
       display: grid;
@@ -770,8 +800,9 @@
 
     @media (max-width: 640px) {
       .policy-page main {
-        width: 100%;
-        max-width: 100%;
+        box-sizing: border-box;
+        width: auto;
+        max-width: 100vw;
         margin-left: 0;
         margin-right: 0;
         padding-left: 1rem;
@@ -788,6 +819,23 @@
       .policy-card-grid,
       .policy-logistics {
         width: 100%;
+        max-width: 100%;
+      }
+
+      .policy-page main > section:not(.policy-hero) {
+        box-sizing: border-box;
+        width: auto;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .policy-section {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .policy-section p,
+      .policy-copy p {
         max-width: 100%;
       }
 
@@ -960,6 +1008,13 @@
       .policy-apply-card {
         gap: 1.25rem;
       }
+
+      .policy-early-apply {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: -0.2rem;
+        padding-bottom: 2.2rem;
+      }
     }
   </style>
 
@@ -1073,10 +1128,18 @@
         <h2>A practical course in UK AI policy.</h2>
       </div>
       <div class="policy-copy">
-        <p>The UK AI Policy Course is for people who already have some AI safety context and want to understand how UK AI policy works in practice.</p>
-        <p>Over three weekly two-hour sessions in Cambridge, you will read and discuss live policy questions with a small cohort. The course ends with a one-day London intensive: workshops, networking, and conversations with UK AI policy professionals.</p>
+        <p>The UK AI Policy Course is for people who already have some AI safety context and want to understand how UK AI policy works in practice, while starting to plan a career in UK AI policy through something concrete.</p>
+        <p>Over three weekly two-hour sessions at the Meridian office in Cambridge, you will read and discuss live policy questions with a small cohort. The course also includes a one-day London intensive; see below for details.</p>
         <p>You will leave with a short policy post ready to publish, giving you a concrete piece for your portfolio.</p>
       </div>
+    </section>
+
+    <section class="policy-early-apply" aria-label="Apply for the UK AI Policy Course">
+      <div>
+        <span>Applications close Sunday 12 July</span>
+        <strong>Interested but unsure whether you are ready? Please have a low bar for applying.</strong>
+      </div>
+      <a href="https://airtable.com/appJHPLBwGSa1eM4g/shrQveTD9Offw60Oc" class="btn-primary" target="_blank" rel="noopener">Apply now</a>
     </section>
 
     <section class="policy-section">
@@ -1085,13 +1148,12 @@
         <h2>What we will cover.</h2>
       </div>
       <div>
-        <p>The full reading list is finalised closer to the start so it stays current. The course is structured around three sessions.</p>
+        <p>The full reading list is finalised closer to the start so it stays current and close to live policy debates. The course is structured around three sessions.</p>
         <ol class="policy-topic-list">
           <li><span>01</span><strong>UK AI policy landscape and regulation</strong></li>
           <li><span>02</span><strong>Risk, loss of control, incident reporting, and the EU angle</strong></li>
           <li><span>03</span><strong>Writing for policy: turning a question into a publishable post</strong></li>
         </ol>
-        <p class="policy-note">Reading lists are kept current so the course stays close to live policy debates.</p>
       </div>
     </section>
 
@@ -1107,11 +1169,11 @@
         <h2>When it runs.</h2>
       </div>
       <div>
-        <p>The course runs across three weeks, with sessions in the weeks beginning 27 July, 3 August, and 10 August 2026. The London intensive is planned for a Saturday in mid-August, after the venue is confirmed. We will ask for your availability during the application process so we can find times that suit the cohort.</p>
+        <p>The course runs in Cambridge across three weeks, with sessions in the weeks beginning 27 July, 3 August, and 10 August 2026. The London intensive is planned for a Saturday in August, after the venue is confirmed. We will ask for your availability during the application process so we can find times that suit the cohort.</p>
         <div class="policy-logistics">
           <div class="policy-logistic">
-            <span>Reading sessions</span>
-            <strong>Three two-hour sessions</strong>
+            <span>Cambridge sessions</span>
+            <strong>Three two-hour sessions at Meridian</strong>
           </div>
           <div class="policy-logistic">
             <span>Intensive day</span>
@@ -1128,14 +1190,14 @@
       </div>
       <div class="policy-card-grid">
         <article class="policy-card">
-          <span>Sessions</span>
-          <strong>Three Cambridge discussion sessions</strong>
-          <p>Three sessions with a small group, a facilitator, and a reading list, built around discussing the material and developing your own policy question. Food and drink are provided.</p>
+          <span>Discussion</span>
+          <strong>Facilitated small-group sessions</strong>
+          <p>Reading lists, facilitation, and food and drink, built around discussing the material and developing your own policy question.</p>
         </article>
         <article class="policy-card">
-          <span>Access</span>
-          <strong>An intensive day in London</strong>
-          <p>A day of workshops and networking in central London with people working in UK AI policy.</p>
+          <span>London day</span>
+          <strong>Workshops and policy networking</strong>
+          <p>A free day of workshops and networking in central London, giving you direct access to policy professionals in the UK AI policy space.</p>
         </article>
       </div>
     </section>
@@ -1168,7 +1230,7 @@
       <div class="policy-apply-card">
         <div>
           <h2>Applications close Sunday 12 July 2026.</h2>
-          <p>Apply by 23:59 AOE. The form is short, and we especially want to hear from people who are keen on policy but still shaping their first serious research direction.</p>
+          <p>Apply by 23:59 AOE. The form is short, and we especially want to hear from people who are keen on policy but still shaping their first serious research direction. Please have a low bar for applying.</p>
         </div>
         <a href="https://airtable.com/appJHPLBwGSa1eM4g/shrQveTD9Offw60Oc" class="btn-primary" target="_blank" rel="noopener">Apply now</a>
       </div>
@@ -1185,7 +1247,7 @@
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" hidden>
-            <p>No. We cover food during the sessions and reimburse travel from London.</p>
+            <p>No. We cover food during the sessions and reimburse travel from London and comparable distances.</p>
           </div>
         </article>
         <article class="faq-card">
@@ -1212,11 +1274,11 @@
             <span class="faq-icon" aria-hidden="true">+</span>
           </button>
           <div class="faq-answer" hidden>
-            <p>Three two-hour reading sessions and one full-day intensive in London. Between sessions you will do the reading and your own research.</p>
+            <p>Three two-hour reading sessions in Cambridge and one full-day intensive in London. Between sessions you will do the reading and your own research.</p>
           </div>
         </article>
       </div>
-      <p class="faq-footer">If you have questions that are not addressed here, please email angharad@caish.org.</p>
+      <p class="faq-footer">If you have questions that are not addressed here, please email angharad@cambridgeaisafety.org.</p>
     </section>
   </main>
 
