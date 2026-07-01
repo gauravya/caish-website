@@ -103,6 +103,13 @@
   status = 301
   force = true
 
+# Hiring page — keep old careers links working
+[[redirects]]
+  from = "/careers"
+  to = "/hiring"
+  status = 301
+  force = true
+
 # Clean URLs
 [[redirects]]
   from = "/*"
