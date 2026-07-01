@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="The UK AI Policy Course - A three-week course in Cambridge on UK AI policy, governance, and policy writing.">
+  <title>UK AI Policy Course | Cambridge AI Safety Hub</title>
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://caish.org/policy">
+  <meta property="og:title" content="UK AI Policy Course | Cambridge AI Safety Hub">
+  <meta property="og:description" content="A three-week course in Cambridge on UK AI policy, governance, and policy writing.">
+  <meta property="og:image" content="https://caish.org/images/og-image.png">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://caish.org/policy">
+  <meta name="twitter:title" content="UK AI Policy Course | Cambridge AI Safety Hub">
+  <meta name="twitter:description" content="A three-week course in Cambridge on UK AI policy, governance, and policy writing.">
+  <meta name="twitter:image" content="https://caish.org/images/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+
+  <!-- DNS Prefetch & Preconnect -->
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+  <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+  <link rel="dns-prefetch" href="https://airtable.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Preload critical resources -->
+  <link rel="preload" href="/styles.css?v=d6bbf8e3" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/images/logo.png" as="image">
+  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <!-- Critical CSS - Inline for instant first paint -->
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{font-size:16px;-webkit-font-smoothing:antialiased}
+    body{font-family:'Space Mono',monospace;background:#fbfbfa;color:#1a1a1a;line-height:1.8}
+    h1,h2,h3{font-family:'Libre Baskerville',Georgia,serif;font-weight:400}
+    h1{font-size:clamp(2rem,4vw,3rem);line-height:1.2}
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(253,252,250,0.66);border-bottom:1px solid rgba(178,150,122,0.1);backdrop-filter:blur(20px) saturate(1.15);-webkit-backdrop-filter:blur(20px) saturate(1.15)}
+    .nav-inner{display:flex;justify-content:space-between;align-items:center;padding:1rem 2.5rem;max-width:1000px;margin:0 auto}
+    .logo{height:32px;opacity:0.9}
+    .nav-links{display:flex;gap:2.5rem;list-style:none}
+    .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
+    .page-header{max-width:1000px;margin:0 auto;padding:6.5rem 2.5rem 2rem}
+    .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#4a4a4a;margin-bottom:1.5rem;display:block}
+    p{font-size:0.95rem;max-width:52ch;color:#4a4a4a}
+    .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
+    .nav-toggle{display:none}
+    @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}.page-header{padding-top:6rem}}
+    .fellowship-hero{margin:1rem auto 1.5rem;max-width:min(94vw,840px)}
+    .fellowship-hero img{width:100%;height:auto;display:block;border-radius:12px;object-fit:cover}
+  </style>
+
+  <!-- Policy page styles -->
+  <style>
+    .policy-page {
+      --policy-ink: #161817;
+      --policy-ink-soft: #303a35;
+      --policy-muted: #626c66;
+      --policy-soft: #f1f4f1;
+      --policy-line: rgba(22, 24, 23, 0.12);
+      --policy-accent: #42665c;
+      --policy-accent-dark: #263f39;
+      --policy-accent-soft: #dfe8e3;
+      --policy-wash: #f6f8f5;
+      --policy-card: rgba(255, 255, 255, 0.82);
+      background:
+        linear-gradient(180deg, rgba(241, 244, 241, 0.82) 0%, rgba(251, 251, 250, 0.96) 30%, #fbfbfa 100%);
+      overflow-x: hidden;
+    }
+
+    .policy-page::before,
+    .policy-page::after,
+    .policy-page .ambient-glow {
+      display: none !important;
+    }
+
+    .policy-page main {
+      width: 100%;
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 7.25rem 2rem 4.5rem;
+      overflow: visible;
+    }
+
+    .policy-hero > *,
+    .policy-section > *,
+    .policy-quick-info > *,
+    .policy-card-grid > *,
+    .policy-logistics > * {
+      min-width: 0;
+    }
+
+    .policy-hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.78fr);
+      gap: clamp(2.5rem, 5vw, 4.25rem);
+      align-items: center;
+      min-height: 0;
+      padding: 1.2rem 0 3.5rem;
+    }
+
+    .policy-hero::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(22, 24, 23, 0.18), rgba(66, 102, 92, 0.18), transparent);
+      pointer-events: none;
+    }
+
+    .policy-hero::after {
+      display: none;
+    }
+
+    .policy-hero-copy {
+      position: relative;
+      max-width: 680px;
+    }
+
+    .policy-hero-copy::before {
+      content: '';
+      display: block;
+      width: 4.75rem;
+      height: 1px;
+      margin-bottom: 1.45rem;
+      background: var(--policy-accent);
+      border-radius: 999px;
+    }
+
+    .policy-kicker,
+    .policy-section-label,
+    .policy-stat span,
+    .policy-card span,
+    .policy-logistic span,
+    .policy-pill {
+      display: block;
+      color: var(--policy-muted);
+      font-size: 0.78rem;
+      line-height: 1.5;
+    }
+
+    .policy-kicker {
+      margin-bottom: 0.85rem;
+      color: var(--policy-accent);
+      max-width: none;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .policy-hero h1 {
+      max-width: 11ch;
+      margin-bottom: 1.35rem;
+      color: var(--policy-ink);
+      font-size: clamp(3.6rem, 7vw, 5.9rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    .policy-hero h1 span {
+      display: block;
+    }
+
+    .policy-hero h1 span:last-child {
+      color: var(--policy-ink);
+      font-style: normal;
+    }
+
+    .policy-lede {
+      max-width: 62ch;
+      color: var(--policy-ink-soft);
+      font-size: clamp(1rem, 1.4vw, 1.12rem);
+      line-height: 1.78;
+      overflow-wrap: break-word;
+    }
+
+    .policy-lede-mobile {
+      display: none;
+    }
+
+    .policy-hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 2rem;
+    }
+
+    .policy-page .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.75rem;
+      padding: 0.82rem 1.25rem;
+      background: linear-gradient(135deg, var(--policy-ink) 0%, #39352f 100%);
+      color: #ffffff;
+      border: 1px solid rgba(26, 26, 26, 0.88);
+      border-radius: 6px;
+      box-shadow: 0 14px 32px rgba(26, 26, 26, 0.16);
+      font-size: 0.78rem;
+      line-height: 1.2;
+      text-transform: none;
+      letter-spacing: 0;
+      transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .policy-page .btn-primary:hover {
+      transform: translateY(-1px);
+      background: linear-gradient(135deg, #202522 0%, var(--policy-accent-dark) 100%);
+      border-color: rgba(26, 26, 26, 0.94);
+      box-shadow: 0 18px 38px rgba(26, 26, 26, 0.2);
+    }
+
+    .policy-page .btn-primary::before,
+    .policy-page .btn-primary::after {
+      display: none;
+    }
+
+    .policy-hero-actions .btn-primary {
+      min-height: 2.45rem;
+      padding: 0.68rem 1rem;
+      border-radius: 5px;
+      box-shadow: 0 8px 18px rgba(26, 26, 26, 0.14);
+      font-size: 0.76rem;
+    }
+
+    .policy-secondary-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.45rem;
+      padding: 0.68rem 0.95rem;
+      color: var(--policy-ink-soft);
+      background: rgba(255, 255, 255, 0.52);
+      border: 1px solid rgba(22, 24, 23, 0.14);
+      border-radius: 5px;
+      font-size: 0.76rem;
+      line-height: 1.2;
+      transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+    }
+
+    .policy-secondary-link::after {
+      display: none;
+    }
+
+    .policy-secondary-link:hover {
+      color: var(--policy-ink);
+      background: rgba(255, 255, 255, 0.86);
+      border-color: rgba(22, 24, 23, 0.28);
+    }
+
+    .policy-hero-visual {
+      position: relative;
+      min-height: clamp(380px, 43vw, 520px);
+      display: grid;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .policy-hero-art {
+      width: 100%;
+      max-width: min(430px, 100%);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 24px 34px rgba(22, 24, 23, 0.1));
+    }
+
+    .policy-quick-info {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      margin: 0 0 1rem;
+      padding: 0;
+      background: rgba(22, 24, 23, 0.12);
+      border: 1px solid rgba(22, 24, 23, 0.13);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    .policy-quick-info::after {
+      display: none;
+    }
+
+    .policy-quick-info + .policy-section {
+      margin-top: 2.7rem;
+    }
+
+    .policy-stat {
+      min-height: 0;
+      padding: 0.82rem 1rem 0.92rem;
+      background: rgba(255, 255, 255, 0.82);
+      border: 0;
+    }
+
+    .policy-stat:last-child {
+      background: var(--policy-accent-dark);
+    }
+
+    .policy-stat + .policy-stat {
+      border-left: 0;
+    }
+
+    .policy-stat span,
+    .policy-card span,
+    .policy-logistic span {
+      color: var(--policy-accent);
+    }
+
+    .policy-stat strong {
+      display: block;
+      margin-top: 0.22rem;
+      color: var(--policy-ink);
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      font-weight: 400;
+      line-height: 1.45;
+      overflow-wrap: break-word;
+    }
+
+    .policy-stat:last-child span {
+      color: rgba(255, 255, 255, 0.68);
+    }
+
+    .policy-stat:last-child strong {
+      color: #ffffff;
+    }
+
+    .policy-section {
+      display: grid;
+      grid-template-columns: minmax(190px, 250px) minmax(0, 1fr);
+      gap: clamp(2rem, 5vw, 4.5rem);
+      padding: 3.6rem 0;
+      border-top: 1px solid rgba(22, 24, 23, 0.1);
+      scroll-margin-top: 6rem;
+    }
+
+    .policy-section:first-of-type {
+      border-top: 0;
+    }
+
+    .policy-section-label {
+      position: relative;
+      margin-bottom: 0.85rem;
+      padding-top: 0.8rem;
+      color: var(--policy-accent);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .policy-section-label::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2rem;
+      height: 2px;
+      background: var(--policy-accent);
+    }
+
+    .policy-section h2 {
+      max-width: 14ch;
+      color: var(--policy-ink);
+      font-size: clamp(1.65rem, 3vw, 2.2rem);
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .policy-section p {
+      max-width: 64ch;
+      color: var(--policy-ink-soft);
+      font-size: 0.98rem;
+      line-height: 1.78;
+      overflow-wrap: break-word;
+    }
+
+    .policy-copy p,
+    .policy-section > div > p:not(.policy-section-label):not(.policy-note) {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      line-height: 1.74;
+    }
+
+    .policy-section--expectations {
+      padding-bottom: 2.8rem;
+    }
+
+    .policy-copy p + p {
+      margin-top: 1rem;
+    }
+
+    .policy-early-apply {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.25rem;
+      margin-top: -0.4rem;
+      padding: 1.25rem 0 2.6rem;
+      border-bottom: 1px solid rgba(22, 24, 23, 0.1);
+    }
+
+    .policy-early-apply span {
+      display: block;
+      margin-bottom: 0.28rem;
+      color: var(--policy-accent);
+      font-size: 0.75rem;
+      line-height: 1.5;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .policy-early-apply strong {
+      display: block;
+      max-width: 44ch;
+      color: var(--policy-ink);
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.55;
+    }
+
+    .policy-card-grid,
+    .policy-logistics {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .policy-topic-list {
+      display: grid;
+      position: relative;
+      gap: 0;
+      margin: 1.75rem 0 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: policy-topic;
+    }
+
+    .policy-topic-list::before {
+      content: '';
+      position: absolute;
+      top: 1rem;
+      bottom: 1rem;
+      left: 1.18rem;
+      width: 1px;
+      background: rgba(66, 102, 92, 0.22);
+    }
+
+    .policy-topic-list li {
+      position: relative;
+      display: grid;
+      grid-template-columns: 2.7rem minmax(0, 1fr);
+      gap: 1.05rem;
+      align-items: center;
+      padding: 0.95rem 0;
+      background: transparent;
+      border: 0;
+      border-bottom: 1px solid rgba(22, 24, 23, 0.1);
+      border-radius: 0;
+      color: var(--policy-ink-soft);
+      box-shadow: none;
+    }
+
+    .policy-topic-list span {
+      display: inline-flex;
+      width: 2.4rem;
+      height: 2.4rem;
+      align-items: center;
+      justify-content: center;
+      background: #fbfbfa;
+      border: 1px solid rgba(66, 102, 92, 0.24);
+      border-radius: 50%;
+      color: var(--policy-accent);
+      font-size: 0.76rem;
+      z-index: 1;
+    }
+
+    .policy-topic-list strong {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-weight: 400;
+      line-height: 1.45;
+      color: var(--policy-ink);
+    }
+
+    .policy-note {
+      margin-top: 1.1rem;
+      color: var(--policy-muted);
+      font-size: 0.85rem;
+      font-style: normal;
+    }
+
+    .policy-photo-band {
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      border-top: 1px solid rgba(22, 24, 23, 0.1);
+      border-bottom: 1px solid rgba(22, 24, 23, 0.1);
+    }
+
+    .policy-photo-band figure {
+      position: relative;
+      margin: 0;
+      height: clamp(260px, 38vw, 420px);
+      overflow: hidden;
+      border-radius: 8px;
+      background: var(--policy-soft);
+    }
+
+    .policy-photo-band img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: center 58%;
+      filter: saturate(0.92) contrast(1.02);
+    }
+
+    .policy-logistics {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-top: 1.25rem;
+    }
+
+    .policy-logistic,
+    .policy-card {
+      position: relative;
+      padding: 1.2rem 1.25rem;
+      background: rgba(255, 255, 255, 0.62);
+      border: 1px solid rgba(22, 24, 23, 0.11);
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: none;
+    }
+
+    .policy-logistic::before,
+    .policy-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 3px;
+      background: var(--policy-accent);
+    }
+
+    .policy-logistic strong,
+    .policy-card strong {
+      display: block;
+      margin-top: 0.4rem;
+      color: var(--policy-ink);
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
+      font-weight: 400;
+      line-height: 1.4;
+      letter-spacing: 0;
+    }
+
+    .policy-card-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .policy-card p {
+      margin-top: 0.65rem;
+      margin-bottom: 0;
+      color: var(--policy-muted);
+      font-family: var(--font-serif);
+      font-size: 0.88rem;
+      line-height: 1.68;
+    }
+
+    .policy-card-grid--three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0;
+      border-top: 1px solid rgba(22, 24, 23, 0.12);
+      border-bottom: 1px solid rgba(22, 24, 23, 0.12);
+    }
+
+    .policy-card-grid--three .policy-card {
+      padding: 1.2rem 1.25rem 1.35rem;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+    .policy-card-grid--three .policy-card + .policy-card {
+      border-left: 1px solid rgba(22, 24, 23, 0.12);
+    }
+
+    .policy-card-grid--three .policy-card::before {
+      top: 1.2rem;
+      bottom: auto;
+      left: 1.25rem;
+      width: 1.7rem;
+      height: 2px;
+      background: var(--policy-accent);
+    }
+
+    .policy-card-grid--three .policy-card span {
+      margin-top: 0.55rem;
+      color: var(--policy-accent);
+      font-size: 0.76rem;
+    }
+
+    .policy-card-grid--three .policy-card strong {
+      margin-top: 0.35rem;
+      font-size: 1.18rem;
+      line-height: 1.3;
+    }
+
+    .policy-card-grid--three .policy-card p {
+      max-width: 28ch;
+      margin-top: 0.7rem;
+      font-size: 0.92rem;
+      line-height: 1.62;
+    }
+
+    .policy-apply {
+      padding: 0 0 0.75rem;
+      scroll-margin-top: 6rem;
+    }
+
+    .policy-apply-card {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      gap: 2.5rem;
+      align-items: center;
+      padding: clamp(1.5rem, 4vw, 2.4rem);
+      border: 1px solid rgba(66, 102, 92, 0.26);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(22, 24, 23, 0.96) 0%, rgba(38, 63, 57, 0.96) 100%);
+      color: var(--policy-ink);
+      overflow: hidden;
+      box-shadow: 0 24px 58px rgba(26, 26, 26, 0.16);
+    }
+
+    .policy-apply-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0%, transparent 38%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.08) 0, transparent 1px);
+      pointer-events: none;
+    }
+
+    .policy-apply-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .policy-apply-card h2 {
+      margin-bottom: 0.45rem;
+      color: #ffffff;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .policy-apply-card p {
+      max-width: 60ch;
+      color: rgba(255, 255, 255, 0.76);
+      line-height: 1.75;
+    }
+
+    .policy-apply-card .btn-primary {
+      white-space: nowrap;
+      background: #ffffff;
+      color: var(--policy-ink);
+      border-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+    }
+
+    .policy-apply-card .btn-primary:hover {
+      background: var(--policy-wash);
+      color: var(--policy-ink);
+      border-color: var(--policy-wash);
+    }
+
+    .policy-faq {
+      max-width: none;
+      margin: 0;
+      padding: 3rem 0 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      scroll-margin-top: 6rem;
+    }
+
+    .policy-faq .faq-header {
+      padding-top: 1.2rem;
+      border-top: 0;
+    }
+
+    .policy-faq .faq-card {
+      border-radius: 8px;
+      border: 1px solid rgba(22, 24, 23, 0.11);
+      box-shadow: 0 10px 28px rgba(26, 26, 26, 0.035);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .policy-faq .faq-title,
+    .policy-faq .faq-card {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .policy-faq .faq-title {
+      font-size: clamp(1.65rem, 3vw, 2rem);
+      letter-spacing: 0;
+    }
+
+    .policy-faq .faq-question {
+      padding: 1rem 1.1rem;
+    }
+
+    .policy-faq .faq-question span:first-child {
+      font-family: var(--font-mono);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .policy-faq .faq-icon {
+      width: 1.75rem;
+      height: 1.75rem;
+      border-radius: 6px;
+      background: rgba(66, 102, 92, 0.08);
+      border-color: rgba(66, 102, 92, 0.18);
+    }
+
+    .policy-faq .faq-answer {
+      padding: 0.25rem 1.1rem 1rem;
+    }
+
+    .policy-faq .faq-footer {
+      margin-top: 1rem;
+      color: var(--policy-muted);
+    }
+
+    @media (max-width: 880px) {
+      .policy-hero,
+      .policy-section,
+      .policy-apply-card {
+        grid-template-columns: 1fr;
+      }
+
+      .policy-page main {
+        max-width: 720px;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        padding-top: 6rem;
+      }
+
+      .policy-hero {
+        gap: 2rem;
+        padding-bottom: 2.75rem;
+      }
+
+      .policy-hero h1 {
+        max-width: none;
+      }
+
+      .policy-section {
+        gap: 1rem;
+      }
+
+      .policy-section h2 {
+        max-width: 18ch;
+      }
+
+      .policy-quick-info,
+      .policy-card-grid--three {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .policy-apply-card {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .policy-page main {
+        box-sizing: border-box;
+        width: auto;
+        max-width: 100vw;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 5.5rem;
+        overflow: hidden;
+      }
+
+      .policy-page main > section,
+      .policy-hero-copy,
+      .policy-hero-actions,
+      .policy-quick-info,
+      .policy-section > div,
+      .policy-card-grid,
+      .policy-logistics {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .policy-page main > section:not(.policy-hero) {
+        box-sizing: border-box;
+        width: auto;
+        max-width: 100%;
+        margin-left: 0;
+        margin-right: 0;
+      }
+
+      .policy-section {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .policy-section p,
+      .policy-copy p {
+        max-width: 100%;
+      }
+
+      .policy-hero-copy,
+      .policy-lede,
+      .policy-hero-actions,
+      .policy-hero-actions .btn-primary,
+      .policy-secondary-link,
+      .policy-quick-info {
+        width: 100%;
+        max-width: 100%;
+      }
+
+      .policy-stat strong,
+      .policy-card strong,
+      .policy-card p,
+      .policy-logistic strong {
+        max-width: calc(100vw - 4rem);
+        white-space: normal;
+      }
+
+      .policy-hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100vw;
+        max-width: 100vw;
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw);
+        padding-left: 1rem;
+        padding-right: 1rem;
+        gap: 1.9rem;
+        padding-top: 0.6rem;
+        padding-bottom: 2.5rem;
+        justify-items: center;
+        text-align: center;
+      }
+
+      .policy-hero h1 {
+        margin: 0 auto 1.1rem;
+        font-size: clamp(2.7rem, 15vw, 3.45rem);
+        line-height: 1.03;
+        max-width: 8.5ch;
+      }
+
+      .policy-hero-copy::before {
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .policy-kicker {
+        font-size: 0.72rem;
+        line-height: 1.6;
+      }
+
+      .policy-lede {
+        display: none;
+      }
+
+      .policy-lede-mobile {
+        display: block;
+        max-width: 31ch;
+        margin: 0 auto;
+        color: var(--policy-ink-soft);
+        font-family: var(--font-serif);
+        font-size: 1.02rem;
+        line-height: 1.66;
+      }
+
+      .policy-hero-copy {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-width: 100%;
+      }
+
+      .policy-quick-info,
+      .policy-logistics,
+      .policy-card-grid,
+      .policy-card-grid--three {
+        grid-template-columns: 1fr;
+      }
+
+      .policy-stat,
+      .policy-stat:nth-child(n) {
+        min-height: auto;
+        padding: 0.9rem 1rem;
+      }
+
+      .policy-stat + .policy-stat {
+        border-left: 0;
+      }
+
+      .policy-hero-visual {
+        min-height: auto;
+        padding: 0.15rem 0 0;
+      }
+
+      .policy-hero-art {
+        max-width: min(330px, 82vw);
+      }
+
+      .policy-section {
+        padding: 2.5rem 0;
+      }
+
+      .policy-hero-actions {
+        width: auto;
+        max-width: 100%;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 0.7rem;
+        margin-top: 1.55rem;
+      }
+
+      .policy-hero-actions .btn-primary,
+      .policy-apply-card .btn-primary {
+        width: auto;
+        max-width: 100%;
+        min-height: 2.35rem;
+        padding: 0.65rem 1.05rem;
+        text-align: center;
+      }
+
+      .policy-secondary-link {
+        justify-content: center;
+        width: auto;
+        max-width: 100%;
+        min-height: 2.35rem;
+        padding: 0.65rem 0.95rem;
+      }
+
+      .policy-topic-list li {
+        grid-template-columns: 2.3rem minmax(0, 1fr);
+        padding: 0.85rem;
+      }
+
+      .policy-topic-list span {
+        width: 2.1rem;
+        height: 2.1rem;
+      }
+
+      .policy-card-grid--three {
+        border-top: 0;
+        border-bottom: 0;
+        gap: 0.85rem;
+      }
+
+      .policy-card-grid--three .policy-card {
+        padding: 1.1rem 1.1rem 1.15rem;
+        border: 1px solid rgba(22, 24, 23, 0.11);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.62);
+      }
+
+      .policy-card-grid--three .policy-card + .policy-card {
+        border-left: 1px solid rgba(22, 24, 23, 0.11);
+      }
+
+      .policy-card-grid--three .policy-card::before {
+        left: 1.1rem;
+      }
+
+      .policy-photo-band figure {
+        height: 260px;
+      }
+
+      .policy-apply-card {
+        gap: 1.25rem;
+      }
+
+      .policy-early-apply {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: -0.2rem;
+        padding-bottom: 2.2rem;
+      }
+    }
+  </style>
+
+  <!-- Styles (async) -->
+  <noscript><link rel="stylesheet" href="/styles.css?v=d6bbf8e3"></noscript>
+
+  <!-- Enhancements -->
+  <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</head>
+<body class="policy-page">
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home">
+        <img src="/images/logo.png" class="logo" width="50" height="50">
+      </a>
+      <ul class="nav-links">
+        <li class="nav-has-dropdown"><a href="/fellowship" class="active">Courses <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/fellowship">Alignment Fellowship</a></li><li><a href="/policy" class="active">UK AI Policy Course</a></li></ul></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li><a href="/hardware">Hardware</a></li>
+        <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/fellowship">Courses</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Courses menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/fellowship" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Alignment Fellowship</span></a></li>
+          <li><a href="/policy" class="mobile-nav-child-link"><span class="mobile-nav-child-title">UK AI Policy Course</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li><a href="/hardware">Hardware</a></li>
+      <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
+  <div class="ambient-glow" aria-hidden="true"></div>
+  <main>
+    <section class="policy-hero" id="main-content">
+      <div class="policy-hero-copy">
+        <p class="policy-kicker">Applications close Sunday 12 July 2026</p>
+        <h1><span>UK AI Policy</span><span>Course</span></h1>
+        <p class="policy-lede">Learn how UK AI policy is made, where live governance debates are moving, and how to write about them clearly. Three Cambridge sessions, one London intensive, one publishable post.</p>
+        <p class="policy-lede-mobile">Learn how UK AI policy is made, where governance debates are moving, and how to write about them clearly.</p>
+        <div class="policy-hero-actions">
+          <a href="https://airtable.com/appJHPLBwGSa1eM4g/shrQveTD9Offw60Oc" class="btn-primary" target="_blank" rel="noopener">Apply now</a>
+          <a href="#course" class="policy-secondary-link">Course details</a>
+        </div>
+      </div>
+      <div class="policy-hero-visual" aria-hidden="true">
+        <img class="policy-hero-art" src="/images/uk-ai-policy-map.png" alt="" width="1122" height="1402" fetchpriority="high">
+      </div>
+    </section>
+
+    <section class="policy-quick-info" aria-label="Course summary">
+      <div class="policy-stat">
+        <span>Duration</span>
+        <strong>3 weeks</strong>
+      </div>
+      <div class="policy-stat">
+        <span>Format</span>
+        <strong>Cambridge + London</strong>
+      </div>
+      <div class="policy-stat">
+        <span>Outcome</span>
+        <strong>Publish a policy post</strong>
+      </div>
+      <div class="policy-stat">
+        <span>Deadline</span>
+        <strong>Sun 12 Jul, 23:59 AOE</strong>
+      </div>
+    </section>
+
+    <section class="policy-section" id="course">
+      <div>
+        <p class="policy-section-label">What it is</p>
+        <h2>A practical course in UK AI policy.</h2>
+      </div>
+      <div class="policy-copy">
+        <p>The UK AI Policy Course is for people who already have some AI safety context and want to understand how UK AI policy works in practice, while starting to plan a career in UK AI policy through something concrete.</p>
+        <p>Over three weekly two-hour sessions at the Meridian office in Cambridge, you will read and discuss live policy questions with a small cohort. The course also includes a one-day London intensive; see below for details.</p>
+        <p>You will leave with a short policy post ready to publish, giving you a concrete piece for your portfolio.</p>
+      </div>
+    </section>
+
+    <section class="policy-early-apply" aria-label="Apply for the UK AI Policy Course">
+      <div>
+        <span>Applications close Sunday 12 July</span>
+        <strong>Interested but unsure whether you are ready? Please have a low bar for applying.</strong>
+      </div>
+      <a href="https://airtable.com/appJHPLBwGSa1eM4g/shrQveTD9Offw60Oc" class="btn-primary" target="_blank" rel="noopener">Apply now</a>
+    </section>
+
+    <section class="policy-section">
+      <div>
+        <p class="policy-section-label">Syllabus</p>
+        <h2>What we will cover.</h2>
+      </div>
+      <div>
+        <p>The full reading list is finalised closer to the start so it stays current and close to live policy debates. The course is structured around three sessions.</p>
+        <ol class="policy-topic-list">
+          <li><span>01</span><strong>UK AI policy landscape and regulation</strong></li>
+          <li><span>02</span><strong>Risk, loss of control, incident reporting, and the EU angle</strong></li>
+          <li><span>03</span><strong>Writing for policy: turning a question into a publishable post</strong></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="policy-photo-band" aria-label="Discussion session at Meridian">
+      <figure>
+        <img src="/images/meridian-24.jpg" alt="Audience attending a Cambridge AI Safety Hub session" decoding="async" width="5616" height="3744">
+      </figure>
+    </section>
+
+    <section class="policy-section">
+      <div>
+        <p class="policy-section-label">Logistics</p>
+        <h2>When it runs.</h2>
+      </div>
+      <div>
+        <p>The course runs in Cambridge across three weeks, with sessions in the weeks beginning 27 July, 3 August, and 10 August 2026. The London intensive is planned for a Saturday in August, after the venue is confirmed. We will ask for your availability during the application process so we can find times that suit the cohort.</p>
+        <div class="policy-logistics">
+          <div class="policy-logistic">
+            <span>Cambridge sessions</span>
+            <strong>Three two-hour sessions at Meridian</strong>
+          </div>
+          <div class="policy-logistic">
+            <span>Intensive day</span>
+            <strong>One full day in London</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="policy-section">
+      <div>
+        <p class="policy-section-label">Support</p>
+        <h2>What we provide.</h2>
+      </div>
+      <div class="policy-card-grid">
+        <article class="policy-card">
+          <span>Discussion</span>
+          <strong>Facilitated small-group sessions</strong>
+          <p>Reading lists, facilitation, and food and drink, built around discussing the material and developing your own policy question.</p>
+        </article>
+        <article class="policy-card">
+          <span>London day</span>
+          <strong>Workshops and policy networking</strong>
+          <p>A free day of workshops and networking in central London, giving you direct access to policy professionals in the UK AI policy space.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="policy-section policy-section--expectations">
+      <div>
+        <p class="policy-section-label">Expectations</p>
+        <h2>What we expect from you.</h2>
+      </div>
+      <div class="policy-card-grid policy-card-grid--three">
+        <article class="policy-card">
+          <span>01</span>
+          <strong>Commitment</strong>
+          <p>Attend all weekly sessions and the London intensive.</p>
+        </article>
+        <article class="policy-card">
+          <span>02</span>
+          <strong>Preparation</strong>
+          <p>Complete the syllabus readings before each session.</p>
+        </article>
+        <article class="policy-card">
+          <span>03</span>
+          <strong>Independent work</strong>
+          <p>Develop a writing agenda through independent research.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="policy-apply" id="apply">
+      <div class="policy-apply-card">
+        <div>
+          <h2>Applications close Sunday 12 July 2026.</h2>
+          <p>Apply by 23:59 AOE. The form is short, and we especially want to hear from people who are keen on policy but still shaping their first serious research direction. Please have a low bar for applying.</p>
+        </div>
+        <a href="https://airtable.com/appJHPLBwGSa1eM4g/shrQveTD9Offw60Oc" class="btn-primary" target="_blank" rel="noopener">Apply now</a>
+      </div>
+    </section>
+
+    <section class="fellowship-faq policy-faq" aria-labelledby="policy-faq-title">
+      <div class="faq-header">
+        <h2 id="policy-faq-title" class="faq-title">FAQ</h2>
+      </div>
+      <div class="faq-accordion" data-accordion="policy-faq">
+        <article class="faq-card">
+          <button class="faq-question" aria-expanded="false">
+            <span>Do I have to pay for the course?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" hidden>
+            <p>No. We cover food during the sessions and reimburse travel from London and comparable distances.</p>
+          </div>
+        </article>
+        <article class="faq-card">
+          <button class="faq-question" aria-expanded="false">
+            <span>Do I have to be based in Cambridge?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" hidden>
+            <p>The weekly sessions are planned to run in Cambridge. We can reimburse travel from London to Cambridge, or comparable distances, if cost would otherwise affect your ability to take part. The intensive day in London is in person.</p>
+          </div>
+        </article>
+        <article class="faq-card">
+          <button class="faq-question" aria-expanded="false">
+            <span>How will you select people?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" hidden>
+            <p>We assess you on your application. If we receive too many applications, we may ask you to complete an asynchronous interview. We are looking for applicants who are enthusiastic about AI policy and have some prior AI safety context, for example from an introductory course or fellowship. Please have a low bar for applying if you are uncertain but keen.</p>
+          </div>
+        </article>
+        <article class="faq-card">
+          <button class="faq-question" aria-expanded="false">
+            <span>What is the time commitment?</span>
+            <span class="faq-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" hidden>
+            <p>Three two-hour reading sessions in Cambridge and one full-day intensive in London. Between sessions you will do the reading and your own research.</p>
+          </div>
+        </article>
+      </div>
+      <p class="faq-footer">If you have questions that are not addressed here, please email angharad@cambridgeaisafety.org.</p>
+    </section>
+  </main>
+
+  <!-- Back to Top Button -->
+  <button class="back-to-top" aria-label="Back to top">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </button>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-legal">
+        Cambridge AI Safety Hub is fiscally sponsored by <a href="https://find-and-update.company-information.service.gov.uk/company/13653958" target="_blank" rel="noopener">Meridian Impact CIC</a> and funded by <a href="https://coefficientgiving.org" target="_blank" rel="noopener">Coefficient Giving</a>. <a href="/privacy">Privacy Policy</a> &middot; <a href="/terms">Terms of Service</a>
+      </div>
+      <span class="footer-copy">&copy; 2026 CAISH</span>
+    </div>
+  </footer>
+
+  <script>
+    const MobileNav = {
+      init() {
+        const nav = document.getElementById('mobile-nav');
+        const toggle = document.getElementById('nav-toggle');
+        const close = document.getElementById('mobile-nav-close');
+
+        toggle?.addEventListener('click', () => nav?.classList.add('active'));
+        close?.addEventListener('click', () => nav?.classList.remove('active'));
+        nav?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('active')));
+      }
+    };
+
+    const BackToTop = {
+      init() {
+        const btn = document.querySelector('.back-to-top');
+        if (!btn) return;
+        window.addEventListener('scroll', () => {
+          btn.classList.toggle('visible', window.scrollY > 400);
+        }, { passive: true });
+        btn.addEventListener('click', () => {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    };
+
+    document.readyState === 'loading'
+      ? document.addEventListener('DOMContentLoaded', () => { MobileNav.init(); BackToTop.init(); })
+      : (() => { MobileNav.init(); BackToTop.init(); })();
+  </script>
+  <script>
+    (() => {
+      const accordions = document.querySelectorAll('.faq-accordion');
+      accordions.forEach(accordion => {
+        accordion.querySelectorAll('.faq-question').forEach(button => {
+          button.addEventListener('click', () => {
+            const isOpen = button.getAttribute('aria-expanded') === 'true';
+            const answer = button.nextElementSibling;
+
+            button.setAttribute('aria-expanded', String(!isOpen));
+            button.parentElement.classList.toggle('open', !isOpen);
+
+            if (answer) {
+              answer.hidden = isOpen;
+            }
+          });
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
