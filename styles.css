@@ -5218,7 +5218,7 @@
     max-width: none;
     margin: 0 auto var(--space-6);
     font-size: clamp(2.6rem, 6.2vw, 5.2rem);
-    line-height: 1.04;
+    line-height: 1.16;
     color: var(--black);
     overflow-wrap: anywhere;
   }
