@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload critical resources -->
-  <link rel="preload" href="/styles.css?v=53e08f5d" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/styles.css?v=dev1" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
@@ -53,8 +53,16 @@
     .nav-links{display:flex;gap:clamp(1rem,3vw,2.5rem);list-style:none}
     .nav-links a{font-size:0.75rem;color:#4a4a4a;text-decoration:none}
     .careers-hero{position:relative;display:flex;align-items:flex-end;overflow:hidden;background:#fbfbfa}
-    .careers-hero-content{position:relative;z-index:1;width:min(1000px,100%);margin:0 auto;padding:8rem 2.5rem 2.75rem;color:#1a1a1a}
-    .careers-hero-content p{max-width:56ch;color:#4a4a4a}
+    .careers-hero-content{position:relative;z-index:1;width:min(1000px,100%);margin:0 auto;padding:8rem 2.5rem 2.5rem;color:#1a1a1a;text-align:center}
+    .careers-hero-content h1{max-width:none;margin:0 auto 1.5rem;font-size:clamp(2.6rem,6.2vw,5.2rem);line-height:1.04}
+    .careers-hero-content h1 em{font-style:italic;font-weight:400}
+    .careers-hero-content p{max-width:52ch;margin:0 auto;color:#4a4a4a;font-family:'Libre Baskerville',Georgia,serif;font-size:clamp(1.02rem,1.5vw,1.22rem);line-height:1.75}
+    @keyframes careers-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+    .careers-hero-content .label,.careers-hero-content h1,.careers-hero-content p{animation:careers-rise 0.7s cubic-bezier(0.22,1,0.36,1) both}
+    .careers-hero-content h1{animation-delay:0.08s}
+    .careers-hero-content p{animation-delay:0.18s}
+    .careers-hero-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:1.25rem;margin-top:2rem;animation:careers-rise 0.7s cubic-bezier(0.22,1,0.36,1) both;animation-delay:0.28s}
+    @media (prefers-reduced-motion:reduce){.careers-hero-content .label,.careers-hero-content h1,.careers-hero-content p,.careers-hero-actions{animation:none}}
     .label{font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:#8a8a8a;margin-bottom:1.25rem;display:block}
     .skip-link{position:absolute;top:-40px;left:0;background:#1a1a1a;color:#fefefe;padding:8px 16px;z-index:100}
     .nav-toggle{display:none}
@@ -62,7 +70,7 @@
   </style>
 
   <!-- Styles (async) -->
-  <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
+  <noscript><link rel="stylesheet" href="/styles.css?v=dev1"></noscript>
 
   <!-- Enhancements -->
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
@@ -135,7 +143,7 @@
     <section class="careers-hero" id="main-content" aria-labelledby="careers-title">
       <div class="careers-hero-content">
         <span class="label">Careers at CAISH</span>
-        <h1 id="careers-title">Operations Associate/<wbr>Manager</h1>
+        <h1 id="careers-title"><em>Operations</em><br>Associate/<wbr>Manager</h1>
         <p>Help CAISH build the operational systems that make our programmes, events, residencies, and hiring work reliably as we grow.</p>
         <div class="careers-hero-actions">
           <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagxYV4KsUY2HSoBB/form" target="_blank" rel="noopener">Apply now</a>
@@ -212,7 +220,7 @@
     <section class="careers-section" id="role-details" aria-labelledby="role-title">
       <div class="careers-section-heading">
         <h2 id="role-title">The Role</h2>
-        <p>In practice, this means keeping track of operational detail, making sure people have what they need, improving recurring processes, and spotting what will break before it does.</p>
+        <p>In practice, you would keep track of operational detail, make sure people have what they need, improve recurring processes, and spot what will break before it does.</p>
       </div>
 
       <div class="careers-ownership-grid">
@@ -242,12 +250,14 @@
     <section class="careers-section careers-section--work" aria-labelledby="work-title">
       <div class="careers-section-heading">
         <h2 id="work-title">How We Work</h2>
+        <figure class="careers-figure careers-figure--photo">
+          <img src="/images/meridian-office-01.jpg" alt="Two people chatting over tea in the Meridian office kitchen" width="1200" height="1600" loading="lazy">
+        </figure>
       </div>
       <div class="careers-work-copy">
         <p>CAISH runs on an ownership model. The point is to let each person operate with enough context to move quickly, without constantly pulling everyone else into decisions in ways that slow the work down.</p>
         <p>As our first operations hire, you would sit within that model too. You would own operations. Some of that is practical: making Airtable, email, trackers, payments, and recurring logistics work reliably. Some of it is strategic: deciding what we measure, finding the bottlenecks that stop us from scaling, choosing where to automate, and building the operating rhythms that let the team make better decisions.</p>
         <p>There will be grunt work. There will also be scope to build something much better than what exists now. Once you have enough context, we would want you to spend part of each week improving and automating our systems, while still getting the object-level logistics done.</p>
-        <p>CAISH is startupy, and we want you to be comfortable with that while operating inside a 40-hour week. We think sustained work beyond that tends to make people&rsquo;s output worse. If a particular week genuinely needs more, you can make that call and use our unlimited PTO in a way that keeps the overall pattern sustainable.</p>
       </div>
     </section>
 
@@ -326,6 +336,9 @@
     <section class="careers-section careers-offer" aria-labelledby="offer-title">
       <div>
         <h2 id="offer-title">What We Offer</h2>
+        <figure class="careers-figure careers-figure--photo">
+          <img src="/images/meridian-office-02.jpg" alt="A team member working at a desk in the Meridian office" width="900" height="1800" loading="lazy">
+        </figure>
       </div>
       <div class="careers-offer-content">
         <div class="careers-salary-table" aria-label="Salary ranges">
@@ -354,8 +367,8 @@
             <span>A relocation stipend to help you move to Cambridge, plus visa sponsorship for non-UK residents.</span>
           </li>
           <li>
-            <strong>Ownership</strong>
-            <span>Clear goals, supportive check-ins, and real ownership of your projects.</span>
+            <strong>Autonomy</strong>
+            <span>We want you to figure out how you work best, with room to make mistakes and do better next time, rather than being micromanaged. When we give feedback, we ask questions and try to understand the process rather than critique the end outcome.</span>
           </li>
           <li>
             <strong>Development</strong>
@@ -365,10 +378,6 @@
             <strong>Working setup</strong>
             <span>Flexible hours, unlimited PTO, a tech stipend, a professional development stipend, and coworking space in central Cambridge.</span>
           </li>
-          <li>
-            <strong>Team</strong>
-            <span>A collaborative, caring team, with room to develop and take on more as CAISH grows.</span>
-          </li>
         </ul>
       </div>
     </section>
@@ -376,7 +385,7 @@
     <section class="careers-section careers-process" aria-labelledby="process-title">
       <div class="careers-section-heading">
         <h2 id="process-title">Hiring Process</h2>
-        <p>Dates are subject to change.</p>
+        <p>Dates after the application deadline are approximate.</p>
       </div>
       <ol class="careers-timeline">
         <li>
@@ -384,19 +393,19 @@
           <strong>Initial application deadline</strong>
         </li>
         <li>
-          <span>Due Sunday 26 July 2026</span>
+          <span>26 July 2026</span>
           <strong>Short async interview</strong>
         </li>
         <li>
-          <span>Due Sunday 9 August 2026</span>
+          <span>9 August 2026</span>
           <strong>Paid take-home work trial</strong>
         </li>
         <li>
-          <span>Week commencing 24 August 2026</span>
+          <span>24 August 2026</span>
           <strong>Panel interview</strong>
         </li>
         <li>
-          <span>Week commencing 31 August 2026</span>
+          <span>31 August 2026</span>
           <strong>Final offer</strong>
         </li>
       </ol>
@@ -405,7 +414,7 @@
     <section class="careers-apply" aria-labelledby="apply-title">
       <div class="careers-apply-copy">
         <h2 id="apply-title">Apply</h2>
-        <p>Apply by 19 July 2026, 23:59 AoE. If you have questions about the role, email <a href="mailto:hiring@caish.org">hiring@caish.org</a>.</p>
+        <p>The deadline is 19 July 2026, 23:59 AoE. If you have questions about the role, email <a href="mailto:hiring@caish.org">hiring@caish.org</a>.</p>
       </div>
       <a class="btn-primary" href="https://airtable.com/appJHPLBwGSa1eM4g/pagxYV4KsUY2HSoBB/form" target="_blank" rel="noopener">Apply now</a>
     </section>
