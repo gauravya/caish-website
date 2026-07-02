@@ -5416,9 +5416,7 @@
   }
 
   .careers-side-panel {
-    position: sticky;
-    top: 5.5rem;
-    align-self: start;
+    align-self: center;
     display: grid;
     gap: var(--space-4);
   }
@@ -5583,22 +5581,6 @@
   .careers-timeline p {
     max-width: none;
     font-size: 0.88rem;
-  }
-
-  .careers-note {
-    margin-top: var(--space-6);
-    padding-top: var(--space-5);
-    border-top: 1px solid rgba(26, 26, 26, 0.1);
-  }
-
-  #role-details .careers-note {
-    margin-top: var(--space-8);
-    padding-top: var(--space-6);
-  }
-
-  .careers-note p {
-    max-width: 74ch;
-    color: var(--black);
   }
 
   .careers-split-section {
