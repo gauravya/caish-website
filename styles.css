@@ -5533,12 +5533,16 @@
 
   .careers-section--work .careers-figure,
   .careers-offer .careers-figure {
+    position: relative;
     flex: 1;
     min-height: 0;
   }
 
   .careers-section--work .careers-figure img,
   .careers-offer .careers-figure img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
     height: 100%;
     object-fit: cover;
   }
@@ -5948,6 +5952,7 @@
 
     .careers-section--work .careers-figure img,
     .careers-offer .careers-figure img {
+      position: static;
       height: auto;
       object-fit: unset;
     }
