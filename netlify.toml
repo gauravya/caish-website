@@ -26,7 +26,7 @@
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       font-src 'self' https://fonts.gstatic.com;
       img-src 'self' data: https:;
-      connect-src 'self' https://*.lu.ma https://forms-eu1.hsforms.com;
+      connect-src 'self' https://*.lu.ma https://forms-eu1.hsforms.com https://joggzpdemdmyvnlhtjte.supabase.co;
       frame-src https://tally.so https://www.youtube.com;
       media-src 'self' https://pub-fd3e7e854dc549da85f015f509d5ec9a.r2.dev;
       base-uri 'self';

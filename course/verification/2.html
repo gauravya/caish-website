@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Unit 02: What people are pursuing. Part of the CAISH AI Verification reading course.">
-  <title>Unit 02 · What people are pursuing | AI Verification | CAISH</title>
+  <meta name="description" content="Unit 02: The mechanism landscape. Part of the CAISH AI Assurance reading course.">
+  <title>Unit 02 · The mechanism landscape | AI Assurance | CAISH</title>
 
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="apple-touch-icon" href="/images/favicon.png">
@@ -16,9 +16,6 @@
 
   <link rel="preload" href="/styles.css?v=53e08f5d" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
-  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
   <style>
@@ -39,8 +36,10 @@
   <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
 
-  <link rel="stylesheet" href="/course/verification/course.css?v=20260601b">
-  <script src="/course/verification/course.js?v=20260601b" defer></script>
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260702h">
+  <script src="/course/verification/supabase.js?v=2" defer></script>
+  <script src="/course/verification/supabase-config.js?v=1" defer></script>
+  <script src="/course/verification/course.js?v=20260703d" defer></script>
 </head>
 <body class="course-page" data-unit="2">
 
@@ -92,9 +91,9 @@
         <span class="course-nav-label">Contents</span>
         <ol>
           <li><a href="/course/verification/"><span>Overview</span><strong>Landing page</strong></a></li>
-          <li><a href="/course/verification/1.html" class=""><span>Unit 01</span><strong>Why this matters</strong></a></li>
-          <li><a href="/course/verification/2.html" class="active"><span>Unit 02</span><strong>What people are pursuing</strong></a></li>
-          <li><a href="/course/verification/3.html" class=""><span>Unit 03</span><strong>How we could do this</strong></a></li>
+          <li><a href="/course/verification/1.html" class=""><span>Unit 01</span><strong>Why verification, and the map</strong></a></li>
+          <li><a href="/course/verification/2.html" class="active"><span>Unit 02</span><strong>The mechanism landscape</strong></a></li>
+          <li><a href="/course/verification/3.html" class=""><span>Unit 03</span><strong>Choose a track</strong></a></li>
           <li><a href="/course/verification/4.html" class=""><span>Unit 04</span><strong>Project ideation</strong></a></li>
         </ol>
         <div class="course-progress-panel" aria-label="Course progress">
@@ -102,98 +101,263 @@
             <span>Readings marked</span>
             <strong id="course-progress-count">0</strong>
           </div>
-          <p class="course-progress-note">Saved in this browser only.</p>
+          <p class="course-progress-note">Saved in this browser. Sign in to sync.</p>
         </div>
       </aside>
 
       <div class="course-content">
         <section class="course-unit">
           <span class="course-unit-label">Unit 02</span>
-          <h2>What people are pursuing</h2>
-          <p class="course-unit-intro">Several research agendas have crystallised around AI verification: frontier auditing, hardware-enabled mechanisms, cloud governance, international agreement design, and broad technical-governance taxonomies. This unit gives you the map before the mechanisms.</p>
-          <p class="course-unit-intro">By the end of the unit, you should be able to place a new verification paper inside the agenda it contributes to and understand what problem family it is trying to solve.</p>
+          <h2>The mechanism landscape</h2>
+          <p class="course-unit-intro">This unit covers the mechanisms themselves. Concrete ways a third party might check claims about AI development. It is deliberately broad. One reading per track, so you leave knowing what each track covers and can choose one to focus on in Unit 3.</p>
+          <p class="course-unit-intro">As you read, separate the target claim from the evidence channel. A paper might verify a workload, a location, a model identity, a training dataset, or an institutional process; it might rely on on-chip attestations, off-chip measurements, cryptographic proofs, human access, or a certification regime.</p>
 
+          <div class="course-unit-brief course-unit-brief--chooser" aria-label="Unit reading plan">
+            <div>
+              <span class="course-unit-brief-label">Suggested load</span>
+              <strong>All ten readings, about five hours</strong>
+              <p>Read the system overview first, then move through the tracks in any order.</p>
+            </div>
+            <div>
+              <span class="course-unit-brief-label">The five tracks</span>
+              <ol class="course-family-grid">
+                <li><a href="#mech-hardware"><span>01</span><strong>Hardware-rooted</strong></a></li>
+                <li><a href="#mech-inference"><span>02</span><strong>Inference verification</strong></a></li>
+                <li><a href="#mech-zkp"><span>03</span><strong>Zero-knowledge proofs</strong></a></li>
+                <li><a href="#mech-telemetry"><span>04</span><strong>Telemetry and detection</strong></a></li>
+                <li><a href="#mech-attestation"><span>05</span><strong>Attestation and audit</strong></a></li>
+              </ol>
+            </div>
+          </div>
+
+          <h3 id="sec-overview" class="course-section-header">Start here</h3>
           <div class="course-readings">
-            <article class="course-reading" id="read-2-1" data-reading-id="unit-2-reading-1">
-              <div class="course-reading-meta">
-                <span class="course-reading-num">READ 2.1</span>
+<article class="course-reading course-reading--structured" id="read-2-1" data-reading-id="unit-2-reading-1">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.1</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">25-35 min</span>
+                </div>
+                <h3>A system overview for near-term, low-trust AI compute verification</h3>
+                <p class="course-reading-authors">Naci Cankaya (2026)</p>
+                <p class="course-reading-why">A working draft of the whole verification stack. What has to be sensed, what has to be proven, what information can safely cross the boundary, and what kind of adversary the system is meant to survive.</p>
               </div>
-              <h3>Open Problems in Technical AI Governance</h3>
-              <p class="course-reading-authors">Reuel, Hardy, Smith et al. (2025)</p>
-              <p class="course-reading-why">The broad technical-governance catalogue. Focus on compute, verification, and auditing sections to see how the verification problem sits among adjacent open problems.</p>
-              <a class="course-reading-link" href="https://arxiv.org/abs/2407.14981" target="_blank" rel="noopener">Read →</a>
-            </article>
-
-            <article class="course-reading" id="read-2-2" data-reading-id="unit-2-reading-2">
-              <div class="course-reading-meta">
-                <span class="course-reading-num">READ 2.2</span>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Sections 1 to 3.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://www.lesswrong.com/posts/fgvmKqRGvBteKeDoc/a-system-overview-for-near-term-low-trust-ai-compute" target="_blank" rel="noopener">Link</a>
               </div>
-              <h3>Hardware-Enabled Mechanisms for Verifying Responsible AI Development</h3>
-              <p class="course-reading-authors">O'Gara, Kulp, Hodgkins, Petrie et al. (2025)</p>
-              <p class="course-reading-why">The hardware-rooted taxonomy: location verification, network verification, offline licensing, and workload verification. This is the core framing for hardware-enabled AI governance.</p>
-              <a class="course-reading-link" href="https://arxiv.org/abs/2505.03742" target="_blank" rel="noopener">Read →</a>
-            </article>
-
-            <article class="course-reading" id="read-2-3" data-reading-id="unit-2-reading-3">
-              <div class="course-reading-meta">
-                <span class="course-reading-num">READ 2.3</span>
-              </div>
-              <h3>Frontier AI Auditing</h3>
-              <p class="course-reading-authors">Brundage et al. (2026)</p>
-              <p class="course-reading-why">A detailed agenda for rigorous third-party assessment of frontier AI labs. Read the verification-relevant sections as the auditing counterpart to the hardware agenda.</p>
-              <a class="course-reading-link" href="https://arxiv.org/abs/2601.11699" target="_blank" rel="noopener">Read →</a>
-            </article>
-
-            <article class="course-reading" id="read-2-4" data-reading-id="unit-2-reading-4">
-              <div class="course-reading-meta">
-                <span class="course-reading-num">READ 2.4</span>
-              </div>
-              <h3>Mechanisms to Verify International Agreements About AI Development</h3>
-              <p class="course-reading-authors">Scher &amp; Thiergart (2025)</p>
-              <p class="course-reading-why">A survey of mechanisms for verifying international agreements about AI development. Useful for understanding the trust problem between mutually suspicious parties.</p>
-              <a class="course-reading-link" href="https://arxiv.org/abs/2506.15867" target="_blank" rel="noopener">Read →</a>
-            </article>
-
-            <article class="course-reading" id="read-2-5" data-reading-id="unit-2-reading-5">
-              <div class="course-reading-meta">
-                <span class="course-reading-num">READ 2.5</span>
-              </div>
-              <h3>Verification for International AI Governance</h3>
-              <p class="course-reading-authors">Harack et al. (Oxford Martin AIGI, 2025)</p>
-              <p class="course-reading-why">The Oxford Martin framing of international AI verification. Read alongside RAND and FLI-style proposals to compare institutional assumptions.</p>
-              <span class="course-reading-note">Available via Oxford Martin AI Governance Initiative.</span>
-            </article>
-
-            <article class="course-reading" id="read-2-6" data-reading-id="unit-2-reading-6">
-              <div class="course-reading-meta">
-                <span class="course-reading-num">READ 2.6</span>
-              </div>
-              <h3>Verifying International Agreements on AI</h3>
-              <p class="course-reading-authors">Baker et al. (RAND, 2025)</p>
-              <p class="course-reading-why">The RAND treatment of verification for international AI agreements. Useful for comparing policy design constraints with the more technical agendas.</p>
-              <span class="course-reading-note">Available via rand.org.</span>
-            </article>
-
-            <article class="course-reading" id="read-2-7" data-reading-id="unit-2-reading-7">
-              <div class="course-reading-meta">
-                <span class="course-reading-num">READ 2.7</span>
-              </div>
-              <h3>Hardware-Level Governance of AI Compute</h3>
-              <p class="course-reading-authors">Ansari (2026)</p>
-              <p class="course-reading-why">A recent feasibility taxonomy connecting hardware capabilities to regulatory compliance and treaty verification. Read for a synthesis of what hardware can plausibly support.</p>
-              <a class="course-reading-link" href="https://arxiv.org/abs/2604.04712" target="_blank" rel="noopener">Read →</a>
             </article>
           </div>
+          <h3 id="mech-hardware" class="course-section-header">Hardware-rooted</h3>
+          <p class="course-unit-intro">Mechanisms that try to make the chip, package or attached hardware produce evidence about where it is, what it is allowed to run, or what work it performed.</p>
+          <div class="course-readings">
+<article class="course-reading course-reading--structured" id="read-2-2" data-reading-id="unit-2-reading-2">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.2</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">35-55 min</span>
+                </div>
+                <h3>Secure, Governable Chips</h3>
+                <p class="course-reading-authors">Aarne, Fist et al. (CNAS, 2024)</p>
+                <p class="course-reading-why">The policy-facing case for on-chip governance. Secure hardware could support export-control enforcement, operating licenses and future agreement verification without creating a general surveillance back door.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Executive summary, technical underpinnings, implementation challenges and recommendations.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://www.cnas.org/publications/reports/secure-governable-chips" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+
+<article class="course-reading course-reading--structured" id="read-2-3" data-reading-id="unit-2-reading-3">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.3</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">35-50 min</span>
+                </div>
+                <h3>Flexible Hardware-Enabled Guarantees (flexHEG)</h3>
+                <p class="course-reading-authors">Petrie et al. (2025)</p>
+                <p class="course-reading-why">A concrete architecture for adding a guarantee processor around AI accelerators, so a regulator can get workload guarantees while the operator keeps models and data private.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Abstract, introduction and the system-design section.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2506.15093" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+          </div>
+          <h3 id="mech-inference" class="course-section-header">Inference verification</h3>
+          <p class="course-unit-intro">Checking whether an output plausibly came from the claimed model, even when exact deterministic replay is unavailable.</p>
+          <div class="course-readings">
+<article class="course-reading course-reading--structured" id="read-2-4" data-reading-id="unit-2-reading-4">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.4</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">15-25 min</span>
+                </div>
+                <h3>Example Schemes for Verifying High-Stakes AI Agreements</h3>
+                <p class="course-reading-authors">Amodo Design (2026)</p>
+                <p class="course-reading-why">The plain-language on-ramp. It frames inference verification as selective recomputation. The verifier checks randomly chosen steps so the prover cannot know in advance which work must be reproducible.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full post.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://amododesign.com/notes/2026-06-23-verification-algorithms/" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+          </div>
+          <h3 id="mech-zkp" class="course-section-header">Zero-knowledge proofs</h3>
+          <p class="course-unit-intro">Proving a claim about a model or training run without revealing the weights or data.</p>
+          <div class="course-readings">
+<article class="course-reading course-reading--structured" id="read-2-5" data-reading-id="unit-2-reading-5">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.5</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">30-45 min</span>
+                </div>
+                <h3>Trustless Audits without Revealing Data or Models</h3>
+                <p class="course-reading-authors">Waiwitlikhit et al. (2024)</p>
+                <p class="course-reading-why">The shortest entry point for ZK audit logic. Prove that training or evaluation was computed correctly while keeping the model, data or audit details hidden.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full paper.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2404.04500" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+
+<article class="course-reading course-reading--structured" id="read-2-6" data-reading-id="unit-2-reading-6">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.6</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">30-45 min</span>
+                </div>
+                <h3>Zero-knowledge verification for frontier AI training is possible</h3>
+                <p class="course-reading-authors">Peigne et al. (2026)</p>
+                <p class="course-reading-why">A training-verification proposal. Prove properties of a frontier training run without revealing the model or dataset, using a proving architecture designed around the training trace.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The introduction and the protocol-design sections.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2606.05433" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+          </div>
+          <h3 id="mech-telemetry" class="course-section-header">Telemetry and detection</h3>
+          <p class="course-unit-intro">Reading network, timing, memory and other side-channel signals to infer what a cluster is doing.</p>
+          <div class="course-readings">
+<article class="course-reading course-reading--structured" id="read-2-7" data-reading-id="unit-2-reading-7">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.7</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">3-5 min</span>
+                </div>
+                <h3>The Fundamentals and Feasibility of Secure Network Taps</h3>
+                <p class="course-reading-authors">Naci Cankaya (2026)</p>
+                <p class="course-reading-why">The summary gives the main distinction. Network taps are much more plausible for low-bandwidth north-south traffic than for high-bandwidth east-west accelerator fabric, where link budgets and covert channels dominate.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The three-minute summary only.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://nacicankaya.substack.com/p/research-note-the-fundamentals-and" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+
+<article class="course-reading course-reading--structured" id="read-2-8" data-reading-id="unit-2-reading-8">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.8</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">60-80 min</span>
+                </div>
+                <h3>What does it take to catch a Chinchilla? Verifying Rules on Large-Scale Neural Network Training</h3>
+                <p class="course-reading-authors">Shavit (2023)</p>
+                <p class="course-reading-why">The foundational compute-monitoring proposal. Inspect chips and datacenters well enough to detect large training-rule violations, while accepting that politics and implementation burden are central constraints.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full paper.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2303.11341" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+          </div>
+          <h3 id="mech-attestation" class="course-section-header">Attestation and audit</h3>
+          <p class="course-unit-intro">Trusted environments, audit protocols and certification regimes that produce evidence someone else can check.</p>
+          <div class="course-readings">
+<article class="course-reading course-reading--structured" id="read-2-9" data-reading-id="unit-2-reading-9">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.9</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">20-30 min</span>
+                </div>
+                <h3>Attestable Audits: Verifiable AI Safety Benchmarks Using Trusted Execution Environments</h3>
+                <p class="course-reading-authors">Schabl et al. (2025)</p>
+                <p class="course-reading-why">A concrete TEE-based audit protocol. Prove that a benchmark ran on a specific model and dataset while keeping sensitive model and benchmark details protected.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full paper.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2506.23706" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+
+<article class="course-reading course-reading--structured" id="read-2-10" data-reading-id="unit-2-reading-10">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.10</span>
+                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-time">30-45 min</span>
+                </div>
+                <h3>Governing Through the Cloud: The Intermediary Role of Compute Providers in AI Regulation</h3>
+                <p class="course-reading-authors">Heim et al. (2024)</p>
+                <p class="course-reading-why">Explains why cloud providers are attractive intermediaries for AI regulation. They already sit between users and compute, and can record, verify or enforce some rules at lower cost than direct state inspection.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Introduction, the governance-capacities section, and the conclusion.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2403.08501" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+          </div>
+
         </section>
 
-        <div class="course-unit-pager" role="navigation" aria-label="Unit navigation">
+                <div class="course-unit-pager" role="navigation" aria-label="Unit navigation">
     <a href="/course/verification/1.html">
       <span class="course-unit-pager-label">← Unit 01</span>
-      <span class="course-unit-pager-title">Why this matters</span>
+      <span class="course-unit-pager-title">Why verification, and the map</span>
     </a>
     <a href="/course/verification/3.html" class="course-unit-pager-next">
       <span class="course-unit-pager-label">Unit 03 →</span>
-      <span class="course-unit-pager-title">How we could do this</span>
+      <span class="course-unit-pager-title">Choose a track</span>
     </a>
         </div>
       </div>
