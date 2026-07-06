@@ -223,6 +223,7 @@ const CourseProgress = {
 // additive: if the library or config is missing, or the network fails, the course
 // runs exactly as it does signed out, on localStorage alone.
 const CourseAuth = {
+  nameKey: 'caish-verification-ws-name',
   courseId: 'verification',
   client: null,
   session: null,
@@ -266,6 +267,15 @@ const CourseAuth = {
 
   user() {
     return this.session && this.session.user;
+  },
+
+  displayName(user) {
+    const u = user || this.user();
+    if (!u) return '';
+    const meta = u.user_metadata || {};
+    let stored = '';
+    try { stored = localStorage.getItem(this.nameKey) || ''; } catch (error) {}
+    return (meta.full_name || meta.name || stored || u.email || '').trim();
   },
 
   notifyAuthChange() {
@@ -446,7 +456,7 @@ const CourseAuth = {
     }
     if (user) {
       this.box.innerHTML =
-        '<p class="course-auth-status">Synced as ' + this.escape(user.email) + '</p>' +
+        '<p class="course-auth-status">Synced as ' + this.escape(this.displayName(user)) + '</p>' +
         '<button type="button" class="course-auth-link" id="course-signout">Sign out</button>';
       this.box.querySelector('#course-signout').addEventListener('click', () => this.signOut());
     } else {
@@ -456,6 +466,7 @@ const CourseAuth = {
           '<span>Sign in</span>' +
         '</button>' +
         '<form class="course-auth-form" id="course-auth-form" hidden>' +
+          '<input class="course-auth-input" id="course-auth-name" type="text" required placeholder="Your name" aria-label="Your name" autocomplete="name">' +
           '<input class="course-auth-input" id="course-auth-email" type="email" required placeholder="you@example.com" aria-label="Email for your CAISH course sign-in link" autocomplete="email">' +
           '<button type="submit" class="course-auth-send">Send email link</button>' +
         '</form>' +
@@ -469,18 +480,22 @@ const CourseAuth = {
       });
       form.addEventListener('submit', event => {
         event.preventDefault();
-        this.sendLink(form.querySelector('input').value);
+        this.sendLink(form.querySelector('#course-auth-email').value, form.querySelector('#course-auth-name').value);
       });
     }
   },
 
-  async sendLink(email) {
+  async sendLink(email, name) {
     const msg = this.box.querySelector('#course-auth-msg');
     const form = this.box.querySelector('#course-auth-form');
+    if (name) { try { localStorage.setItem(this.nameKey, name.trim()); } catch (error) {} }
     try {
       const { error } = await this.client.auth.signInWithOtp({
         email,
-        options: { emailRedirectTo: location.origin + location.pathname }
+        options: {
+          emailRedirectTo: location.origin + location.pathname,
+          data: name ? { full_name: name.trim() } : undefined
+        }
       });
       if (form) form.hidden = true;
       if (msg) {
@@ -591,18 +606,24 @@ const CourseWorksheet = {
       authBox.innerHTML =
         '<p class="course-sketch-note">Sign in to submit your sketch to the organising team.</p>' +
         '<form class="course-auth-form" id="course-ws-signin">' +
-          '<input class="course-auth-input" type="email" required placeholder="you@example.com" aria-label="Email for your sign-in link" autocomplete="email">' +
+          '<input class="course-auth-input" id="course-ws-signin-name" type="text" required placeholder="Your name" aria-label="Your name" autocomplete="name">' +
+          '<input class="course-auth-input" id="course-ws-signin-email" type="email" required placeholder="you@example.com" aria-label="Email for your sign-in link" autocomplete="email">' +
           '<button type="submit" class="course-auth-send">Send sign-in link</button>' +
         '</form>' +
         '<p class="course-auth-msg" id="course-ws-signin-msg" hidden></p>';
       authBox.querySelector('#course-ws-signin').addEventListener('submit', async event => {
         event.preventDefault();
-        const email = authBox.querySelector('input').value;
+        const email = authBox.querySelector('#course-ws-signin-email').value;
+        const nameVal = authBox.querySelector('#course-ws-signin-name').value;
         const msg = authBox.querySelector('#course-ws-signin-msg');
+        if (nameVal) { try { localStorage.setItem(this.nameKey, nameVal.trim()); } catch (error) {} }
         try {
           const { error } = await CourseAuth.client.auth.signInWithOtp({
             email,
-            options: { emailRedirectTo: location.origin + location.pathname }
+            options: {
+              emailRedirectTo: location.origin + location.pathname,
+              data: nameVal ? { full_name: nameVal.trim() } : undefined
+            }
           });
           msg.hidden = false;
           msg.textContent = error ? ('Could not send the link. ' + error.message) : ('We sent a one-time sign-in link to ' + email + '.');

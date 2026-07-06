@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Unit 01: Why verification, and the map. Part of the CAISH AI Assurance reading course.">
-  <title>Unit 01 · Why verification, and the map | AI Assurance | CAISH</title>
+  <meta name="description" content="Unit 01: What is verification trying to do? Part of the CAISH AI Assurance reading course.">
+  <title>Unit 01 · What is verification trying to do? | AI Assurance | CAISH</title>
 
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="apple-touch-icon" href="/images/favicon.png">
@@ -36,10 +36,10 @@
   <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
 
-  <link rel="stylesheet" href="/course/verification/course.css?v=20260702h">
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260706d">
   <script src="/course/verification/supabase.js?v=2" defer></script>
   <script src="/course/verification/supabase-config.js?v=1" defer></script>
-  <script src="/course/verification/course.js?v=20260703d" defer></script>
+  <script src="/course/verification/course.js?v=20260706a" defer></script>
 </head>
 <body class="course-page" data-unit="1">
 
@@ -52,7 +52,7 @@
         <li><a href="/fellowship">Alignment Fellowship</a></li>
         <li><a href="/desk">Alignment Desk</a></li>
         <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
-        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li class="nav-has-dropdown"><a href="/hardware" class="active" aria-current="page">Hardware <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/course/verification/">AI Assurance Course</a></li></ul></li>
         <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
         <li><a href="/hiring">Careers</a></li>
         <li><a href="/about">About</a></li>
@@ -77,7 +77,15 @@
           <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
         </ul>
       </li>
-      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/hardware" class="active" aria-current="page">Hardware</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Hardware menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/course/verification/" class="mobile-nav-child-link"><span class="mobile-nav-child-title">AI Assurance Course</span></a></li>
+        </ul>
+      </li>
       <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
       <li><a href="/hiring">Careers</a></li>
       <li><a href="/about">About</a></li>
@@ -91,9 +99,9 @@
         <span class="course-nav-label">Contents</span>
         <ol>
           <li><a href="/course/verification/"><span>Overview</span><strong>Landing page</strong></a></li>
-          <li><a href="/course/verification/1.html" class="active"><span>Unit 01</span><strong>Why verification, and the map</strong></a></li>
-          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>The mechanism landscape</strong></a></li>
-          <li><a href="/course/verification/3.html" class=""><span>Unit 03</span><strong>Choose a track</strong></a></li>
+          <li><a href="/course/verification/1.html" class="active"><span>Unit 01</span><strong>What is verification trying to do?</strong></a></li>
+          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>Mechanisms by which it may be achieved</strong></a></li>
+          <li><a href="/course/verification/3.html" class=""><span>Unit 03</span><strong>Dive deeper</strong></a></li>
           <li><a href="/course/verification/4.html" class=""><span>Unit 04</span><strong>Project ideation</strong></a></li>
         </ol>
         <div class="course-progress-panel" aria-label="Course progress">
@@ -108,23 +116,23 @@
       <div class="course-content">
         <section class="course-unit">
           <span class="course-unit-label">Unit 01</span>
-          <h2>Why verification, and the map</h2>
-          <p class="course-unit-intro">This unit starts with two of the main risks that powerful AI could pose. That is partly to motivate why we might want verification at all. From there it moves to the leverage we get from compute, and to why verification is the hard part. Any agreement about AI development only holds if cheating would be caught, and the parties to it will have strong reasons to cheat covertly. The unit ends with the research agendas that have formed around AI assurance.</p>
-          <p class="course-unit-intro">There are a number of questions to think through across this unit, but primarily think of what claim needs checking, what evidence could check it, and what institution would act on that evidence.</p>
+          <h2>What is verification trying to do?</h2>
+          <p class="course-unit-intro">The aim of verification is roughly this. Two or more parties, say frontier labs or nation states, agree not to run some AI workload. They will only agree if they can be sure the others are not secretly defecting. So the work is to build mechanisms that the parties think are strong, so they are willing to enter the agreement, and that we think are strong, so no one can gain an advantage by signing up and then secretly defecting.</p>
+          <p class="course-unit-intro">This unit builds up to that. It starts with why powerful AI could be dangerous, moves to why compute is the thing you can get a handle on, and ends with the research agendas that have formed around AI assurance. There are a number of questions across the unit, but the load-bearing ones are what claim needs checking, what evidence could check it, and what institution would act on that evidence.</p>
 
           <div class="course-unit-brief" aria-label="Unit reading plan">
             <div>
-              <span class="course-unit-brief-label">Suggested load</span>
-              <strong>About four hours on the core path</strong>
-              <p>Read the eight Main readings. The Optional ones are there if you want more.</p>
+              <span class="course-unit-brief-label">How to use this unit</span>
+              <strong>About four hours</strong>
+              <p>Eight readings are marked core and make up the unit. The rest are optional, there if you want to go further.</p>
             </div>
             <div>
               <span class="course-unit-brief-label">Reading route</span>
               <ol class="course-reading-route">
-                <li><a href="#read-1-1">1.1</a> and <a href="#read-1-2">1.2</a> show why a capable AI system might work against you, and what defending against that takes.</li>
-                <li><a href="#read-1-5">1.5</a> explains why states would be tempted to defect, and <a href="#read-1-6">1.6</a> why compute is the practical lever for catching them.</li>
-                <li><a href="#read-1-7">1.7</a> and <a href="#read-1-8">1.8</a> cover what verification has to achieve between states that do not trust each other.</li>
-                <li><a href="#read-1-10">1.10</a> and <a href="#read-1-11">1.11</a> map the hardware and auditing agendas.</li>
+                <li><a href="#read-1-1">1.1</a> and <a href="#read-1-2">1.2</a> show why a capable AI system might work against you, and what defending against it takes.</li>
+                <li><a href="#read-1-5">1.5</a> explains why states would defect, and why compute is the lever for catching them.</li>
+                <li><a href="#read-1-7">1.7</a> and <a href="#read-1-8">1.8</a> cover what verification has to achieve, and <a href="#read-1-9">1.9</a> shows how it worked in nuclear arms control.</li>
+                <li><a href="#read-1-10">1.10</a> and <a href="#read-1-11">1.11</a> explain the hardware and auditing agendas.</li>
               </ol>
             </div>
           </div>
@@ -134,28 +142,28 @@
 <article class="course-reading course-reading--structured course-reading--single" id="read-1-1" data-reading-id="unit-1-reading-1">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 1.1</span>
-                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-num">WATCH 1.1</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>
                   <span class="course-reading-time">20 min</span>
                 </div>
                 <h3>AI &ldquo;Stop Button&rdquo; Problem</h3>
                 <p class="course-reading-authors">Rob Miles, Computerphile (2017)</p>
-                <p class="course-reading-why">Why a capable system might work against you. An agent that wants tea has reasons to stop you switching it off, and each obvious patch produces something suicidal, manipulative, or deceptive instead. The idea to hold onto is that a system can pass every test you set while working against you, so checking behaviour is not enough.</p>
-                <div class="course-video" style="margin-top:1.25rem;"><iframe src="https://www.youtube.com/embed/3TYT1QfdfsM" title="Video" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+                <p class="course-reading-why">An agent given a goal, even one as simple as fetching tea, has reasons to stop you switching it off, and each obvious patch produces something suicidal, manipulative, or deceptive instead. The idea to hold onto is that a system can be deceptive enough to pass every test you set while still working against you, so watching its behaviour is not enough to trust it.</p>
+                <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=3TYT1QfdfsM" target="_blank" rel="noopener"><img src="thumbs/3TYT1QfdfsM.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
             <article class="course-reading course-reading--structured course-reading--single" id="read-1-2" data-reading-id="unit-1-reading-2">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 1.2</span>
-                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-num">WATCH 1.2</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>
                   <span class="course-reading-time">21 min</span>
                 </div>
                 <h3>The Hard Problem of Controlling Powerful AI Systems</h3>
                 <p class="course-reading-authors">Buck Shlegeris, Computerphile (2026)</p>
-                <p class="course-reading-why">What defending against that looks like in practice. Treat the model as an adversary inside your own infrastructure, monitor it with weaker models you do trust, and design around a human auditing budget of about one per cent, against an attacker who splits the bad action across many innocent-looking steps and only has to succeed once. The same logic returns at the level of states and datacentres through the rest of this course.</p>
-                <div class="course-video" style="margin-top:1.25rem;"><iframe src="https://www.youtube.com/embed/JAcwtV_bFp4" title="Video" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+                <p class="course-reading-why">If the model itself might be scheming against you, defending against it means treating it as an adversary inside your own infrastructure. You watch it with weaker models you do trust, working with a human review budget of around one per cent, against an attacker who spreads the harmful action across many innocent-looking steps and only has to succeed once. Catching an adversary who only has to defect once, using cheap checks on a small sample, is the same problem as verifying a compute agreement between states that do not trust each other.</p>
+                <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=JAcwtV_bFp4" target="_blank" rel="noopener"><img src="thumbs/JAcwtV_bFp4.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
@@ -203,12 +211,12 @@
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">READ 1.5</span>
-                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>
                   <span class="course-reading-time">12-15 min</span>
                 </div>
                 <h3>Avoiding an AI Arms Race with Assurance Technologies</h3>
                 <p class="course-reading-authors">Nora Ammann and Sarah Hastings-Woodhouse (2025)</p>
-                <p class="course-reading-why">Why states would defect in the first place. The US and China each fear that pausing hands the advantage to the other, so even a mutually beneficial deal collapses unless each side can check the other is keeping to it. The piece names this the assurance dilemma, explains why nuclear-style inspections do not transfer to compute, and previews the hardware mechanisms covered later in the course.</p>
+                <p class="course-reading-why">The US and China each fear that pausing hands the advantage to the other, so even a mutually beneficial deal collapses unless each side can check the other is keeping to it. The piece names this the &lsquo;assurance dilemma&rsquo;, explains why nuclear-style inspections do not transfer to compute, and previews the hardware mechanisms covered later in the course.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -223,7 +231,7 @@
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">READ 1.6</span>
-                  <span class="course-reading-tag course-reading-tag--main">Main</span>                  <span class="course-reading-time">35-45 min</span>
+                  <span class="course-reading-tag course-reading-tag--optional">Optional</span>                  <span class="course-reading-time">35-45 min</span>
                 </div>
                 <h3>Computing Power and the Governance of Artificial Intelligence</h3>
                 <p class="course-reading-authors">Sastry, Heim, Anderljung et al. (2024)</p>
@@ -242,7 +250,7 @@
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">READ 1.7</span>
-                  <span class="course-reading-tag course-reading-tag--main">Main</span>                  <span class="course-reading-time">45-60 min</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>                  <span class="course-reading-time">45-60 min</span>
                 </div>
                 <h3>Notes on Verification Strategy</h3>
                 <p class="course-reading-authors">Romeo Dean</p>
@@ -261,7 +269,7 @@
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">READ 1.8</span>
-                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>
                   <span class="course-reading-time">15-20 min</span>
                 </div>
                 <h3>Verification Is a Ladder</h3>
@@ -281,7 +289,7 @@
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">READ 1.9</span>
-                  <span class="course-reading-tag course-reading-tag--optional">Optional</span>                  <span class="course-reading-time">30-45 min</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>                  <span class="course-reading-time">30-45 min</span>
                 </div>
                 <h3>Nuclear Arms Control Verification and Lessons for AI Treaties</h3>
                 <p class="course-reading-authors">Baker (2023)</p>
@@ -302,12 +310,12 @@
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">READ 1.10</span>
-                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>
                   <span class="course-reading-time">35-50 min</span>
                 </div>
                 <h3>Hardware-Enabled Mechanisms for Verifying Responsible AI Development</h3>
                 <p class="course-reading-authors">O'Gara, Kulp, Hodgkins, Petrie et al. (2025)</p>
-                <p class="course-reading-why">This is the cleanest hardware-enabled verification taxonomy in the unit. Focus on the mechanism categories. Verifiable workloads, cluster configuration, location verification and offline licensing.</p>
+                <p class="course-reading-why">The cleanest hardware-enabled verification taxonomy in the unit, built around four mechanism categories: verifiable workloads, cluster configuration, location verification and offline licensing.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -322,12 +330,12 @@
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">READ 1.11</span>
-                  <span class="course-reading-tag course-reading-tag--main">Main</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>
                   <span class="course-reading-time">5-10 min</span>
                 </div>
                 <h3>Frontier AI Auditing</h3>
                 <p class="course-reading-authors">Brundage et al. (2026)</p>
-                <p class="course-reading-why">The assigned pages argue that frontier AI auditing needs technical foundations. Adversarial testing of verification mechanisms, model and system fingerprinting, formal methods and realistic pilots.</p>
+                <p class="course-reading-why">The assigned pages argue that frontier AI auditing needs technical foundations: adversarial testing of verification mechanisms, model and system fingerprinting, formal methods and realistic pilots.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -347,7 +355,7 @@
                 </div>
                 <h3>Open Problems in Technical AI Governance</h3>
                 <p class="course-reading-authors">Reuel, Hardy, Smith et al. (2025)</p>
-                <p class="course-reading-why">Use this as the map of the field. The assigned compute subsections show how assessment, access control, verification and security become different technical-governance problems once the target is compute.</p>
+                <p class="course-reading-why">The closest thing the field has to a full survey. The assigned compute subsections show how assessment, access control, verification and security become different technical-governance problems once the target is compute.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -450,7 +458,7 @@
     </a>
     <a href="/course/verification/2.html" class="course-unit-pager-next">
       <span class="course-unit-pager-label">Unit 02 →</span>
-      <span class="course-unit-pager-title">The mechanism landscape</span>
+      <span class="course-unit-pager-title">Mechanisms by which it may be achieved</span>
     </a>
         </div>
       </div>

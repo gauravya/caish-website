@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Unit 03. Choose a track. Part of the CAISH AI Assurance reading course.">
-  <title>Unit 03 · Choose a track | AI Assurance | CAISH</title>
+  <meta name="description" content="Unit 03: Dive deeper. Part of the CAISH AI Assurance reading course.">
+  <title>Unit 03 · Dive deeper | AI Assurance | CAISH</title>
 
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="apple-touch-icon" href="/images/favicon.png">
@@ -36,10 +36,10 @@
   <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
 
-  <link rel="stylesheet" href="/course/verification/course.css?v=20260702h">
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260706d">
   <script src="/course/verification/supabase.js?v=2" defer></script>
   <script src="/course/verification/supabase-config.js?v=1" defer></script>
-  <script src="/course/verification/course.js?v=20260703d" defer></script>
+  <script src="/course/verification/course.js?v=20260706a" defer></script>
 </head>
 <body class="course-page" data-unit="3">
 
@@ -52,7 +52,7 @@
         <li><a href="/fellowship">Alignment Fellowship</a></li>
         <li><a href="/desk">Alignment Desk</a></li>
         <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
-        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li class="nav-has-dropdown"><a href="/hardware" class="active" aria-current="page">Hardware <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/course/verification/">AI Assurance Course</a></li></ul></li>
         <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
         <li><a href="/hiring">Careers</a></li>
         <li><a href="/about">About</a></li>
@@ -77,7 +77,15 @@
           <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
         </ul>
       </li>
-      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/hardware" class="active" aria-current="page">Hardware</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Hardware menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/course/verification/" class="mobile-nav-child-link"><span class="mobile-nav-child-title">AI Assurance Course</span></a></li>
+        </ul>
+      </li>
       <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
       <li><a href="/hiring">Careers</a></li>
       <li><a href="/about">About</a></li>
@@ -91,9 +99,9 @@
         <span class="course-nav-label">Contents</span>
         <ol>
           <li><a href="/course/verification/"><span>Overview</span><strong>Landing page</strong></a></li>
-          <li><a href="/course/verification/1.html" class=""><span>Unit 01</span><strong>Why verification, and the map</strong></a></li>
-          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>The mechanism landscape</strong></a></li>
-          <li><a href="/course/verification/3.html" class="active"><span>Unit 03</span><strong>Choose a track</strong></a></li>
+          <li><a href="/course/verification/1.html" class=""><span>Unit 01</span><strong>What is verification trying to do?</strong></a></li>
+          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>Mechanisms by which it may be achieved</strong></a></li>
+          <li><a href="/course/verification/3.html" class="active"><span>Unit 03</span><strong>Dive deeper</strong></a></li>
           <li><a href="/course/verification/4.html" class=""><span>Unit 04</span><strong>Project ideation</strong></a></li>
         </ol>
         <div class="course-progress-panel" aria-label="Course progress">
@@ -108,15 +116,15 @@
       <div class="course-content">
         <section class="course-unit">
           <span class="course-unit-label">Unit 03</span>
-          <h2>Choose a track</h2>
-          <p class="course-unit-intro">This unit is for choosing a technical direction. Choose <strong>one primary track</strong> below and work through its reading stack; that is the required part of the unit.</p>
-          <p class="course-unit-intro">The five tracks are starting points, not a map of the whole field. Verification is technically and politically messy, and prior summaries leave gaps. Use the readings to orient yourself, then ask from first principles what the field needs and what a six-day project could test.</p>
+          <h2>Dive deeper</h2>
+          <p class="course-unit-intro">This unit is for choosing a technical direction. Choose <strong>one primary track</strong> below and work through its readings. That is the required part of the unit.</p>
+          <p class="course-unit-intro">The five tracks are starting points and do not cover the whole field. Verification is technically and politically messy, and the summaries that exist leave gaps. Use the readings to get your bearings, then work out for yourself what the field needs and what a six-day project could test.</p>
 
           <div class="course-unit-brief course-unit-brief--chooser" aria-label="Unit reading plan">
             <div class="course-unit-brief-main">
               <span class="course-unit-brief-label">How to use this unit</span>
               <strong>Choose one primary track</strong>
-              <p>Read one stack closely. If your project crosses boundaries, add one supporting reading from another track; you do not need to complete every stack.</p>
+              <p>Read one track closely. If your project crosses boundaries, add a supporting reading from another track. You do not need to work through all of them.</p>
             </div>
             <div class="course-unit-brief-links">
               <span class="course-unit-brief-label">Starting tracks</span>
@@ -153,13 +161,13 @@
             <article class="course-reading course-reading--structured course-reading--single" id="read-3-1" data-reading-id="unit-3-reading-1">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.1</span>
+                  <span class="course-reading-num">WATCH 3.1</span>
                   <span class="course-reading-time">12 min</span>
                 </div>
                 <h3>flexHEG</h3>
                 <p class="course-reading-authors">davidad, AI Security Forum</p>
-                <p class="course-reading-why">What counts as a flexHEG. Hardware governance the owner can trust not to enable covert surveillance, and a governance authority can trust to enforce disclosed policies, working even air-gapped, with rules updatable every ten minutes by cryptographic quorum. Ends with the six-component design and why each part looks feasible.</p>
-                <div class="course-video" style="margin-top:1.25rem;"><iframe src="https://www.youtube.com/embed/4wgImjg9PPc" title="flexHEG" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+                <p class="course-reading-why">Defines what counts as a flexHEG: hardware governance the owner can trust not to enable covert surveillance, and a governance authority can trust to enforce disclosed policies, working even air-gapped, with rules updatable every ten minutes by cryptographic quorum. It ends with the six-component design and why each part looks feasible.</p>
+                <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=4wgImjg9PPc" target="_blank" rel="noopener"><img src="thumbs/4wgImjg9PPc.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
@@ -171,7 +179,7 @@
                 </div>
                 <h3>Hardware-Enabled Governance Mechanisms</h3>
                 <p class="course-reading-authors">Kulp et al. (RAND, 2024)</p>
-                <p class="course-reading-why">A RAND catalogue of hardware governance mechanisms. Treat it as a reference map. Offline licensing, location verification, performance counters, tamper evidence and related primitives have different assumptions and failure modes.</p>
+                <p class="course-reading-why">A RAND catalogue of hardware governance mechanisms, more a reference than a read-through. Offline licensing, location verification, performance counters and tamper evidence each rest on different assumptions and fail in different ways.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -189,7 +197,7 @@
                 </div>
                 <h3>Guaranteeable Memory: An HBM-Based Chiplet for Verifiable AI Workloads</h3>
                 <p class="course-reading-authors">Petrie (2025)</p>
-                <p class="course-reading-why">A short chiplet proposal for making high-bandwidth memory participate in workload verification. The point is the design pattern. Move the root of trust closer to where the model and activations pass.</p>
+                <p class="course-reading-why">A short proposal for a chiplet that lets high-bandwidth memory participate in workload verification, moving the root of trust closer to where the model and activations pass.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -207,7 +215,7 @@
                 </div>
                 <h3>Guardain: Protecting Emerging Generative AI Workloads on Heterogeneous NPU</h3>
                 <p class="course-reading-authors">Dhar et al. (IEEE S&amp;P, 2025)</p>
-                <p class="course-reading-why">A systems-security paper, not a governance proposal. It is useful here as an example of runtime protection and isolation for generative workloads on heterogeneous accelerators.</p>
+                <p class="course-reading-why">A systems-security paper rather than a governance proposal, included as an example of runtime protection and isolation for generative workloads on heterogeneous accelerators.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -224,13 +232,13 @@
             <article class="course-reading course-reading--structured course-reading--single" id="read-3-5" data-reading-id="unit-3-reading-5">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.5</span>
+                  <span class="course-reading-num">WATCH 3.5</span>
                   <span class="course-reading-time">11 min</span>
                 </div>
                 <h3>Inference Verification in a TEE</h3>
                 <p class="course-reading-authors">Roy Rinberg, AI Security Forum</p>
-                <p class="course-reading-why">Inference verification made concrete. Non-determinism turns out to be tractable, since fewer than a thousand tokens separate a model from its quantised version, and running the verifier inside a TEE answers who verifies the verifier. Closes with a framing worth keeping. Bug catching, hacker detection and treaty verification are the same problem at different levels of trust and adversary power.</p>
-                <div class="course-video" style="margin-top:1.25rem;"><iframe src="https://www.youtube.com/embed/JOq1IbiBR58" title="Inference Verification in a TEE" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+                <p class="course-reading-why">Non-determinism in inference verification turns out to be tractable: fewer than a thousand tokens separate a model from its quantised version, and running the verifier inside a TEE answers who verifies the verifier. The talk closes with a framing worth keeping, that bug catching, hacker detection and treaty verification are the same problem at different levels of trust and adversary power.</p>
+                <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=JOq1IbiBR58" target="_blank" rel="noopener"><img src="thumbs/JOq1IbiBR58.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
@@ -242,7 +250,7 @@
                 </div>
                 <h3>Verifying LLM Inference to Detect Model Weight Exfiltration</h3>
                 <p class="course-reading-authors">Rinberg et al. (2025)</p>
-                <p class="course-reading-why">A security-game version of inference verification. Can a service secretly use exfiltrated weights while still producing outputs that pass a verifier's statistical checks?</p>
+                <p class="course-reading-why">A security-game version of inference verification, asking whether a service can secretly use exfiltrated weights while still producing outputs that pass a verifier's statistical checks.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -277,13 +285,13 @@
             <article class="course-reading course-reading--structured course-reading--single" id="read-3-8" data-reading-id="unit-3-reading-8">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.8</span>
+                  <span class="course-reading-num">WATCH 3.8</span>
                   <span class="course-reading-time">20 min</span>
                 </div>
                 <h3>Efficient Zero-Knowledge Proofs for AI Inference</h3>
                 <p class="course-reading-authors">Bing-Jyue Chen, AI Security Forum</p>
-                <p class="course-reading-why">How close zkML is to practical. Proving one GPT-2 token has gone from an hour to about 1.5 seconds in three years, and this talk explains where the speedups come from, collapsing linear operations into single constraints and exploiting the structure of exponentiation tables. Also a clear comparison of what a cryptographic proof guarantees versus TEE attestation.</p>
-                <div class="course-video" style="margin-top:1.25rem;"><iframe src="https://www.youtube.com/embed/oY7Wflmb-Ys" title="Efficient Zero-Knowledge Proofs for AI Inference" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+                <p class="course-reading-why">Proving one GPT-2 token has gone from an hour to about 1.5 seconds in three years, and this talk explains where the speedups come from, collapsing linear operations into single constraints and exploiting the structure of exponentiation tables. It also compares what a cryptographic proof guarantees with what TEE attestation guarantees.</p>
+                <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=oY7Wflmb-Ys" target="_blank" rel="noopener"><img src="thumbs/oY7Wflmb-Ys.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
@@ -295,7 +303,7 @@
                 </div>
                 <h3>Verifiable evaluations of machine learning models using zkSNARKs</h3>
                 <p class="course-reading-authors">South et al. (2024)</p>
-                <p class="course-reading-why">A model-attestation construction. The evaluator gets cryptographic evidence about model performance without learning the private model or benchmark data.</p>
+                <p class="course-reading-why">A model-attestation construction in which the evaluator gets cryptographic evidence about model performance without learning the private model or benchmark data.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -331,7 +339,7 @@
                 </div>
                 <h3>ZKML: An Optimizing System for ML Inference in Zero-Knowledge Proofs</h3>
                 <p class="course-reading-authors">Chen et al. (EuroSys, 2024)</p>
-                <p class="course-reading-why">Compiler and systems work for ZKML inference. Its value in this course is showing where proof cost comes from and what kinds of optimizations matter.</p>
+                <p class="course-reading-why">Compiler and systems work for ZKML inference, included to show where proof cost comes from and which optimisations matter.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -348,13 +356,13 @@
             <article class="course-reading course-reading--structured course-reading--single" id="read-3-12" data-reading-id="unit-3-reading-12">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.12</span>
+                  <span class="course-reading-num">WATCH 3.12</span>
                   <span class="course-reading-time">17 min</span>
                 </div>
                 <h3>Physical Verification of AI Systems against Nation-state Adversaries</h3>
                 <p class="course-reading-authors">Shahin Tajik, AI Security Forum</p>
-                <p class="course-reading-why">What a nation-state attacker can actually do to a chip. Laser probing that reads individual transistors, spy implants that cost 200 dollars, and why anti-tamper enclosures exist. Then the constructive half, impedance sensing to detect tampering, and compute and memory puzzles that catch a datacentre lying about its utilisation.</p>
-                <div class="course-video" style="margin-top:1.25rem;"><iframe src="https://www.youtube.com/embed/fn8EtTsE6yE" title="Physical Verification of AI Systems against Nation-state Adversaries" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+                <p class="course-reading-why">Shows what a nation-state attacker can do to a chip: laser probing that reads individual transistors, spy implants that cost 200 dollars, and why anti-tamper enclosures exist. The constructive half covers impedance sensing to detect tampering, and compute and memory puzzles that catch a datacentre lying about its utilisation.</p>
+                <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=fn8EtTsE6yE" target="_blank" rel="noopener"><img src="thumbs/fn8EtTsE6yE.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
@@ -385,7 +393,7 @@
                 </div>
                 <h3>Network Traffic Hashing</h3>
                 <p class="course-reading-authors">Amodo Design (2026)</p>
-                <p class="course-reading-why">A lab notebook on hashing every packet crossing a 400GbE link. SipHash and AES-GMAC sustain line rate on a 32-core CPU for realistic frame sizes, DPUs fall short, and minimum-size frames need an FPGA. This is what the tap side of evidence capture costs in practice.</p>
+                <p class="course-reading-why">A lab notebook on hashing every packet crossing a 400GbE link. SipHash and AES-GMAC sustain line rate on a 32-core CPU for realistic frame sizes, DPUs fall short, and minimum-size frames need an FPGA. This is what the tap side of evidence capture costs.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -498,7 +506,7 @@
                 </div>
                 <h3>Tools for verifying neural models' training data</h3>
                 <p class="course-reading-authors">Choi et al. (2023)</p>
-                <p class="course-reading-why">A training-data verification paper. It surveys tests based on memorization, canaries and dataset fingerprints, and shows why “what data was used?” is a hard claim to verify robustly.</p>
+                <p class="course-reading-why">Surveys tests for training-data verification based on memorisation, canaries and dataset fingerprints, and shows why “what data was used?” is a hard claim to verify.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -514,7 +522,7 @@
                 <div class="course-unit-pager" role="navigation" aria-label="Unit navigation">
     <a href="/course/verification/2.html">
       <span class="course-unit-pager-label">← Unit 02</span>
-      <span class="course-unit-pager-title">The mechanism landscape</span>
+      <span class="course-unit-pager-title">Mechanisms by which it may be achieved</span>
     </a>
     <a href="/course/verification/4.html" class="course-unit-pager-next">
       <span class="course-unit-pager-label">Unit 04 →</span>

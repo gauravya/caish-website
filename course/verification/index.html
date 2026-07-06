@@ -38,10 +38,10 @@
   <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
 
-  <link rel="stylesheet" href="/course/verification/course.css?v=20260702h">
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260706d">
   <script src="/course/verification/supabase.js?v=2" defer></script>
   <script src="/course/verification/supabase-config.js?v=1" defer></script>
-  <script src="/course/verification/course.js?v=20260703d" defer></script>
+  <script src="/course/verification/course.js?v=20260706a" defer></script>
 </head>
 <body class="course-page course-page--landing">
 
@@ -54,7 +54,7 @@
         <li><a href="/fellowship">Alignment Fellowship</a></li>
         <li><a href="/desk">Alignment Desk</a></li>
         <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
-        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li class="nav-has-dropdown"><a href="/hardware" class="active" aria-current="page">Hardware <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/course/verification/">AI Assurance Course</a></li></ul></li>
         <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
         <li><a href="/hiring">Careers</a></li>
         <li><a href="/about">About</a></li>
@@ -79,7 +79,15 @@
           <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
         </ul>
       </li>
-      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/hardware" class="active" aria-current="page">Hardware</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Hardware menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/course/verification/" class="mobile-nav-child-link"><span class="mobile-nav-child-title">AI Assurance Course</span></a></li>
+        </ul>
+      </li>
       <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
       <li><a href="/hiring">Careers</a></li>
       <li><a href="/about">About</a></li>
@@ -92,7 +100,7 @@
       <div class="course-hero-inner">
         <div class="course-hero-copy">
           <h1>AI Assurance</h1>
-          <p class="course-hero-summary">A structured reading course on the technical and political infrastructure for checking claims about AI development. By the end you should be able to place a new verification paper by the claim it checks, the evidence it uses, and the institution that would act on it, and have a project sketch of your own.</p>
+          <p class="course-hero-summary">A structured reading course on AI verification, the mechanisms that would let labs and states make agreements about AI development and check that no one is secretly defecting. By the end you should be able to place a new verification paper by the claim it checks, the evidence it uses, and the institution that would act on it, and have a project sketch of your own.</p>
         </div>
         <div class="course-hero-metrics" aria-label="Course structure">
           <div><strong>4</strong><span>units</span></div>
@@ -127,13 +135,12 @@
         <div class="course-syllabus-head">
           <span>Syllabus</span>
           <h2>Course content</h2>
-          <p>Why assurance matters, the whole mechanism landscape, depth in one technical track, then a project sketch.</p>
         </div>
         <details class="course-module" open>
           <summary>
             <span class="course-module-num">1</span>
             <span class="course-module-copy">
-              <strong>Why verification, and the map</strong>
+              <strong>What is verification trying to do?</strong>
               <small>8 core + 8 optional</small>
             </span>
           </summary>
@@ -149,7 +156,7 @@
           <summary>
             <span class="course-module-num">2</span>
             <span class="course-module-copy">
-              <strong>The mechanism landscape</strong>
+              <strong>Mechanisms by which it may be achieved</strong>
               <small>10 core readings, about five hours</small>
             </span>
           </summary>
@@ -167,7 +174,7 @@
           <summary>
             <span class="course-module-num">3</span>
             <span class="course-module-copy">
-              <strong>Choose a track</strong>
+              <strong>Dive deeper</strong>
               <small>1 primary track, three to six readings</small>
             </span>
           </summary>
