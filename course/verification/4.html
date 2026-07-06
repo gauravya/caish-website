@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Unit 04: Project ideation. Part of the CAISH AI Verification reading course.">
-  <title>Unit 04 · Project ideation | AI Verification | CAISH</title>
+  <meta name="description" content="Unit 04: Project ideation. Part of the CAISH AI Assurance reading course.">
+  <title>Unit 04 · Project ideation | AI Assurance | CAISH</title>
 
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="apple-touch-icon" href="/images/favicon.png">
@@ -16,9 +16,6 @@
 
   <link rel="preload" href="/styles.css?v=53e08f5d" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
-  <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
-
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
   <style>
@@ -39,8 +36,10 @@
   <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
 
-  <link rel="stylesheet" href="/course/verification/course.css?v=20260601b">
-  <script src="/course/verification/course.js?v=20260601b" defer></script>
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260706d">
+  <script src="/course/verification/supabase.js?v=2" defer></script>
+  <script src="/course/verification/supabase-config.js?v=1" defer></script>
+  <script src="/course/verification/course.js?v=20260706a" defer></script>
 </head>
 <body class="course-page" data-unit="4">
 
@@ -53,7 +52,7 @@
         <li><a href="/fellowship">Alignment Fellowship</a></li>
         <li><a href="/desk">Alignment Desk</a></li>
         <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
-        <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+        <li class="nav-has-dropdown"><a href="/hardware" class="active" aria-current="page">Hardware <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/course/verification/">AI Assurance Course</a></li></ul></li>
         <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
         <li><a href="/hiring">Careers</a></li>
         <li><a href="/about">About</a></li>
@@ -78,7 +77,15 @@
           <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
         </ul>
       </li>
-      <li><a href="/hardware" class="active" aria-current="page">Hardware</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/hardware" class="active" aria-current="page">Hardware</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Hardware menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/course/verification/" class="mobile-nav-child-link"><span class="mobile-nav-child-title">AI Assurance Course</span></a></li>
+        </ul>
+      </li>
       <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
       <li><a href="/hiring">Careers</a></li>
       <li><a href="/about">About</a></li>
@@ -92,9 +99,9 @@
         <span class="course-nav-label">Contents</span>
         <ol>
           <li><a href="/course/verification/"><span>Overview</span><strong>Landing page</strong></a></li>
-          <li><a href="/course/verification/1.html" class=""><span>Unit 01</span><strong>Why this matters</strong></a></li>
-          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>What people are pursuing</strong></a></li>
-          <li><a href="/course/verification/3.html" class=""><span>Unit 03</span><strong>How we could do this</strong></a></li>
+          <li><a href="/course/verification/1.html" class=""><span>Unit 01</span><strong>What is verification trying to do?</strong></a></li>
+          <li><a href="/course/verification/2.html" class=""><span>Unit 02</span><strong>Mechanisms by which it may be achieved</strong></a></li>
+          <li><a href="/course/verification/3.html" class=""><span>Unit 03</span><strong>Dive deeper</strong></a></li>
           <li><a href="/course/verification/4.html" class="active"><span>Unit 04</span><strong>Project ideation</strong></a></li>
         </ol>
         <div class="course-progress-panel" aria-label="Course progress">
@@ -102,7 +109,7 @@
             <span>Readings marked</span>
             <strong id="course-progress-count">0</strong>
           </div>
-          <p class="course-progress-note">Saved in this browser only.</p>
+          <p class="course-progress-note">Saved in this browser. Sign in to sync.</p>
         </div>
       </aside>
 
@@ -110,70 +117,138 @@
         <section class="course-unit">
           <span class="course-unit-label">Unit 04</span>
           <h2>Project ideation</h2>
-          <p class="course-unit-intro">Units 1-3 give you the landscape. This unit helps you decide where effort might compound: implementing a small piece of a published mechanism, sharpening an open question, or testing an assumption the field keeps repeating.</p>
-          <p class="course-unit-intro">The goal is not to write a grand proposal. The goal is to make your theory of change, smallest experiment, and failure conditions explicit enough that the project can actually begin.</p>
+          <p class="course-unit-intro">With one week left until the programme starts, we want you to start figuring out what you'd like to work on during the six days you'll be in Cambridge. Part of this is trying to understand your theory of change. What in the world do you want to affect, and how will you affect it?</p>
+          <p class="course-unit-intro">For a six-day project your scope should be relatively tight. Having read some of the papers, you should have a sense of what kinds of experiments you'd like to try and the kinds of questions you want to research during your time. Be ambitious but mindful of the finiteness. Good luck!</p>
 
-          <h3 id="theory-of-change" class="course-section-header">Theory of change</h3>
-          <p class="course-unit-intro">Verification work can become technically interesting without becoming useful. Before committing, identify which institution, decision, or policy lever your result would plug into.</p>
-
-          <div class="course-video">
-            <iframe src="https://www.youtube.com/embed/PwnkYncoUsA" title="Michael Aird — Building a Theory of Change" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <div class="course-unit-brief" aria-label="Unit reading plan">
+            <div>
+              <span class="course-unit-brief-label">How to use this unit</span>
+              <strong>2 readings + 1 video</strong>
+              <p>Read both, watch the video, then write the sketch below.</p>
+            </div>
+            <div>
+              <span class="course-unit-brief-label">Output</span>
+              <strong>A one-page project sketch</strong>
+              <p>Write it as you go. First version due Wednesday 12 August; final by Sunday 16 August.</p>
+            </div>
           </div>
-          <p class="course-video-caption">Michael Aird — Building a Theory of Change</p>
 
           <div class="course-readings">
-            <article class="course-reading">
-              <div class="course-reading-meta">
-                <span class="course-reading-num">Read</span>
+            <article class="course-reading course-reading--structured" id="read-4-1" data-reading-id="unit-4-reading-1">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 4.1</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>
+                  <span class="course-reading-time">20-25 min</span>
+                </div>
+                <h3>You Need a Theory of Victory</h3>
+                <p class="course-reading-authors">Jason Hausenloy, The First Scattering (2026)</p>
+                <p class="course-reading-why">Jason Hausenloy separates a theory of change, your action X leads to good outcome Y, from a theory of victory, the full causal story of every step that has to go right, including the ones other people take. His tale of two verification teams is worth sitting with: one burns years on a VC-funded custom security chip, the other ships off-the-shelf hardware taps with its eye on what a US-China treaty would need.</p>
               </div>
-              <h3>You Need a Theory of Victory</h3>
-              <p class="course-reading-authors">First Scattering</p>
-              <p class="course-reading-why"></p>
-              <a class="course-reading-link" href="https://firstscattering.com/p/you-need-a-theory-of-victory" target="_blank" rel="noopener">Read →</a>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full post.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://firstscattering.com/p/you-need-a-theory-of-victory" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+
+            <article class="course-reading course-reading--structured" id="read-4-2" data-reading-id="unit-4-reading-2">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 4.2</span>
+                  <span class="course-reading-tag course-reading-tag--main">Core</span>
+                  <span class="course-reading-time">15-20 min</span>
+                </div>
+                <h3>My Research Process: Key Mindsets</h3>
+                <p class="course-reading-authors">Neel Nanda (2025)</p>
+                <p class="course-reading-why">Three mindsets for research on a clock. Truth-seeking (plausible results are usually wrong until you try to break them), prioritisation (a clear north star, checked daily), and moving fast (optimise for information gain per unit time, fail fast). Written for technical AI safety work, but broadly applicable.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full post.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://www.lesswrong.com/s/5GT3yoYM9gRmMEKqL/p/cbBwwm4jW6AZctymL" target="_blank" rel="noopener">Link</a>
+              </div>
             </article>
           </div>
 
-          <h3 id="scoping" class="course-section-header">Scoping a project</h3>
-          <p class="course-unit-intro">Two things worth holding in mind before you pick. [Draft, refine in your own voice:]</p>
+          <p class="course-unit-intro" id="workshop" style="margin-top:2.75rem;">Watch this video on how to write a theory of change for your research.</p>
 
+          <a class="course-video course-video--thumb" href="https://www.youtube.com/watch?v=PwnkYncoUsA" target="_blank" rel="noopener"><img src="thumbs/PwnkYncoUsA.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
+          <p class="course-video-caption">Michael Aird, Effective Altruism Global DC 2022</p>
+
+
+          <h3 id="scoping" class="course-section-header">Picking a project</h3>
+          <p class="course-unit-intro">Ideas and projects are heavy-tailed. The best project you pick can be far more impactful than your other options. Spending time picking between options is good, but timebox yourself to an hour or two of ideating. Favour projects that help you falsify beliefs quickly and run cheap experiments!</p>
+          <p class="course-unit-intro">Treat the list below as prompts, not a boundary. The field is larger and rougher than this course, and the hard work is deciding what matters, what is tractable, and what you can learn in six days.</p>
+          <p class="course-unit-intro">For a six-day project, good starting paths include:</p>
           <ul class="course-prompts">
-            <li>Ideas are heavy-tailed. The best project you could pick is worth far more than an average one, so spend real effort choosing rather than settling on the first plausible thing.</li>
-            <li>Favour projects that falsify your key belief quickly and cheaply, but have high upside if that belief survives. You want fast, decisive evidence on the thing the whole project rests on.</li>
+            <li>Replicate or extend one result from a mechanism paper.</li>
+            <li>Measure overhead or failure rates for one evidence channel.</li>
+            <li>Write the adversarial analysis of one mechanism and test one evasion path.</li>
+            <li>Prototype one attestation, telemetry, or proof workflow.</li>
+            <li>Translate one mechanism into a concrete inspection step or procurement rule.</li>
           </ul>
 
-          <p class="course-unit-intro" style="margin-top:1.75rem;">Then work through these prompts in a notebook or with a collaborator. Aim for one sentence per prompt. The point is to force choices, not to produce polished prose.</p>
-
+          <h4 class="course-subhead">Where to find a problem</h4>
           <ul class="course-prompts">
-            <li>Which mechanism family from Unit 3 are you most drawn to, and why is your existing technical background useful there.</li>
-            <li>Pick one specific paper from that family. What is the smallest extension of it that would teach you something the field does not already know.</li>
-            <li>If your project succeeded, what would change in the world. Who would act on the result. Who is the named person or institution you can picture using it.</li>
-            <li>What is the cheapest experiment that would tell you whether the project is worth doing at all.</li>
-            <li>What is your biggest unknown right now, and which other reading or which conversation would resolve it.</li>
-            <li>What would make you abandon the project. Pre-commit to the failure conditions before you start.</li>
+            <li>The <a href="https://projects.aisecurity.forum/" target="_blank" rel="noopener">AI Security Forum requests for discussion</a>. Ideas people in the field have suggested working on. Some are dated, so treat them as starting points rather than a definitive list.</li>
+            <li><a href="https://arxiv.org/abs/2407.14981" target="_blank" rel="noopener">Open Problems in Technical AI Governance</a>, sections 3.2, 5.2 and 6.2. The compute verification gaps you met in Unit 1.</li>
           </ul>
 
-          <h3 id="project-types" class="course-section-header">What a project can look like</h3>
-          <p class="course-unit-intro">You will not have a frontier data centre. Most viable projects are a small experiment, a sharpened analysis, or a proof-of-concept that runs on modest or cluster compute. We can provide compute for small experiments to get something off the ground. [Draft, refine in your own voice. Example project types and compute details to be filled in.]</p>
-
-          <h3 id="further" class="course-section-header">Where to take this further</h3>
-          <p class="course-unit-intro">A few concrete routes if you want to move from reading into applied work.</p>
-
+          <h3 id="worksheet" class="course-section-header">Sketch your project</h3>
+          <p class="course-unit-intro">Adapted from the worksheet Aird uses in the video. Start from what you want to work on and follow it downstream; treat the questions as prompts, not things to answer precisely. Answers save as you type.</p>
+          <p class="course-unit-intro">A rough sketch is fine, and nobody is grading it. Here is exactly what happens with it.</p>
           <ul class="course-prompts">
-            <li>The <a href="/hardware">Hardware Assurance Programme</a> is the most direct route from this course to applied project work. Six days in Cambridge with residents from FLI, MIRI, Intel, ARM, and others working on the open problems above.</li>
-            <li>The AI Security Forum's RFD list is the closest thing to a public problem queue. Pick one, scope it down, and start.</li>
-            <li>If you are based at a university, identify the closest faculty member (hardware security, cryptography, or AI policy) and ask if they would supervise even an informal reading group on one of the agendas in Unit 2.</li>
-            <li>If you write up your project sketch and want feedback, the Cambridge AI Safety Hub team is happy to read drafts. Email <a href="mailto:hello@caish.org">hello@caish.org</a>.</li>
+            <li>Submit below as soon as you have something, and by <strong>Wednesday 12 August</strong> at the latest.</li>
+            <li>On <strong>Thursday 13 August</strong> we post every sketch to the programme Slack. Read the others before you arrive to see who is thinking about similar things.</li>
+            <li>You can revise and resubmit here until <strong>Sunday 16 August</strong>. We work from your latest version.</li>
+            <li>On the first day we use the sketches to settle projects and match you with residents. Do not polish.</li>
           </ul>
+          <p class="course-unit-intro">If you want feedback sooner, copy your sketch with the button below and send it to another participant.</p>
+          <div class="course-worksheet" id="course-worksheet">
+            <label class="course-ws-item">
+              <span class="course-ws-q">1. The project. What do you want to work on during the six days? Name the track and the specific paper, proposal, or open question you are building from.</span>
+              <textarea data-ws="q1" rows="3"></textarea>
+            </label>
+            <label class="course-ws-item">
+              <span class="course-ws-q">2. The problem. Which failure in the world is this ultimately working against? Be concrete about the threat model. Who does what, and what goes wrong.</span>
+              <textarea data-ws="q2" rows="3"></textarea>
+            </label>
+            <label class="course-ws-item">
+              <span class="course-ws-q">3. Path to impact. Sketch the chain from your six-day output to that failure becoming less likely. Who picks it up, and what decision changes.</span>
+              <textarea data-ws="q3" rows="4"></textarea>
+            </label>
+            <label class="course-ws-item">
+              <span class="course-ws-q">4. Evidence and first test. What does the project produce (a measurement, proof, demo, or memo), and what is the cheapest first test of whether it works?</span>
+              <textarea data-ws="q4" rows="3"></textarea>
+            </label>
+            <label class="course-ws-item">
+              <span class="course-ws-q">5. Getting it seen. Which people or institutions should engage with the result, and how will you reach them?</span>
+              <textarea data-ws="q5" rows="3"></textarea>
+            </label>
+            <label class="course-ws-item">
+              <span class="course-ws-q">6. Scope and stopping. What are you deliberately not doing, and what result would make you abandon or change the project?</span>
+              <textarea data-ws="q6" rows="2"></textarea>
+            </label>
+            <div id="course-ws-auth" hidden></div>
+            <div class="course-sketch-foot">
+              <button type="button" class="course-sketch-save" id="course-ws-submit">Submit sketch</button>
+              <button type="button" class="course-ws-pdfbtn" id="course-ws-pdf">Download as PDF</button>
+              <button type="button" class="course-ws-pdfbtn" id="course-ws-copy">Copy sketch</button>
+              <span class="course-sketch-status" id="course-ws-status">Saves as you type.</span>
+            </div>
+            <textarea class="course-ws-copybox" id="course-ws-copybox" readonly hidden aria-label="Project sketch text"></textarea>
+          </div>
         </section>
 
         <div class="course-unit-pager" role="navigation" aria-label="Unit navigation">
     <a href="/course/verification/3.html">
       <span class="course-unit-pager-label">← Unit 03</span>
-      <span class="course-unit-pager-title">How we could do this</span>
-    </a>
-    <a href="/hardware" class="course-unit-pager-next">
-      <span class="course-unit-pager-label">Next →</span>
-      <span class="course-unit-pager-title">Hardware Assurance Programme</span>
+      <span class="course-unit-pager-title">Dive deeper</span>
     </a>
         </div>
       </div>
