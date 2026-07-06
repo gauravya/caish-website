@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow">
 <title>Participants | Hardware Assurance Programme</title>
-<link rel="stylesheet" href="style.css?v=7">
+<link rel="stylesheet" href="style.css?v=10">
 </head>
 <body>
 <div class="page">
@@ -14,17 +14,41 @@
   </header>
 
   <main>
+    <h2>Residents</h2>
+    <p class="section-note">Researchers and engineers in the room all week to advise on projects.</p>
+    <section class="res-grid" id="res-grid" aria-label="Residents"></section>
+
     <h2>Participants</h2>
     <section class="grid" id="grid" aria-label="Participants"></section>
   </main>
 
 </div>
 
-<script src="data.js?v=1"></script>
+<script src="data.js?v=2"></script>
 <script>
 (function () {
   var grid = document.getElementById('grid');
   var people = window.PROFILES || [];
+  var residents = window.RESIDENTS || [];
+  var resGrid = document.getElementById('res-grid');
+  residents.forEach(function (r) {
+    var card = document.createElement('div');
+    card.className = 'res-card';
+    if (r.photo) {
+      var img = document.createElement('img');
+      img.src = r.photo; img.alt = r.name; img.loading = 'lazy';
+      card.appendChild(img);
+    } else {
+      var mono = document.createElement('div');
+      mono.className = 'res-mono';
+      mono.textContent = r.name.trim().split(/\s+/).map(function(w){return w[0];}).slice(0,2).join('').toUpperCase();
+      card.appendChild(mono);
+    }
+    var nm = document.createElement('div'); nm.className = 'res-name'; nm.textContent = r.name;
+    var og = document.createElement('div'); og.className = 'res-org'; og.textContent = r.org;
+    card.appendChild(nm); card.appendChild(og);
+    resGrid.appendChild(card);
+  });
 
   function initials(name) {
     var parts = name.replace(/\(.*?\)/g, ' ').trim().split(/\s+/);
@@ -52,8 +76,10 @@
     if (person.affiliation) return person.affiliation;
     var bio = (person.bio || '').replace(/\s+/g, ' ').trim();
     if (!bio) return '';
-    var firstSentence = bio.match(/^.*?[.!?](?:\s|$)/);
-    var line = firstSentence ? firstSentence[0].trim() : bio;
+    var sentences = bio.match(/[^.!?]+[.!?]+/g) || [bio];
+    var line = sentences.map(function (s) { return s.trim(); }).filter(function (s) {
+      return !/^(hi|hello)[!.]?$/i.test(s);
+    })[0] || bio;
     if (line.length > 125) {
       line = line.slice(0, 122).replace(/\s+\S*$/, '') + '...';
     }

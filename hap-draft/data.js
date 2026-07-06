@@ -72,6 +72,14 @@ window.PROFILES = [
   "photo": "images/rec3Ed5pNWkbjTsnG.png"
  },
  {
+  "name": "Lee Wall",
+  "pronouns": "",
+  "affiliation": "Biosecurity & AI strategy",
+  "bio": "Hi! I worked as a data scientist on CBRN risk assessment and modeling for a few years before the blistering pace of AI progress led me to jump ship and work full-time on the risks that this poses. Much of my recent work has focused on biosecurity and AI strategy, and I have developed a hunch that hardware matters a lot, for the reasons we know and perhaps many we don't. Beyond verification, I'm interested in hardware as a lever to mitigate extreme power concentration and AI conflict risks, and I'm keen to collaborate on proposals that are robust across threat models and make use of hardware's full design space.",
+  "link": "https://www.linkedin.com/in/lee-wall-09a38122b/",
+  "photo": "images/reclsc7LbKnDzBguH.jpg"
+ },
+ {
   "name": "Liam Hamill",
   "pronouns": "he/him",
   "affiliation": "Compute governance & hardware verification (ex-Arm)",
@@ -133,6 +141,69 @@ window.PROFILES = [
   "affiliation": "Robotics & space avionics -> chip security (CMU, NASA)",
   "bio": "Robotics and space anvionics experience at CMU, LANL, and NASA. I want to work on AI hardware security because we need chip-level solutions for compute and ai security ASAP.",
   "link": "https://ttpierson.com",
+  "photo": ""
+ }
+];
+
+window.RESIDENTS = [
+ {
+  "name": "Naci Cankaya",
+  "org": "MIRI",
+  "photo": "images/res-naci.jpg"
+ },
+ {
+  "name": "Daniel Reuter",
+  "org": "MATS",
+  "photo": "images/res-daniel.jpg"
+ },
+ {
+  "name": "Mehmet Sencan",
+  "org": "Earendil",
+  "photo": "images/res-mehmet.jpg"
+ },
+ {
+  "name": "Péter Drótos",
+  "org": "Future of Life Institute",
+  "photo": "images/res-peter.jpg"
+ },
+ {
+  "name": "Yannick Mühlhäuser",
+  "org": "Future of Life Institute",
+  "photo": "images/res-yannick.jpg"
+ },
+ {
+  "name": "Will Hodgkins",
+  "org": "IAPS",
+  "photo": "images/res-will.jpg"
+ },
+ {
+  "name": "Tom Gardiner",
+  "org": "Intelligence Security Labs",
+  "photo": "images/res-tom.jpg"
+ },
+ {
+  "name": "Pascal Berrang",
+  "org": "University of Birmingham",
+  "photo": "images/res-pascal.jpg"
+ },
+ {
+  "name": "Harrison Gietz",
+  "org": "Longview Philanthropy",
+  "photo": "images/res-harrison.jpg"
+ },
+ {
+  "name": "Benjamin Hodgkiss",
+  "org": "Proofworks",
+  "photo": ""
+ },
+ {
+  "name": "Caleb Parikh",
+  "org": "Independent",
+  "photo": ""
+ },
+ {
+  "name": "Felix Krückel",
+  "org": "GPU testbed",
   "photo": ""
  }
 ];
