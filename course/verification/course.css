@@ -1967,3 +1967,20 @@ body.course-page .footer-copy {
 /* export actions styled like the reading Link chips */
 .course-ws-pdfbtn{background:#fff;border:1px solid var(--course-line, #e2e1dc);border-radius:6px;padding:.45rem .9rem;color:#1a1a1a;font-size:.75rem;text-decoration:none;cursor:pointer}
 .course-ws-pdfbtn:hover{border-color:#31468f;color:#31468f}
+
+.course-feedback-note {
+  margin: 2.5rem 0 0;
+  font-size: 0.78rem;
+  color: var(--course-muted);
+  text-align: center;
+}
+
+.course-feedback-note a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.course-feedback-note a:hover {
+  color: var(--course-copy);
+}
