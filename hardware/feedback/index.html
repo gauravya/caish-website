@@ -246,19 +246,27 @@
     }
     .fb-done {
       display: none;
-      max-width: 660px;
-      padding: clamp(1.35rem, 3vw, 2rem);
+      max-width: 520px;
+      margin: 0 auto;
+      padding: clamp(1.1rem, 3vw, 1.5rem);
       background: rgba(255, 254, 253, 0.96);
       border: 1px solid rgba(20, 21, 32, 0.22);
       border-radius: 8px;
       box-shadow: var(--fb-shadow);
+      text-align: center;
     }
     .fb-done.show { display: block; }
-    .fb-done h1 { margin-bottom: 0.75rem; }
-    .fb-done p { font-size: 0.85rem; line-height: 1.65; color: var(--fb-muted); }
-    .fb-done a, .fb-done button {
-      background: none; border: none; padding: 0; font: inherit;
-      color: var(--fb-accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+    .fb-done-gif {
+      display: block;
+      width: 100%;
+      border-radius: 6px;
+      margin: 0 0 1rem;
+    }
+    .fb-done h1 {
+      max-width: none;
+      margin: 0;
+      font-size: clamp(1.25rem, 3vw, 1.65rem);
+      line-height: 1.25;
     }
     .fb-hp { position: absolute; left: -9999px; opacity: 0; }
     @media (max-width: 820px) {
@@ -423,9 +431,8 @@
       </section>
 
       <section class="fb-done" id="fb-done">
-        <p class="fb-kicker">AI Assurance course</p>
-        <h1>Thanks, noted.</h1>
-        <p>It goes straight into the pile we work from. <button type="button" id="fb-again">Send another</button> or head back to <a href="/course/verification/">the course</a>.</p>
+        <img class="fb-done-gif" src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExbHF5bWJkeGNvZnJzdG5pdXliaDB2bmkyOWtrYXh0b2plMzMyeG9mZSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bRTe2TGxczPVH50vxO/giphy.gif" alt="">
+        <h1>Thank you for your feedback.</h1>
       </section>
     </div>
   </main>
@@ -559,14 +566,17 @@
       });
     });
 
-    document.getElementById('fb-again').addEventListener('click', function () {
-      form.reset();
-      submit.disabled = false;
-      status.textContent = '';
-      document.getElementById('fb-done').classList.remove('show');
-      document.getElementById('fb-form-section').style.display = '';
-      window.scrollTo(0, 0);
-    });
+    var again = document.getElementById('fb-again');
+    if (again) {
+      again.addEventListener('click', function () {
+        form.reset();
+        submit.disabled = false;
+        status.textContent = '';
+        document.getElementById('fb-done').classList.remove('show');
+        document.getElementById('fb-form-section').style.display = '';
+        window.scrollTo(0, 0);
+      });
+    }
   })();
   </script>
 </body>
