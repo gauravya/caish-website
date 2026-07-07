@@ -9,47 +9,61 @@
   <link rel="icon" type="image/png" href="/images/favicon.png">
   <link rel="preload" href="/styles.css?v=53e08f5d" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&amp;family=Space+Mono:wght@400&amp;display=swap" rel="stylesheet">
   <style>
     :root {
-      --fb-bg: #fbfbfb;
-      --fb-paper: #ffffff;
-      --fb-ink: #111224;
-      --fb-copy: #2f3140;
-      --fb-muted: #6d7080;
-      --fb-line: #e1e2e8;
-      --fb-line-strong: #c7cad8;
-      --fb-accent: #31468f;
-      --fb-accent-strong: #17265f;
+      --fb-bg: #f7f5ef;
+      --fb-paper: #fffefd;
+      --fb-ink: #141520;
+      --fb-copy: #2d3040;
+      --fb-muted: #676b7a;
+      --fb-line: rgba(20, 21, 32, 0.14);
+      --fb-line-strong: rgba(20, 21, 32, 0.3);
+      --fb-accent: #263f78;
+      --fb-accent-strong: #172957;
+      --fb-focus: rgba(38, 63, 120, 0.18);
+      --fb-shadow: 0 24px 70px rgba(20, 21, 32, 0.1);
     }
-    body { background: var(--fb-bg); }
+    body {
+      background:
+        linear-gradient(90deg, rgba(38, 63, 120, 0.055) 1px, transparent 1px),
+        linear-gradient(180deg, #fbfaf7 0%, var(--fb-bg) 42%, #f1ece4 100%);
+      background-size: 44px 44px, auto;
+      overflow-x: hidden;
+    }
     .fb-wrap {
-      max-width: 620px;
+      box-sizing: border-box;
+      width: 100%;
+      max-width: 820px;
       margin: 0 auto;
-      padding: 8.5rem 1.5rem 5rem;
+      padding: 8.5rem 1.5rem 5.5rem;
       font-family: 'Space Mono', monospace;
       color: var(--fb-copy);
+    }
+    .fb-shell {
+      display: block;
+      min-width: 0;
+    }
+    .fb-sidebar {
+      margin: 0 0 1.75rem;
+      min-width: 0;
     }
     .fb-kicker {
       font-size: 0.7rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
       color: var(--fb-accent);
-      margin: 0 0 0.75rem;
+      margin: 0 0 0.85rem;
     }
     .fb-wrap h1 {
       font-family: 'Libre Baskerville', Georgia, serif;
       font-weight: 400;
-      font-size: 2rem;
+      font-size: clamp(3rem, 8vw, 5rem);
+      max-width: 8.6ch;
       color: var(--fb-ink);
-      margin: 0 0 1rem;
-      line-height: 1.2;
-    }
-    .fb-intro {
-      font-size: 0.85rem;
-      line-height: 1.65;
-      color: var(--fb-muted);
-      margin: 0 0 2.5rem;
+      margin: 0;
+      line-height: 1.03;
+      letter-spacing: 0;
     }
     .fb-restored {
       display: none;
@@ -57,9 +71,9 @@
       color: var(--fb-muted);
       border: 1px solid var(--fb-line);
       border-radius: 8px;
-      background: var(--fb-paper);
-      padding: 0.6rem 0.9rem;
-      margin: 0 0 1.75rem;
+      background: #fff;
+      padding: 0.7rem 0.85rem;
+      margin: 0 0 1rem;
     }
     .fb-restored.show { display: block; }
     .fb-restored button {
@@ -72,16 +86,58 @@
       text-underline-offset: 3px;
       cursor: pointer;
     }
-    .fb-field { margin: 0 0 2.25rem; }
+    .fb-form {
+      position: relative;
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      padding: clamp(1.1rem, 3vw, 2rem);
+      background: rgba(255, 254, 253, 0.94);
+      border: 1px solid rgba(20, 21, 32, 0.22);
+      border-radius: 8px;
+      box-shadow: var(--fb-shadow);
+    }
+    .fb-form::before {
+      content: "";
+      position: absolute;
+      inset: 0.55rem;
+      border: 1px solid rgba(20, 21, 32, 0.1);
+      border-radius: 6px;
+      pointer-events: none;
+    }
+    .fb-field {
+      position: relative;
+      margin: 0;
+      padding: 1.35rem 0;
+      border-top: 1px solid var(--fb-line);
+    }
+    .fb-restored + .fb-field,
+    .fb-unit-extras .fb-field:first-child {
+      border-top: 0;
+      padding-top: 0.2rem;
+    }
     .fb-label {
       display: block;
       font-family: 'Libre Baskerville', Georgia, serif;
       font-size: 1.05rem;
       color: var(--fb-ink);
-      margin: 0 0 0.4rem;
+      margin: 0 0 0.55rem;
+      line-height: 1.35;
     }
-    .fb-label small { color: var(--fb-muted); font-family: 'Space Mono', monospace; font-size: 0.7rem; }
-    .fb-hint { font-size: 0.75rem; line-height: 1.6; color: var(--fb-muted); margin: 0 0 0.75rem; }
+    .fb-label small {
+      color: var(--fb-muted);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      white-space: nowrap;
+    }
+    .fb-hint {
+      max-width: none;
+      width: 100%;
+      font-size: 0.74rem;
+      line-height: 1.65;
+      color: var(--fb-muted);
+      margin: 0 0 0.9rem;
+    }
     .fb-field textarea,
     .fb-field input[type="text"] {
       width: 100%;
@@ -93,32 +149,61 @@
       background: var(--fb-paper);
       border: 1px solid var(--fb-line-strong);
       border-radius: 8px;
-      padding: 0.7rem 0.8rem;
+      padding: 0.78rem 0.85rem;
+      transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
     }
-    .fb-field textarea { min-height: 8.5rem; resize: vertical; }
+    .fb-field textarea {
+      min-height: 11rem;
+      resize: vertical;
+    }
     .fb-field textarea:focus,
     .fb-field input[type="text"]:focus {
       outline: none;
       border-color: var(--fb-accent);
+      box-shadow: 0 0 0 4px var(--fb-focus);
+      background: #fff;
     }
-    .fb-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .fb-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+    }
     .fb-options label {
-      font-size: 0.78rem;
-      border: 1px solid var(--fb-line-strong);
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-width: 0;
+      min-height: 2.35rem;
+      font-size: 0.76rem;
+      border: 1px solid var(--fb-line);
       border-radius: 999px;
-      padding: 0.4rem 0.9rem;
+      padding: 0.45rem 0.92rem;
       cursor: pointer;
       background: var(--fb-paper);
       color: var(--fb-copy);
+      transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
     }
     .fb-options input { position: absolute; opacity: 0; pointer-events: none; }
+    .fb-options label:has(input:focus-visible) {
+      box-shadow: 0 0 0 4px var(--fb-focus);
+      border-color: var(--fb-accent);
+    }
     .fb-options label:has(input:checked) {
       background: var(--fb-accent);
       border-color: var(--fb-accent);
       color: #fff;
+      box-shadow: 0 8px 18px rgba(38, 63, 120, 0.18);
     }
     .fb-options label:hover { border-color: var(--fb-accent); }
+    .fb-unit-extras {
+      margin: -0.55rem 0 0;
+      padding: 0 0 1.2rem;
+    }
+    .fb-unit-extras .fb-field {
+      padding: 0.15rem 0 0;
+    }
     .fb-submit {
+      position: relative;
       font-family: inherit;
       font-size: 0.8rem;
       letter-spacing: 0.04em;
@@ -126,14 +211,48 @@
       background: var(--fb-accent);
       border: none;
       border-radius: 8px;
-      padding: 0.75rem 1.6rem;
+      padding: 0.85rem 1.65rem;
       cursor: pointer;
+      transition: background-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 12px 26px rgba(38, 63, 120, 0.22);
     }
-    .fb-submit:hover { background: var(--fb-accent-strong); }
-    .fb-submit[disabled] { opacity: 0.6; cursor: default; }
-    .fb-status { font-size: 0.78rem; color: var(--fb-muted); margin-top: 1rem; min-height: 1.2em; }
-    .fb-saved { font-size: 0.7rem; color: var(--fb-fine, #9a9ca8); margin-top: 0.5rem; }
-    .fb-done { display: none; }
+    .fb-submit:hover {
+      background: var(--fb-accent-strong);
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(38, 63, 120, 0.26);
+    }
+    .fb-submit:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 4px var(--fb-focus), 0 12px 26px rgba(38, 63, 120, 0.22);
+    }
+    .fb-submit[disabled] {
+      opacity: 0.62;
+      cursor: default;
+      transform: none;
+      box-shadow: none;
+    }
+    .fb-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-top: 0.4rem;
+    }
+    .fb-status {
+      font-size: 0.76rem;
+      color: var(--fb-muted);
+      margin: 0;
+      min-height: 1.2em;
+      line-height: 1.5;
+    }
+    .fb-done {
+      display: none;
+      max-width: 660px;
+      padding: clamp(1.35rem, 3vw, 2rem);
+      background: rgba(255, 254, 253, 0.96);
+      border: 1px solid rgba(20, 21, 32, 0.22);
+      border-radius: 8px;
+      box-shadow: var(--fb-shadow);
+    }
     .fb-done.show { display: block; }
     .fb-done h1 { margin-bottom: 0.75rem; }
     .fb-done p { font-size: 0.85rem; line-height: 1.65; color: var(--fb-muted); }
@@ -142,9 +261,61 @@
       color: var(--fb-accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
     }
     .fb-hp { position: absolute; left: -9999px; opacity: 0; }
+    @media (max-width: 820px) {
+      body {
+        background-size: 34px 34px, auto;
+      }
+      .fb-wrap {
+        padding: 6.8rem 1rem 4rem;
+      }
+      .fb-shell {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+      .fb-sidebar {
+        position: static;
+      }
+      .fb-wrap h1 {
+        max-width: 9ch;
+      }
+      .fb-form {
+        padding: 1rem;
+      }
+      .fb-field {
+        padding: 1.2rem 0;
+      }
+      .fb-unit-extras {
+        padding: 0 0 1.1rem;
+      }
+    }
+    @media (max-width: 520px) {
+      .fb-wrap {
+        padding-inline: 0.85rem;
+      }
+      .fb-wrap h1 {
+        max-width: 8ch;
+        font-size: 2.35rem;
+      }
+      .fb-options {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+      .fb-options label {
+        justify-content: center;
+        text-align: center;
+        padding-inline: 0.55rem;
+      }
+      .fb-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+      .fb-submit {
+        width: 100%;
+      }
+    }
   </style>
 </head>
-<body>
+<body class="fb-page">
   <a href="#main-content" class="skip-link">Skip to main content</a>
 
   <nav>
@@ -159,22 +330,55 @@
         <li><a href="/hiring">Careers</a></li>
         <li><a href="/about">About</a></li>
       </ul>
+      <button class="nav-toggle" aria-label="Open menu" id="nav-toggle">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </nav>
 
+  <div id="mobile-nav" class="mobile-nav">
+    <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
+    <ul>
+      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li><a href="/desk">Alignment Desk</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/mars">MARS</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand MARS menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/research" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Research</span></a></li>
+        </ul>
+      </li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/hardware" class="active" aria-current="page">Hardware</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Hardware menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/course/verification/" class="mobile-nav-child-link"><span class="mobile-nav-child-title">AI Assurance Course</span></a></li>
+        </ul>
+      </li>
+      <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+      <li><a href="/hiring">Careers</a></li>
+      <li><a href="/about">About</a></li>
+    </ul>
+  </div>
+
   <main id="main-content">
     <div class="fb-wrap">
-      <section id="fb-form-section">
-        <p class="fb-kicker">AI Assurance course</p>
-        <h1>Tell us what to fix</h1>
-        <p class="fb-intro">The course is in beta and this form goes straight to the people editing it. Blunt is useful. Your answers save in this browser as you type.</p>
+      <section class="fb-shell" id="fb-form-section">
+        <div class="fb-sidebar">
+          <p class="fb-kicker">AI Assurance course</p>
+          <h1>Tell us what to fix</h1>
+        </div>
 
-        <p class="fb-restored" id="fb-restored">Restored your draft. <button type="button" id="fb-startover">Start over</button></p>
-
-        <form id="fb-form" novalidate>
+        <form class="fb-form" id="fb-form" novalidate>
           <div class="fb-hp" aria-hidden="true">
             <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
           </div>
+
+          <p class="fb-restored" id="fb-restored">Restored your draft. <button type="button" id="fb-startover">Start over</button></p>
 
           <div class="fb-field" id="fb-where-field">
             <span class="fb-label">Where were you?</span>
@@ -188,27 +392,22 @@
             </div>
           </div>
 
-          <div class="fb-field">
-            <label class="fb-label" for="fb-feedback">General feedback</label>
-            <p class="fb-hint">Be honest and direct, and err on the side of saying too much rather than too little. Do not worry about our feelings. Broken links, wrong time estimates, confusing framing, a reading that was not worth it. Give the reading number (e.g. 2.7) if you can.</p>
-            <textarea id="fb-feedback" name="feedback" required></textarea>
-          </div>
-
-          <div id="fb-unit-extras" hidden>
-          <div class="fb-field">
-            <span class="fb-label">If you finished the unit, how long did it take? <small>optional</small></span>
-            <div class="fb-options" role="radiogroup" aria-label="How long did the unit take?">
-              <label><input type="radio" name="time_taken" value="Under 3h">Under 3h</label>
-              <label><input type="radio" name="time_taken" value="3-5h">3-5h</label>
-              <label><input type="radio" name="time_taken" value="5-7h">5-7h</label>
-              <label><input type="radio" name="time_taken" value="Over 7h">Over 7h</label>
+          <div class="fb-unit-extras" id="fb-unit-extras" hidden>
+            <div class="fb-field">
+              <span class="fb-label">If you finished the unit, how long did it take? <small>optional</small></span>
+              <div class="fb-options" role="radiogroup" aria-label="How long did the unit take?">
+                <label><input type="radio" name="time_taken" value="Under 3h">Under 3h</label>
+                <label><input type="radio" name="time_taken" value="3-5h">3-5h</label>
+                <label><input type="radio" name="time_taken" value="5-7h">5-7h</label>
+                <label><input type="radio" name="time_taken" value="Over 7h">Over 7h</label>
+              </div>
             </div>
           </div>
 
           <div class="fb-field">
-            <label class="fb-label" for="fb-cut">One reading you would cut, and why? <small>optional</small></label>
-            <input type="text" id="fb-cut" name="cut_reading">
-          </div>
+            <label class="fb-label" for="fb-feedback">General feedback</label>
+            <p class="fb-hint" id="fb-feedback-hint">Be honest and direct, and err on the side of saying too much rather than too little. If you are commenting on a specific reading, please mention its number (e.g. 2.7).</p>
+            <textarea id="fb-feedback" name="feedback" required aria-describedby="fb-feedback-hint"></textarea>
           </div>
 
           <div class="fb-field">
@@ -216,8 +415,10 @@
             <input type="text" id="fb-name" name="name" autocomplete="name">
           </div>
 
-          <button type="submit" class="fb-submit" id="fb-submit">Send feedback</button>
-          <p class="fb-status" id="fb-status" role="status"></p>
+          <div class="fb-actions">
+            <button type="submit" class="fb-submit" id="fb-submit">Send feedback</button>
+            <p class="fb-status" id="fb-status" role="status"></p>
+          </div>
         </form>
       </section>
 
@@ -231,6 +432,37 @@
 
   <script>
   (function () {
+    var mobileNav = document.getElementById('mobile-nav');
+    var mobileToggle = document.getElementById('nav-toggle');
+    var mobileClose = document.getElementById('mobile-nav-close');
+
+    function closeMobileNav() {
+      if (mobileNav) mobileNav.classList.remove('active');
+    }
+
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', function () {
+        if (mobileNav) mobileNav.classList.add('active');
+      });
+    }
+    if (mobileClose) mobileClose.addEventListener('click', closeMobileNav);
+    if (mobileNav) {
+      mobileNav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', closeMobileNav);
+      });
+      mobileNav.querySelectorAll('.mobile-nav-expand').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var expanded = button.getAttribute('aria-expanded') === 'true';
+          var children = button.parentElement && button.parentElement.nextElementSibling;
+          button.setAttribute('aria-expanded', String(!expanded));
+          if (children) children.classList.toggle('open', !expanded);
+        });
+      });
+    }
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') closeMobileNav();
+    });
+
     var KEY = 'caish-course-feedback-draft';
     var form = document.getElementById('fb-form');
     var restored = document.getElementById('fb-restored');
@@ -239,7 +471,7 @@
 
     function readForm() {
       var data = {};
-      ['feedback', 'cut_reading', 'name'].forEach(function (k) {
+      ['feedback', 'name'].forEach(function (k) {
         data[k] = form.elements[k].value;
       });
       ['where', 'time_taken'].forEach(function (k) {
@@ -250,7 +482,7 @@
     }
 
     function writeForm(data) {
-      ['feedback', 'cut_reading', 'name'].forEach(function (k) {
+      ['feedback', 'name'].forEach(function (k) {
         if (data[k]) form.elements[k].value = data[k];
       });
       ['where', 'time_taken'].forEach(function (k) {
@@ -263,7 +495,7 @@
     // Restore a saved draft, unless the URL names the unit.
     var saved = null;
     try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
-    if (saved && (saved.feedback || saved.cut_reading)) {
+    if (saved && saved.feedback) {
       writeForm(saved);
       restored.classList.add('show');
     }
@@ -302,7 +534,7 @@
     form.addEventListener('submit', function (event) {
       event.preventDefault();
       var data = readForm();
-      if (extras.hidden) { data.time_taken = ''; data.cut_reading = ''; }
+      if (extras.hidden) data.time_taken = '';
       if (!data.feedback.trim()) {
         status.textContent = 'Say what is off before sending.';
         form.elements.feedback.focus();
