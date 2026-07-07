@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Course Feedback | Cambridge AI Safety Hub</title>
+  <meta name="description" content="Feedback on the CAISH AI Assurance reading course.">
+  <meta name="robots" content="noindex">
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="preload" href="/styles.css?v=53e08f5d" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fb-bg: #fbfbfb;
+      --fb-paper: #ffffff;
+      --fb-ink: #111224;
+      --fb-copy: #2f3140;
+      --fb-muted: #6d7080;
+      --fb-line: #e1e2e8;
+      --fb-line-strong: #c7cad8;
+      --fb-accent: #31468f;
+      --fb-accent-strong: #17265f;
+    }
+    body { background: var(--fb-bg); }
+    .fb-wrap {
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 8.5rem 1.5rem 5rem;
+      font-family: 'Space Mono', monospace;
+      color: var(--fb-copy);
+    }
+    .fb-kicker {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fb-accent);
+      margin: 0 0 0.75rem;
+    }
+    .fb-wrap h1 {
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-weight: 400;
+      font-size: 2rem;
+      color: var(--fb-ink);
+      margin: 0 0 1rem;
+      line-height: 1.2;
+    }
+    .fb-intro {
+      font-size: 0.85rem;
+      line-height: 1.65;
+      color: var(--fb-muted);
+      margin: 0 0 2.5rem;
+    }
+    .fb-restored {
+      display: none;
+      font-size: 0.75rem;
+      color: var(--fb-muted);
+      border: 1px solid var(--fb-line);
+      border-radius: 8px;
+      background: var(--fb-paper);
+      padding: 0.6rem 0.9rem;
+      margin: 0 0 1.75rem;
+    }
+    .fb-restored.show { display: block; }
+    .fb-restored button {
+      background: none;
+      border: none;
+      padding: 0;
+      font: inherit;
+      color: var(--fb-accent);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      cursor: pointer;
+    }
+    .fb-field { margin: 0 0 2.25rem; }
+    .fb-label {
+      display: block;
+      font-family: 'Libre Baskerville', Georgia, serif;
+      font-size: 1.05rem;
+      color: var(--fb-ink);
+      margin: 0 0 0.4rem;
+    }
+    .fb-label small { color: var(--fb-muted); font-family: 'Space Mono', monospace; font-size: 0.7rem; }
+    .fb-hint { font-size: 0.75rem; line-height: 1.6; color: var(--fb-muted); margin: 0 0 0.75rem; }
+    .fb-field textarea,
+    .fb-field input[type="text"] {
+      width: 100%;
+      box-sizing: border-box;
+      font-family: inherit;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--fb-copy);
+      background: var(--fb-paper);
+      border: 1px solid var(--fb-line-strong);
+      border-radius: 8px;
+      padding: 0.7rem 0.8rem;
+    }
+    .fb-field textarea { min-height: 8.5rem; resize: vertical; }
+    .fb-field textarea:focus,
+    .fb-field input[type="text"]:focus {
+      outline: none;
+      border-color: var(--fb-accent);
+    }
+    .fb-options { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .fb-options label {
+      font-size: 0.78rem;
+      border: 1px solid var(--fb-line-strong);
+      border-radius: 999px;
+      padding: 0.4rem 0.9rem;
+      cursor: pointer;
+      background: var(--fb-paper);
+      color: var(--fb-copy);
+    }
+    .fb-options input { position: absolute; opacity: 0; pointer-events: none; }
+    .fb-options label:has(input:checked) {
+      background: var(--fb-accent);
+      border-color: var(--fb-accent);
+      color: #fff;
+    }
+    .fb-options label:hover { border-color: var(--fb-accent); }
+    .fb-submit {
+      font-family: inherit;
+      font-size: 0.8rem;
+      letter-spacing: 0.04em;
+      color: #fff;
+      background: var(--fb-accent);
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem 1.6rem;
+      cursor: pointer;
+    }
+    .fb-submit:hover { background: var(--fb-accent-strong); }
+    .fb-submit[disabled] { opacity: 0.6; cursor: default; }
+    .fb-status { font-size: 0.78rem; color: var(--fb-muted); margin-top: 1rem; min-height: 1.2em; }
+    .fb-saved { font-size: 0.7rem; color: var(--fb-fine, #9a9ca8); margin-top: 0.5rem; }
+    .fb-done { display: none; }
+    .fb-done.show { display: block; }
+    .fb-done h1 { margin-bottom: 0.75rem; }
+    .fb-done p { font-size: 0.85rem; line-height: 1.65; color: var(--fb-muted); }
+    .fb-done a, .fb-done button {
+      background: none; border: none; padding: 0; font: inherit;
+      color: var(--fb-accent); text-decoration: underline; text-underline-offset: 3px; cursor: pointer;
+    }
+    .fb-hp { position: absolute; left: -9999px; opacity: 0; }
+  </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" aria-label="Home"><img src="/images/logo.png" alt="Cambridge AI Safety Hub" class="logo" width="50" height="50"></a>
+      <ul class="nav-links">
+        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li><a href="/desk">Alignment Desk</a></li>
+        <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
+        <li class="nav-has-dropdown"><a href="/hardware" class="active" aria-current="page">Hardware <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/course/verification/">AI Assurance Course</a></li></ul></li>
+        <li><a href="https://luma.com/meridian" target="_blank" rel="noopener">Events</a></li>
+        <li><a href="/hiring">Careers</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main id="main-content">
+    <div class="fb-wrap">
+      <section id="fb-form-section">
+        <p class="fb-kicker">AI Assurance course</p>
+        <h1>Tell us what to fix</h1>
+        <p class="fb-intro">The course is in beta and this form goes straight to the people editing it. Blunt is useful. Your answers save in this browser as you type.</p>
+
+        <p class="fb-restored" id="fb-restored">Restored your draft. <button type="button" id="fb-startover">Start over</button></p>
+
+        <form id="fb-form" novalidate>
+          <div class="fb-hp" aria-hidden="true">
+            <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <div class="fb-field">
+            <label class="fb-label" for="fb-feedback">What is off, or what would you change?</label>
+            <p class="fb-hint">Broken links, wrong time estimates, confusing framing, a reading that was not worth it. Give the reading number (e.g. 2.7) if you can.</p>
+            <textarea id="fb-feedback" name="feedback" required></textarea>
+          </div>
+
+          <div class="fb-field" id="fb-where-field">
+            <span class="fb-label">Where were you?</span>
+            <div class="fb-options" role="radiogroup" aria-label="Where were you?">
+              <label><input type="radio" name="where" value="Unit 01">Unit 01</label>
+              <label><input type="radio" name="where" value="Unit 02">Unit 02</label>
+              <label><input type="radio" name="where" value="Unit 03">Unit 03</label>
+              <label><input type="radio" name="where" value="Unit 04">Unit 04</label>
+              <label><input type="radio" name="where" value="Sign-in or site">Sign-in or site</label>
+              <label><input type="radio" name="where" value="General">General</label>
+            </div>
+          </div>
+
+          <div class="fb-field">
+            <span class="fb-label">If you just finished a unit, how long did it take? <small>optional</small></span>
+            <div class="fb-options" role="radiogroup" aria-label="How long did the unit take?">
+              <label><input type="radio" name="time_taken" value="Under 3h">Under 3h</label>
+              <label><input type="radio" name="time_taken" value="3-5h">3-5h</label>
+              <label><input type="radio" name="time_taken" value="5-7h">5-7h</label>
+              <label><input type="radio" name="time_taken" value="Over 7h">Over 7h</label>
+            </div>
+          </div>
+
+          <div class="fb-field">
+            <label class="fb-label" for="fb-cut">One reading you would cut, and why? <small>optional</small></label>
+            <input type="text" id="fb-cut" name="cut_reading">
+          </div>
+
+          <div class="fb-field">
+            <label class="fb-label" for="fb-name">Your name <small>optional</small></label>
+            <input type="text" id="fb-name" name="name" autocomplete="name">
+          </div>
+
+          <button type="submit" class="fb-submit" id="fb-submit">Send feedback</button>
+          <p class="fb-status" id="fb-status" role="status"></p>
+        </form>
+      </section>
+
+      <section class="fb-done" id="fb-done">
+        <p class="fb-kicker">AI Assurance course</p>
+        <h1>Thanks, noted.</h1>
+        <p>It goes straight into the pile we work from. <button type="button" id="fb-again">Send another</button> or head back to <a href="/course/verification/">the course</a>.</p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+  (function () {
+    var KEY = 'caish-course-feedback-draft';
+    var form = document.getElementById('fb-form');
+    var restored = document.getElementById('fb-restored');
+    var status = document.getElementById('fb-status');
+    var submit = document.getElementById('fb-submit');
+
+    function readForm() {
+      var data = {};
+      ['feedback', 'cut_reading', 'name'].forEach(function (k) {
+        data[k] = form.elements[k].value;
+      });
+      ['where', 'time_taken'].forEach(function (k) {
+        var checked = form.querySelector('input[name="' + k + '"]:checked');
+        data[k] = checked ? checked.value : '';
+      });
+      return data;
+    }
+
+    function writeForm(data) {
+      ['feedback', 'cut_reading', 'name'].forEach(function (k) {
+        if (data[k]) form.elements[k].value = data[k];
+      });
+      ['where', 'time_taken'].forEach(function (k) {
+        if (!data[k]) return;
+        var input = form.querySelector('input[name="' + k + '"][value="' + data[k] + '"]');
+        if (input) input.checked = true;
+      });
+    }
+
+    // Restore a saved draft, unless the URL names the unit.
+    var saved = null;
+    try { saved = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+    if (saved && (saved.feedback || saved.cut_reading)) {
+      writeForm(saved);
+      restored.classList.add('show');
+    }
+
+    // ?unit=Unit%2002 preselects the location.
+    var unit = new URLSearchParams(location.search).get('unit');
+    if (unit) {
+      var pre = form.querySelector('input[name="where"][value="' + unit + '"]');
+      if (pre) pre.checked = true;
+    }
+
+    document.getElementById('fb-startover').addEventListener('click', function () {
+      localStorage.removeItem(KEY);
+      form.reset();
+      restored.classList.remove('show');
+    });
+
+    var timer = null;
+    form.addEventListener('input', function () {
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        try { localStorage.setItem(KEY, JSON.stringify(readForm())); } catch (e) {}
+      }, 300);
+    });
+
+    form.addEventListener('submit', function (event) {
+      event.preventDefault();
+      var data = readForm();
+      if (!data.feedback.trim()) {
+        status.textContent = 'Say what is off before sending.';
+        form.elements.feedback.focus();
+        return;
+      }
+      data.website = form.elements.website.value; // honeypot
+      submit.disabled = true;
+      status.textContent = 'Sending…';
+      fetch('/.netlify/functions/feedback', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }).then(function (response) {
+        if (!response.ok) throw new Error('bad');
+        localStorage.removeItem(KEY);
+        document.getElementById('fb-form-section').style.display = 'none';
+        document.getElementById('fb-done').classList.add('show');
+        window.scrollTo(0, 0);
+      }).catch(function () {
+        submit.disabled = false;
+        status.textContent = 'Could not send. Your draft is saved here, try again in a minute.';
+      });
+    });
+
+    document.getElementById('fb-again').addEventListener('click', function () {
+      form.reset();
+      submit.disabled = false;
+      status.textContent = '';
+      document.getElementById('fb-done').classList.remove('show');
+      document.getElementById('fb-form-section').style.display = '';
+      window.scrollTo(0, 0);
+    });
+  })();
+  </script>
+</body>
+</html>
