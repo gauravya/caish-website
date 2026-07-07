@@ -176,12 +176,6 @@
             <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label>
           </div>
 
-          <div class="fb-field">
-            <label class="fb-label" for="fb-feedback">What is off, or what would you change?</label>
-            <p class="fb-hint">Broken links, wrong time estimates, confusing framing, a reading that was not worth it. Give the reading number (e.g. 2.7) if you can.</p>
-            <textarea id="fb-feedback" name="feedback" required></textarea>
-          </div>
-
           <div class="fb-field" id="fb-where-field">
             <span class="fb-label">Where were you?</span>
             <div class="fb-options" role="radiogroup" aria-label="Where were you?">
@@ -195,7 +189,14 @@
           </div>
 
           <div class="fb-field">
-            <span class="fb-label">If you just finished a unit, how long did it take? <small>optional</small></span>
+            <label class="fb-label" for="fb-feedback">General feedback</label>
+            <p class="fb-hint">Be honest and direct, and err on the side of saying too much rather than too little. Do not worry about our feelings. Broken links, wrong time estimates, confusing framing, a reading that was not worth it. Give the reading number (e.g. 2.7) if you can.</p>
+            <textarea id="fb-feedback" name="feedback" required></textarea>
+          </div>
+
+          <div id="fb-unit-extras" hidden>
+          <div class="fb-field">
+            <span class="fb-label">If you finished the unit, how long did it take? <small>optional</small></span>
             <div class="fb-options" role="radiogroup" aria-label="How long did the unit take?">
               <label><input type="radio" name="time_taken" value="Under 3h">Under 3h</label>
               <label><input type="radio" name="time_taken" value="3-5h">3-5h</label>
@@ -207,6 +208,7 @@
           <div class="fb-field">
             <label class="fb-label" for="fb-cut">One reading you would cut, and why? <small>optional</small></label>
             <input type="text" id="fb-cut" name="cut_reading">
+          </div>
           </div>
 
           <div class="fb-field">
@@ -279,6 +281,16 @@
       restored.classList.remove('show');
     });
 
+    var extras = document.getElementById('fb-unit-extras');
+    function syncExtras() {
+      var checked = form.querySelector('input[name="where"]:checked');
+      extras.hidden = !(checked && checked.value.indexOf('Unit') === 0);
+    }
+    form.querySelectorAll('input[name="where"]').forEach(function (input) {
+      input.addEventListener('change', syncExtras);
+    });
+    syncExtras();
+
     var timer = null;
     form.addEventListener('input', function () {
       clearTimeout(timer);
@@ -290,6 +302,7 @@
     form.addEventListener('submit', function (event) {
       event.preventDefault();
       var data = readForm();
+      if (extras.hidden) { data.time_taken = ''; data.cut_reading = ''; }
       if (!data.feedback.trim()) {
         status.textContent = 'Say what is off before sending.';
         form.elements.feedback.focus();
