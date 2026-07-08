@@ -57,6 +57,13 @@
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
 
+# Unlisted HAP participant directory preview
+[[headers]]
+  for = "/hap-2026-participants-3b604ec9ee/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+
 # Cache control for HTML pages - stale-while-revalidate for instant loads
 [[headers]]
   for = "/*.html"
