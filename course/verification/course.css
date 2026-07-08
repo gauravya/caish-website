@@ -1984,3 +1984,30 @@ body.course-page .footer-copy {
 .course-feedback-note a:hover {
   color: var(--course-copy);
 }
+
+.course-closing {
+  max-width: 640px;
+  margin: 4rem auto 0;
+  padding: 2.25rem 1.5rem 0;
+  border-top: 1px solid var(--course-line);
+  text-align: center;
+}
+
+.course-closing-cta {
+  display: inline-block;
+  font-family: "Space Mono", monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
+  color: var(--course-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.course-closing-cta:hover { color: var(--course-accent-strong); }
+
+.course-closing-ack {
+  margin: 1rem 0 0;
+  font-size: 0.72rem;
+  line-height: 1.6;
+  color: var(--course-fine);
+}
