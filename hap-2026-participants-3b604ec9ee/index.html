@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Participants | Hardware Assurance Programme</title>
+<link rel="stylesheet" href="style.css?v=10">
+</head>
+<body>
+<div class="page">
+  <header class="site-header">
+    <h1>Hardware Assurance Programme - Participants</h1>
+  </header>
+
+  <main>
+    <h2>Participants</h2>
+    <section class="grid" id="grid" aria-label="Participants"></section>
+  </main>
+
+</div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var grid = document.getElementById('grid');
+  var people = window.PROFILES || [];
+
+  function initials(name) {
+    var parts = name.replace(/\(.*?\)/g, ' ').trim().split(/\s+/);
+    var first = parts[0] ? parts[0][0] : '';
+    var last = parts.length > 1 ? parts[parts.length - 1][0] : '';
+    return (first + last).toUpperCase();
+  }
+
+  function domain(url) {
+    try { return new URL(url).hostname.replace(/^www\./, ''); }
+    catch (e) { return 'website'; }
+  }
+
+  function linkLabel(url) {
+    var host = domain(url);
+    if (host.indexOf('linkedin.com') !== -1) return 'LinkedIn';
+    return host;
+  }
+
+  function displayName(name) {
+    return name.replace(/\s*\(.*?\)\s*/g, ' ').replace(/\s+/g, ' ').trim();
+  }
+
+  function shortLine(person) {
+    if (person.affiliation) return person.affiliation;
+    var bio = (person.bio || '').replace(/\s+/g, ' ').trim();
+    if (!bio) return person.link ? linkLabel(person.link) : '';
+    var sentences = bio.match(/[^.!?]+[.!?]+/g) || [bio];
+    var line = sentences.map(function (s) { return s.trim(); }).filter(function (s) {
+      return !/^(hi|hello)[!.]?$/i.test(s);
+    })[0] || bio;
+    if (line.length > 125) {
+      line = line.slice(0, 122).replace(/\s+\S*$/, '') + '...';
+    }
+    return line;
+  }
+
+  function el(tag, cls, text) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  people.forEach(function (person) {
+    var card = el('article', 'card');
+    var details = el('details', 'profile');
+    var summary = el('summary', 'profile-summary');
+
+    var photo = el('div', 'photo');
+    if (person.photo) {
+      var img = el('img');
+      img.src = person.photo;
+      img.alt = displayName(person.name);
+      img.loading = 'lazy';
+      photo.appendChild(img);
+    } else {
+      photo.appendChild(el('span', 'initials', initials(person.name)));
+    }
+    summary.appendChild(photo);
+
+    var heading = el('div', 'profile-heading');
+    heading.appendChild(el('h3', 'name', displayName(person.name)));
+    var line = shortLine(person);
+    if (line) heading.appendChild(el('p', 'affiliation', line));
+    summary.appendChild(heading);
+    summary.appendChild(el('span', 'arrow', '⌄'));
+    details.appendChild(summary);
+
+    var body = el('div', 'profile-details');
+    if (person.bio) body.appendChild(el('p', 'bio', person.bio));
+
+    if (person.link) {
+      var link = el('a', 'profile-link', linkLabel(person.link));
+      link.href = person.link;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.setAttribute('aria-label', person.name + ' website: ' + domain(person.link));
+      body.appendChild(link);
+    }
+
+    details.appendChild(body);
+    card.appendChild(details);
+    grid.appendChild(card);
+  });
+})();
+</script>
+</body>
+</html>
