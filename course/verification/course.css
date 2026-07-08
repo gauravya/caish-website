@@ -2005,6 +2005,14 @@ body.course-page .footer-copy {
 
 .course-closing-cta:hover { color: var(--course-accent-strong); }
 
+.course-closing-ack a {
+  color: var(--course-muted);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.course-closing-ack a:hover { color: var(--course-copy); }
+
 .course-closing-ack {
   margin: 1rem 0 0;
   font-size: 0.72rem;
