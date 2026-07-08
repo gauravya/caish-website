@@ -672,7 +672,7 @@ const CourseWorksheet = {
       status.textContent = 'Submitted. You can revise and resubmit until 16 August.';
       document.getElementById('course-ws-submit').textContent = 'Resubmit sketch';
     } catch (error) {
-      status.textContent = (error.message || 'Could not submit.') + ' If this persists, email hello@cambridgeaisafety.org.';
+      status.textContent = (error.message || 'Could not submit.') + ' If this persists, email hello@caish.org.';
     }
   },
 
