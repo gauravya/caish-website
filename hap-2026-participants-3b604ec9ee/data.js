@@ -61,7 +61,7 @@ window.PROFILES = [
   "affiliation": "Embedded security & anti-tampering (Niantic)",
   "bio": "Jannis is a Security Researcher (Desktop & Mobile, Embedded, E-Voting & Multimodal Models) currently working on mobile anti-tampering systems for Niantic (Pokémon Go). Jannis enjoys playing and organizing CTF competitions as well as speaking at conferences worldwide (CCC, Usenix, REcon, Hek.si, Insomni'hack,...). He previously attended BlueDot's AI Alignment Training (2024), AISB Singapore, EAG, DC AI Security Forum, will instruct at AISB Vegas & leads a research fellowship with Heron.",
   "link": "https://linkedin.com/in/janniskirschner",
-  "photo": "images/recdxfZpbvKmCxBpL.png"
+  "photo": "images/recdxfZpbvKmCxBpL.jpg"
  },
  {
   "name": "John Hoopes",
@@ -77,7 +77,7 @@ window.PROFILES = [
   "affiliation": "Privacy-preserving cryptography (PhD, ex-Google)",
   "bio": "I just completed a PhD in cryptography focussed on privacy-preserving computation for real-world applications. Before my PhD I worked at Google as a data analyst. I'm interested in applying cryptographic techniques to problems in AI safety.",
   "link": "",
-  "photo": "images/reclwApVlNIeXPL5j.png"
+  "photo": "images/reclwApVlNIeXPL5j.jpg"
  },
  {
   "name": "Kevin T. Frazier",
@@ -85,7 +85,7 @@ window.PROFILES = [
   "affiliation": "AI law & policy (Professor, UT Austin)",
   "bio": "Kevin Frazier directs the AI Innovation and Law Program at the University of Texas School of Law. He also co-hosts the Scaling Law podcast. You'll find his research on AI, the Rule of Law, and innovation policy on Lawfare.",
   "link": "https://www.linkedin.com/in/kevin-t-frazier/",
-  "photo": "images/rec3Ed5pNWkbjTsnG.png"
+  "photo": "images/rec3Ed5pNWkbjTsnG.jpg"
  },
  {
   "name": "Lee Wall",
@@ -109,7 +109,7 @@ window.PROFILES = [
   "affiliation": "ML for anomaly detection (Physics PhD, UPenn/CERN)",
   "bio": "I am a physics PhD student at the University of Pennsylvania working on machine learning for anomaly detection in the ATLAS experiment at CERN. I'm broadly interested in AI safety, including technical alignment, hardware assurance, policy, economics, international relations, and national security.",
   "link": "https://www.linkedin.com/in/max-cohen-a677aa215/",
-  "photo": "images/rec7ihdfXTEiQ1K5g.png"
+  "photo": "images/rec7ihdfXTEiQ1K5g.jpg"
  },
  {
   "name": "Nikita Kezins",
@@ -125,7 +125,7 @@ window.PROFILES = [
   "affiliation": "Hardware simulation & SoC modelling (MachineWare)",
   "bio": "I currently work at MachineWare, a hardware simulation startup based in Aachen, Germany. There, I develop full-system models of SoCs in SystemC. At CAISH, I'm looking forward to exploring AI hardware assurance to find my fit.",
   "link": "https://www.linkedin.com/in/pau-ribelles/",
-  "photo": "images/reciXjDRociGWWg4m.png"
+  "photo": "images/reciXjDRociGWWg4m.jpg"
  },
  {
   "name": "Prachotan Reddy Bathi",
@@ -141,7 +141,7 @@ window.PROFILES = [
   "affiliation": "Systems & control engineering (ASML)",
   "bio": "I am born and raised in the Netherlands and have moved around for studies and work. After studying Mathematics with specialization in Systems & Control at the TU Delft, I moved to Eindhoven to start working at ASML. In my spare time I like to play trumpet in a carnival band and do sports, where I enjoy to work towards long distance events.",
   "link": "https://www.linkedin.com/in/robertneijenhuis/",
-  "photo": "images/recnn78BU42aBkvth.png"
+  "photo": "images/recnn78BU42aBkvth.jpg"
  },
  {
   "name": "Ryan Bevin",
@@ -149,7 +149,7 @@ window.PROFILES = [
   "affiliation": "Post-quantum crypto on RISC-V (PhD, QUB CSIT)",
   "bio": "Hello, my name is Ryan Bevin, I am from Antrim in Northern Ireland. As of 2026 I am a PhD student in the Center for Secure Information Technology at Queen's University Belfast. I am working on Post Quantum Cryptography acceleration though Instruction Set Extensions on RISC-V.",
   "link": "https://linktr.ee/rbevin777",
-  "photo": "images/reccMjJYVYVPv7QPw.png"
+  "photo": "images/reccMjJYVYVPv7QPw.jpg"
  },
  {
   "name": "Thomas",
@@ -165,6 +165,6 @@ window.PROFILES = [
   "affiliation": "",
   "bio": "My current research interests lie in automating formal verification and specification with AI. In my spare time, I enjoy playing tennis and oil painting.",
   "link": "https://www.linkedin.com/in/urbas-ekka/",
-  "photo": "images/reczlbM7QW1f2bd6f.HEIC"
+  "photo": "images/reczlbM7QW1f2bd6f.jpg"
  }
 ];
