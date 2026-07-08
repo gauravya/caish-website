@@ -22,6 +22,9 @@ exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return respond(405, 'Method not allowed');
   if (!process.env.AIRTABLE_SKETCH_TOKEN) return respond(503, 'Feedback is not configured yet');
 
+  // Reject oversized bodies before parsing; a real submission is a few KB.
+  if ((event.body || '').length > 40000) return respond(413, 'Too much text');
+
   let payload;
   try {
     payload = JSON.parse(event.body || '{}');
@@ -29,7 +32,7 @@ exports.handler = async (event) => {
     return respond(400, 'Bad request');
   }
 
-  // Honeypot: real users never fill this.
+  // Honeypot: real users never fill this. Return 200 so bots see success.
   if (payload.website) return respond(200, 'Thanks');
 
   const clean = (value, max) => String(value || '').slice(0, max).trim();
