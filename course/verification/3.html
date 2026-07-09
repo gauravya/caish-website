@@ -36,7 +36,7 @@
   <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
 
-  <link rel="stylesheet" href="/course/verification/course.css?v=20260708c">
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260708will">
   <script src="/course/verification/supabase.js?v=2" defer></script>
   <script src="/course/verification/supabase-config.js?v=1" defer></script>
   <script src="/course/verification/course.js?v=20260706a" defer></script>
@@ -225,27 +225,45 @@
                 <a class="course-reading-link course-reading-link--button" href="https://clement-thorens.ch/pdfs/guardain.pdf" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
+            <article class="course-reading course-reading--structured" id="read-3-5" data-reading-id="unit-3-reading-5">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.5</span>
+                  <span class="course-reading-time">30 min</span>
+                </div>
+                <h3>On TEEs for Privacy-Preserving Monitoring in AI Governance</h3>
+                <p class="course-reading-authors">MIRI Technical Governance Team (2025)</p>
+                <p class="course-reading-why">Argues that trusted execution environments can give a regulator verification of AI deployments without mass surveillance, then works through the hard part: side-channel attacks, physical key extraction, measurement completeness, and reliance on vendor-controlled hardware identities. More depth on confidential computing than the CNAS piece above.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The whole post.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://techgov.intelligence.org/blog/on-tees-for-privacy-preserving-monitoring-in-ai-governance" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
           </div>
           <h3 id="mech-inference" class="course-section-header">Inference verification</h3>
           <p class="course-unit-intro">Checking whether an output plausibly came from the claimed model, even when exact deterministic replay is unavailable.</p>
           <div class="course-readings">
-            <article class="course-reading course-reading--structured course-reading--single" id="read-3-5" data-reading-id="unit-3-reading-5">
+            <article class="course-reading course-reading--structured course-reading--single" id="read-3-6" data-reading-id="unit-3-reading-6">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">WATCH 3.5</span>
                   <span class="course-reading-time">11 min</span>
                 </div>
                 <h3>Inference Verification in a TEE</h3>
-                <p class="course-reading-authors">Roy Rinberg, AI Security Forum</p>
+                <p class="course-reading-authors">Roy Rinberg, AViD workshop</p>
                 <p class="course-reading-why">Non-determinism in inference verification turns out to be tractable: fewer than a thousand tokens separate a model from its quantised version, and running the verifier inside a TEE answers who verifies the verifier. The talk closes with a framing worth keeping, that bug catching, hacker detection and treaty verification are the same problem at different levels of trust and adversary power.</p>
                 <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=JOq1IbiBR58" target="_blank" rel="noopener"><img src="thumbs/JOq1IbiBR58.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
-            <article class="course-reading course-reading--structured" id="read-3-6" data-reading-id="unit-3-reading-6">
+            <article class="course-reading course-reading--structured" id="read-3-7" data-reading-id="unit-3-reading-7">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.6</span>
+                  <span class="course-reading-num">READ 3.7</span>
                   <span class="course-reading-time">40-60 min</span>
                 </div>
                 <h3>Verifying LLM Inference to Detect Model Weight Exfiltration</h3>
@@ -260,10 +278,10 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2511.02620" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
-<article class="course-reading course-reading--structured" id="read-3-7" data-reading-id="unit-3-reading-7">
+<article class="course-reading course-reading--structured" id="read-3-8" data-reading-id="unit-3-reading-8">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.7</span>
+                  <span class="course-reading-num">READ 3.8</span>
                   <span class="course-reading-time">40-55 min</span>
                 </div>
                 <h3>DiFR: Inference Verification Despite Nondeterminism</h3>
@@ -282,23 +300,23 @@
           <h3 id="mech-zkp" class="course-section-header">Zero-knowledge proofs</h3>
           <p class="course-unit-intro">Proving a claim about a model or training run without revealing the weights or data.</p>
           <div class="course-readings">
-            <article class="course-reading course-reading--structured course-reading--single" id="read-3-8" data-reading-id="unit-3-reading-8">
+            <article class="course-reading course-reading--structured course-reading--single" id="read-3-9" data-reading-id="unit-3-reading-9">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">WATCH 3.8</span>
                   <span class="course-reading-time">20 min</span>
                 </div>
                 <h3>Efficient Zero-Knowledge Proofs for AI Inference</h3>
-                <p class="course-reading-authors">Bing-Jyue Chen, AI Security Forum</p>
+                <p class="course-reading-authors">Bing-Jyue Chen, AViD workshop</p>
                 <p class="course-reading-why">Proving one GPT-2 token has gone from an hour to about 1.5 seconds in three years, and this talk explains where the speedups come from, collapsing linear operations into single constraints and exploiting the structure of exponentiation tables. It also compares what a cryptographic proof guarantees with what TEE attestation guarantees.</p>
                 <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=oY7Wflmb-Ys" target="_blank" rel="noopener"><img src="thumbs/oY7Wflmb-Ys.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
-            <article class="course-reading course-reading--structured" id="read-3-9" data-reading-id="unit-3-reading-9">
+            <article class="course-reading course-reading--structured" id="read-3-10" data-reading-id="unit-3-reading-10">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.9</span>
+                  <span class="course-reading-num">READ 3.10</span>
                   <span class="course-reading-time">30-45 min</span>
                 </div>
                 <h3>Verifiable evaluations of machine learning models using zkSNARKs</h3>
@@ -313,10 +331,10 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2402.02675" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
-<article class="course-reading course-reading--structured" id="read-3-10" data-reading-id="unit-3-reading-10">
+<article class="course-reading course-reading--structured" id="read-3-11" data-reading-id="unit-3-reading-11">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.10</span>
+                  <span class="course-reading-num">READ 3.11</span>
                   <span class="course-reading-time">45-60 min</span>
                 </div>
                 <h3>zkLLM: Zero Knowledge Proofs for Large Language Models</h3>
@@ -331,10 +349,10 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2404.16109" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
-<article class="course-reading course-reading--structured" id="read-3-11" data-reading-id="unit-3-reading-11">
+<article class="course-reading course-reading--structured" id="read-3-12" data-reading-id="unit-3-reading-12">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.11</span>
+                  <span class="course-reading-num">READ 3.12</span>
                   <span class="course-reading-time">45-60 min</span>
                 </div>
                 <h3>ZKML: An Optimizing System for ML Inference in Zero-Knowledge Proofs</h3>
@@ -349,27 +367,99 @@
                 <a class="course-reading-link course-reading-link--button" href="https://ddkang.github.io/papers/2024/zkml-eurosys.pdf" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
+            <article class="course-reading course-reading--structured" id="read-3-13" data-reading-id="unit-3-reading-13">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.13</span>
+                  <span class="course-reading-time">15 min</span>
+                </div>
+                <h3>Handling floating point in ZK inference verification</h3>
+                <p class="course-reading-authors">James Petrie</p>
+                <p class="course-reading-why">Sidesteps floating-point non-determinism by proving a bound on how much hidden information an output could carry, rather than exact token reproduction. A concrete answer to the floating-point problem that dogs the ZK inference papers above.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The README.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://github.com/JamesPetrie/zkllm-entropy" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+            <article class="course-reading course-reading--structured" id="read-3-14" data-reading-id="unit-3-reading-14">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.14</span>
+                  <span class="course-reading-time">25 min</span>
+                </div>
+                <h3>Architecture-private Zero-knowledge Proof of Neural Networks</h3>
+                <p class="course-reading-authors">Guo, Guo, Qu, Zhang (2025)</p>
+                <p class="course-reading-why">Most zkML hides the weights but leaks the model architecture. This scheme hides the architecture too, for CNNs, at only 30 to 40 percent more prover time than the architecture-public state of the art. Relevant if you care how much a proof reveals about the model.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Abstract, introduction, and the technical overview in section 3.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://eprint.iacr.org/2025/2211.pdf" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+            <article class="course-reading course-reading--structured" id="read-3-15" data-reading-id="unit-3-reading-15">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.15</span>
+                  <span class="course-reading-time">15 min</span>
+                </div>
+                <h3>NANOZK: Layerwise Zero-Knowledge Proofs for Verifiable LLM Inference</h3>
+                <p class="course-reading-authors">Zhaohui Geoffrey Wang (2026)</p>
+                <p class="course-reading-why">A 2026 reference point for how far ZK inference proofs have come. It proves LLM inference layer by layer with constant-size 5.5KB layer proofs, roughly 70 times smaller and 5.7 times faster to prove than EZKL. Read it to correct the impression, left by the 2024 papers above, that ZKPs are hopelessly slow.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Abstract and introduction.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2603.18046" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+            <article class="course-reading course-reading--structured" id="read-3-16" data-reading-id="unit-3-reading-16">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.16</span>
+                  <span class="course-reading-time">25 min</span>
+                </div>
+                <h3>Hollow-LLM Attack: Computationally Trivial Weights in Zero-Knowledge Verification of LLM Inference</h3>
+                <p class="course-reading-authors">IEEE S&amp;P (2026)</p>
+                <p class="course-reading-why">An attack on ZK verification of LLM inference: a prover can satisfy the proof with hollowed-out, computationally trivial weights, so a valid proof does not on its own guarantee the claimed model did the work. A reminder that these schemes have adversarial failure modes.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Paywalled. You will need to purchase it or use institutional access.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://ieeexplore.ieee.org/document/11573446" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
           </div>
           <h3 id="mech-telemetry" class="course-section-header">Telemetry and detection</h3>
           <p class="course-unit-intro">Reading network, timing, memory and other side-channel signals to infer what a cluster is doing.</p>
           <div class="course-readings">
-            <article class="course-reading course-reading--structured course-reading--single" id="read-3-12" data-reading-id="unit-3-reading-12">
+            <article class="course-reading course-reading--structured course-reading--single" id="read-3-17" data-reading-id="unit-3-reading-17">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
                   <span class="course-reading-num">WATCH 3.12</span>
                   <span class="course-reading-time">17 min</span>
                 </div>
                 <h3>Physical Verification of AI Systems against Nation-state Adversaries</h3>
-                <p class="course-reading-authors">Shahin Tajik, AI Security Forum</p>
+                <p class="course-reading-authors">Shahin Tajik, AViD workshop</p>
                 <p class="course-reading-why">Shows what a nation-state attacker can do to a chip: laser probing that reads individual transistors, spy implants that cost 200 dollars, and why anti-tamper enclosures exist. The constructive half covers impedance sensing to detect tampering, and compute and memory puzzles that catch a datacentre lying about its utilisation.</p>
                 <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=fn8EtTsE6yE" target="_blank" rel="noopener"><img src="thumbs/fn8EtTsE6yE.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
 
-            <article class="course-reading course-reading--structured" id="read-3-13" data-reading-id="unit-3-reading-13">
+            <article class="course-reading course-reading--structured" id="read-3-18" data-reading-id="unit-3-reading-18">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.13</span>
+                  <span class="course-reading-num">READ 3.18</span>
                   <span class="course-reading-time">45-60 min</span>
                 </div>
                 <h3>Timing and Memory Telemetry on GPUs for AI Governance</h3>
@@ -385,10 +475,10 @@
               </div>
             </article>
 
-            <article class="course-reading course-reading--structured" id="read-3-14" data-reading-id="unit-3-reading-14">
+            <article class="course-reading course-reading--structured" id="read-3-19" data-reading-id="unit-3-reading-19">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.14</span>
+                  <span class="course-reading-num">READ 3.19</span>
                   <span class="course-reading-time">20-30 min</span>
                 </div>
                 <h3>Network Traffic Hashing</h3>
@@ -403,10 +493,10 @@
                 <a class="course-reading-link course-reading-link--button" href="https://amododesign.com/notes/2026-07-03-network-traffic-hashing/" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
-<article class="course-reading course-reading--structured" id="read-3-15" data-reading-id="unit-3-reading-15">
+<article class="course-reading course-reading--structured" id="read-3-20" data-reading-id="unit-3-reading-20">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.15</span>
+                  <span class="course-reading-num">READ 3.20</span>
                   <span class="course-reading-time">20-30 min</span>
                 </div>
                 <h3>Software-Based Memory Erasure with relaxed isolation requirements</h3>
@@ -422,10 +512,10 @@
               </div>
             </article>
 
-            <article class="course-reading course-reading--structured" id="read-3-16" data-reading-id="unit-3-reading-16">
+            <article class="course-reading course-reading--structured" id="read-3-21" data-reading-id="unit-3-reading-21">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.16</span>
+                  <span class="course-reading-num">READ 3.21</span>
                   <span class="course-reading-time">20-30 min</span>
                 </div>
                 <h3>Memory Wipes, a Performance Analysis</h3>
@@ -440,10 +530,10 @@
                 <a class="course-reading-link course-reading-link--button" href="https://amododesign.com/notes/2026-07-01-memory-wiping/" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
-<article class="course-reading course-reading--structured" id="read-3-17" data-reading-id="unit-3-reading-17">
+<article class="course-reading course-reading--structured" id="read-3-22" data-reading-id="unit-3-reading-22">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.17</span>
+                  <span class="course-reading-num">READ 3.22</span>
                   <span class="course-reading-time">40-55 min</span>
                 </div>
                 <h3>Off-Chip Compute Verification</h3>
@@ -458,14 +548,32 @@
                 <a class="course-reading-link course-reading-link--button" href="https://docs.google.com/document/d/10317woljRRoX9Gtcwir1u36ytbA680xfYrazMcuLisA/edit?tab=t.0" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
+            <article class="course-reading course-reading--structured" id="read-3-23" data-reading-id="unit-3-reading-23">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.23</span>
+                  <span class="course-reading-time">25 min</span>
+                </div>
+                <h3>&ldquo;Energon&rdquo;: Unveiling Transformers from GPU Power and Thermal Side-Channels</h3>
+                <p class="course-reading-authors">Chaudhuri et al. (2025)</p>
+                <p class="course-reading-why">Reads GPU power draw and temperature to infer a transformer’s architecture, over 89 percent accuracy for model family and 100 percent for hyperparameters. Framed as an attack, but the same power side-channel is a governance signal for telling what a datacentre is actually running.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Abstract, introduction and results.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2508.01768" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
           </div>
           <h3 id="mech-attestation" class="course-section-header">Attestation and audit</h3>
           <p class="course-unit-intro">Trusted environments, audit protocols and certification regimes that produce evidence someone else can check.</p>
           <div class="course-readings">
-<article class="course-reading course-reading--structured" id="read-3-18" data-reading-id="unit-3-reading-18">
+<article class="course-reading course-reading--structured" id="read-3-24" data-reading-id="unit-3-reading-24">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.18</span>
+                  <span class="course-reading-num">READ 3.24</span>
                   <span class="course-reading-time">65-85 min</span>
                 </div>
                 <h3>International Governance of Civilian AI: A Jurisdictional Certification Approach</h3>
@@ -480,10 +588,10 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2308.15514" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
-<article class="course-reading course-reading--structured" id="read-3-19" data-reading-id="unit-3-reading-19">
+<article class="course-reading course-reading--structured" id="read-3-25" data-reading-id="unit-3-reading-25">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.19</span>
+                  <span class="course-reading-num">READ 3.25</span>
                   <span class="course-reading-time">30-45 min</span>
                 </div>
                 <h3>Verification Methods for International AI Agreements</h3>
@@ -498,10 +606,10 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2408.16074" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
-<article class="course-reading course-reading--structured" id="read-3-20" data-reading-id="unit-3-reading-20">
+<article class="course-reading course-reading--structured" id="read-3-26" data-reading-id="unit-3-reading-26">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.20</span>
+                  <span class="course-reading-num">READ 3.26</span>
                   <span class="course-reading-time">25-35 min</span>
                 </div>
                 <h3>Tools for verifying neural models' training data</h3>
