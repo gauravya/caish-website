@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="preload" href="/styles.css?v=53e08f5d" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/styles.css?v=3df3c1ef" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
@@ -33,13 +33,13 @@
     @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#1a1a1a;margin:5px 0}}
   </style>
 
-  <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
+  <noscript><link rel="stylesheet" href="/styles.css?v=3df3c1ef"></noscript>
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
 
-  <link rel="stylesheet" href="/course/verification/course.css?v=20260708ai2040">
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260711a">
   <script src="/course/verification/supabase.js?v=2" defer></script>
   <script src="/course/verification/supabase-config.js?v=1" defer></script>
-  <script src="/course/verification/course.js?v=20260706a" defer></script>
+  <script src="/course/verification/course.js?v=20260711a" defer></script>
 </head>
 <body class="course-page" data-unit="4">
 
@@ -49,7 +49,7 @@
     <div class="nav-inner">
       <a href="/" aria-label="Home"><img src="/images/logo.png" alt="Cambridge AI Safety Hub" class="logo" width="50" height="50"></a>
       <ul class="nav-links">
-        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li class="nav-has-dropdown"><a href="/fellowship">Courses <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/fellowship">Alignment Fellowship</a></li><li><a href="/policy">UK AI Policy Course</a></li></ul></li>
         <li><a href="/desk">Alignment Desk</a></li>
         <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
         <li class="nav-has-dropdown"><a href="/hardware" class="active" aria-current="page">Hardware <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/course/verification/">AI Workload Verification Course</a></li></ul></li>
@@ -66,7 +66,16 @@
   <div id="mobile-nav" class="mobile-nav">
     <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
     <ul>
-      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/fellowship">Courses</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Courses menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/fellowship" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Alignment Fellowship</span></a></li>
+          <li><a href="/policy" class="mobile-nav-child-link"><span class="mobile-nav-child-title">UK AI Policy Course</span></a></li>
+        </ul>
+      </li>
       <li><a href="/desk">Alignment Desk</a></li>
       <li>
         <div class="mobile-nav-parent">
@@ -182,22 +191,133 @@
 
 
           <h3 id="scoping" class="course-section-header">Picking a project</h3>
-          <p class="course-unit-intro">Ideas and projects are heavy-tailed. The best project you pick can be far more impactful than your other options. Spending time picking between options is good, but timebox yourself to an hour or two of ideating. Favour projects that help you falsify beliefs quickly and run cheap experiments!</p>
-          <p class="course-unit-intro">Treat the list below as prompts, not a boundary. The field is larger and rougher than this course, and the hard work is deciding what matters, what is tractable, and what you can learn in six days.</p>
-          <p class="course-unit-intro">For a six-day project, good starting paths include:</p>
-          <ul class="course-prompts">
-            <li>Replicate or extend one result from a mechanism paper.</li>
-            <li>Measure overhead or failure rates for one evidence channel.</li>
-            <li>Write the adversarial analysis of one mechanism and test one evasion path.</li>
-            <li>Prototype one attestation, telemetry, or proof workflow.</li>
-            <li>Translate one mechanism into a concrete inspection step or procurement rule.</li>
-          </ul>
+          <p class="course-unit-intro">Ideas and projects are heavy-tailed. The best project you pick can be far more impactful than your other options. Spending time picking between options is good, but timebox yourself to an hour or two of ideating. Favour projects that let you falsify beliefs quickly and run cheap experiments.</p>
+          <p class="course-unit-intro">The board below covers Plan A's workstreams only, and the wider field is larger than this course. Aim for something you can scope to six days.</p>
 
-          <h4 class="course-subhead">Where to find a problem</h4>
-          <ul class="course-prompts">
-            <li>The <a href="https://projects.aisecurity.forum/" target="_blank" rel="noopener">AI Security Forum requests for discussion</a>. Ideas people in the field have suggested working on. Some are dated, so treat them as starting points rather than a definitive list.</li>
-            <li><a href="https://arxiv.org/abs/2407.14981" target="_blank" rel="noopener">Open Problems in Technical AI Governance</a>, sections 3.2, 5.2 and 6.2. The compute verification gaps you met in Unit 1.</li>
-          </ul>
+          <section class="course-workmap" id="work-map" aria-labelledby="work-map-title">
+            <div class="course-workmap-intro">
+              <span class="course-workmap-kicker">Plan A verification board</span>
+              <h4 id="work-map-title">Where the inference-only retrofit stands</h4>
+              <p>Plan A is one demanding use case for verification. It is a temporary training pause that still allows inference. Its proposed retrofit copies datacentre traffic, makes workloads reproducible, checks random samples by recomputation, protects the verifier, and closes routes for unverified outputs.</p>
+              <p>That system decomposes into 17 engineering workstreams. Each is marked by how much groundwork already exists, from active work you could build on to open problems you would start cold. This is not a ranking of importance.</p>
+              <p class="course-workmap-source">Source: Amodo Design's <a href="https://www.amododesign.com/ai-verification/plan-a-sitrep" target="_blank" rel="noopener">Plan A Verification SITREP</a>, July 2026.</p>
+            </div>
+
+            <div class="course-workmap-method" aria-labelledby="work-map-method-title">
+              <div>
+                <span>Getting started</span>
+                <h5 id="work-map-method-title">Choosing something to work on</h5>
+                <p>Pick a row from the table to see where it stands. Most of these are bigger than six days, so if you take one on, choose a slice you could get a result on by Saturday. The five questions below help you scope it into a project.</p>
+              </div>
+              <ol>
+                <li><span>01</span><strong>Claim</strong><p>What must a lab, operator or state be able to claim?</p></li>
+                <li><span>02</span><strong>Evidence</strong><p>What observable artifact could check the claim?</p></li>
+                <li><span>03</span><strong>Adversary</strong><p>How could the evidence be evaded or tampered with?</p></li>
+                <li><span>04</span><strong>Test</strong><p>What cheap result would change your view of feasibility?</p></li>
+                <li><span>05</span><strong>Handoff</strong><p>Who uses the result, and what decision could it change?</p></li>
+              </ol>
+            </div>
+
+            <div class="course-workmap-stats" aria-label="State of the 17 workstreams">
+              <div data-status="active"><div><strong>4</strong><span>Active</span></div><p>At least one R&amp;D effort exists, usually an early proof of concept. Replication, red-teaming and deployment work are still useful.</p></div>
+              <div data-status="uncertain"><div><strong>1</strong><span>Early testing</span></div><p>Early testing exists, but there is not enough evidence to judge the approach yet.</p></div>
+              <div data-status="not-started"><div><strong>5</strong><span>Open</span></div><p>No active effort was identified, but the work is expected to be mainly tractable engineering.</p></div>
+              <div data-status="not-on-track"><div><strong>7</strong><span>Open, hard</span></div><p>No active effort was identified and the problem looks research-hard. Scope down to a single assumption inside the gap.</p></div>
+            </div>
+
+            <div class="course-workmap-toolbar">
+              <span id="work-map-filter-label">Filter by status</span>
+              <div class="course-workmap-filters" role="group" aria-labelledby="work-map-filter-label">
+                <button type="button" data-work-filter="all" aria-pressed="true">All <span>17</span></button>
+                <button type="button" data-work-filter="active" aria-pressed="false">Active <span>4</span></button>
+                <button type="button" data-work-filter="uncertain" aria-pressed="false">Early testing <span>1</span></button>
+                <button type="button" data-work-filter="not-started" aria-pressed="false">Open <span>5</span></button>
+                <button type="button" data-work-filter="not-on-track" aria-pressed="false">Open, hard <span>7</span></button>
+              </div>
+            </div>
+
+            <div class="course-workmap-board" data-active-filter="all">
+              <section class="course-workmap-domain course-workmap-domain--network" data-work-domain data-course="Unit 2: secure network taps (2.7). Unit 3: telemetry and detection (3.12-3.17). The course lens is whether network traffic is sufficiently complete and trustworthy evidence of the workload.">
+                <header>
+                  <span>01</span>
+                  <div><h5>Network evidence</h5><p>Optical, network and datacentre systems</p></div>
+                </header>
+                <ul>
+                  <li><button type="button" class="is-selected" data-work-item data-status="active" aria-pressed="true" data-summary="Passive optical taps can copy frontend traffic without trusting software. They work at 400G, but the 800G and 1600G line rates arriving in datacentres are not yet demonstrated." data-fit="Optical networking, FPGA engineering, datacentre networking"><span>Passive optical taps</span><small>Active</small></button></li>
+                  <li><button type="button" data-work-item data-status="active" aria-pressed="false" data-summary="A recomputation system may need to capture a copy of every frontend packet. This looks feasible, but could require near one-to-one capture infrastructure without better topologies or sampling." data-fit="Network systems, performance engineering, datacentre operations"><span>Recomputation capture</span><small>Active</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-started" aria-pressed="false" data-summary="Sampling taps, packet-hashing taps and dedicated capture devices could reduce how much traffic the verifier must transport and store. No established design currently closes this gap." data-fit="FPGA, SmartNIC or DPU engineering, network security"><span>New tap types</span><small>Open</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-on-track" aria-pressed="false" data-summary="If model weights cannot travel on the monitored frontend network, inference units need a separate approved path from storage. Partitioning, data diodes and packet approval remain unworked." data-fit="Network architecture, storage systems, hardware security"><span>Storage-to-inference path</span><small>Open, hard</small></button></li>
+                </ul>
+                <p class="course-workmap-empty" hidden>No workstreams match this status.</p>
+              </section>
+
+              <section class="course-workmap-domain course-workmap-domain--repro" data-work-domain data-course="Unit 2: inference verification (2.4). Unit 3: inference verification (3.5-3.7). The course lens is whether the same approved computation can be identified despite non-determinism in the ML and networking stacks.">
+                <header>
+                  <span>02</span>
+                  <div><h5>Reproducible workloads</h5><p>ML runtimes, compilers and distributed systems</p></div>
+                </header>
+                <ul>
+                  <li><button type="button" data-work-item data-status="active" aria-pressed="false" data-summary="Systems such as DiFR work around inference non-determinism, showing that recomputation can be useful before the entire stack is bit-exact." data-fit="ML systems, CUDA, distributed inference"><span>Inference workarounds</span><small>Active</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-started" aria-pressed="false" data-summary="Computers are deterministic, but modern ML stacks allow non-determinism throughout kernels, scheduling and serving. A reproducible inference stack needs substantial tooling." data-fit="Compiler and runtime engineering, ML systems, reproducible builds"><span>Reproducible inference stack</span><small>Open</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-started" aria-pressed="false" data-summary="Packet timing and ordering are not reproducible by default because the networking stack continuously optimises execution. Exact replay may need software, firmware or hardware changes." data-fit="Kernel networking, distributed systems, firmware"><span>Network reproducibility</span><small>Open</small></button></li>
+                </ul>
+                <p class="course-workmap-empty" hidden>No workstreams match this status.</p>
+              </section>
+
+              <section class="course-workmap-domain course-workmap-domain--recompute" data-work-domain data-course="Unit 2: inference verification (2.4). Unit 3: inference verification (3.5-3.7), with the zero-knowledge track (3.8-3.11) as a useful comparison. The course lens is the assurance and cost of checking a sampled computation.">
+                <header>
+                  <span>03</span>
+                  <div><h5>Partial recomputation</h5><p>Algorithms, statistics and adversarial testing</p></div>
+                </header>
+                <ul>
+                  <li><button type="button" data-work-item data-status="active" aria-pressed="false" data-summary="Schemes such as TOPLOC and DiFR describe how to re-run a small random sample of inference work and detect incorrect outputs with favourable scaling." data-fit="ML security, statistics, performance engineering"><span>Recomputation algorithms</span><small>Active</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-started" aria-pressed="false" data-summary="Verification algorithms must evolve alongside mixture-of-experts models, speculative decoding and new serving optimisations. Existing schemes are only an early indication." data-fit="Frontier inference, ML systems, algorithm design"><span>Frontier algorithms</span><small>Open</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-started" aria-pressed="false" data-summary="Most recomputation work remains academic. It has not received the adversarial testing needed for a high-stakes verification system." data-fit="Offensive security, ML red-teaming, verification engineering"><span>Recomputation red-teaming</span><small>Open</small></button></li>
+                </ul>
+                <p class="course-workmap-empty" hidden>No workstreams match this status.</p>
+              </section>
+
+              <section class="course-workmap-domain course-workmap-domain--physical" data-work-domain data-course="Unit 2: hardware-rooted mechanisms (2.2-2.3) and attestation and audit (2.9-2.10). Unit 3: hardware-rooted (3.1-3.4) and attestation and audit (3.18-3.20). The course lens is which trust root survives tampering and who can inspect it.">
+                <header>
+                  <span>04</span>
+                  <div><h5>Physical assurance</h5><p>Trusted hardware, inspection and audit systems</p></div>
+                </header>
+                <ul>
+                  <li><button type="button" data-work-item data-status="not-on-track" aria-pressed="false" data-summary="The recomputation server may sit inside the party being verified. Its computation, keys and outputs must survive physical and software integrity attacks." data-fit="Hardware security, secure boot, TEEs, systems security"><span>Recomputation server security</span><small>Open, hard</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-on-track" aria-pressed="false" data-summary="A deployment could involve hundreds to hundreds of thousands of taps. There is no solved way to prove they are all installed correctly and remain connected." data-fit="Datacentre operations, inspection, systems integration"><span>Tap installation and monitoring</span><small>Open, hard</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-on-track" aria-pressed="false" data-summary="The verifier needs a trustworthy report from the recomputation system, from a single compliance bit to more detailed evidence. The integrity and disclosure trade-offs are unexplored." data-fit="Cryptographic protocols, audit systems, technical governance"><span>Verification reporting</span><small>Open, hard</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-on-track" aria-pressed="false" data-summary="Inspectors must count compute and check that verification measures are installed and untampered at enormous scale. Practical inspection doctrine is largely missing." data-fit="Arms control, physical security, datacentre operations"><span>Physical security and audits</span><small>Open, hard</small></button></li>
+                </ul>
+                <p class="course-workmap-empty" hidden>No workstreams match this status.</p>
+              </section>
+
+              <section class="course-workmap-domain course-workmap-domain--complete" data-work-domain data-course="Unit 2: telemetry and detection (2.7-2.8). Unit 3: telemetry and detection (3.12-3.17). The course lens is completeness. It asks whether any unobserved channel lets useful unverified work persist or escape.">
+                <header>
+                  <span>05</span>
+                  <div><h5>Completeness</h5><p>Memory, side channels and covert communication</p></div>
+                </header>
+                <ul>
+                  <li><button type="button" data-work-item data-status="uncertain" aria-pressed="false" data-summary="Periodic memory wiping may prevent unverified work from persisting, and algorithms such as PoSE may be suitable. Early hardware testing is underway, but the approach is not yet established." data-fit="Memory systems, accelerator security, storage engineering"><span>Memory wipes</span><small>Early testing</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-on-track" aria-pressed="false" data-summary="There is no practical plan for quickly scaling shielding, noise and other side-channel defences across a frontier cluster. Existing work is early and theoretical." data-fit="Side-channel research, RF or EM engineering, information theory"><span>Side-channel mitigation</span><small>Open, hard</small></button></li>
+                  <li><button type="button" data-work-item data-status="not-on-track" aria-pressed="false" data-summary="Suppressing covert channels does not remove the need for independent sensors that can notice attempted communication. Side-channel wardens remain unexplored." data-fit="Signals, anomaly detection, hardware security"><span>Side-channel wardens</span><small>Open, hard</small></button></li>
+                </ul>
+                <p class="course-workmap-empty" hidden>No workstreams match this status.</p>
+              </section>
+            </div>
+
+            <aside class="course-workmap-detail" id="course-workmap-detail" aria-labelledby="course-workmap-detail-title">
+              <div class="course-workmap-detail-head">
+                <span id="course-workmap-detail-domain">Network evidence</span>
+                <small id="course-workmap-detail-status" data-status="active">Active</small>
+              </div>
+              <h5 id="course-workmap-detail-title">Passive optical taps</h5>
+              <div class="course-workmap-detail-grid">
+                <div><span>State of play</span><p id="course-workmap-detail-summary">Passive optical taps can copy frontend traffic without trusting software. They work at 400G, but the 800G and 1600G line rates arriving in datacentres are not yet demonstrated.</p></div>
+                <div><span>Course connection</span><p id="course-workmap-detail-course">Unit 2: secure network taps (2.7). Unit 3: telemetry and detection (3.12-3.17). The course lens is whether network traffic is sufficiently complete and trustworthy evidence of the workload.</p></div>
+                <div><span>Relevant backgrounds</span><p id="course-workmap-detail-fit">Optical networking, FPGA engineering, datacentre networking</p></div>
+              </div>
+            </aside>
+          </section>
 
           <h3 id="worksheet" class="course-section-header">Sketch your project</h3>
           <p class="course-unit-intro">Adapted from the worksheet Aird uses in the video. Start from what you want to work on and follow it downstream; treat the questions as prompts, not things to answer precisely. Answers save as you type.</p>

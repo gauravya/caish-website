@@ -330,7 +330,7 @@
     <div class="nav-inner">
       <a href="/" aria-label="Home"><img src="/images/logo.png" alt="Cambridge AI Safety Hub" class="logo" width="50" height="50"></a>
       <ul class="nav-links">
-        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li class="nav-has-dropdown"><a href="/fellowship">Courses <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/fellowship">Alignment Fellowship</a></li><li><a href="/policy">UK AI Policy Course</a></li></ul></li>
         <li><a href="/desk">Alignment Desk</a></li>
         <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
         <li class="nav-has-dropdown"><a href="/hardware" class="active" aria-current="page">Hardware <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/course/verification/">AI Workload Verification Course</a></li></ul></li>
@@ -347,7 +347,16 @@
   <div id="mobile-nav" class="mobile-nav">
     <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
     <ul>
-      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/fellowship">Courses</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Courses menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/fellowship" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Alignment Fellowship</span></a></li>
+          <li><a href="/policy" class="mobile-nav-child-link"><span class="mobile-nav-child-title">UK AI Policy Course</span></a></li>
+        </ul>
+      </li>
       <li><a href="/desk">Alignment Desk</a></li>
       <li>
         <div class="mobile-nav-parent">

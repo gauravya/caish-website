@@ -9,8 +9,8 @@
  * - Fonts: Stale-while-revalidate (rarely change)
  */
 
-const CACHE_VERSION = 'caish-v92';
-const RUNTIME_CACHE = 'caish-runtime-v92';
+const CACHE_VERSION = 'caish-v93';
+const RUNTIME_CACHE = 'caish-runtime-v93';
 
 // Critical assets to precache on install
 const PRECACHE_ASSETS = [
@@ -26,7 +26,7 @@ const PRECACHE_ASSETS = [
   '/cam.html',
   '/puria.html',
   '/desk.html',
-  '/styles.css?v=53e08f5d',
+  '/styles.css?v=3df3c1ef',
   '/enhancements.js?v=6290bc0f',
   '/images/logo.png',
   '/images/favicon.png',
