@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link rel="preload" href="/styles.css?v=53e08f5d" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/styles.css?v=3df3c1ef" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
 
@@ -35,13 +35,13 @@
     @media(max-width:600px){.nav-links{display:none}.nav-toggle{display:block;background:none;border:none;cursor:pointer;padding:0.5rem}.nav-toggle span{display:block;width:24px;height:2px;background:#fff;margin:5px 0}}
   </style>
 
-  <noscript><link rel="stylesheet" href="/styles.css?v=53e08f5d"></noscript>
+  <noscript><link rel="stylesheet" href="/styles.css?v=3df3c1ef"></noscript>
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
 
-  <link rel="stylesheet" href="/course/verification/course.css?v=20260708ai2040">
+  <link rel="stylesheet" href="/course/verification/course.css?v=20260711a">
   <script src="/course/verification/supabase.js?v=2" defer></script>
   <script src="/course/verification/supabase-config.js?v=1" defer></script>
-  <script src="/course/verification/course.js?v=20260706a" defer></script>
+  <script src="/course/verification/course.js?v=20260711a" defer></script>
 </head>
 <body class="course-page course-page--landing">
 
@@ -51,7 +51,7 @@
     <div class="nav-inner">
       <a href="/" aria-label="Home"><img src="/images/logo.png" alt="Cambridge AI Safety Hub" class="logo" width="50" height="50"></a>
       <ul class="nav-links">
-        <li><a href="/fellowship">Alignment Fellowship</a></li>
+        <li class="nav-has-dropdown"><a href="/fellowship">Courses <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/fellowship">Alignment Fellowship</a></li><li><a href="/policy">UK AI Policy Course</a></li></ul></li>
         <li><a href="/desk">Alignment Desk</a></li>
         <li class="nav-has-dropdown"><a href="/mars">MARS <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/research">Research</a></li></ul></li>
         <li class="nav-has-dropdown"><a href="/hardware" class="active" aria-current="page">Hardware <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/course/verification/">AI Workload Verification Course</a></li></ul></li>
@@ -68,7 +68,16 @@
   <div id="mobile-nav" class="mobile-nav">
     <button class="mobile-nav-close" aria-label="Close menu" id="mobile-nav-close">&times;</button>
     <ul>
-      <li><a href="/fellowship">Alignment Fellowship</a></li>
+      <li>
+        <div class="mobile-nav-parent">
+          <a href="/fellowship">Courses</a>
+          <button class="mobile-nav-expand" aria-expanded="false" aria-label="Expand Courses menu">+</button>
+        </div>
+        <ul class="mobile-nav-children">
+          <li><a href="/fellowship" class="mobile-nav-child-link"><span class="mobile-nav-child-title">Alignment Fellowship</span></a></li>
+          <li><a href="/policy" class="mobile-nav-child-link"><span class="mobile-nav-child-title">UK AI Policy Course</span></a></li>
+        </ul>
+      </li>
       <li><a href="/desk">Alignment Desk</a></li>
       <li>
         <div class="mobile-nav-parent">

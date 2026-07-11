@@ -552,6 +552,83 @@ const CourseModules = {
 };
 
 
+const CourseWorkmap = {
+  init() {
+    this.root = document.getElementById('work-map');
+    if (!this.root) return;
+
+    this.board = this.root.querySelector('.course-workmap-board');
+    this.items = Array.from(this.root.querySelectorAll('[data-work-item]'));
+    this.filters = Array.from(this.root.querySelectorAll('[data-work-filter]'));
+    this.detailDomain = document.getElementById('course-workmap-detail-domain');
+    this.detailStatus = document.getElementById('course-workmap-detail-status');
+    this.detailTitle = document.getElementById('course-workmap-detail-title');
+    this.detailSummary = document.getElementById('course-workmap-detail-summary');
+    this.detailCourse = document.getElementById('course-workmap-detail-course');
+    this.detailFit = document.getElementById('course-workmap-detail-fit');
+
+    this.items.forEach(item => {
+      item.setAttribute('aria-controls', 'course-workmap-detail');
+      item.addEventListener('click', () => this.select(item));
+    });
+
+    this.filters.forEach(button => {
+      button.addEventListener('click', () => this.filter(button.dataset.workFilter));
+    });
+
+    this.select(this.items.find(item => item.classList.contains('is-selected')) || this.items[0]);
+  },
+
+  select(item) {
+    if (!item) return;
+    this.items.forEach(other => {
+      const selected = other === item;
+      other.classList.toggle('is-selected', selected);
+      other.setAttribute('aria-pressed', String(selected));
+    });
+
+    const domain = item.closest('[data-work-domain]');
+    const status = item.dataset.status;
+    const statusLabel = item.querySelector('small')?.textContent.trim() || '';
+    const title = item.querySelector('span')?.textContent.trim() || '';
+
+    if (this.detailDomain) this.detailDomain.textContent = domain?.querySelector('h5')?.textContent.trim() || '';
+    if (this.detailStatus) {
+      this.detailStatus.textContent = statusLabel;
+      this.detailStatus.dataset.status = status;
+    }
+    if (this.detailTitle) this.detailTitle.textContent = title;
+    if (this.detailSummary) this.detailSummary.textContent = item.dataset.summary || '';
+    if (this.detailCourse) this.detailCourse.textContent = domain?.dataset.course || '';
+    if (this.detailFit) this.detailFit.textContent = item.dataset.fit || '';
+  },
+
+  filter(filter) {
+    const activeFilter = filter || 'all';
+    this.filters.forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.workFilter === activeFilter));
+    });
+    if (this.board) this.board.dataset.activeFilter = activeFilter;
+
+    this.root.querySelectorAll('[data-work-domain]').forEach(domain => {
+      const items = Array.from(domain.querySelectorAll('[data-work-item]'));
+      let visibleCount = 0;
+      items.forEach(item => {
+        const visible = activeFilter === 'all' || item.dataset.status === activeFilter;
+        item.closest('li').hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+      const empty = domain.querySelector('.course-workmap-empty');
+      if (empty) empty.hidden = visibleCount > 0;
+    });
+
+    const selected = this.items.find(item => item.classList.contains('is-selected'));
+    if (selected?.closest('li').hidden) {
+      this.select(this.items.find(item => !item.closest('li').hidden));
+    }
+  }
+};
+
 const CourseWorksheet = {
   storageKey: 'caish-verification-worksheet',
   nameKey: 'caish-verification-ws-name',
@@ -873,6 +950,7 @@ function initAll() {
   CourseAuth.init();
   CourseWorksheet.init();
   CourseModules.init();
+  CourseWorkmap.init();
 }
 
 document.readyState === 'loading'
