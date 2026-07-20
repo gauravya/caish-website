@@ -24,6 +24,8 @@ const MobileNav = {
 
 const CourseProgress = {
   storageKey: 'caish-verification-course-progress',
+  // Ordered as displayed on the pages. id is the stored progress key and stays
+  // with its reading; the display number and anchor follow page order.
   readings: [
     { id: 'unit-1-reading-1', unit: 1, reading: '1.1', title: 'AI “Stop Button” Problem', href: '/course/verification/1.html#read-1-1' },
     { id: 'unit-1-reading-2', unit: 1, reading: '1.2', title: 'The Hard Problem of Controlling Powerful AI Systems', href: '/course/verification/1.html#read-1-2' },
@@ -32,15 +34,15 @@ const CourseProgress = {
     { id: 'unit-1-reading-5', unit: 1, reading: '1.5', title: 'Extreme power concentration', href: '/course/verification/1.html#read-1-5' },
     { id: 'unit-1-reading-6', unit: 1, reading: '1.6', title: 'Components of a frontier AI slowdown', href: '/course/verification/1.html#read-1-6' },
     { id: 'unit-1-reading-7', unit: 1, reading: '1.7', title: 'Avoiding an AI Arms Race with Assurance Technologies', href: '/course/verification/1.html#read-1-7' },
-    { id: 'unit-1-reading-8', unit: 1, reading: '1.8', title: 'Computing Power and the Governance of Artificial Intelligence', href: '/course/verification/1.html#read-1-8' },
-    { id: 'unit-1-reading-9', unit: 1, reading: '1.9', title: 'Verification Is a Ladder', href: '/course/verification/1.html#read-1-9' },
-    { id: 'unit-1-reading-10', unit: 1, reading: '1.10', title: 'Nuclear Arms Control Verification and Lessons for AI Treaties', href: '/course/verification/1.html#read-1-10' },
+    { id: 'unit-1-reading-9', unit: 1, reading: '1.8', title: 'Verification Is a Ladder', href: '/course/verification/1.html#read-1-8' },
+    { id: 'unit-1-reading-10', unit: 1, reading: '1.9', title: 'Nuclear Arms Control Verification and Lessons for AI Treaties', href: '/course/verification/1.html#read-1-9' },
+    { id: 'unit-1-reading-8', unit: 1, reading: '1.10', title: 'Computing Power and the Governance of Artificial Intelligence', href: '/course/verification/1.html#read-1-10' },
     { id: 'unit-1-reading-11', unit: 1, reading: '1.11', title: 'Hardware-Enabled Mechanisms for Verifying Responsible AI Development', href: '/course/verification/1.html#read-1-11' },
     { id: 'unit-1-reading-12', unit: 1, reading: '1.12', title: 'Frontier AI Auditing', href: '/course/verification/1.html#read-1-12' },
     { id: 'unit-1-reading-13', unit: 1, reading: '1.13', title: 'Open Problems in Technical AI Governance', href: '/course/verification/1.html#read-1-13' },
     { id: 'unit-1-reading-14', unit: 1, reading: '1.14', title: 'Mechanisms to Verify International Agreements About AI Development', href: '/course/verification/1.html#read-1-14' },
-    { id: 'unit-1-reading-15', unit: 1, reading: '1.15', title: 'Verification for International AI Governance', href: '/course/verification/1.html#read-1-15' },
-    { id: 'unit-1-reading-16', unit: 1, reading: '1.16', title: 'Verifying International Agreements on AI', href: '/course/verification/1.html#read-1-16' },
+    { id: 'unit-1-reading-16', unit: 1, reading: '1.15', title: 'Verifying International Agreements on AI', href: '/course/verification/1.html#read-1-15' },
+    { id: 'unit-1-reading-15', unit: 1, reading: '1.16', title: 'Verification for International AI Governance', href: '/course/verification/1.html#read-1-16' },
     { id: 'unit-1-reading-17', unit: 1, reading: '1.17', title: 'Hardware-Level Governance of AI Compute', href: '/course/verification/1.html#read-1-17' },
     { id: 'unit-1-reading-18', unit: 1, reading: '1.18', title: 'On restraining AI development for the sake of safety', href: '/course/verification/1.html#read-1-18' },
     { id: 'unit-2-reading-1', unit: 2, reading: '2.1', title: 'A system overview for near-term, low-trust AI compute verification', href: '/course/verification/2.html#read-2-1' },
@@ -944,6 +946,49 @@ const CourseWorksheet = {
   }
 };
 
+// Lets readers collapse a unit to its required readings. Only appears on pages
+// that have optional readings to hide.
+const ReadingFilter = {
+  storageKey: 'caish-verification-course-reading-filter',
+
+  init() {
+    this.optional = Array.from(document.querySelectorAll('.course-reading')).filter(
+      reading => reading.querySelector('.course-reading-tag--optional')
+    );
+    const brief = document.querySelector('.course-unit-brief');
+    if (!this.optional.length || !brief) return;
+
+    const box = document.createElement('div');
+    box.className = 'course-reading-filter';
+    box.setAttribute('role', 'group');
+    box.setAttribute('aria-label', 'Reading filter');
+    box.innerHTML =
+      '<span class="course-reading-filter-label">Show</span>' +
+      '<button type="button" data-reading-filter="all">All readings</button>' +
+      '<button type="button" data-reading-filter="required">Required only</button>';
+    brief.after(box);
+
+    this.buttons = Array.from(box.querySelectorAll('[data-reading-filter]'));
+    this.buttons.forEach(button => {
+      button.addEventListener('click', () => this.apply(button.dataset.readingFilter, true));
+    });
+
+    let saved = 'all';
+    try { saved = localStorage.getItem(this.storageKey) || 'all'; } catch (error) {}
+    this.apply(saved === 'required' ? 'required' : 'all', false);
+  },
+
+  apply(mode, save) {
+    this.optional.forEach(reading => reading.classList.toggle('is-filtered', mode === 'required'));
+    this.buttons.forEach(button => {
+      button.setAttribute('aria-pressed', button.dataset.readingFilter === mode ? 'true' : 'false');
+    });
+    if (save) {
+      try { localStorage.setItem(this.storageKey, mode); } catch (error) {}
+    }
+  }
+};
+
 function initAll() {
   MobileNav.init();
   CourseProgress.init();
@@ -951,6 +996,7 @@ function initAll() {
   CourseWorksheet.init();
   CourseModules.init();
   CourseWorkmap.init();
+  ReadingFilter.init();
 }
 
 document.readyState === 'loading'

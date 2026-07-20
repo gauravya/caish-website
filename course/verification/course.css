@@ -1155,6 +1155,51 @@ body.course-page .footer-legal {
   text-underline-offset: 3px;
 }
 
+.course-reading-filter {
+  display: inline-flex;
+  align-items: center;
+  margin: -0.75rem 0 1.5rem;
+  border: 1px solid var(--course-line);
+  border-radius: 6px;
+  background: var(--course-paper);
+}
+
+.course-reading-filter-label {
+  padding: 0 0.65rem;
+  color: var(--course-accent);
+  font-family: var(--course-ui-font);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.course-reading-filter button {
+  min-height: 2rem;
+  padding: 0.38rem 0.65rem;
+  border: 0;
+  border-left: 1px solid var(--course-line);
+  background: transparent;
+  color: var(--course-muted);
+  font-family: var(--course-ui-font);
+  font-size: 0.64rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.course-reading-filter button:hover {
+  color: var(--course-ink);
+  background: #f7f7f7;
+}
+
+.course-reading-filter button[aria-pressed="true"] {
+  color: #fff;
+  background: var(--course-accent-strong);
+}
+
+.course-reading.is-filtered {
+  display: none;
+}
+
 .course-unit-brief--chooser {
   grid-template-columns: minmax(230px, 0.85fr) minmax(320px, 1.35fr);
   align-items: stretch;
