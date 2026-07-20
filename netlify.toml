@@ -57,9 +57,9 @@
   [headers.values]
     Cache-Control = "no-cache, no-store, must-revalidate"
 
-# Unlisted HAP participant directory preview
+# Unlisted HAP participant directory
 [[headers]]
-  for = "/hap-2026-participants-3b604ec9ee/*"
+  for = "/hap/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
     Cache-Control = "no-cache, no-store, must-revalidate"
@@ -75,6 +75,19 @@
   for = "/"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
+
+# Old HAP participant directory slug
+[[redirects]]
+  from = "/hap-2026-participants-3b604ec9ee"
+  to = "/hap/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hap-2026-participants-3b604ec9ee/*"
+  to = "/hap/:splat"
+  status = 301
+  force = true
 
 # Redirect /gaurav to booking page
 [[redirects]]
