@@ -55,7 +55,7 @@
   </style>
 
   <!-- Styles -->
-  <link rel="stylesheet" href="/styles.css?v=3df3c1ef">
+  <link rel="stylesheet" href="/styles.css?v=04e7976f">
 
   <!-- Enhancements -->
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
@@ -214,44 +214,6 @@
       position: relative;
     }
 
-    .chvp-reg {
-      position: absolute;
-      width: 14px;
-      height: 14px;
-      pointer-events: none;
-      z-index: 3;
-      opacity: 0.55;
-      color: var(--chvp-accent-strong);
-    }
-
-    .chvp-reg--tl {
-      top: 6rem;
-      left: 1.25rem;
-      border-top: 1px solid currentColor;
-      border-left: 1px solid currentColor;
-    }
-
-    .chvp-reg--tr {
-      top: 6rem;
-      right: 1.25rem;
-      border-top: 1px solid currentColor;
-      border-right: 1px solid currentColor;
-    }
-
-    .chvp-reg--bl {
-      bottom: 1.25rem;
-      left: 1.25rem;
-      border-bottom: 1px solid currentColor;
-      border-left: 1px solid currentColor;
-    }
-
-    .chvp-reg--br {
-      bottom: 1.25rem;
-      right: 1.25rem;
-      border-bottom: 1px solid currentColor;
-      border-right: 1px solid currentColor;
-    }
-
     .chvp-hero-copy {
       position: relative;
       min-width: 0;
@@ -367,6 +329,7 @@
     }
 
     body.chvp-page .btn-primary {
+      border-radius: 0;
       background: linear-gradient(135deg, #e8edf7 0%, #c5cde0 50%, #b8c4db 100%);
       color: #05081a;
       border-color: rgba(200, 215, 240, 0.34);
@@ -1516,26 +1479,6 @@
         align-items: center;
       }
 
-      .chvp-reg--tl,
-      .chvp-reg--tr {
-        top: 4.5rem;
-      }
-
-      .chvp-reg--tl,
-      .chvp-reg--bl {
-        left: 0.4rem;
-      }
-
-      .chvp-reg--tr,
-      .chvp-reg--br {
-        right: 0.4rem;
-      }
-
-      .chvp-reg--bl,
-      .chvp-reg--br {
-        bottom: 0.75rem;
-      }
-
       .chvp-hero-kicker {
         gap: 0.7rem;
         font-size: 0.58rem;
@@ -1672,10 +1615,6 @@
 
     <!-- HERO -->
     <section class="chvp-hero">
-      <span class="chvp-reg chvp-reg--tl" aria-hidden="true"></span>
-      <span class="chvp-reg chvp-reg--tr" aria-hidden="true"></span>
-      <span class="chvp-reg chvp-reg--bl" aria-hidden="true"></span>
-      <span class="chvp-reg chvp-reg--br" aria-hidden="true"></span>
       <div class="chvp-hero-top">
         <div class="chvp-hero-copy">
           <span class="chvp-hero-kicker">Cambridge, 17-22 August 2026</span>
@@ -1739,7 +1678,7 @@
           <p class="chvp-section-intro">Six days of talks, working sessions, and project work with researchers and practitioners building hardware assurance infrastructure. By Day 6, you present what you&rsquo;ve worked on.</p>
         </div>
         <div class="chvp-programme-image">
-          <img src="/images/meridian-21.jpg" alt="A presentation at Meridian, Cambridge" loading="lazy" decoding="async" width="5616" height="3744">
+          <img src="/images/hardware_image.jpg" alt="Participants demoing hardware verification work on a development board at Meridian" loading="lazy" decoding="async" width="2400" height="1600">
         </div>
       </div>
 
