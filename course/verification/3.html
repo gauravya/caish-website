@@ -127,13 +127,13 @@
           <span class="course-unit-label">Unit 03</span>
           <h2>Dive deeper</h2>
           <p class="course-unit-intro">This unit is for choosing a technical direction. Choose <strong>one primary track</strong> below and work through its readings. That is the required part of the unit.</p>
-          <p class="course-unit-intro">The five tracks are starting points and do not cover the whole field. Verification is technically and politically messy, and the summaries that exist leave gaps. Use the readings to get your bearings, then work out for yourself what the field needs and what a six-day project could test.</p>
+          <p class="course-unit-intro">The six tracks are starting points and do not cover the whole field. Verification is technically and politically messy, and the summaries that exist leave gaps. Use the readings to get your bearings, then work out for yourself what the field needs and what a six-day project could test.</p>
 
           <div class="course-unit-brief course-unit-brief--chooser" aria-label="Unit reading plan">
             <div class="course-unit-brief-main">
               <span class="course-unit-brief-label">How to use this unit</span>
               <strong>Choose one primary track</strong>
-              <p>Read one track closely. If your project crosses boundaries, add a supporting reading from another track. You do not need to work through all of them.</p>
+              <p>Read one track closely. If your project crosses boundaries, add a supporting reading from another track.</p>
             </div>
             <div class="course-unit-brief-links">
               <span class="course-unit-brief-label">Starting tracks</span>
@@ -142,7 +142,8 @@
                 <li><a href="#mech-inference"><span>02</span><strong>Inference verification</strong></a></li>
                 <li><a href="#mech-zkp"><span>03</span><strong>Zero-knowledge proofs</strong></a></li>
                 <li><a href="#mech-telemetry"><span>04</span><strong>Telemetry and detection</strong></a></li>
-                <li><a href="#mech-attestation"><span>05</span><strong>Attestation and audit</strong></a></li>
+                <li><a href="#mech-memory"><span>05</span><strong>Memory and physical evidence</strong></a></li>
+                <li><a href="#mech-attestation"><span>06</span><strong>Attestation and audit</strong></a></li>
               </ol>
             </div>
           </div>
@@ -159,13 +160,14 @@
                 </div>
                 <h3>100 experts</h3>
                 <p class="course-reading-authors">Proof Works</p>
-                <p class="course-reading-why">Allocate 100 imaginary hires across the verification field. You can submit your answers at the end, but mostly use it to think through the kinds of talent verification will need and where you would put it. If you think something important is missing from the five areas below, that can be your project.</p>
+                <p class="course-reading-why">Allocate 100 imaginary hires across the verification field. Submitting your answers at the end is optional. Use it to think through the kinds of talent verification will need and where you would put it. If you think something important is missing from the six areas below, that can be your project.</p>
                 <a class="course-reading-link course-reading-link--button" href="https://proofworks.cc/100/" target="_blank" rel="noopener">Open the exercise</a>
               </div>
             </article>
           </div>
           <h3 id="mech-hardware" class="course-section-header">Hardware-rooted</h3>
           <p class="course-unit-intro">Mechanisms that try to make the chip, package or attached hardware produce evidence about where it is, what it is allowed to run, or what work it performed.</p>
+          <p class="course-reading-note">Track total: about 2.5-3 hours.</p>
           <div class="course-readings">
             <article class="course-reading course-reading--structured course-reading--single" id="read-3-1" data-reading-id="unit-3-reading-1">
               <div class="course-reading-main">
@@ -175,7 +177,7 @@
                 </div>
                 <h3>flexHEG</h3>
                 <p class="course-reading-authors">davidad, AI Security Forum</p>
-                <p class="course-reading-why">Defines what counts as a flexHEG: hardware governance the owner can trust not to enable covert surveillance, and a governance authority can trust to enforce disclosed policies, working even air-gapped, with rules updatable every ten minutes by cryptographic quorum. It ends with the six-component design and why each part looks feasible.</p>
+                <p class="course-reading-why">Defines a flexHEG as hardware governance the owner can trust not to enable covert surveillance and a governance authority can trust to enforce disclosed policies, working air-gapped, with rules updated by cryptographic quorum. Ends with the six-component design and the case that each part is feasible.</p>
                 <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=4wgImjg9PPc" target="_blank" rel="noopener"><img src="thumbs/4wgImjg9PPc.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
@@ -188,7 +190,7 @@
                 </div>
                 <h3>Hardware-Enabled Governance Mechanisms</h3>
                 <p class="course-reading-authors">Kulp et al. (RAND, 2024)</p>
-                <p class="course-reading-why">A RAND catalogue of hardware governance mechanisms, more a reference than a read-through. Offline licensing, location verification, performance counters and tamper evidence each rest on different assumptions and fail in different ways.</p>
+                <p class="course-reading-why">A RAND catalogue of hardware governance mechanisms, covering offline licensing, location verification, performance counters and tamper evidence, with the assumptions and failure modes of each.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -224,12 +226,12 @@
                 </div>
                 <h3>Guardain: Protecting Emerging Generative AI Workloads on Heterogeneous NPU</h3>
                 <p class="course-reading-authors">Dhar et al. (IEEE S&amp;P, 2025)</p>
-                <p class="course-reading-why">A systems-security paper rather than a governance proposal, included as an example of runtime protection and isolation for generative workloads on heterogeneous accelerators.</p>
+                <p class="course-reading-why">A systems-security paper on runtime protection and isolation for generative workloads on heterogeneous accelerators.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction, architecture and evaluation; skim the hardware details.</p>
+                  <p>Abstract, introduction, architecture and evaluation. Skim the hardware details.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://clement-thorens.ch/pdfs/guardain.pdf" target="_blank" rel="noopener">Link</a>
               </div>
@@ -242,7 +244,7 @@
                 </div>
                 <h3>On TEEs for Privacy-Preserving Monitoring in AI Governance</h3>
                 <p class="course-reading-authors">MIRI Technical Governance Team (2025)</p>
-                <p class="course-reading-why">Argues that trusted execution environments can give a regulator verification of AI deployments without mass surveillance, then works through the hard part: side-channel attacks, physical key extraction, measurement completeness, and reliance on vendor-controlled hardware identities. More depth on confidential computing than the CNAS piece above.</p>
+                <p class="course-reading-why">Argues that trusted execution environments can give a regulator verification of AI deployments without mass surveillance, then works through side-channel attacks, physical key extraction, measurement completeness and reliance on vendor-controlled hardware identities. Goes into more depth on confidential computing than the CNAS report in Unit 2.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -255,6 +257,7 @@
           </div>
           <h3 id="mech-inference" class="course-section-header">Inference verification</h3>
           <p class="course-unit-intro">Checking whether an output plausibly came from the claimed model, even when exact deterministic replay is unavailable.</p>
+          <p class="course-reading-note">Track total: about 2.5-3 hours.</p>
           <div class="course-readings">
             <article class="course-reading course-reading--structured course-reading--single" id="read-3-6" data-reading-id="unit-3-reading-6">
               <div class="course-reading-main">
@@ -264,7 +267,7 @@
                 </div>
                 <h3>Inference Verification in a TEE</h3>
                 <p class="course-reading-authors">Roy Rinberg, AViD workshop</p>
-                <p class="course-reading-why">Non-determinism in inference verification turns out to be tractable: fewer than a thousand tokens separate a model from its quantised version, and running the verifier inside a TEE answers who verifies the verifier. The talk closes with a framing worth keeping, that bug catching, hacker detection and treaty verification are the same problem at different levels of trust and adversary power.</p>
+                <p class="course-reading-why">Shows that non-determinism in inference verification is tractable. Fewer than a thousand tokens separate a model from its quantised version, and running the verifier inside a TEE removes the need to trust the verifier. Closes by presenting bug catching, hacker detection and treaty verification as the same problem at different levels of trust and adversary power.</p>
                 <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=JOq1IbiBR58" target="_blank" rel="noopener"><img src="thumbs/JOq1IbiBR58.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
@@ -305,6 +308,24 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2511.20621" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
+            <article class="course-reading course-reading--structured" id="read-3-28" data-reading-id="unit-3-reading-28">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.28</span>
+                  <span class="course-reading-time">20-30 min</span>
+                </div>
+                <h3>Bit-Exact AI Inference Verification Without Performance Tradeoffs</h3>
+                <p class="course-reading-authors">Cankaya (2026)</p>
+                <p class="course-reading-why">Shows that modern LLM inference can be recomputed bit-for-bit without performance-reducing determinism flags when relevant execution details are available.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Abstract, introduction and results.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2606.00279" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
             <article class="course-reading course-reading--structured" id="read-3-9" data-reading-id="unit-3-reading-9">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
@@ -313,7 +334,7 @@
                 </div>
                 <h3>AI 2040: Verification Plan</h3>
                 <p class="course-reading-authors">AI Futures Project (2026)</p>
-                <p class="course-reading-why">The applied companion to the inference-verification papers above. It spells out how a training pause between distrustful states would actually be verified: network taps redirect datacentre traffic to a recomputation server that re-runs a random sample of the work, with the enforcement layers around it. Reads the recomputation idea back into a concrete treaty setting.</p>
+                <p class="course-reading-why">Applies the recomputation idea from the papers above to a concrete treaty setting, spelling out how a training pause between distrustful states would be verified. Network taps redirect datacentre traffic to a recomputation server that re-runs a random sample of the work, with enforcement layers around it.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -326,6 +347,7 @@
           </div>
           <h3 id="mech-zkp" class="course-section-header">Zero-knowledge proofs</h3>
           <p class="course-unit-intro">Proving a claim about a model or training run without revealing the weights or data.</p>
+          <p class="course-reading-note">Track total: about 3.5-4.5 hours.</p>
           <div class="course-readings">
             <article class="course-reading course-reading--structured course-reading--single" id="read-3-10" data-reading-id="unit-3-reading-10">
               <div class="course-reading-main">
@@ -335,7 +357,7 @@
                 </div>
                 <h3>Efficient Zero-Knowledge Proofs for AI Inference</h3>
                 <p class="course-reading-authors">Bing-Jyue Chen, AViD workshop</p>
-                <p class="course-reading-why">Proving one GPT-2 token has gone from an hour to about 1.5 seconds in three years, and this talk explains where the speedups come from, collapsing linear operations into single constraints and exploiting the structure of exponentiation tables. It also compares what a cryptographic proof guarantees with what TEE attestation guarantees.</p>
+                <p class="course-reading-why">Explains how proving one GPT-2 token went from an hour to about 1.5 seconds in three years, by collapsing linear operations into single constraints and exploiting the structure of exponentiation tables. It also compares what a cryptographic proof guarantees with what TEE attestation guarantees.</p>
                 <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=oY7Wflmb-Ys" target="_blank" rel="noopener"><img src="thumbs/oY7Wflmb-Ys.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
@@ -366,7 +388,7 @@
                 </div>
                 <h3>zkLLM: Zero Knowledge Proofs for Large Language Models</h3>
                 <p class="course-reading-authors">Sun et al. (CCS, 2024)</p>
-                <p class="course-reading-why">A systems paper on making ZK proofs for LLM inference less impractical. Read it for the engineering bottlenecks, not for treaty design.</p>
+                <p class="course-reading-why">A systems paper on reducing the cost of ZK proofs for LLM inference. Read it for the engineering bottlenecks.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -384,7 +406,7 @@
                 </div>
                 <h3>ZKML: An Optimizing System for ML Inference in Zero-Knowledge Proofs</h3>
                 <p class="course-reading-authors">Chen et al. (EuroSys, 2024)</p>
-                <p class="course-reading-why">Compiler and systems work for ZKML inference, included to show where proof cost comes from and which optimisations matter.</p>
+                <p class="course-reading-why">Compiler and systems work for ZKML inference. Shows where proof cost comes from and which optimisations matter.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -402,7 +424,7 @@
                 </div>
                 <h3>Handling floating point in ZK inference verification</h3>
                 <p class="course-reading-authors">James Petrie</p>
-                <p class="course-reading-why">Sidesteps floating-point non-determinism by proving a bound on how much hidden information an output could carry, rather than exact token reproduction. A concrete answer to the floating-point problem that dogs the ZK inference papers above.</p>
+                <p class="course-reading-why">Sidesteps floating-point non-determinism by proving a bound on how much hidden information an output could carry, instead of reproducing exact tokens. This addresses the floating-point problem faced by the ZK inference papers above.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -420,7 +442,7 @@
                 </div>
                 <h3>Architecture-private Zero-knowledge Proof of Neural Networks</h3>
                 <p class="course-reading-authors">Guo, Guo, Qu, Zhang (2025)</p>
-                <p class="course-reading-why">Most zkML hides the weights but leaks the model architecture. This scheme hides the architecture too, for CNNs, at only 30 to 40 percent more prover time than the architecture-public state of the art. Relevant if you care how much a proof reveals about the model.</p>
+                <p class="course-reading-why">Most zkML hides the weights but leaks the model architecture. This scheme hides the architecture too, for CNNs, at 30 to 40 percent more prover time than the architecture-public state of the art.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -438,7 +460,7 @@
                 </div>
                 <h3>NANOZK: Layerwise Zero-Knowledge Proofs for Verifiable LLM Inference</h3>
                 <p class="course-reading-authors">Zhaohui Geoffrey Wang (2026)</p>
-                <p class="course-reading-why">A 2026 reference point for how far ZK inference proofs have come. It proves LLM inference layer by layer with constant-size 5.5KB layer proofs, roughly 70 times smaller and 5.7 times faster to prove than EZKL. Read it to correct the impression, left by the 2024 papers above, that ZKPs are hopelessly slow.</p>
+                <p class="course-reading-why">Proves LLM inference layer by layer with constant-size 5.5KB proofs, roughly 70 times smaller and 5.7 times faster to prove than EZKL. A 2026 reference point for how far ZK inference proofs have moved since the 2024 papers above.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -456,7 +478,7 @@
                 </div>
                 <h3>Hollow-LLM Attack: Computationally Trivial Weights in Zero-Knowledge Verification of LLM Inference</h3>
                 <p class="course-reading-authors">IEEE S&amp;P (2026)</p>
-                <p class="course-reading-why">An attack on ZK verification of LLM inference: a prover can satisfy the proof with hollowed-out, computationally trivial weights, so a valid proof does not on its own guarantee the claimed model did the work. A reminder that these schemes have adversarial failure modes.</p>
+                <p class="course-reading-why">An attack on ZK verification of LLM inference. A prover can satisfy the proof with hollowed-out, computationally trivial weights, so a valid proof does not on its own show that the claimed model did the work.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -469,6 +491,7 @@
           </div>
           <h3 id="mech-telemetry" class="course-section-header">Telemetry and detection</h3>
           <p class="course-unit-intro">Reading network, timing, memory and other side-channel signals to infer what a cluster is doing.</p>
+          <p class="course-reading-note">Track total: about 2-3 hours.</p>
           <div class="course-readings">
             <article class="course-reading course-reading--structured course-reading--single" id="read-3-18" data-reading-id="unit-3-reading-18">
               <div class="course-reading-main">
@@ -478,7 +501,7 @@
                 </div>
                 <h3>Physical Verification of AI Systems against Nation-state Adversaries</h3>
                 <p class="course-reading-authors">Shahin Tajik, AViD workshop</p>
-                <p class="course-reading-why">Shows what a nation-state attacker can do to a chip: laser probing that reads individual transistors, spy implants that cost 200 dollars, and why anti-tamper enclosures exist. The constructive half covers impedance sensing to detect tampering, and compute and memory puzzles that catch a datacentre lying about its utilisation.</p>
+                <p class="course-reading-why">Covers what a nation-state attacker can do to a chip, including laser probing that reads individual transistors and 200-dollar spy implants, and the anti-tamper enclosures built in response. The constructive half presents impedance sensing to detect tampering, and compute and memory puzzles that catch a datacentre lying about its utilisation.</p>
                 <a class="course-video course-video--thumb" style="margin-top:1.25rem;" href="https://www.youtube.com/watch?v=fn8EtTsE6yE" target="_blank" rel="noopener"><img src="thumbs/fn8EtTsE6yE.jpg" alt="Video thumbnail" loading="lazy"><span class="course-video-cta">Watch on YouTube</span></a>
               </div>
             </article>
@@ -491,7 +514,7 @@
                 </div>
                 <h3>Timing and Memory Telemetry on GPUs for AI Governance</h3>
                 <p class="course-reading-authors">Monfared et al. (2026)</p>
-                <p class="course-reading-why">Uses challenge-response timing and GPU memory residency signals to infer whether a declared workload is really running on the claimed hardware.</p>
+                <p class="course-reading-why">Uses challenge-response timing and GPU memory residency signals to infer whether a declared workload is running on the claimed hardware.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -510,7 +533,7 @@
                 </div>
                 <h3>Network Traffic Hashing</h3>
                 <p class="course-reading-authors">Amodo Design (2026)</p>
-                <p class="course-reading-why">A lab notebook on hashing every packet crossing a 400GbE link. SipHash and AES-GMAC sustain line rate on a 32-core CPU for realistic frame sizes, DPUs fall short, and minimum-size frames need an FPGA. This is what the tap side of evidence capture costs.</p>
+                <p class="course-reading-why">A lab notebook on hashing every packet crossing a 400GbE link, to establish the hardware cost of the tap side of evidence capture. SipHash and AES-GMAC sustain line rate on a 32-core CPU for realistic frame sizes, DPUs fall short, and minimum-size frames need an FPGA.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -518,61 +541,6 @@
                   <p>The full post.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://amododesign.com/notes/2026-07-03-network-traffic-hashing/" target="_blank" rel="noopener">Link</a>
-              </div>
-            </article>
-<article class="course-reading course-reading--structured" id="read-3-21" data-reading-id="unit-3-reading-21">
-              <div class="course-reading-main">
-                <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.21</span>
-                  <span class="course-reading-time">20-30 min</span>
-                </div>
-                <h3>Software-Based Memory Erasure with relaxed isolation requirements</h3>
-                <p class="course-reading-authors">Bursuc et al. (2024)</p>
-                <p class="course-reading-why">A proof-of-secure-erasure construction. It matters for verification because “the data or weights are gone” is a claim a system may need to prove, not just assert.</p>
-              </div>
-              <div class="course-reading-aside">
-                <div class="course-reading-scope">
-                  <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction, lightweight protocol and conclusion.</p>
-                </div>
-                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2401.06626" target="_blank" rel="noopener">Link</a>
-              </div>
-            </article>
-
-            <article class="course-reading course-reading--structured" id="read-3-22" data-reading-id="unit-3-reading-22">
-              <div class="course-reading-main">
-                <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.22</span>
-                  <span class="course-reading-time">20-30 min</span>
-                </div>
-                <h3>Memory Wipes, a Performance Analysis</h3>
-                <p class="course-reading-authors">Amodo Design (2026)</p>
-                <p class="course-reading-why">First numbers for proof of secure erasure on real hardware. RAM and GPU memory on a GB200 tray wipe in about 43 minutes, but the SSDs drag a full wipe towards 24 hours, which makes disk the binding constraint. The graph-labelling scheme shows how a verifier checks the wipe without trusting the prover's hardware.</p>
-              </div>
-              <div class="course-reading-aside">
-                <div class="course-reading-scope">
-                  <span class="course-reading-scope-label">What to read</span>
-                  <p>The full post.</p>
-                </div>
-                <a class="course-reading-link course-reading-link--button" href="https://amododesign.com/notes/2026-07-01-memory-wiping/" target="_blank" rel="noopener">Link</a>
-              </div>
-            </article>
-<article class="course-reading course-reading--structured" id="read-3-23" data-reading-id="unit-3-reading-23">
-              <div class="course-reading-main">
-                <div class="course-reading-meta">
-                  <span class="course-reading-num">READ 3.23</span>
-                  <span class="course-reading-time">40-55 min</span>
-                </div>
-                <h3>Off-Chip Compute Verification</h3>
-                <p class="course-reading-authors">Baker (2026)</p>
-                <p class="course-reading-why">A design note on verifying compute from outside the chip, useful as a counterpoint to on-chip governance. Read it for what off-chip evidence can and cannot buy you.</p>
-              </div>
-              <div class="course-reading-aside">
-                <div class="course-reading-scope">
-                  <span class="course-reading-scope-label">What to read</span>
-                  <p>The full document.</p>
-                </div>
-                <a class="course-reading-link course-reading-link--button" href="https://docs.google.com/document/d/10317woljRRoX9Gtcwir1u36ytbA680xfYrazMcuLisA/edit?tab=t.0" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
             <article class="course-reading course-reading--structured" id="read-3-24" data-reading-id="unit-3-reading-24">
@@ -583,7 +551,7 @@
                 </div>
                 <h3>&ldquo;Energon&rdquo;: Unveiling Transformers from GPU Power and Thermal Side-Channels</h3>
                 <p class="course-reading-authors">Chaudhuri et al. (2025)</p>
-                <p class="course-reading-why">Reads GPU power draw and temperature to infer a transformer’s architecture, over 89 percent accuracy for model family and 100 percent for hyperparameters. Framed as an attack, but the same power side-channel is a governance signal for telling what a datacentre is actually running.</p>
+                <p class="course-reading-why">Reads GPU power draw and temperature to infer a transformer’s architecture, over 89 percent accuracy for model family and 100 percent for hyperparameters. Framed as an attack, but the same power side-channel is a governance signal for telling what a datacentre is running.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -593,9 +561,105 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2508.01768" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
+            <article class="course-reading course-reading--structured" id="read-3-29" data-reading-id="unit-3-reading-29">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.29</span>
+                  <span class="course-reading-time">25-35 min</span>
+                </div>
+                <h3>Suppressing Side Channels in an Untrusted Data Center via Retrofitted Defenses</h3>
+                <p class="course-reading-authors">Cankaya (2026)</p>
+                <p class="course-reading-why">Surveys physical side channels in monitored AI datacentres and proposes layered retrofitted defences to bound covert communication bandwidth.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The whole post.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://techgov.intelligence.org/blog/suppressing-side-channels-in-an-untrusted-data-center-via-retrofitted-defenses" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+          </div>
+          <h3 id="mech-memory" class="course-section-header">Memory and physical evidence</h3>
+          <p class="course-unit-intro">Evidence from the physical layer, covering proofs of memory erasure, tamper detection around chips and enclosures, and verification from outside the chip.</p>
+          <p class="course-reading-note">Track total: about 2-2.5 hours.</p>
+          <div class="course-readings">
+<article class="course-reading course-reading--structured" id="read-3-21" data-reading-id="unit-3-reading-21">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.21</span>
+                  <span class="course-reading-time">20-30 min</span>
+                </div>
+                <h3>Software-Based Memory Erasure with relaxed isolation requirements</h3>
+                <p class="course-reading-authors">Bursuc et al. (2024)</p>
+                <p class="course-reading-why">A proof-of-secure-erasure construction. Deletion of data or weights is a claim a verification regime may need to prove.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Abstract, introduction, lightweight protocol and conclusion.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2401.06626" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+<article class="course-reading course-reading--structured" id="read-3-23" data-reading-id="unit-3-reading-23">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.23</span>
+                  <span class="course-reading-time">40-55 min</span>
+                </div>
+                <h3>Off-Chip Compute Verification</h3>
+                <p class="course-reading-authors">Baker (2026)</p>
+                <p class="course-reading-why">A design note on verifying compute from outside the chip, as a counterpoint to on-chip governance. Sets out what off-chip evidence can establish and its limits.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full document.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://docs.google.com/document/d/10317woljRRoX9Gtcwir1u36ytbA680xfYrazMcuLisA/edit?tab=t.0" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+            <article class="course-reading course-reading--structured" id="read-3-30" data-reading-id="unit-3-reading-30">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.30</span>
+                  <span class="course-reading-time">25-35 min</span>
+                </div>
+                <h3>Anti-Tamper Radio: System-Level Tamper Detection for Computing Systems</h3>
+                <p class="course-reading-authors">Staat et al. (IEEE S&amp;P, 2022)</p>
+                <p class="course-reading-why">Detects physical manipulation by monitoring radio-wave propagation inside a protected enclosure.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Abstract, introduction and the system design.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2112.09014" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+            <article class="course-reading course-reading--structured" id="read-3-31" data-reading-id="unit-3-reading-31">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.31</span>
+                  <span class="course-reading-time">25-35 min</span>
+                </div>
+                <h3>The Past, Present, and Future of Physical Security Enclosures</h3>
+                <p class="course-reading-authors">Obermaier and Immler (2018)</p>
+                <p class="course-reading-why">A survey of physical security enclosures and PUF-based tamper evidence.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Introduction, then skim the enclosure survey.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://link.springer.com/article/10.1007/s41635-018-0045-2" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
           </div>
           <h3 id="mech-attestation" class="course-section-header">Attestation and audit</h3>
           <p class="course-unit-intro">Trusted environments, audit protocols and certification regimes that produce evidence someone else can check.</p>
+          <p class="course-reading-note">Track total: about 2.5-3.5 hours.</p>
           <div class="course-readings">
 <article class="course-reading course-reading--structured" id="read-3-25" data-reading-id="unit-3-reading-25">
               <div class="course-reading-main">
@@ -605,7 +669,7 @@
                 </div>
                 <h3>International Governance of Civilian AI: A Jurisdictional Certification Approach</h3>
                 <p class="course-reading-authors">Trager et al. (2023)</p>
-                <p class="course-reading-why">A governance architecture rather than a mechanism paper. Domestic jurisdictions certify actors, and international rules rely on those certificates rather than direct inspection of every provider.</p>
+                <p class="course-reading-why">A governance architecture in which domestic jurisdictions certify actors and international rules rely on those certificates, without direct inspection of every provider.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -649,6 +713,24 @@
                   <p>The introduction, the verification techniques and the conclusion.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2307.00682" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+            <article class="course-reading course-reading--structured" id="read-3-32" data-reading-id="unit-3-reading-32">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 3.32</span>
+                  <span class="course-reading-time">30-40 min</span>
+                </div>
+                <h3>Proof-of-Learning is Currently More Broken Than You Think</h3>
+                <p class="course-reading-authors">Fang et al. (IEEE EuroS&amp;P, 2023)</p>
+                <p class="course-reading-why">Demonstrates reproducible low-cost attacks on proof-of-learning schemes and argues robust verification depends on unresolved questions about deep-learning optimisation.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>Abstract, introduction and the attacks.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2208.03567" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
           </div>

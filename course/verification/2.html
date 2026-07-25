@@ -126,23 +126,24 @@
         <section class="course-unit">
           <span class="course-unit-label">Unit 02</span>
           <h2>Mechanisms by which it may be achieved</h2>
-          <p class="course-unit-intro">This unit covers the mechanisms themselves. Concrete ways a third party might check claims about AI development. It is deliberately broad. One reading per track, so you leave knowing what each track covers and can choose one to focus on in Unit 3.</p>
-          <p class="course-unit-intro">As you read, keep the claim being verified separate from how the evidence for it is gathered. Usually the claim itself is a single thing, say that a given workload is not being run, or that a chip is where it claims to be. What changes from one paper to the next is the evidence channel: an on-chip attestation, an off-chip measurement, a cryptographic proof, physical access for a human inspector, or a certification regime. Read this way the mechanisms stop being a long list and become different answers to the same small set of questions.</p>
+          <p class="course-unit-intro">This unit covers concrete ways a third party might check claims about AI development. It is deliberately broad, so you can choose a track to focus on in Unit 3.</p>
+          <p class="course-unit-intro">As you read, keep the claim being verified separate from how the evidence for it is gathered. Usually the claim itself is a single thing, say that a given workload is not being run, or that a chip is where it claims to be. What changes from one paper to the next is the evidence channel, such as an on-chip attestation, an off-chip measurement, a cryptographic proof, physical access for a human inspector, or a certification regime.</p>
 
           <div class="course-unit-brief course-unit-brief--chooser" aria-label="Unit reading plan">
             <div>
               <span class="course-unit-brief-label">How to use this unit</span>
-              <strong>All ten readings, about five hours</strong>
+              <strong>Eleven required readings, about six hours</strong>
               <p>Read the system overview first, then move through the tracks in any order.</p>
             </div>
             <div>
-              <span class="course-unit-brief-label">The five tracks</span>
+              <span class="course-unit-brief-label">The six tracks</span>
               <ol class="course-family-grid">
                 <li><a href="#mech-hardware"><span>01</span><strong>Hardware-rooted</strong></a></li>
                 <li><a href="#mech-inference"><span>02</span><strong>Inference verification</strong></a></li>
                 <li><a href="#mech-zkp"><span>03</span><strong>Zero-knowledge proofs</strong></a></li>
                 <li><a href="#mech-telemetry"><span>04</span><strong>Telemetry and detection</strong></a></li>
-                <li><a href="#mech-attestation"><span>05</span><strong>Attestation and audit</strong></a></li>
+                <li><a href="#mech-memory"><span>05</span><strong>Memory and physical evidence</strong></a></li>
+                <li><a href="#mech-attestation"><span>06</span><strong>Attestation and audit</strong></a></li>
               </ol>
             </div>
           </div>
@@ -158,7 +159,7 @@
                 </div>
                 <h3>A system overview for near-term, low-trust AI compute verification</h3>
                 <p class="course-reading-authors">Naci Cankaya (2026)</p>
-                <p class="course-reading-why">A working draft of the whole verification stack: what has to be sensed, what has to be proven, what information can safely cross the boundary, and what kind of adversary the system is meant to survive.</p>
+                <p class="course-reading-why">A working draft of a complete verification system, covering sensing, proofs, what information can safely cross the boundary, and the assumed adversary.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -166,6 +167,26 @@
                   <p>Sections 1 to 3.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://www.lesswrong.com/posts/fgvmKqRGvBteKeDoc/a-system-overview-for-near-term-low-trust-ai-compute" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+
+<article class="course-reading course-reading--structured" id="read-2-11" data-reading-id="unit-2-reading-11">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.11</span>
+                  <span class="course-reading-tag course-reading-tag--optional">Optional</span>
+                  <span class="course-reading-time">15-20 min</span>
+                </div>
+                <h3>Faster AI Diffusion Through Hardware-Based Verification</h3>
+                <p class="course-reading-authors">Ammann and Dalrymple (Institute for Progress, 2025)</p>
+                <p class="course-reading-why">Introduces hardware-based, privacy-preserving verification as a way to support wider AI diffusion while limiting misuse, protecting intellectual property and reducing compliance burdens.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full article.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://ifp.org/faster-ai-diffusion-through-hardware-based-verification/" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
           </div>
@@ -181,7 +202,7 @@
                 </div>
                 <h3>Secure, Governable Chips</h3>
                 <p class="course-reading-authors">Aarne, Fist et al. (CNAS, 2024)</p>
-                <p class="course-reading-why">The policy-facing case for on-chip governance: secure hardware could support export-control enforcement, operating licences and future agreement verification without creating a general surveillance back door.</p>
+                <p class="course-reading-why">Makes the policy case for on-chip governance. Secure hardware could support export-control enforcement, operating licences and future agreement verification without creating a general surveillance back door.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -234,6 +255,26 @@
                 <a class="course-reading-link course-reading-link--button" href="https://amododesign.com/notes/2026-06-23-verification-algorithms/" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
+
+<article class="course-reading course-reading--structured" id="read-2-12" data-reading-id="unit-2-reading-12">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.12</span>
+                  <span class="course-reading-tag course-reading-tag--optional">Optional</span>
+                  <span class="course-reading-time">10-15 min</span>
+                </div>
+                <h3>Verifying AI Compute by Bounding Unexplained Information Exfiltration</h3>
+                <p class="course-reading-authors">Petrie and Mühlhäuser (2026)</p>
+                <p class="course-reading-why">Proposes hardware-independent verification using prover isolation, cryptographic commitments and challenge-based recomputation to bound unexplained information in network outputs.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The workshop poster.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://openreview.net/forum?id=qtgG5HZSsk" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
           </div>
           <h3 id="mech-zkp" class="course-section-header">Zero-knowledge proofs</h3>
           <p class="course-unit-intro">Proving a claim about a model or training run without revealing the weights or data.</p>
@@ -247,7 +288,7 @@
                 </div>
                 <h3>Trustless Audits without Revealing Data or Models</h3>
                 <p class="course-reading-authors">Waiwitlikhit et al. (2024)</p>
-                <p class="course-reading-why">The shortest introduction to ZK audit logic: proving that training or evaluation was computed correctly while keeping the model, data or audit details hidden.</p>
+                <p class="course-reading-why">The shortest introduction to ZK audit logic. Shows how to prove that training or evaluation was computed correctly while keeping the model, data and audit details hidden.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -290,7 +331,7 @@
                 </div>
                 <h3>The Fundamentals and Feasibility of Secure Network Taps</h3>
                 <p class="course-reading-authors">Naci Cankaya (2026)</p>
-                <p class="course-reading-why">The main distinction is in the summary: network taps are much more plausible for low-bandwidth north-south traffic than for high-bandwidth east-west accelerator fabric, where link budgets and covert channels dominate.</p>
+                <p class="course-reading-why">Network taps are much more plausible for low-bandwidth north-south traffic than for high-bandwidth east-west accelerator fabric, where link budgets and covert channels dominate.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -310,7 +351,7 @@
                 </div>
                 <h3>What does it take to catch a Chinchilla? Verifying Rules on Large-Scale Neural Network Training</h3>
                 <p class="course-reading-authors">Shavit (2023)</p>
-                <p class="course-reading-why">The compute-monitoring proposal that later work builds on: inspecting chips and datacentres well enough to detect large training-rule violations. Its most distinctive idea is proof of learning from training checkpoints, which is closer to proving a training run than to telemetry.</p>
+                <p class="course-reading-why">The compute-monitoring proposal that later work builds on, based on inspecting chips and datacentres well enough to detect large training-rule violations. Its most distinctive idea is proof of learning from training checkpoints, which is closer to proving a training run than to telemetry.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -320,6 +361,33 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2303.11341" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
+          </div>
+          <h3 id="mech-memory" class="course-section-header">Memory and physical evidence</h3>
+          <p class="course-unit-intro">Evidence from the physical layer, covering proofs of memory erasure, tamper detection around chips and enclosures, and verification from outside the chip.</p>
+          <div class="course-readings">
+<article class="course-reading course-reading--structured" id="read-2-13" data-reading-id="unit-2-reading-13">
+              <div class="course-reading-main">
+                <div class="course-reading-meta">
+                  <span class="course-reading-num">READ 2.13</span>
+                  <span class="course-reading-tag course-reading-tag--main">Required</span>
+                  <span class="course-reading-time">20-30 min</span>
+                </div>
+                <h3>Memory Wipes, a Performance Analysis</h3>
+                <p class="course-reading-authors">Amodo Design (2026)</p>
+                <p class="course-reading-why">First numbers for proof of secure erasure on real hardware. RAM and GPU memory on a GB200 tray wipe in about 43 minutes, but the SSDs drag a full wipe towards 24 hours, which makes disk the binding constraint. The graph-labelling scheme shows how a verifier checks the wipe without trusting the prover's hardware.</p>
+              </div>
+              <div class="course-reading-aside">
+                <div class="course-reading-scope">
+                  <span class="course-reading-scope-label">What to read</span>
+                  <p>The full post.</p>
+                </div>
+                <a class="course-reading-link course-reading-link--button" href="https://amododesign.com/notes/2026-07-01-memory-wiping/" target="_blank" rel="noopener">Link</a>
+              </div>
+            </article>
+          </div>
+          <h3 id="mech-attestation" class="course-section-header">Attestation and audit</h3>
+          <p class="course-unit-intro">Trusted environments, audit protocols and certification regimes that produce evidence someone else can check.</p>
+          <div class="course-readings">
 <article class="course-reading course-reading--structured" id="read-2-9" data-reading-id="unit-2-reading-9">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
@@ -339,10 +407,7 @@
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2403.08501" target="_blank" rel="noopener">Link</a>
               </div>
             </article>
-          </div>
-          <h3 id="mech-attestation" class="course-section-header">Attestation and audit</h3>
-          <p class="course-unit-intro">Trusted environments, audit protocols and certification regimes that produce evidence someone else can check.</p>
-          <div class="course-readings">
+
 <article class="course-reading course-reading--structured" id="read-2-10" data-reading-id="unit-2-reading-10">
               <div class="course-reading-main">
                 <div class="course-reading-meta">
