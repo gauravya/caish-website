@@ -122,7 +122,7 @@ window.PROFILES = [
  {
   "name": "Luiza Corpaci",
   "pronouns": "",
-  "affiliation": "",
+  "affiliation": "ex-AMD",
   "bio": "AI safety researcher studying the semantic faithfulness of LLM-generated artifacts. Mentoring at Secure Program Synthesis Fellowship within Apart Research on Semantic Diffchecking & co-mentoring at MARS V on Drift in Formal Translations; much of my interests in formal semantics come from my work on automated SV assertion generation at AMD. Previously a researcher in Complexity and Resilience at University of Vienna.",
   "link": "https://www.linkedin.com/in/luiza-corpaci",
   "photo": "images/recyi9gyqlaKjYRj2.jpg"
