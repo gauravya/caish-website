@@ -192,12 +192,12 @@
                 </div>
                 <h3>Hardware-Enabled Governance Mechanisms</h3>
                 <p class="course-reading-authors">Kulp et al. (RAND, 2024)</p>
-                <p class="course-reading-why">A RAND catalogue of hardware governance mechanisms, covering offline licensing, location verification, performance counters and tamper evidence, with the assumptions and failure modes of each.</p>
+                <p class="course-reading-why">A RAND working paper proposing two classes of hardware-enabled governance mechanisms, offline licensing and fixed set, with a threat analysis of how each could be circumvented.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Executive summary, then skim the mechanism catalogue for mechanism names and tradeoffs.</p>
+                  <p>Executive summary, then skim the offline licensing and fixed set chapters.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://www.rand.org/pubs/working_papers/WRA3056-1.html" target="_blank" rel="noopener">Link</a>
               </div>
@@ -233,7 +233,7 @@
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction, architecture and evaluation. Skim the hardware details.</p>
+                  <p>Abstract, introduction and sections 6 and 8. Skim section 2.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://clement-thorens.ch/pdfs/guardain.pdf" target="_blank" rel="noopener">Link</a>
               </div>
@@ -287,7 +287,7 @@
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction and the results.</p>
+                  <p>Abstract, introduction and the empirical results.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2511.02620" target="_blank" rel="noopener">Link</a>
               </div>
@@ -305,7 +305,7 @@
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction and the method.</p>
+                  <p>Abstract, introduction and the methods.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2511.20621" target="_blank" rel="noopener">Link</a>
               </div>
@@ -323,7 +323,7 @@
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction and results.</p>
+                  <p>Abstract, introduction and sections 3 and 4.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2606.00279" target="_blank" rel="noopener">Link</a>
               </div>
@@ -372,12 +372,12 @@
                 </div>
                 <h3>Verifiable evaluations of machine learning models using zkSNARKs</h3>
                 <p class="course-reading-authors">South et al. (2024)</p>
-                <p class="course-reading-why">A model-attestation construction in which the evaluator gets cryptographic evidence about model performance without learning the private model or benchmark data.</p>
+                <p class="course-reading-why">A model-attestation construction in which the evaluator gets cryptographic evidence that a model with private weights achieves stated performance on public benchmark inputs.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction and the construction.</p>
+                  <p>Abstract, introduction and the system design.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2402.02675" target="_blank" rel="noopener">Link</a>
               </div>
@@ -460,7 +460,7 @@
                   <span class="course-reading-num">READ 3.16</span>
                   <span class="course-reading-time">15 min</span>
                 </div>
-                <h3>NANOZK: Layerwise Zero-Knowledge Proofs for Verifiable LLM Inference</h3>
+                <h3>NanoZK: Privacy-Preserving Verifiable Inference for Large Language Models via Layerwise Zero-Knowledge Proofs</h3>
                 <p class="course-reading-authors">Zhaohui Geoffrey Wang (2026)</p>
                 <p class="course-reading-why">Proves LLM inference layer by layer with constant-size 5.5KB proofs, roughly 70 times smaller and 5.7 times faster to prove than EZKL. A 2026 reference point for how far ZK inference proofs have moved since the 2024 papers above.</p>
               </div>
@@ -553,12 +553,12 @@
                 </div>
                 <h3>&ldquo;Energon&rdquo;: Unveiling Transformers from GPU Power and Thermal Side-Channels</h3>
                 <p class="course-reading-authors">Chaudhuri et al. (2025)</p>
-                <p class="course-reading-why">Reads GPU power draw and temperature to infer a transformer’s architecture, over 89 percent accuracy for model family and 100 percent for hyperparameters. Framed as an attack, but the same power side-channel is a governance signal for telling what a datacentre is running.</p>
+                <p class="course-reading-why">Reads GPU power draw and temperature to infer a transformer’s architecture, classifying model families at 95 and 91 percent for language and vision models and key hyperparameters at close to 100 percent. Framed as an attack, but the same power side-channel is a governance signal for telling what a datacentre is running.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction and results.</p>
+                  <p>Abstract, introduction and sections IV and V.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2508.01768" target="_blank" rel="noopener">Link</a>
               </div>
@@ -635,7 +635,7 @@
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction and the system design.</p>
+                  <p>Abstract, introduction and the system outline and adversary model.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2112.09014" target="_blank" rel="noopener">Link</a>
               </div>
@@ -653,7 +653,7 @@
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Introduction, then skim the enclosure survey.</p>
+                  <p>Paywalled. You will need to purchase it or use institutional access.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://link.springer.com/article/10.1007/s41635-018-0045-2" target="_blank" rel="noopener">Link</a>
               </div>
@@ -707,12 +707,12 @@
                 </div>
                 <h3>Tools for verifying neural models' training data</h3>
                 <p class="course-reading-authors">Choi et al. (2023)</p>
-                <p class="course-reading-why">Surveys tests for training-data verification based on memorisation, canaries and dataset fingerprints, and shows why “what data was used?” is a hard claim to verify.</p>
+                <p class="course-reading-why">Surveys tests for training-data verification based on memorisation, committed random seeds and re-training segments of the run, and shows why “what data was used?” is a hard claim to verify.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>The introduction, the verification techniques and the conclusion.</p>
+                  <p>The introduction, the verification strategies and the discussion and limitations.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2307.00682" target="_blank" rel="noopener">Link</a>
               </div>
@@ -730,7 +730,7 @@
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
                   <span class="course-reading-scope-label">What to read</span>
-                  <p>Abstract, introduction and the attacks.</p>
+                  <p>Abstract, introduction and sections 5 and 7.</p>
                 </div>
                 <a class="course-reading-link course-reading-link--button" href="https://arxiv.org/abs/2208.03567" target="_blank" rel="noopener">Link</a>
               </div>
