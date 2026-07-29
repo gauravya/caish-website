@@ -128,7 +128,7 @@
         <section class="course-unit">
           <span class="course-unit-label">Unit 04</span>
           <h2>Project ideation</h2>
-          <p class="course-unit-intro">With one week left until the programme starts, we want you to start figuring out what you'd like to work on during the six days you'll be in Cambridge. Part of this is trying to understand your theory of change. What in the world do you want to affect, and how will you affect it?</p>
+          <p class="course-unit-intro">The programme starts on 17 August, and we want you to start figuring out what you'd like to work on during the six days you'll be in Cambridge. Part of this is trying to understand your theory of change. What in the world do you want to affect, and how will you affect it?</p>
           <p class="course-unit-intro">For a six-day project your scope should be relatively tight. Having read some of the papers, you should have a sense of what kinds of experiments you'd like to try and the kinds of questions you want to research during your time. Be ambitious but mindful of the finiteness. Good luck!</p>
 
           <div class="course-unit-brief" aria-label="Unit reading plan">
@@ -139,8 +139,8 @@
             </div>
             <div>
               <span class="course-unit-brief-label">Output</span>
-              <strong>A one-page project sketch</strong>
-              <p>Write it as you go. First version due Wednesday 12 August; final by Sunday 16 August.</p>
+              <strong>A completed project ideation worksheet</strong>
+              <p>Make a copy of the worksheet, fill it in as you read, and share it with gaurav@caish.org by Friday 8 August.</p>
             </div>
           </div>
 
@@ -154,7 +154,7 @@
                 </div>
                 <h3>You Need a Theory of Victory</h3>
                 <p class="course-reading-authors">Jason Hausenloy, The First Scattering (2026)</p>
-                <p class="course-reading-why">Jason Hausenloy separates a theory of change, your action X leads to good outcome Y, from a theory of victory, the full causal story of every step that has to go right, including the ones other people take. His tale of two verification teams is worth sitting with: one burns years on a VC-funded custom security chip, the other ships off-the-shelf hardware taps with its eye on what a US-China treaty would need.</p>
+                <p class="course-reading-why">Jason Hausenloy separates a theory of change, your action X leads to good outcome Y, from a theory of victory, the full causal story of every step that has to go right, including the ones other people take. His tale of two verification teams contrasts one that burns years on a VC-funded custom security chip with another that ships off-the-shelf hardware taps built around what a US-China treaty would need.</p>
               </div>
               <div class="course-reading-aside">
                 <div class="course-reading-scope">
@@ -201,6 +201,7 @@
               <span class="course-workmap-kicker">Plan A verification board</span>
               <h4 id="work-map-title">Where the inference-only retrofit stands</h4>
               <p>Plan A is one demanding use case for verification. It is a temporary training pause that still allows inference. Its proposed retrofit copies datacentre traffic, makes workloads reproducible, checks random samples by recomputation, protects the verifier, and closes routes for unverified outputs.</p>
+              <p>The last of those, making sure nothing leaves unobserved through leftover memory, side channels or covert links, is what the board calls completeness.</p>
               <p>That system decomposes into 17 engineering workstreams. Each is marked by how much groundwork already exists, from active work you could build on to open problems you would start cold. This is not a ranking of importance.</p>
               <p class="course-workmap-source">Source: Amodo Design's <a href="https://www.amododesign.com/ai-verification/plan-a-sitrep" target="_blank" rel="noopener">Plan A Verification SITREP</a>, July 2026.</p>
             </div>
@@ -209,11 +210,11 @@
               <div>
                 <span>Getting started</span>
                 <h5 id="work-map-method-title">Choosing something to work on</h5>
-                <p>Pick a row from the table to see where it stands. Most of these are bigger than six days, so if you take one on, choose a slice you could get a result on by Saturday. The five questions below help you scope it into a project.</p>
+                <p>Pick a workstream from the board to see where it stands. Most of these are bigger than six days, so if you take one on, choose a slice you could get a result on by Saturday. The five questions below help you scope it into a project.</p>
               </div>
               <ol>
                 <li><span>01</span><strong>Claim</strong><p>What must a lab, operator or state be able to claim?</p></li>
-                <li><span>02</span><strong>Evidence</strong><p>What observable artifact could check the claim?</p></li>
+                <li><span>02</span><strong>Evidence</strong><p>What observable artefact could check the claim?</p></li>
                 <li><span>03</span><strong>Adversary</strong><p>How could the evidence be evaded or tampered with?</p></li>
                 <li><span>04</span><strong>Test</strong><p>What cheap result would change your view of feasibility?</p></li>
                 <li><span>05</span><strong>Handoff</strong><p>Who uses the result, and what decision could it change?</p></li>
@@ -224,7 +225,7 @@
               <div data-status="active"><div><strong>4</strong><span>Active</span></div><p>At least one R&amp;D effort exists, usually an early proof of concept. Replication, red-teaming and deployment work are still useful.</p></div>
               <div data-status="uncertain"><div><strong>1</strong><span>Early testing</span></div><p>Early testing exists, but there is not enough evidence to judge the approach yet.</p></div>
               <div data-status="not-started"><div><strong>5</strong><span>Open</span></div><p>No active effort was identified, but the work is expected to be mainly tractable engineering.</p></div>
-              <div data-status="not-on-track"><div><strong>7</strong><span>Open, hard</span></div><p>No active effort was identified and the problem looks research-hard. Scope down to a single assumption inside the gap.</p></div>
+              <div data-status="not-on-track"><div><strong>7</strong><span>Open, hard</span></div><p>No active effort was identified and the problem looks research-hard. If you take one on, pick a single assumption inside the problem and test that.</p></div>
             </div>
 
             <div class="course-workmap-toolbar">
@@ -322,49 +323,8 @@
           </section>
 
           <h3 id="worksheet" class="course-section-header">Sketch your project</h3>
-          <p class="course-unit-intro">Adapted from the worksheet Aird uses in the video. Start from what you want to work on and follow it downstream; treat the questions as prompts, not things to answer precisely. Answers save as you type.</p>
-          <p class="course-unit-intro">A rough sketch is fine, and nobody is grading it. Here is exactly what happens with it.</p>
-          <ul class="course-prompts">
-            <li>Submit below as soon as you have something, and by <strong>Wednesday 12 August</strong> at the latest.</li>
-            <li>On <strong>Thursday 13 August</strong> we post every sketch to the programme Slack. Read the others before you arrive to see who is thinking about similar things.</li>
-            <li>You can revise and resubmit here until <strong>Sunday 16 August</strong>. We work from your latest version.</li>
-            <li>On the first day we use the sketches to settle projects and match you with residents. Do not polish.</li>
-          </ul>
-          <p class="course-unit-intro">If you want feedback sooner, copy your sketch with the button below and send it to another participant.</p>
-          <div class="course-worksheet" id="course-worksheet">
-            <label class="course-ws-item">
-              <span class="course-ws-q">1. The project. What do you want to work on during the six days? Name the track and the specific paper, proposal, or open question you are building from.</span>
-              <textarea data-ws="q1" rows="3"></textarea>
-            </label>
-            <label class="course-ws-item">
-              <span class="course-ws-q">2. The problem. Which failure in the world is this ultimately working against? Be concrete about the threat model. Who does what, and what goes wrong.</span>
-              <textarea data-ws="q2" rows="3"></textarea>
-            </label>
-            <label class="course-ws-item">
-              <span class="course-ws-q">3. Path to impact. Sketch the chain from your six-day output to that failure becoming less likely. Who picks it up, and what decision changes.</span>
-              <textarea data-ws="q3" rows="4"></textarea>
-            </label>
-            <label class="course-ws-item">
-              <span class="course-ws-q">4. Evidence and first test. What does the project produce (a measurement, proof, demo, or memo), and what is the cheapest first test of whether it works?</span>
-              <textarea data-ws="q4" rows="3"></textarea>
-            </label>
-            <label class="course-ws-item">
-              <span class="course-ws-q">5. Getting it seen. Which people or institutions should engage with the result, and how will you reach them?</span>
-              <textarea data-ws="q5" rows="3"></textarea>
-            </label>
-            <label class="course-ws-item">
-              <span class="course-ws-q">6. Scope and stopping. What are you deliberately not doing, and what result would make you abandon or change the project?</span>
-              <textarea data-ws="q6" rows="2"></textarea>
-            </label>
-            <div id="course-ws-auth" hidden></div>
-            <div class="course-sketch-foot">
-              <button type="button" class="course-sketch-save" id="course-ws-submit">Submit sketch</button>
-              <button type="button" class="course-ws-pdfbtn" id="course-ws-pdf">Download as PDF</button>
-              <button type="button" class="course-ws-pdfbtn" id="course-ws-copy">Copy sketch</button>
-              <span class="course-sketch-status" id="course-ws-status">Saves as you type.</span>
-            </div>
-            <textarea class="course-ws-copybox" id="course-ws-copybox" readonly hidden aria-label="Project sketch text"></textarea>
-          </div>
+          <p class="course-unit-intro">Make a copy of the <a href="https://docs.google.com/document/d/1CSeZC_DgzcJGEfq8dNmppOH2cHYzGBUM8GWFeFKh0m0/copy" target="_blank" rel="noopener">project ideation worksheet</a>, work through it as you read, and share it with gaurav@caish.org by <strong>Friday 8 August</strong>. Benjamin Hodgkiss, the facilitator, comments on every sketch before the week starts, and on the first day we use the sketches to settle projects and match you with residents.</p>
+          <p class="course-unit-intro">A rough sketch is fine, and nobody is grading it. Do not polish.</p>
         </section>
 
         <div class="course-unit-pager" role="navigation" aria-label="Unit navigation">
