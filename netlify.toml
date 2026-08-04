@@ -90,13 +90,6 @@
   status = 301
   force = true
 
-# Canonical trailing-slash URL for the unlisted schedule
-[[redirects]]
-  from = "/hardware/schedule"
-  to = "/hardware/schedule/"
-  status = 301
-  force = true
-
 [[redirects]]
   from = "/hap-2026-participants-3b604ec9ee/*"
   to = "/hap/:splat"
