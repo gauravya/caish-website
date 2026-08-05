@@ -621,10 +621,6 @@
       display: block;
     }
 
-    .chvp-timeline-logo img.chvp-logo-invert {
-      filter: brightness(0) invert(1);
-    }
-
     .chvp-timeline-desc a:hover {
       color: var(--chvp-ink-strong);
       text-decoration: none;
@@ -1530,10 +1526,6 @@
       opacity: 0.78;
     }
 
-    .chvp-timeline-logo img.chvp-logo-invert {
-      filter: none;
-    }
-
     body.chvp-page .mobile-nav-expand,
     body.chvp-page .mobile-nav-child-link {
       border-color: var(--chvp-line);
@@ -1554,41 +1546,6 @@
     body.chvp-page .footer-legal a,
     body.chvp-page footer a {
       border-bottom-color: rgba(40, 61, 84, 0.28);
-    }
-
-    .chvp-cohort-experience {
-      display: flex;
-      align-items: baseline;
-      gap: 1.5rem 2.25rem;
-      padding-top: 1.5rem;
-      margin-top: 1.75rem;
-      border-top: 1px solid var(--chvp-line);
-    }
-
-    .chvp-cohort-experience > span {
-      flex: 0 0 auto;
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--chvp-accent-strong);
-    }
-
-    .chvp-cohort-experience ul {
-      display: flex;
-      align-items: baseline;
-      flex-wrap: wrap;
-      gap: 0.65rem 1.8rem;
-      padding: 0;
-      margin: 0;
-      list-style: none;
-    }
-
-    .chvp-cohort-experience li {
-      color: var(--chvp-ink-strong);
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.055em;
     }
 
     /* ── Responsive ── */
@@ -1705,17 +1662,6 @@
         grid-template-columns: 1fr;
         gap: 1.25rem;
         text-align: center;
-      }
-
-      .chvp-cohort-experience {
-        align-items: center;
-        flex-direction: column;
-        gap: 0.9rem;
-        text-align: center;
-      }
-
-      .chvp-cohort-experience ul {
-        justify-content: center;
       }
 
       .chvp-hero-stat {
@@ -1889,15 +1835,6 @@
           <p class="chvp-hero-stat-value">&pound;1,500 stipend + expenses</p>
         </div>
       </div>
-      <div class="chvp-cohort-experience" aria-label="Participant industry experience">
-        <span>Cohort experience includes</span>
-        <ul>
-          <li>NVIDIA</li>
-          <li>AMD</li>
-          <li>ASML</li>
-          <li>Arm</li>
-        </ul>
-      </div>
     </section>
 
     <div class="divider"><div class="divider-line"></div></div>
@@ -1992,7 +1929,7 @@
                 <img src="/images/orgs/seldon.png" alt="Seldon Lab" loading="lazy" class="chvp-logo-light">
               </a>
               <a class="chvp-timeline-logo" href="https://coefficientgiving.org/" target="_blank" rel="noopener" aria-label="Coefficient Giving">
-                <img src="/images/orgs/coefficient.png" alt="Coefficient Giving" loading="lazy" class="chvp-logo-invert">
+                <img src="/images/orgs/coefficient.png" alt="Coefficient Giving" loading="lazy" class="chvp-logo-light">
               </a>
             </div>
           </div>
