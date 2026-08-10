@@ -329,6 +329,16 @@
     line-height: 1.45;
   }
 
+  .event-copy a {
+    color: inherit;
+    text-decoration-color: #aaa;
+    text-underline-offset: 2px;
+  }
+
+  .event-copy a:hover {
+    color: var(--ink);
+  }
+
   .speaker-copy {
     display: grid;
     grid-template-columns: 52px minmax(0, 1fr);
@@ -671,11 +681,11 @@
             </div>
           </div>
           <div class="event social">
-            <time>Evening</time>
+            <time datetime="2026-08-16T19:30">19:30</time>
             <i class="dot" aria-hidden="true"></i>
             <div class="event-copy">
               <strong>Pub gathering</strong>
-              <p>The Maypole.</p>
+              <p><a href="https://www.google.com/maps/search/?api=1&amp;query=The%20Maypole%2C%2020A%20Portugal%20Place%2C%20Cambridge%20CB5%208AF" target="_blank" rel="noopener">The Maypole</a> · 20A Portugal Place.</p>
             </div>
           </div>
         </div>
@@ -701,9 +711,8 @@
             <i class="dot" aria-hidden="true"></i>
             <div class="event-copy">
               <strong>Hardware orientation</strong>
-              <p>Felix — provisional.</p>
+              <p>Felix and Mehmet Sencan.</p>
             </div>
-            <div class="flags"><span class="status action">Tentative</span></div>
           </div>
           <div class="event talk">
             <time datetime="2026-08-17T12:00">12:00</time>
