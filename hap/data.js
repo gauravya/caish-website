@@ -112,6 +112,14 @@ window.PROFILES = [
   "photo": "images/reclsc7LbKnDzBguH.jpg"
  },
  {
+  "name": "Lenny Ilbag",
+  "pronouns": "",
+  "affiliation": "Industrial engineering & AI (RWTH Aachen)",
+  "bio": "I‘m an Industrial Engineering student at RWTH Aachen with a strong interest in artificial intelligence, emerging technologies and their societal impact. Alongside my studies, I help foster Aachen’s entrepreneurial ecosystem while contributing to an applied AI research project exploring how the operations of AI computing systems can be verified independently. I’m excited to connect with people exploring how we can develop and govern AI in a safe and trustworthy way",
+  "link": "https://www.linkedin.com/in/lenny-ilbag-71a992303",
+  "photo": "images/reci39b9HEWVvfBey.jpg"
+ },
+ {
   "name": "Liam Hamill",
   "pronouns": "he/him",
   "affiliation": "Compute governance & hardware verification (ex-Arm)",
@@ -122,10 +130,18 @@ window.PROFILES = [
  {
   "name": "Luiza Corpaci",
   "pronouns": "",
-  "affiliation": "ex-AMD",
+  "affiliation": "Formal semantics & assertion generation (ex-AMD)",
   "bio": "AI safety researcher studying the semantic faithfulness of LLM-generated artifacts. Mentoring at Secure Program Synthesis Fellowship within Apart Research on Semantic Diffchecking & co-mentoring at MARS V on Drift in Formal Translations; much of my interests in formal semantics come from my work on automated SV assertion generation at AMD. Previously a researcher in Complexity and Resilience at University of Vienna.",
   "link": "https://www.linkedin.com/in/luiza-corpaci",
   "photo": "images/recyi9gyqlaKjYRj2.jpg"
+ },
+ {
+  "name": "Martin Rohé",
+  "pronouns": "",
+  "affiliation": "ML for automotive systems (RWTH Aachen, ika)",
+  "bio": "I study Industrial Engineering (Mechanical Engineering) at RWTH Aachen and work as a research assistant at the Institute for Automotive Engineering (ika), developing machine learning and software solutions for automated driving. Working on safety-critical systems has convinced me that the defining challenge of advanced AI is not only building capable models, but establishing robust ways to verify and trust them. I now contribute to an applied research project on independent approaches to AI verification. That's the challenge I want to help solve.",
+  "link": "https://www.linkedin.com/in/martin-rohe/",
+  "photo": "images/recs6rjNxrUOKWyBB.jpg"
  },
  {
   "name": "Max Cohen",
