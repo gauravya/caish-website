@@ -103,6 +103,13 @@
   status = 301
   force = true
 
+# Redirect /gwide to wide booking page
+[[redirects]]
+  from = "/gwide"
+  to = "https://calendar.caish.org/gaurav/wide"
+  status = 301
+  force = true
+
 # Certificate verification — all /verify/* paths serve verify.html (JS reads pathname)
 [[redirects]]
   from = "/verify/*"
