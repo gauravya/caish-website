@@ -1,11 +1,17 @@
 :root {
-  --bg: #ffffff;
-  --paper: #ffffff;
-  --ink: #111111;
-  --muted: #666666;
-  --line: #dddddd;
-  --soft-line: #eeeeee;
-  --wash: #fafafa;
+  --bg: #010514;
+  --paper: rgba(255, 255, 255, 0.03);
+  --wash: rgba(255, 255, 255, 0.05);
+  --ink: #e8edf7;
+  --ink-strong: #ffffff;
+  --copy: #d8e1f0;
+  --muted: #c8d3e5;
+  --accent: #8795ae;
+  --accent-strong: #c2cde1;
+  --line: rgba(190, 207, 236, 0.13);
+  --line-strong: rgba(205, 220, 246, 0.26);
+  --serif: 'Fraunces', 'Libre Baskerville', Georgia, serif;
+  --mono: 'Space Mono', ui-monospace, "SFMono-Regular", "Cascadia Mono", "Roboto Mono", Consolas, "Liberation Mono", monospace;
 }
 
 * { box-sizing: border-box; }
@@ -13,12 +19,39 @@
 html { -webkit-text-size-adjust: 100%; }
 
 body {
+  position: relative;
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(rgba(180, 200, 230, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 200, 230, 0.05) 1px, transparent 1px);
+  background-size: 2.2rem 2.2rem;
   color: var(--ink);
-  font-family: Georgia, "Times New Roman", Times, serif;
-  font-size: 18px;
-  line-height: 1.45;
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: min(1200px, 95vh);
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 76% 44% at 82% 8%, rgba(140, 170, 230, 0.12) 0%, rgba(140, 170, 230, 0.025) 32%, transparent 68%),
+    radial-gradient(ellipse 70% 38% at 18% 14%, rgba(120, 150, 210, 0.09) 0%, rgba(120, 150, 210, 0.018) 32%, transparent 68%),
+    linear-gradient(180deg, rgba(180, 200, 230, 0.06) 0%, rgba(180, 200, 230, 0.015) 24%, transparent 70%);
+}
+
+::selection {
+  background: rgba(184, 196, 219, 0.32);
+  color: var(--ink-strong);
 }
 
 img {
@@ -31,22 +64,22 @@ input {
 }
 
 a {
-  color: #111111;
+  color: var(--ink-strong);
   text-decoration: none;
 }
 
 a:visited {
-  color: #111111;
+  color: var(--ink-strong);
 }
 
 .page {
-  width: min(calc(100% - 48px), 1080px);
+  width: min(calc(100% - 48px), 880px);
   margin: 0 auto;
-  padding: 52px 0 72px;
+  padding: 64px 0 88px;
 }
 
 .site-header {
-  margin-bottom: 28px;
+  margin-bottom: 44px;
 }
 
 h1,
@@ -56,18 +89,49 @@ p {
   overflow-wrap: anywhere;
 }
 
-h1 {
-  margin: 0;
-  font-size: 2.45rem;
-  line-height: 1.08;
-  letter-spacing: 0;
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0 0 1rem;
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
 }
 
-h2 {
-  margin: 38px 0 16px;
-  font-size: 1.7rem;
-  line-height: 1.15;
+.kicker::before {
+  content: '';
+  width: 3rem;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    rgba(184, 196, 219, 0.7) 0%,
+    rgba(184, 196, 219, 0.7) 19%,
+    transparent 19%,
+    transparent 21%,
+    rgba(184, 196, 219, 0.7) 21%,
+    rgba(184, 196, 219, 0.7) 100%
+  );
+}
+
+.kicker a {
+  color: inherit;
+}
+
+.kicker a:hover {
+  color: var(--ink-strong);
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 144, "SOFT" 50;
+  font-size: clamp(2.2rem, 6vw, 3.3rem);
+  font-weight: 400;
+  line-height: 1.05;
   letter-spacing: 0;
+  color: var(--ink-strong);
 }
 
 .grid {
@@ -76,16 +140,16 @@ h2 {
 
 .card {
   min-width: 0;
-  margin-bottom: 9px;
+  margin-bottom: 10px;
   border: 1px solid var(--line);
-  border-radius: 7px;
+  border-radius: 16px;
   background: var(--paper);
   overflow: hidden;
   transition: border-color 140ms ease, background 140ms ease;
 }
 
 .card:hover {
-  border-color: #c8c8c8;
+  border-color: var(--line-strong);
   background: var(--wash);
 }
 
@@ -96,10 +160,10 @@ h2 {
 .profile-summary {
   display: grid;
   grid-template-columns: 82px minmax(0, 1fr) 28px;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
   min-width: 0;
-  padding: 14px;
+  padding: 16px;
   cursor: pointer;
   list-style: none;
 }
@@ -113,21 +177,21 @@ h2 {
 }
 
 .profile-summary:focus {
-  outline: 2px solid #e8e8e8;
+  outline: 2px solid rgba(194, 205, 225, 0.4);
   outline-offset: -2px;
 }
 
 .profile[open] .profile-summary {
-  border-bottom: 1px solid var(--soft-line);
+  border-bottom: 1px solid var(--line);
 }
 
 .photo {
   width: 82px;
   height: 82px;
   overflow: hidden;
-  border: 1px solid var(--soft-line);
-  border-radius: 5px;
-  background: #f3f3f3;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .photo img {
@@ -135,6 +199,7 @@ h2 {
   height: 100%;
   object-fit: cover;
   object-position: center 35%;
+  filter: saturate(0.88) contrast(1.03) brightness(0.92);
 }
 
 .initials {
@@ -142,9 +207,9 @@ h2 {
   width: 100%;
   height: 100%;
   place-items: center;
-  color: #555555;
-  font-size: 1.45rem;
-  font-weight: bold;
+  color: var(--accent-strong);
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .profile-heading {
@@ -153,16 +218,20 @@ h2 {
 
 .name {
   margin: 0;
-  font-size: 1.18rem;
+  font-family: var(--serif);
+  font-variation-settings: "opsz" 72, "SOFT" 30;
+  font-size: 1.28rem;
+  font-weight: 400;
   line-height: 1.2;
   letter-spacing: 0;
+  color: var(--ink-strong);
 }
 
 .affiliation {
-  margin: 4px 0 0;
+  margin: 6px 0 0;
   color: var(--muted);
-  font-size: 0.93rem;
-  line-height: 1.35;
+  font-size: 0.78rem;
+  line-height: 1.5;
 }
 
 .arrow {
@@ -171,13 +240,13 @@ h2 {
   display: grid;
   place-items: center;
   justify-self: end;
-  color: #555555;
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 1.1rem;
+  color: var(--accent-strong);
+  font-family: var(--mono);
+  font-size: 1rem;
   line-height: 1;
-  border: 1px solid var(--soft-line);
+  border: 1px solid var(--line);
   border-radius: 50%;
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.03);
   transition: transform 120ms ease;
 }
 
@@ -186,13 +255,14 @@ h2 {
 }
 
 .profile-details {
-  padding: 0 18px 18px 112px;
+  padding: 4px 20px 20px 116px;
 }
 
 .bio {
   margin: 0;
-  font-size: 0.94rem;
-  line-height: 1.42;
+  color: var(--copy);
+  font-size: 0.83rem;
+  line-height: 1.75;
 }
 
 .profile-link {
@@ -200,13 +270,14 @@ h2 {
   align-items: center;
   gap: 5px;
   max-width: 100%;
-  margin-top: 12px;
-  color: #0645ad;
-  font-size: 0.9rem;
-  font-family: Arial, Helvetica, sans-serif;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  margin-top: 14px;
+  color: var(--ink-strong);
+  font-size: 0.78rem;
+  text-decoration: none;
+  background-image: linear-gradient(rgba(194, 205, 225, 0.46), rgba(194, 205, 225, 0.46));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 1px;
   overflow-wrap: anywhere;
 }
 
@@ -222,21 +293,21 @@ h2 {
 
 .profile-link:hover,
 .profile-link:focus {
-  color: #042f73;
+  background-image: linear-gradient(rgba(226, 234, 248, 0.75), rgba(226, 234, 248, 0.75));
 }
 
 @media (max-width: 620px) {
   body {
-    font-size: 17px;
+    font-size: 15px;
   }
 
   .page {
-    width: min(calc(100% - 28px), 1080px);
-    padding-top: 36px;
+    width: min(calc(100% - 28px), 880px);
+    padding-top: 44px;
   }
 
   h1 {
-    font-size: 1.72rem;
+    font-size: 1.85rem;
   }
 
   .profile-summary {
@@ -251,15 +322,15 @@ h2 {
   }
 
   .name {
-    font-size: 1.08rem;
+    font-size: 1.12rem;
   }
 
   .affiliation {
-    font-size: 0.88rem;
+    font-size: 0.74rem;
   }
 
   .profile-details {
-    padding: 0 12px 14px 90px;
+    padding: 2px 14px 16px 90px;
   }
 
 }
