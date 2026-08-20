@@ -448,22 +448,19 @@
   }
 
   .speaker-copy.two-speakers {
-    grid-template-columns: 78px minmax(0, 1fr);
+    grid-template-columns: 124px minmax(0, 1fr);
   }
 
   .speaker-photos {
     display: flex;
-    width: 78px;
+    width: 124px;
     align-items: center;
+    gap: 8px;
   }
 
   .speaker-photos .speaker-photo {
-    width: 48px;
-    height: 48px;
-  }
-
-  .speaker-photos .speaker-photo + .speaker-photo {
-    margin-left: -18px;
+    width: 58px;
+    height: 58px;
   }
 
   .speaker-org {
@@ -648,20 +645,17 @@
     }
 
     .speaker-copy.two-speakers {
-      grid-template-columns: 66px minmax(0, 1fr);
+      grid-template-columns: 94px minmax(0, 1fr);
     }
 
     .speaker-photos {
-      width: 66px;
+      width: 94px;
+      gap: 6px;
     }
 
     .speaker-photos .speaker-photo {
-      width: 42px;
-      height: 42px;
-    }
-
-    .speaker-photos .speaker-photo + .speaker-photo {
-      margin-left: -18px;
+      width: 44px;
+      height: 44px;
     }
 
     .speaker-photo {
@@ -1156,9 +1150,9 @@
                 <img class="speaker-photo" src="assets/speakers/mauricio-baker.jpg" alt="" loading="lazy">
               </div>
               <div>
-                <strong>Anjay Friedman and Mauricio Baker</strong>
-                <span class="speaker-org">RAND</span>
-                <p class="speaker-topic">Relaxed verification goals · 30-minute talk and Q&amp;A.</p>
+                <strong>Relaxed verification goals</strong>
+                <span class="speaker-org">Anjay Friedman and Mauricio Baker · RAND</span>
+                <p class="speaker-topic">30-minute talk and Q&amp;A.</p>
               </div>
             </div>
           </div>
@@ -1209,9 +1203,6 @@
     </div>
   </section>
 
-  <footer class="footer">
-    <strong>Hardware Assurance Programme · Cambridge</strong>
-  </footer>
 </main>
 <script>
   const dayLinks = document.querySelectorAll(".day-tabs a");
