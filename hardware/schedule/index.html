@@ -447,6 +447,25 @@
     filter: saturate(0.85) contrast(1.04) brightness(0.9);
   }
 
+  .speaker-copy.two-speakers {
+    grid-template-columns: 78px minmax(0, 1fr);
+  }
+
+  .speaker-photos {
+    display: flex;
+    width: 78px;
+    align-items: center;
+  }
+
+  .speaker-photos .speaker-photo {
+    width: 48px;
+    height: 48px;
+  }
+
+  .speaker-photos .speaker-photo + .speaker-photo {
+    margin-left: -18px;
+  }
+
   .speaker-org {
     display: block;
     margin-top: 2px;
@@ -626,6 +645,23 @@
     .speaker-copy {
       grid-template-columns: 44px minmax(0, 1fr);
       gap: 10px;
+    }
+
+    .speaker-copy.two-speakers {
+      grid-template-columns: 66px minmax(0, 1fr);
+    }
+
+    .speaker-photos {
+      width: 66px;
+    }
+
+    .speaker-photos .speaker-photo {
+      width: 42px;
+      height: 42px;
+    }
+
+    .speaker-photos .speaker-photo + .speaker-photo {
+      margin-left: -18px;
     }
 
     .speaker-photo {
@@ -1006,6 +1042,11 @@
             </div>
           </div>
           <div class="event social">
+            <time datetime="2026-08-19T18:00">18:00</time>
+            <i class="dot" aria-hidden="true"></i>
+            <div class="event-copy"><strong>Dinner at the office</strong></div>
+          </div>
+          <div class="event social">
             <time>Evening</time>
             <i class="dot" aria-hidden="true"></i>
             <div class="event-copy">
@@ -1057,14 +1098,17 @@
               <div>
                 <strong>Daniel Reuter</strong>
                 <span class="speaker-org">MATS</span>
-                <p class="speaker-topic">Auditor protocols: checking computations without learning content.</p>
+                <p class="speaker-topic">Proofs of Compartmentalisation.</p>
               </div>
             </div>
           </div>
           <div class="event social">
-            <time>Evening</time>
+            <time datetime="2026-08-20T18:00">18:00</time>
             <i class="dot" aria-hidden="true"></i>
-            <div class="event-copy"><strong>Lightning talks</strong></div>
+            <div class="event-copy">
+              <strong>Dinner at the office</strong>
+              <p>Lightning talks over dinner.</p>
+            </div>
           </div>
         </div>
       </article>
@@ -1103,17 +1147,28 @@
             <i class="dot" aria-hidden="true"></i>
             <div class="event-copy"><strong>Project work</strong></div>
           </div>
-          <div class="event virtual">
+          <div class="event talk">
             <time datetime="2026-08-21T17:00">17:00</time>
             <i class="dot" aria-hidden="true"></i>
-            <div class="event-copy">
-              <strong>RAND office hours</strong>
+            <div class="event-copy speaker-copy two-speakers">
+              <div class="speaker-photos" aria-hidden="true">
+                <img class="speaker-photo" src="assets/speakers/anjay-friedman.jpeg" alt="" loading="lazy">
+                <img class="speaker-photo" src="assets/speakers/mauricio-baker.jpg" alt="" loading="lazy">
+              </div>
+              <div>
+                <strong>Anjay Friedman and Mauricio Baker</strong>
+                <span class="speaker-org">RAND</span>
+                <p class="speaker-topic">Relaxed verification goals · 30-minute talk and Q&amp;A.</p>
+              </div>
             </div>
           </div>
           <div class="event social">
-            <time>Evening</time>
+            <time datetime="2026-08-21T18:00">18:00</time>
             <i class="dot" aria-hidden="true"></i>
-            <div class="event-copy"><strong>Blood on the Clocktower</strong></div>
+            <div class="event-copy">
+              <strong>Dinner at the office</strong>
+              <p>Blood on the Clocktower afterwards.</p>
+            </div>
           </div>
         </div>
       </article>
