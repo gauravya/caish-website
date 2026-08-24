@@ -1075,6 +1075,76 @@
       transform: translateY(-4px);
     }
 
+    .chvp-gallery-item--wide {
+      grid-column: 1 / -1;
+    }
+
+    .chvp-gallery-item--wide img {
+      height: clamp(300px, 40vw, 480px);
+    }
+
+    /* ── Testimonials ── */
+
+    .chvp-quotes {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .chvp-quote {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      padding: 1.6rem 1.7rem;
+      background: var(--chvp-paper);
+      border: 1px solid var(--chvp-line);
+      border-radius: 20px;
+    }
+
+    .chvp-quote p {
+      margin: 0;
+      color: var(--chvp-copy);
+      font-size: 0.98rem;
+      line-height: 1.65;
+    }
+
+    .chvp-quote-person {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      margin-top: auto;
+    }
+
+    .chvp-quote-person img,
+    .chvp-quote-initials {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--chvp-line-strong);
+      flex: 0 0 auto;
+    }
+
+    .chvp-quote-initials {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--chvp-panel);
+      color: var(--chvp-muted);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    .chvp-quote cite {
+      font-style: normal;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--chvp-muted);
+    }
+
     /* ── EOI ── */
 
     .chvp-eoi {
@@ -1625,6 +1695,10 @@
         grid-template-columns: 1fr;
       }
 
+      .chvp-quotes {
+        grid-template-columns: 1fr;
+      }
+
       .chvp-eoi-card {
         grid-template-columns: 1fr;
         align-items: start;
@@ -1948,13 +2022,46 @@
     <section class="chvp-section chvp-gallery-shell" aria-label="Programme gallery">
       <div class="chvp-gallery-frame">
         <div class="chvp-gallery">
-          <div class="chvp-gallery-item">
-            <img src="/images/meridian-22.jpg" alt="Participants gathered around a session at Meridian" loading="lazy" decoding="async" width="5616" height="3744">
+          <div class="chvp-gallery-item chvp-gallery-item--wide">
+            <img src="/images/hap-2026/hap26-cohort.jpg" alt="The 2026 cohort outside Churchill College after the final presentations" loading="lazy" decoding="async" width="2000" height="1336">
           </div>
           <div class="chvp-gallery-item">
-            <img src="/images/meridian-23.jpg" alt="Discussion during a Meridian programme session" loading="lazy" decoding="async" width="5616" height="3744">
+            <img src="/images/hap-2026/hap26-room.jpg" alt="The full cohort during a talk at the Meridian office" loading="lazy" decoding="async" width="1800" height="1202">
+          </div>
+          <div class="chvp-gallery-item">
+            <img src="/images/hap-2026/hap26-talk.jpg" alt="A resident giving a chip IP and RTL verification talk" loading="lazy" decoding="async" width="1800" height="1202">
+          </div>
+          <div class="chvp-gallery-item">
+            <img src="/images/hap-2026/hap26-testbed.jpg" alt="Participants working on the physical GPU testbed" loading="lazy" decoding="async" width="1800" height="1202">
+          </div>
+          <div class="chvp-gallery-item">
+            <img src="/images/hap-2026/hap26-churchill.jpg" alt="Final project presentations at Churchill College" loading="lazy" decoding="async" width="1800" height="1202">
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="chvp-section" aria-label="What participants said">
+      <span class="chvp-section-label">Edition one</span>
+      <h2>What participants said</h2>
+      <div class="chvp-quotes">
+        <blockquote class="chvp-quote">
+          <p>&ldquo;This programme is the best way to meet all the important people trying to make hardware assurance possible, and to work with professionals and experts on hardware security.&rdquo;</p>
+          <div class="chvp-quote-person"><span class="chvp-quote-initials" aria-hidden="true">TP</span><cite>Thomas Pierson &middot; 2026 cohort</cite></div>
+        </blockquote>
+        <blockquote class="chvp-quote">
+          <p>&ldquo;Flagship programme in verification; well organized; high-level participants and residents; very impactful for my research and strategy.&rdquo;</p>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-anna.jpg" alt="" width="44" height="44" loading="lazy"><cite>Anna Katariina Wisakanto &middot; 2026 cohort</cite></div>
+        </blockquote>
+        <blockquote class="chvp-quote">
+          <p>&ldquo;A great opportunity to test your appetite for this field in a small scale as part of a cohort of diverse and talented individuals.&rdquo;</p>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-liam.jpg" alt="" width="44" height="44" loading="lazy"><cite>Liam Hamill &middot; 2026 cohort</cite></div>
+        </blockquote>
+        <blockquote class="chvp-quote">
+          <p>&ldquo;The people joining the program had great energy and the organization of the full week was amazing.&rdquo;</p>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-robert.jpg" alt="" width="44" height="44" loading="lazy"><cite>Robert Neijenhuis &middot; 2026 cohort</cite></div>
+        </blockquote>
       </div>
     </section>
 
