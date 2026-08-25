@@ -3,21 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A six-day programme in Cambridge for engineers, researchers, PhD students, and technically strong students working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. Applications closed; expressions of interest open.">
+  <meta name="description" content="A residential research sprint for engineers, researchers and PhD students building hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
   <title>Hardware Assurance Programme | Cambridge AI Safety Hub</title>
+
+  <!--
+    NEXT EDITION CHECKLIST
+    Update the dates in the metadata, hero, overview and expression-of-interest section.
+    Update the application status, CTA, programme size and support.
+    Replace the gallery and testimonials when material from the new edition is available.
+  -->
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://caish.org/hardware">
   <meta property="og:title" content="Hardware Assurance Programme">
-  <meta property="og:description" content="A six-day programme in Cambridge for engineers, researchers, PhD students, and technically strong students working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026. Applications closed; expressions of interest open.">
+  <meta property="og:description" content="A residential research sprint for engineers, researchers and PhD students building hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
   <meta property="og:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://caish.org/hardware">
   <meta name="twitter:title" content="Hardware Assurance Programme">
-  <meta name="twitter:description" content="A six-day programme in Cambridge for engineers, researchers, PhD students, and technically strong students working on AI hardware assurance. 20 participants, fully funded, £1,500 stipend. 17-22 August 2026. Applications closed; expressions of interest open.">
+  <meta name="twitter:description" content="A residential research sprint for engineers, researchers and PhD students building hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
   <meta name="twitter:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Favicon -->
@@ -212,6 +219,10 @@
 
     .chvp-hero-top {
       position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(22rem, 0.95fr);
+      align-items: center;
+      gap: clamp(2.5rem, 5vw, 5.5rem);
     }
 
     .chvp-hero-copy {
@@ -220,12 +231,60 @@
       max-width: 42rem;
     }
 
+    .chvp-hero-visual {
+      position: relative;
+      min-width: 0;
+      margin: 0;
+      padding: 0.55rem;
+      border: 1px solid rgba(184, 196, 219, 0.2);
+      background: rgba(184, 196, 219, 0.045);
+      box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.28);
+    }
+
+    .chvp-hero-visual::before,
+    .chvp-hero-visual::after {
+      content: '';
+      position: absolute;
+      width: 2.25rem;
+      height: 2.25rem;
+      pointer-events: none;
+    }
+
+    .chvp-hero-visual::before {
+      top: -0.35rem;
+      left: -0.35rem;
+      border-top: 1px solid rgba(232, 237, 247, 0.58);
+      border-left: 1px solid rgba(232, 237, 247, 0.58);
+    }
+
+    .chvp-hero-visual::after {
+      right: -0.35rem;
+      bottom: -0.35rem;
+      border-right: 1px solid rgba(232, 237, 247, 0.58);
+      border-bottom: 1px solid rgba(232, 237, 247, 0.58);
+    }
+
+    .chvp-hero-visual-window {
+      aspect-ratio: 2 / 1;
+      overflow: hidden;
+      background: #eae6d7;
+    }
+
+    .chvp-hero-visual img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transform: scale(1.045);
+    }
+
     .chvp-hero-meta {
       margin-top: 3.5rem;
       padding-top: 2rem;
       border-top: 1px solid var(--chvp-line);
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 2rem;
     }
 
@@ -1050,7 +1109,7 @@
 
     .chvp-gallery {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 1rem;
     }
 
@@ -1059,16 +1118,16 @@
       overflow: hidden;
       background: var(--chvp-paper);
       border: 1px solid var(--chvp-line);
-      border-radius: 20px;
+      border-radius: 10px;
       transition: transform 0.3s ease;
     }
 
     .chvp-gallery-item img {
       width: 100%;
-      height: clamp(260px, 31vw, 360px);
+      height: clamp(220px, 22vw, 300px);
       display: block;
       object-fit: cover;
-      filter: saturate(0.82) contrast(1.04) brightness(0.85);
+      filter: saturate(1) contrast(1.01) brightness(1);
     }
 
     .chvp-gallery-item:hover {
@@ -1080,31 +1139,47 @@
     }
 
     .chvp-gallery-item--wide img {
-      height: clamp(300px, 40vw, 480px);
+      height: clamp(320px, 40vw, 460px);
     }
 
     /* ── Testimonials ── */
 
+    .chvp-testimonials {
+      margin-top: 2.25rem;
+      margin-bottom: 3.25rem;
+      padding-top: 2.75rem;
+      padding-bottom: 3rem;
+      background: linear-gradient(135deg, #1c2c3f 0%, #101c2b 100%);
+      border: 1px solid rgba(17, 28, 41, 0.18);
+      border-radius: 18px;
+      box-shadow: 0 16px 36px rgba(30, 48, 68, 0.13);
+    }
+
+    .chvp-testimonials h2 {
+      color: #ffffff;
+    }
+
     .chvp-quotes {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 1rem;
-      margin-top: 2rem;
+      gap: 2rem 2.5rem;
+      margin-top: 1.35rem;
     }
 
     .chvp-quote {
       display: flex;
       flex-direction: column;
-      gap: 1.1rem;
-      padding: 1.6rem 1.7rem;
-      background: var(--chvp-paper);
-      border: 1px solid var(--chvp-line);
-      border-radius: 20px;
+      gap: 1rem;
+      padding: 1.25rem 0 0;
+      background: transparent;
+      border: 0;
+      border-top: 1px solid rgba(222, 232, 244, 0.26);
+      border-radius: 0;
     }
 
     .chvp-quote p {
       margin: 0;
-      color: var(--chvp-copy);
+      color: #f2f5f9;
       font-size: 0.98rem;
       line-height: 1.65;
     }
@@ -1117,13 +1192,36 @@
     }
 
     .chvp-quote-person img,
+    .chvp-quote-photo,
     .chvp-quote-initials {
       width: 44px;
       height: 44px;
-      border-radius: 50%;
+      border-radius: 6px;
       object-fit: cover;
-      border: 1px solid var(--chvp-line-strong);
+      border: 1px solid rgba(232, 239, 247, 0.34);
       flex: 0 0 auto;
+    }
+
+    .chvp-quote-photo {
+      display: block;
+      overflow: hidden;
+    }
+
+    .chvp-quote-photo img {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      border-radius: 0;
+      display: block;
+      object-fit: cover;
+    }
+
+    .chvp-quote-photo--thomas img {
+      opacity: 0;
+    }
+
+    .chvp-quote-photo--thomas {
+      background: url('/images/hap-2026/testimonial-thomas.jpg') 94% 8% / 390% auto no-repeat;
     }
 
     .chvp-quote-initials {
@@ -1131,7 +1229,7 @@
       align-items: center;
       justify-content: center;
       background: var(--chvp-panel);
-      color: var(--chvp-muted);
+      color: #c7d2df;
       font-size: 0.78rem;
       font-weight: 600;
       letter-spacing: 0.06em;
@@ -1139,10 +1237,10 @@
 
     .chvp-quote cite {
       font-style: normal;
-      font-size: 0.68rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--chvp-muted);
+      font-size: 0.76rem;
+      line-height: 1.45;
+      letter-spacing: 0.04em;
+      color: #c7d2df;
     }
 
     /* ── EOI ── */
@@ -1574,9 +1672,12 @@
     }
 
     .chvp-programme-image img,
-    .chvp-resident-photo,
-    .chvp-gallery-item img {
+    .chvp-resident-photo {
       filter: saturate(0.92) contrast(1.02) brightness(0.98);
+    }
+
+    .chvp-gallery-item img {
+      filter: none;
     }
 
     .chvp-resident-photo {
@@ -1726,8 +1827,25 @@
         padding-top: 5.5rem;
       }
 
+      .chvp-testimonials {
+        margin-left: 0.75rem;
+        margin-right: 0.75rem;
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        border-radius: 14px;
+      }
+
       .chvp-hero-copy {
         max-width: none;
+      }
+
+      .chvp-hero-top {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+
+      .chvp-hero-visual {
+        padding: 0.4rem;
       }
 
       .chvp-hero-meta {
@@ -1808,6 +1926,58 @@
         font-size: 1.4rem;
       }
     }
+    /* Hadrian-inspired refinements */
+    .chvp-section-label { display: none; }
+    body.chvp-page::before,
+    body.chvp-page::after {
+      content: "";
+      position: fixed;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: rgba(26, 26, 26, 0.06);
+      pointer-events: none;
+      z-index: 1;
+    }
+    body.chvp-page::before { left: calc(50% - (var(--max-width, 1000px) / 2)); }
+    body.chvp-page::after { right: calc(50% - (var(--max-width, 1000px) / 2)); }
+    @media (max-width: 1080px) {
+      body.chvp-page::before, body.chvp-page::after { display: none; }
+    }
+
+    body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid,
+    body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid:hover {
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      color: #1a1a1a !important;
+      padding: 0.85rem 2.1rem;
+      overflow: visible;
+      border-radius: 0;
+      backdrop-filter: none !important;
+    }
+    body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid::before,
+    body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid::after {
+      display: block;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-54%);
+      background: none;
+      border: none;
+      width: auto;
+      height: auto;
+      font-family: 'Space Mono', monospace;
+      font-size: 2em;
+      font-weight: 400;
+      line-height: 1;
+      color: rgba(26, 26, 26, 0.55);
+      opacity: 1 !important;
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+    body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid::before { content: "("; left: 0.4rem; right: auto; }
+    body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid::after { content: ")" !important; right: 0.4rem; left: auto; }
+    body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid:hover::before { transform: translate(-4px, -54%); color: #1a1a1a; }
+    body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid:hover::after { transform: translate(4px, -54%); color: #1a1a1a; }
   </style>
 </head>
 <body class="chvp-page">
@@ -1882,31 +2052,28 @@
     <section class="chvp-hero">
       <div class="chvp-hero-top">
         <div class="chvp-hero-copy">
-          <span class="chvp-hero-kicker">Cambridge, 17-22 August 2026</span>
+          <span class="chvp-hero-kicker">Residential research sprint</span>
           <h1>Hardware Assurance Programme</h1>
-          <p class="chvp-hero-summary">Six days in Cambridge to build the mechanisms that let third parties verify what AI chips are computing, where they are operating, and at what scale.</p>
+          <p class="chvp-hero-summary">A week building hardware-enabled workload verification, the mechanisms that let parties to an AI agreement check what chips are computing, where they are operating, and at what scale.</p>
           <div class="chvp-hero-actions">
             <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register interest</a>
-            <p class="chvp-hero-meta-note">Applications are now closed. Register your interest for the next round.</p>
+            <p class="chvp-hero-meta-note">Applications open ahead of each edition. Register your interest to hear first.</p>
           </div>
         </div>
+        <!-- hero image removed -->
       </div>
       <div class="chvp-hero-meta" aria-label="Programme overview">
         <div class="chvp-hero-stat">
-          <span class="chvp-hero-stat-label">When</span>
-          <p class="chvp-hero-stat-value">17-22 August 2026</p>
-        </div>
-        <div class="chvp-hero-stat">
-          <span class="chvp-hero-stat-label">Where</span>
-          <p class="chvp-hero-stat-value">Cambridge, UK</p>
+          <span class="chvp-hero-stat-label">Format</span>
+          <p class="chvp-hero-stat-value">One week, in person</p>
         </div>
         <div class="chvp-hero-stat">
           <span class="chvp-hero-stat-label">Programme size</span>
-          <p class="chvp-hero-stat-value">Cohort of twenty</p>
+          <p class="chvp-hero-stat-value">25-30 participants</p>
         </div>
         <div class="chvp-hero-stat">
           <span class="chvp-hero-stat-label">Support</span>
-          <p class="chvp-hero-stat-value">&pound;1,500 stipend + expenses</p>
+          <p class="chvp-hero-stat-value">Fully funded, with stipend</p>
         </div>
       </div>
     </section>
@@ -2020,47 +2187,44 @@
     </section>
 
     <section class="chvp-section chvp-gallery-shell" aria-label="Programme gallery">
+      <p style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:#6b7570;margin:0 0 1rem;">Edition one &middot; Cambridge &middot; August 2026</p>
       <div class="chvp-gallery-frame">
         <div class="chvp-gallery">
-          <div class="chvp-gallery-item chvp-gallery-item--wide">
+          <figure class="chvp-gallery-item chvp-gallery-item--wide">
             <img src="/images/hap-2026/hap26-cohort.jpg" alt="The 2026 cohort outside Churchill College after the final presentations" loading="lazy" decoding="async" width="2000" height="1336">
-          </div>
-          <div class="chvp-gallery-item">
-            <img src="/images/hap-2026/hap26-room.jpg" alt="The full cohort during a talk at the Meridian office" loading="lazy" decoding="async" width="1800" height="1202">
-          </div>
-          <div class="chvp-gallery-item">
+          </figure>
+          <figure class="chvp-gallery-item">
             <img src="/images/hap-2026/hap26-talk.jpg" alt="A resident giving a chip IP and RTL verification talk" loading="lazy" decoding="async" width="1800" height="1202">
-          </div>
-          <div class="chvp-gallery-item">
-            <img src="/images/hap-2026/hap26-testbed.jpg" alt="Participants working on the physical GPU testbed" loading="lazy" decoding="async" width="1800" height="1202">
-          </div>
-          <div class="chvp-gallery-item">
-            <img src="/images/hap-2026/hap26-churchill.jpg" alt="Final project presentations at Churchill College" loading="lazy" decoding="async" width="1800" height="1202">
-          </div>
+          </figure>
+          <figure class="chvp-gallery-item">
+            <img src="/images/hap-2026/hap26-testbed.jpg" alt="Participants working around the programme testbed" loading="lazy" decoding="async" width="1800" height="1202">
+          </figure>
+          <figure class="chvp-gallery-item">
+            <img src="/images/hap-2026/hap26-churchill.jpg" alt="A final project presentation at Churchill College" loading="lazy" decoding="async" width="1800" height="1202">
+          </figure>
         </div>
       </div>
     </section>
 
     <!-- Testimonials -->
-    <section class="chvp-section" aria-label="What participants said">
-      <span class="chvp-section-label">Edition one</span>
+    <section class="chvp-section chvp-testimonials" aria-label="What participants said">
       <h2>What participants said</h2>
       <div class="chvp-quotes">
         <blockquote class="chvp-quote">
           <p>&ldquo;This programme is the best way to meet all the important people trying to make hardware assurance possible, and to work with professionals and experts on hardware security.&rdquo;</p>
-          <div class="chvp-quote-person"><span class="chvp-quote-initials" aria-hidden="true">TP</span><cite>Thomas Pierson &middot; 2026 cohort</cite></div>
+          <div class="chvp-quote-person"><span class="chvp-quote-photo chvp-quote-photo--thomas" aria-hidden="true"><img src="/images/hap-2026/testimonial-thomas.jpg" alt="" width="832" height="1248" loading="lazy"></span><cite>Thomas Pierson &middot; Carnegie Mellon University</cite></div>
         </blockquote>
         <blockquote class="chvp-quote">
           <p>&ldquo;Flagship programme in verification; well organized; high-level participants and residents; very impactful for my research and strategy.&rdquo;</p>
-          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-anna.jpg" alt="" width="44" height="44" loading="lazy"><cite>Anna Katariina Wisakanto &middot; 2026 cohort</cite></div>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-anna.jpg" alt="" width="44" height="44" loading="lazy"><cite>Anna Katariina Wisakanto &middot; Senior Researcher at CARMA</cite></div>
         </blockquote>
         <blockquote class="chvp-quote">
           <p>&ldquo;A great opportunity to test your appetite for this field in a small scale as part of a cohort of diverse and talented individuals.&rdquo;</p>
-          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-liam.jpg" alt="" width="44" height="44" loading="lazy"><cite>Liam Hamill &middot; 2026 cohort</cite></div>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-liam.jpg" alt="" width="44" height="44" loading="lazy"><cite>Liam Hamill &middot; Former software engineer at ARM</cite></div>
         </blockquote>
         <blockquote class="chvp-quote">
           <p>&ldquo;The people joining the program had great energy and the organization of the full week was amazing.&rdquo;</p>
-          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-robert.jpg" alt="" width="44" height="44" loading="lazy"><cite>Robert Neijenhuis &middot; 2026 cohort</cite></div>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-robert.jpg" alt="" width="44" height="44" loading="lazy"><cite>Robert Neijenhuis &middot; ASML</cite></div>
         </blockquote>
       </div>
     </section>
@@ -2216,8 +2380,8 @@
       <div class="chvp-eoi-card">
         <div class="chvp-eoi-copy">
           <span class="chvp-section-label chvp-eoi-label">Expression of interest</span>
-          <h2>Applications closed</h2>
-          <p>Applications for the August 2026 cohort are now closed. Register your interest to hear when the next round opens. Cohort of twenty &mdash; travel, accommodation, and food covered, plus a &pound;1,500 stipend.</p>
+          <h2>Join the next edition</h2>
+          <p>Applications open ahead of each edition. Register your interest and we will email you when the next round opens. Travel, accommodation and food are covered, plus a stipend.</p>
         </div>
         <div class="chvp-eoi-actions">
           <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register interest</a>
