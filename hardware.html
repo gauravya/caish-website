@@ -1586,8 +1586,10 @@
     }
 
     body.chvp-page nav {
-      background: rgba(247, 249, 250, 0.88);
+      background: #f7f9fa;
       border-bottom-color: rgba(28, 47, 68, 0.12);
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
     }
 
     body.chvp-page .logo {
@@ -2191,6 +2193,13 @@
 
     html {
       scroll-behavior: auto;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+
+    body.chvp-page {
+      min-height: 100%;
+      overflow: visible;
     }
 
     main > .chvp-section + .chvp-section {
@@ -2298,51 +2307,93 @@
     }
 
     .chvp-reading-page {
+      --deck-slot: 0;
+      --deck-y: 0rem;
+      --deck-tilt: 0deg;
       position: absolute;
-      inset: 0.45rem 1.5rem 0.45rem 0.15rem;
+      inset: 0.45rem 5.8rem 0.45rem 0.15rem;
       display: block;
       overflow: hidden;
-      border: 1px solid rgba(24, 43, 62, 0.2);
+      border: 1px solid rgba(24, 43, 62, 0.17);
       border-radius: 2px;
       background: #fff;
       box-shadow: 0 0.55rem 1.35rem rgba(23, 42, 61, 0.11);
       transform-origin: 50% 95%;
+      transform: translate(calc(var(--deck-slot) * 1.18rem), var(--deck-y)) rotate(var(--deck-tilt));
+      transition: transform 520ms cubic-bezier(0.22, 0.72, 0.18, 1), box-shadow 420ms ease;
+      cursor: pointer;
     }
 
     .chvp-reading-page img {
+      display: block;
       width: 100%;
       height: 100%;
       object-fit: cover;
       object-position: top center;
-      filter: saturate(0.94) contrast(0.99);
+      filter: none;
     }
 
-    .chvp-reading-page:nth-child(1) { z-index: 5; transform: translate(0, 0) rotate(-0.45deg); }
-    .chvp-reading-page:nth-child(2) { z-index: 4; transform: translate(0.55rem, -0.18rem) rotate(0.7deg); }
-    .chvp-reading-page:nth-child(3) { z-index: 3; transform: translate(1.02rem, 0.16rem) rotate(-0.85deg); }
-    .chvp-reading-page:nth-child(4) { z-index: 2; transform: translate(1.38rem, -0.08rem) rotate(1.15deg); }
-    .chvp-reading-page:nth-child(5) { z-index: 1; transform: translate(1.72rem, 0.22rem) rotate(-1.15deg); }
+    .chvp-reading-page:not(.is-active):hover {
+      transform: translate(calc(var(--deck-slot) * 1.18rem + 0.22rem), calc(var(--deck-y) - 0.12rem)) rotate(var(--deck-tilt));
+      box-shadow: 0 0.7rem 1.5rem rgba(23, 42, 61, 0.14);
+    }
+
+    .chvp-twin-panels.chvp-soft-reveal .chvp-reading-page {
+      opacity: 0;
+    }
+
+    .chvp-twin-panels.chvp-soft-reveal.is-visible .chvp-reading-page {
+      animation: chvp-paper-settle 560ms cubic-bezier(0.2, 0.75, 0.25, 1) both;
+    }
+
+    .chvp-twin-panels.chvp-soft-reveal.is-visible .chvp-reading-page:nth-child(5) { animation-delay: 0ms; }
+    .chvp-twin-panels.chvp-soft-reveal.is-visible .chvp-reading-page:nth-child(4) { animation-delay: 45ms; }
+    .chvp-twin-panels.chvp-soft-reveal.is-visible .chvp-reading-page:nth-child(3) { animation-delay: 90ms; }
+    .chvp-twin-panels.chvp-soft-reveal.is-visible .chvp-reading-page:nth-child(2) { animation-delay: 135ms; }
+    .chvp-twin-panels.chvp-soft-reveal.is-visible .chvp-reading-page:nth-child(1) { animation-delay: 180ms; }
+
+    @keyframes chvp-paper-settle {
+      from {
+        opacity: 0;
+        translate: 0.7rem 0.25rem;
+      }
+      to {
+        opacity: 1;
+        translate: 0 0;
+      }
+    }
 
     .chvp-reading--papers .chvp-reading-pages {
       height: clamp(14.5rem, 20vw, 18rem);
     }
 
     .chvp-reading--papers .chvp-reading-page {
-      inset: 0.25rem auto 0.25rem 20%;
-      width: 48%;
+      inset: 0.25rem auto 0.25rem 23%;
+      width: 41%;
+      transform: translate(calc(var(--deck-slot) * 3.35rem), var(--deck-y)) rotate(var(--deck-tilt));
     }
 
-    .chvp-reading--papers .chvp-reading-page:nth-child(1) { transform: translate(0, 0) rotate(-1.15deg); }
-    .chvp-reading--papers .chvp-reading-page:nth-child(2) { transform: translate(2.55rem, -0.15rem) rotate(1.35deg); }
-    .chvp-reading--papers .chvp-reading-page:nth-child(3) { transform: translate(4.9rem, 0.2rem) rotate(-0.5deg); }
+    .chvp-reading--papers .chvp-reading-page img {
+      object-fit: contain;
+    }
+
+    .chvp-reading--papers .chvp-reading-page:not(.is-active):hover {
+      transform: translate(calc(var(--deck-slot) * 3.35rem + 0.28rem), calc(var(--deck-y) - 0.14rem)) rotate(var(--deck-tilt));
+    }
+
+    .chvp-reading-pages .chvp-reading-page.is-active {
+      z-index: 10;
+      transform: translate(-0.16rem, -0.28rem) rotate(-0.7deg);
+      box-shadow: 0 0.85rem 1.7rem rgba(23, 42, 61, 0.14);
+    }
+
+    .chvp-reading--papers .chvp-reading-pages .chvp-reading-page.is-active {
+      transform: translate(-0.18rem, -0.28rem) rotate(-1.15deg);
+    }
 
     .chvp-reading-page:focus-visible {
       outline: 2px solid #48647e;
       outline-offset: 3px;
-    }
-
-    .chvp-reading-page--contain img {
-      object-fit: contain;
     }
 
     /* Programme structure uses one continuous rail. */
@@ -3058,6 +3109,14 @@
         transform: none;
         transition: none;
       }
+
+      .chvp-twin-panels.chvp-soft-reveal .chvp-reading-page,
+      .chvp-twin-panels.chvp-soft-reveal.is-visible .chvp-reading-page {
+        animation: none;
+        opacity: 1;
+        translate: 0 0;
+        transition: none;
+      }
     }
   </style>
 </head>
@@ -3197,9 +3256,9 @@
           <p>Hardware-enabled verification uses tamper-evident enclosures, telemetry, network monitoring, attestation and cryptographic methods to establish what AI hardware is doing, where it is and at what scale, whilst preserving confidentiality. The field needs more engineers and researchers to build and test these systems.</p>
           <div class="chvp-reading chvp-reading--papers">
             <div class="chvp-reading-pages" aria-label="Technical papers on hardware-enabled verification">
-              <a class="chvp-reading-page" href="https://www.rand.org/pubs/working_papers/WRA3056-1.html" target="_blank" rel="noopener"><img src="/images/hap-reading/rand-hardware-governance.jpg" alt="RAND paper on hardware-enabled governance mechanisms" loading="lazy"></a>
-              <a class="chvp-reading-page" href="https://arxiv.org/abs/2505.03742" target="_blank" rel="noopener"><img src="/images/hap-reading/arxiv-hardware-mechanisms.jpg" alt="Paper on hardware-enabled mechanisms for verifying responsible AI development" loading="lazy"></a>
-              <a class="chvp-reading-page chvp-reading-page--contain" href="https://astrangeattractor.substack.com/p/components-of-a-frontier-ai-slowdown" target="_blank" rel="noopener"><img src="/images/hap-reading/frontier-ai-slowdown.jpg" alt="Components of a Frontier AI Slowdown" loading="lazy"></a>
+              <a class="chvp-reading-page" href="https://www.rand.org/pubs/working_papers/WRA3056-1.html" target="_blank" rel="noopener"><img src="/images/hap-reading/rand-hardware-governance-first-page.png" alt="First page of the RAND paper on hardware-enabled governance mechanisms" loading="lazy"></a>
+              <a class="chvp-reading-page" href="https://arxiv.org/abs/2505.03742" target="_blank" rel="noopener"><img src="/images/hap-reading/arxiv-hardware-mechanisms-first-page.png" alt="First page of the paper on hardware-enabled mechanisms for verifying responsible AI development" loading="lazy"></a>
+              <a class="chvp-reading-page" href="https://astrangeattractor.substack.com/p/components-of-a-frontier-ai-slowdown" target="_blank" rel="noopener"><img src="/images/hap-reading/frontier-ai-slowdown-preview.jpg" alt="Opening page of Components of a Frontier AI Slowdown" loading="lazy"></a>
             </div>
           </div>
         </article>
@@ -3551,9 +3610,63 @@
       }
     };
 
+    const PaperDecks = {
+      init() {
+        document.querySelectorAll('.chvp-reading-pages').forEach(deck => {
+          const pages = [...deck.querySelectorAll('.chvp-reading-page')];
+          if (!pages.length) return;
+
+          const setActivePage = activePage => {
+            const activeIndex = pages.indexOf(activePage);
+            const remainingPages = [
+              ...pages.slice(activeIndex + 1),
+              ...pages.slice(0, activeIndex)
+            ];
+
+            pages.forEach(page => {
+              page.classList.remove('is-active');
+              page.removeAttribute('aria-current');
+            });
+
+            activePage.classList.add('is-active');
+            activePage.setAttribute('aria-current', 'true');
+            activePage.style.setProperty('--deck-slot', 0);
+            activePage.style.setProperty('--deck-y', '0rem');
+            activePage.style.setProperty('--deck-tilt', '-0.7deg');
+            activePage.style.zIndex = 10;
+            activePage.title = 'Open this source';
+
+            remainingPages.forEach((page, index) => {
+              const slot = index + 1;
+              const tilt = slot % 2 ? '0.85deg' : '-0.65deg';
+              const y = slot % 2 ? '-0.08rem' : '0.12rem';
+
+              page.style.setProperty('--deck-slot', slot);
+              page.style.setProperty('--deck-y', y);
+              page.style.setProperty('--deck-tilt', tilt);
+              page.style.zIndex = pages.length - index;
+              page.title = 'Bring this source forward';
+            });
+          };
+
+          setActivePage(pages[0]);
+
+          pages.forEach(page => {
+            page.addEventListener('click', event => {
+              if (page.classList.contains('is-active')) return;
+
+              event.preventDefault();
+              setActivePage(page);
+            });
+          });
+        });
+      }
+    };
+
     const initPage = () => {
       MobileNav.init();
       SoftReveal.init();
+      PaperDecks.init();
     };
 
     document.readyState === 'loading'
