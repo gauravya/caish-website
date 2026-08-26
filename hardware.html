@@ -2320,7 +2320,7 @@
       box-shadow: 0 0.55rem 1.35rem rgba(23, 42, 61, 0.11);
       transform-origin: 50% 95%;
       transform: translate(calc(var(--deck-slot) * 1.18rem), var(--deck-y)) rotate(var(--deck-tilt));
-      transition: transform 520ms cubic-bezier(0.22, 0.72, 0.18, 1), box-shadow 420ms ease;
+      transition: transform 660ms cubic-bezier(0.2, 0.72, 0.18, 1), box-shadow 520ms ease;
       cursor: pointer;
     }
 
@@ -2333,9 +2333,10 @@
       filter: none;
     }
 
-    .chvp-reading-page:not(.is-active):hover {
-      transform: translate(calc(var(--deck-slot) * 1.18rem + 0.22rem), calc(var(--deck-y) - 0.12rem)) rotate(var(--deck-tilt));
-      box-shadow: 0 0.7rem 1.5rem rgba(23, 42, 61, 0.14);
+    .chvp-reading-pages .chvp-reading-page.is-preview:not(.is-active) {
+      z-index: 12 !important;
+      transform: translate(calc(var(--deck-slot) * 1.18rem), calc(var(--deck-y) - 0.65rem)) rotate(-0.35deg);
+      box-shadow: 0 1rem 2rem rgba(23, 42, 61, 0.18);
     }
 
     .chvp-twin-panels.chvp-soft-reveal .chvp-reading-page {
@@ -2377,8 +2378,8 @@
       object-fit: contain;
     }
 
-    .chvp-reading--papers .chvp-reading-page:not(.is-active):hover {
-      transform: translate(calc(var(--deck-slot) * 3.35rem + 0.28rem), calc(var(--deck-y) - 0.14rem)) rotate(var(--deck-tilt));
+    .chvp-reading--papers .chvp-reading-pages .chvp-reading-page.is-preview:not(.is-active) {
+      transform: translate(calc(var(--deck-slot) * 3.35rem), calc(var(--deck-y) - 0.65rem)) rotate(-0.35deg);
     }
 
     .chvp-reading-pages .chvp-reading-page.is-active {
@@ -3258,7 +3259,7 @@
             <div class="chvp-reading-pages" aria-label="Technical papers on hardware-enabled verification">
               <a class="chvp-reading-page" href="https://www.rand.org/pubs/working_papers/WRA3056-1.html" target="_blank" rel="noopener"><img src="/images/hap-reading/rand-hardware-governance-first-page.png" alt="First page of the RAND paper on hardware-enabled governance mechanisms" loading="lazy"></a>
               <a class="chvp-reading-page" href="https://arxiv.org/abs/2505.03742" target="_blank" rel="noopener"><img src="/images/hap-reading/arxiv-hardware-mechanisms-first-page.png" alt="First page of the paper on hardware-enabled mechanisms for verifying responsible AI development" loading="lazy"></a>
-              <a class="chvp-reading-page" href="https://astrangeattractor.substack.com/p/components-of-a-frontier-ai-slowdown" target="_blank" rel="noopener"><img src="/images/hap-reading/frontier-ai-slowdown-preview.jpg" alt="Opening page of Components of a Frontier AI Slowdown" loading="lazy"></a>
+              <a class="chvp-reading-page" href="https://arxiv.org/abs/2606.05433" target="_blank" rel="noopener"><img src="/images/hap-reading/arxiv-zero-knowledge-training-first-page.png" alt="First page of Zero knowledge verification for frontier AI training is possible" loading="lazy"></a>
             </div>
           </div>
         </article>
@@ -3625,6 +3626,7 @@
 
             pages.forEach(page => {
               page.classList.remove('is-active');
+              page.classList.remove('is-preview');
               page.removeAttribute('aria-current');
             });
 
@@ -3652,6 +3654,31 @@
           setActivePage(pages[0]);
 
           pages.forEach(page => {
+            let previewTimer;
+
+            page.addEventListener('pointerenter', () => {
+              if (page.classList.contains('is-active')) return;
+              window.clearTimeout(previewTimer);
+              previewTimer = window.setTimeout(() => {
+                page.classList.add('is-preview');
+              }, 220);
+            });
+
+            page.addEventListener('pointerleave', () => {
+              window.clearTimeout(previewTimer);
+              page.classList.remove('is-preview');
+            });
+
+            page.addEventListener('focus', () => {
+              if (!page.classList.contains('is-active')) {
+                page.classList.add('is-preview');
+              }
+            });
+
+            page.addEventListener('blur', () => {
+              page.classList.remove('is-preview');
+            });
+
             page.addEventListener('click', event => {
               if (page.classList.contains('is-active')) return;
 
