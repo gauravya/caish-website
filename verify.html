@@ -31,7 +31,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <!-- Preload critical resources -->
-  <link rel="preload" href="/styles.css?v=3df3c1ef" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="/styles.css?v=04e7976f" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="/images/logo.png" as="image">
   <link rel="preload" href="https://fonts.gstatic.com/s/librebaskerville/v16/kmKnZrc3Hgbbcjq75U4uslyuy4kqN-INsyY.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
@@ -535,7 +535,7 @@
   </style>
 
   <!-- Styles (async) -->
-  <noscript><link rel="stylesheet" href="/styles.css?v=3df3c1ef"></noscript>
+  <noscript><link rel="stylesheet" href="/styles.css?v=04e7976f"></noscript>
 
   <!-- Service Worker Registration -->
   <script>
@@ -861,7 +861,7 @@
             '</div>' +
             '<div class="cert-preamble">This certifies that</div>' +
             '<div class="cert-name">' + this.escapeHtml(fellow.name) + '</div>' +
-            '<div class="cert-summary">completed the <span class="cert-programme">' + this.escapeHtml(cohort.programme) + '</span></div>' +
+            '<div class="cert-summary">' + this.escapeHtml(cohort.verb || 'completed') + ' the <span class="cert-programme">' + this.escapeHtml(cohort.programme) + '</span></div>' +
             '<div class="cert-context">' +
               trackMarkup +
               '<span class="cert-cohort">' + this.escapeHtml(cohort.name) + ' cohort</span>' +
