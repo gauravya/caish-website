@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A one-week programme for engineers and researchers developing hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
+  <meta name="description" content="A six-day programme in Cambridge for engineers and researchers developing hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
   <title>Hardware Assurance Programme | Cambridge AI Safety Hub</title>
 
   <!--
@@ -17,14 +17,14 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://caish.org/hardware">
   <meta property="og:title" content="Hardware Assurance Programme">
-  <meta property="og:description" content="A one-week programme for engineers and researchers developing hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
+  <meta property="og:description" content="A six-day programme in Cambridge for engineers and researchers developing hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
   <meta property="og:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://caish.org/hardware">
   <meta name="twitter:title" content="Hardware Assurance Programme">
-  <meta name="twitter:description" content="A one-week programme for engineers and researchers developing hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
+  <meta name="twitter:description" content="A six-day programme in Cambridge for engineers and researchers developing hardware-enabled workload verification for AI agreements. Fully funded, with stipend. Register interest for the next edition.">
   <meta name="twitter:image" content="https://caish.org/images/hardware-social.png">
 
   <!-- Favicon -->
@@ -1251,14 +1251,6 @@
       object-fit: cover;
     }
 
-    .chvp-quote-photo--thomas img {
-      opacity: 0;
-    }
-
-    .chvp-quote-photo--thomas {
-      background: url('/images/hap-2026/testimonial-thomas.jpg') 94% 8% / 390% auto no-repeat;
-    }
-
     .chvp-quote-initials {
       display: flex;
       align-items: center;
@@ -2058,6 +2050,21 @@
     body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid:hover::before { transform: translate(-4px, -54%); color: #1a1a1a; }
     body.chvp-page .chvp-btn.btn-primary.chvp-btn--solid:hover::after { transform: translate(4px, -54%); color: #1a1a1a; }
 
+    body.chvp-page .chvp-hero-actions .chvp-btn.btn-primary.chvp-btn--solid,
+    body.chvp-page .chvp-hero-actions .chvp-btn.btn-primary.chvp-btn--solid:hover {
+      background: #172638 !important;
+      color: #ffffff !important;
+      box-shadow: 0 8px 20px rgba(25, 40, 58, 0.18) !important;
+    }
+    body.chvp-page .chvp-hero-actions .chvp-btn.btn-primary.chvp-btn--solid::before,
+    body.chvp-page .chvp-hero-actions .chvp-btn.btn-primary.chvp-btn--solid::after {
+      color: rgba(255, 255, 255, 0.55) !important;
+    }
+    body.chvp-page .chvp-hero-actions .chvp-btn.btn-primary.chvp-btn--solid:hover::before,
+    body.chvp-page .chvp-hero-actions .chvp-btn.btn-primary.chvp-btn--solid:hover::after {
+      color: #ffffff !important;
+    }
+
     /* ── 2026 editorial refinement ── */
 
     body.chvp-page {
@@ -2106,6 +2113,7 @@
 
     .chvp-hero-top {
       grid-template-columns: minmax(0, 1.08fr) minmax(24rem, 0.92fr);
+      align-items: start;
       gap: clamp(4rem, 8vw, 8rem);
     }
 
@@ -2121,7 +2129,7 @@
 
     .chvp-hero-intro {
       max-width: 30rem;
-      padding-top: 0.45rem;
+      padding-top: 0.28em;
     }
 
     .chvp-hero-summary {
@@ -2228,7 +2236,9 @@
     /* Background becomes an editorial argument instead of two cards. */
     .chvp-twin-panels {
       position: relative;
+      display: grid;
       grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto auto minmax(16.5rem, auto);
       gap: 0;
       margin-top: 2.5rem;
       border-top: 1px solid rgba(28, 47, 68, 0.28);
@@ -2246,6 +2256,9 @@
 
     .chvp-twin-panel {
       position: relative;
+      display: grid;
+      grid-template-rows: subgrid;
+      grid-row: 1 / -1;
       padding: 1.75rem 0 0;
       border: 0;
       border-radius: 0;
@@ -2254,12 +2267,12 @@
     }
 
     .chvp-twin-panel:first-child {
-      grid-column: auto;
+      grid-column: 1;
       padding-right: clamp(2.5rem, 5vw, 5rem);
     }
 
     .chvp-twin-panel:nth-child(2) {
-      grid-column: auto;
+      grid-column: 2;
       margin-top: 0;
       padding-left: clamp(2.5rem, 5vw, 5rem);
     }
@@ -2296,12 +2309,22 @@
     }
 
     .chvp-reading {
-      margin-top: clamp(2.25rem, 3.8vw, 3.25rem);
+      margin-top: 1.85rem;
+      align-self: end;
+    }
+
+    .chvp-gallery-kicker {
+      margin: 0 0 1rem;
+      font-family: var(--chvp-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #65798e;
     }
 
     .chvp-reading-pages {
       position: relative;
-      height: clamp(12.75rem, 17vw, 15.5rem);
+      height: clamp(15.25rem, 21vw, 18.25rem);
       margin: 0;
       isolation: isolate;
     }
@@ -2311,17 +2334,20 @@
       --deck-y: 0rem;
       --deck-tilt: 0deg;
       position: absolute;
-      inset: 0.45rem 5.8rem 0.45rem 0.15rem;
+      inset: 0.2rem 4.4rem 0.35rem 0.05rem;
       display: block;
       overflow: hidden;
-      border: 1px solid rgba(24, 43, 62, 0.17);
+      border: 1px solid rgba(24, 43, 62, 0.14);
       border-radius: 2px;
       background: #fff;
-      box-shadow: 0 0.55rem 1.35rem rgba(23, 42, 61, 0.11);
-      transform-origin: 50% 95%;
-      transform: translate(calc(var(--deck-slot) * 1.18rem), var(--deck-y)) rotate(var(--deck-tilt));
-      transition: transform 660ms cubic-bezier(0.2, 0.72, 0.18, 1), box-shadow 520ms ease;
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.7) inset,
+        0 0.7rem 1.6rem rgba(23, 42, 61, 0.12);
+      transform-origin: 50% 100%;
+      transform: translate3d(calc(var(--deck-slot) * 1.05rem), var(--deck-y), 0) rotate(var(--deck-tilt));
+      transition: transform 720ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 520ms ease;
       cursor: pointer;
+      will-change: transform;
     }
 
     .chvp-reading-page img {
@@ -2335,8 +2361,8 @@
 
     .chvp-reading-pages .chvp-reading-page.is-preview:not(.is-active) {
       z-index: 12 !important;
-      transform: translate(calc(var(--deck-slot) * 1.18rem), calc(var(--deck-y) - 0.65rem)) rotate(-0.35deg);
-      box-shadow: 0 1rem 2rem rgba(23, 42, 61, 0.18);
+      transform: translate3d(calc(var(--deck-slot) * 1.05rem), calc(var(--deck-y) - 0.7rem), 0) rotate(-0.3deg);
+      box-shadow: 0 1.15rem 2.2rem rgba(23, 42, 61, 0.18);
     }
 
     .chvp-twin-panels.chvp-soft-reveal .chvp-reading-page {
@@ -2364,32 +2390,30 @@
       }
     }
 
-    .chvp-reading--papers .chvp-reading-pages {
-      height: clamp(14.5rem, 20vw, 18rem);
-    }
-
     .chvp-reading--papers .chvp-reading-page {
-      inset: 0.25rem auto 0.25rem 23%;
-      width: 41%;
-      transform: translate(calc(var(--deck-slot) * 3.35rem), var(--deck-y)) rotate(var(--deck-tilt));
+      inset: 0.2rem 4.4rem 0.35rem 0.05rem;
+      width: auto;
+      height: auto;
+      transform: translate3d(calc(var(--deck-slot) * 1.05rem), var(--deck-y), 0) rotate(var(--deck-tilt));
     }
 
     .chvp-reading--papers .chvp-reading-page img {
-      object-fit: contain;
+      object-fit: cover;
+      object-position: top center;
     }
 
     .chvp-reading--papers .chvp-reading-pages .chvp-reading-page.is-preview:not(.is-active) {
-      transform: translate(calc(var(--deck-slot) * 3.35rem), calc(var(--deck-y) - 0.65rem)) rotate(-0.35deg);
+      transform: translate3d(calc(var(--deck-slot) * 1.05rem), calc(var(--deck-y) - 0.7rem), 0) rotate(-0.3deg);
     }
 
     .chvp-reading-pages .chvp-reading-page.is-active {
       z-index: 10;
-      transform: translate(-0.16rem, -0.28rem) rotate(-0.7deg);
-      box-shadow: 0 0.85rem 1.7rem rgba(23, 42, 61, 0.14);
+      transform: translate3d(-0.12rem, -0.32rem, 0) rotate(-0.55deg);
+      box-shadow: 0 1rem 1.9rem rgba(23, 42, 61, 0.16);
     }
 
     .chvp-reading--papers .chvp-reading-pages .chvp-reading-page.is-active {
-      transform: translate(-0.18rem, -0.28rem) rotate(-1.15deg);
+      transform: translate3d(-0.12rem, -0.32rem, 0) rotate(-0.7deg);
     }
 
     .chvp-reading-page:focus-visible {
@@ -2760,8 +2784,8 @@
     .chvp-eoi {
       max-width: none;
       margin-top: 0;
-      padding-top: clamp(5rem, 8vw, 8rem);
-      padding-bottom: clamp(4.5rem, 7vw, 7rem);
+      padding-top: clamp(3.25rem, 5.5vw, 5rem);
+      padding-bottom: clamp(1.5rem, 2.4vw, 2.25rem);
       background-color: #101f30;
       background-image:
         linear-gradient(rgba(220, 232, 244, 0.022) 1px, transparent 1px),
@@ -2843,8 +2867,8 @@
     }
 
     .chvp-eoi-extras {
-      margin-top: 3rem;
-      padding: 1.5rem var(--space-10) 0;
+      margin-top: 1.6rem;
+      padding: 0.85rem var(--space-10) 0;
       border-top: 1px solid rgba(225, 235, 245, 0.16);
     }
 
@@ -2852,8 +2876,7 @@
       margin-top: 0;
       width: 100%;
       max-width: none;
-      padding-right: 0;
-      padding-left: 0;
+      padding: 1.1rem 0 1.35rem;
       background: #101f30;
     }
 
@@ -2876,23 +2899,34 @@
     .chvp-hero h1,
     .chvp-hero-intro,
     .chvp-hero-brief,
-    .chvp-hero-images {
-      animation: chvp-enter 0.65s ease both;
+    .chvp-hero-images .chvp-hero-image {
+      animation: chvp-enter 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
     }
 
-    .chvp-hero-intro { animation-delay: 0.04s; }
-    .chvp-hero-brief { animation-delay: 0.08s; }
-    .chvp-hero-images { animation-delay: 0.12s; }
+    .chvp-hero-intro { animation-delay: 0.08s; }
+    .chvp-hero-brief { animation-delay: 0.16s; }
+    .chvp-hero-images .chvp-hero-image:nth-child(1) { animation-delay: 0.22s; }
+    .chvp-hero-images .chvp-hero-image:nth-child(2) { animation-delay: 0.28s; }
+    .chvp-hero-images .chvp-hero-image:nth-child(3) { animation-delay: 0.34s; }
+    .chvp-hero-images .chvp-hero-image:nth-child(4) { animation-delay: 0.4s; }
 
     @keyframes chvp-enter {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      from {
+        opacity: 0;
+        transform: translate3d(0, 16px, 0);
+      }
+      to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
     }
 
     .chvp-soft-reveal {
-      opacity: 1;
-      transform: none;
-      transition: none;
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+      transition:
+        opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1),
+        transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     .chvp-soft-reveal.is-visible {
@@ -2903,6 +2937,7 @@
     @media (max-width: 900px) {
       .chvp-twin-panels {
         grid-template-columns: 1fr;
+        grid-template-rows: none;
         gap: 3.75rem;
         border-top: 0;
       }
@@ -2911,26 +2946,26 @@
         display: none;
       }
 
+      .chvp-twin-panel,
       .chvp-twin-panel:first-child,
       .chvp-twin-panel:nth-child(2) {
+        display: block;
         grid-column: 1;
+        grid-row: auto;
         margin-top: 0;
         padding-right: 0;
         padding-left: 0;
         border-top: 1px solid rgba(28, 47, 68, 0.28);
       }
 
-      .chvp-reading-pages {
-        height: clamp(13rem, 40vw, 17rem);
-      }
-
+      .chvp-reading-pages,
       .chvp-reading--papers .chvp-reading-pages {
-        height: clamp(17rem, 50vw, 21rem);
+        height: clamp(15rem, 42vw, 18rem);
       }
 
       .chvp-reading--papers .chvp-reading-page {
-        left: 23%;
-        width: 43%;
+        left: auto;
+        width: auto;
       }
 
       .chvp-hero-top,
@@ -3104,6 +3139,7 @@
       .chvp-hero-intro,
       .chvp-hero-brief,
       .chvp-hero-images,
+      .chvp-hero-images .chvp-hero-image,
       .chvp-soft-reveal {
         animation: none;
         opacity: 1;
@@ -3126,7 +3162,7 @@
   <nav>
     <div class="nav-inner">
       <a href="/" aria-label="Home">
-        <img src="/images/logo.png" class="logo" width="50" height="50">
+        <img src="/images/logo.png" class="logo" width="50" height="50" alt="CAISH">
       </a>
       <ul class="nav-links">
         <li class="nav-has-dropdown"><a href="/fellowship">Courses <span class="nav-caret" aria-hidden="true"></span></a><ul class="nav-dropdown"><li><a href="/fellowship">Alignment Fellowship</a></li><li><a href="/policy">UK AI Policy Course</a></li></ul></li>
@@ -3196,7 +3232,7 @@
           <h1>Hardware Assurance Programme</h1>
         </div>
         <div class="chvp-hero-intro">
-          <p class="chvp-hero-summary">A one-week programme for people developing hardware-enabled verification of what chips are computing, where they are operating and at what scale.</p>
+          <p class="chvp-hero-summary">A six-day programme for people developing hardware-enabled verification of what chips are computing, where they are operating and at what scale.</p>
           <div class="chvp-hero-actions">
             <a href="https://airtable.com/app8d6sDud8MgJ4XD/pag0B3SAZzIizZ3Hb/form" class="btn-primary chvp-btn chvp-btn--solid" target="_blank" rel="noopener">Register interest</a>
             <p class="chvp-hero-meta-note">Hear when applications open for the next edition.</p>
@@ -3206,25 +3242,25 @@
       <div class="chvp-hero-brief" aria-label="Programme overview">
         <div class="chvp-hero-brief-item">
           <span class="chvp-hero-brief-number">30</span>
-          <span class="chvp-hero-brief-copy">people working to shape frontier AI workload verification</span>
+          <span class="chvp-hero-brief-copy">participants in the 2026 cohort</span>
         </div>
         <div class="chvp-hero-brief-item">
           <span class="chvp-hero-brief-number">£1,500</span>
-          <span class="chvp-hero-brief-copy">stipend, with travel and accommodation covered</span>
+          <span class="chvp-hero-brief-copy">stipend, with travel, accommodation and food covered</span>
         </div>
       </div>
       <div class="chvp-hero-images" aria-label="Scenes from the 2026 programme">
         <figure class="chvp-hero-image">
-          <img src="/images/hap-2026/hap26-hero-collaboration.jpg" alt="Participants working together around a laptop" loading="lazy">
+          <img src="/images/hap-2026/hap26-hero-collaboration.jpg" alt="Participants working together around a laptop" width="1600" height="1068" fetchpriority="high" decoding="async">
         </figure>
         <figure class="chvp-hero-image">
-          <img src="/images/hap-2026/hap26-hero-conversation.jpg" alt="Participants in conversation during the programme" loading="lazy">
+          <img src="/images/hap-2026/hap26-hero-conversation.jpg" alt="Participants in conversation during the programme" width="1600" height="1068" decoding="async">
         </figure>
         <figure class="chvp-hero-image">
-          <img src="/images/hap-2026/hap26-hero-workstations.jpg" alt="Participants working at their computers" loading="lazy">
+          <img src="/images/hap-2026/hap26-hero-workstations.jpg" alt="Participants working at their computers" width="1600" height="1069" loading="lazy" decoding="async">
         </figure>
         <figure class="chvp-hero-image">
-          <img src="/images/hap-2026/hap26-hero-presentation.jpg" alt="A participant presenting a final project at Churchill College" loading="lazy">
+          <img src="/images/hap-2026/hap26-hero-presentation.jpg" alt="A participant presenting a final project at Churchill College" width="1600" height="1068" loading="lazy" decoding="async">
         </figure>
       </div>
     </section>
@@ -3263,201 +3299,6 @@
             </div>
           </div>
         </article>
-      </div>
-    </section>
-
-    <div class="divider"><div class="divider-line"></div></div>
-
-    <!-- PROGRAMME -->
-    <section class="chvp-section" id="programme">
-      <div class="chvp-programme-lead">
-        <div class="chvp-programme-copy">
-          <span class="chvp-section-label">The week</span>
-          <h2>How it works</h2>
-          <p class="chvp-section-intro">Six days of talks, working sessions, and project work with researchers and practitioners building hardware assurance infrastructure. By Day 6, you present what you&rsquo;ve worked on.</p>
-        </div>
-        <div class="chvp-programme-image">
-          <img src="/images/hardware_image.jpg" alt="Participants demoing hardware verification work on a development board at Meridian" loading="lazy" decoding="async" width="2400" height="1600">
-        </div>
-      </div>
-
-      <div class="chvp-timeline">
-        <div class="chvp-timeline-item">
-          <span class="chvp-timeline-phase"><small>Before the week</small>4 weeks</span>
-          <div>
-            <p class="chvp-timeline-title">Preparation</p>
-            <p class="chvp-timeline-desc">Structured preparation so the cohort starts Day 1 with shared context. Four weeks out, an opening call and core reading list.<br>Two weeks out, small-group discussions to work through the readings and surface project interests.</p>
-          </div>
-        </div>
-        <div class="chvp-timeline-item">
-          <span class="chvp-timeline-phase"><small>Day</small>01</span>
-          <div>
-            <p class="chvp-timeline-title">Arrive and orient</p>
-            <p class="chvp-timeline-desc">Welcome and introductions. Meet the residents and the cohort.</p>
-          </div>
-        </div>
-        <div class="chvp-timeline-item">
-          <span class="chvp-timeline-phase"><small>Day</small>02</span>
-          <div>
-            <p class="chvp-timeline-title">Threat models and proposals</p>
-            <p class="chvp-timeline-desc">Threat models for chip-level verification, including how operators might try to defeat it. The proposals that have emerged so far, from compute accounting to location verification.</p>
-          </div>
-        </div>
-        <div class="chvp-timeline-item">
-          <span class="chvp-timeline-phase"><small>Day</small>03</span>
-          <div>
-            <p class="chvp-timeline-title">Technical deep dive I</p>
-            <p class="chvp-timeline-desc">Tamper resistance, confidential computing, root-of-trust primitives. Afternoons are project work plus drop-in office hours with the residents.</p>
-          </div>
-        </div>
-        <div class="chvp-timeline-item">
-          <span class="chvp-timeline-phase"><small>Day</small>04</span>
-          <div>
-            <p class="chvp-timeline-title">Technical deep dive II</p>
-            <p class="chvp-timeline-desc">Inference verification, attestation protocols, and cryptographic approaches including zero-knowledge proofs. Afternoons are project work plus one-to-one project reviews and feedback from the residents.</p>
-          </div>
-        </div>
-        <div class="chvp-timeline-item">
-          <span class="chvp-timeline-phase"><small>Day</small>05</span>
-          <div>
-            <p class="chvp-timeline-title">Who is building what</p>
-            <p class="chvp-timeline-desc">Organisations building in this space present their current work, the technical bottlenecks they are facing, and what they need. Time reserved for direct conversations about collaboration and hiring.</p>
-            <div class="chvp-timeline-logos">
-              <span class="chvp-timeline-logos-label">Talks from</span>
-              <a class="chvp-timeline-logo" href="https://futureoflife.org/" target="_blank" rel="noopener" aria-label="Future of Life Institute">
-                <img src="/images/orgs/fli.png" alt="Future of Life Institute" loading="lazy" class="chvp-logo-light" onerror="this.parentElement.style.display='none'">
-              </a>
-              <a class="chvp-timeline-logo" href="https://amododesign.com/" target="_blank" rel="noopener" aria-label="Amodo">
-                <img src="/images/orgs/amodo.png" alt="Amodo" loading="lazy" class="chvp-logo-light" onerror="this.parentElement.style.display='none'">
-              </a>
-              <a class="chvp-timeline-logo" href="https://tampersec.com/" target="_blank" rel="noopener" aria-label="Tampersec">
-                <img src="/images/orgs/tampersec.png" alt="Tampersec" loading="lazy" class="chvp-logo-light">
-              </a>
-              <a class="chvp-timeline-logo" href="https://seldonlab.com/" target="_blank" rel="noopener" aria-label="Seldon Lab">
-                <img src="/images/orgs/seldon.png" alt="Seldon Lab" loading="lazy" class="chvp-logo-light">
-              </a>
-              <a class="chvp-timeline-logo" href="https://coefficientgiving.org/" target="_blank" rel="noopener" aria-label="Coefficient Giving">
-                <img src="/images/orgs/coefficient.png" alt="Coefficient Giving" loading="lazy" class="chvp-logo-light">
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="chvp-timeline-item">
-          <span class="chvp-timeline-phase"><small>Day</small>06</span>
-          <div>
-            <p class="chvp-timeline-title">Present and plan what comes next</p>
-            <p class="chvp-timeline-desc">Present your work to peers, residents, and representatives from organisations building in the space.</p>
-            <p class="chvp-timeline-desc">The afternoon turns to what comes after the week. How to apply for <a href="https://coefficientgiving.org/funds/global-catastrophic-risks-opportunities/career-development-and-transition-funding/" target="_blank" rel="noopener">Coefficient Giving&rsquo;s Career Development and Transition Funding</a> if you&rsquo;re considering moving into the field, <a href="https://bluedot.org/programs/rapid-grants" target="_blank" rel="noopener">BlueDot Impact&rsquo;s Rapid Grants</a> (up to $10,000) for kicking off your own project, and time to plan with the organisations represented in the room.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="chvp-section chvp-gallery-shell" aria-label="Programme gallery">
-      <p style="font-family:'Space Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:#6b7570;margin:0 0 1rem;">Edition one &middot; Cambridge &middot; August 2026</p>
-      <div class="chvp-gallery-frame">
-        <div class="chvp-gallery">
-          <figure class="chvp-gallery-item chvp-gallery-item--wide">
-            <img src="/images/hap-2026/hap26-cohort.jpg" alt="The 2026 cohort outside Churchill College after the final presentations" loading="lazy" decoding="async" width="2000" height="1336">
-          </figure>
-          <figure class="chvp-gallery-item">
-            <img src="/images/hap-2026/hap26-talk.jpg" alt="A resident giving a chip IP and RTL verification talk" loading="lazy" decoding="async" width="1800" height="1202">
-          </figure>
-          <figure class="chvp-gallery-item">
-            <img src="/images/hap-2026/hap26-testbed.jpg" alt="Participants working around the programme testbed" loading="lazy" decoding="async" width="1800" height="1202">
-          </figure>
-          <figure class="chvp-gallery-item">
-            <img src="/images/hap-2026/hap26-churchill.jpg" alt="A final project presentation at Churchill College" loading="lazy" decoding="async" width="1800" height="1202">
-          </figure>
-        </div>
-      </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="chvp-section chvp-testimonials" aria-label="What participants said">
-      <h2>What participants said</h2>
-      <div class="chvp-quotes">
-        <blockquote class="chvp-quote">
-          <p>&ldquo;This programme is the best way to meet all the important people trying to make hardware assurance possible, and to work with professionals and experts on hardware security.&rdquo;</p>
-          <div class="chvp-quote-person"><span class="chvp-quote-photo chvp-quote-photo--thomas" aria-hidden="true"><img src="/images/hap-2026/testimonial-thomas.jpg" alt="" width="832" height="1248" loading="lazy"></span><cite>Thomas Pierson &middot; Carnegie Mellon University</cite></div>
-        </blockquote>
-        <blockquote class="chvp-quote">
-          <p>&ldquo;Flagship programme in verification; well organized; high-level participants and residents; very impactful for my research and strategy.&rdquo;</p>
-          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-anna.jpg" alt="" width="44" height="44" loading="lazy"><cite>Anna Katariina Wisakanto &middot; Senior Researcher at CARMA</cite></div>
-        </blockquote>
-        <blockquote class="chvp-quote">
-          <p>&ldquo;A great opportunity to test your appetite for this field in a small scale as part of a cohort of diverse and talented individuals.&rdquo;</p>
-          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-liam.jpg" alt="" width="44" height="44" loading="lazy"><cite>Liam Hamill &middot; Former software engineer at ARM</cite></div>
-        </blockquote>
-        <blockquote class="chvp-quote">
-          <p>&ldquo;The people joining the program had great energy and the organization of the full week was amazing.&rdquo;</p>
-          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-robert.jpg" alt="" width="44" height="44" loading="lazy"><cite>Robert Neijenhuis &middot; ASML</cite></div>
-        </blockquote>
-      </div>
-    </section>
-
-    <!-- Residents -->
-    <section class="chvp-section">
-      <span class="chvp-section-label">Residents</span>
-      <h2>Who you'll work with</h2>
-      <p class="chvp-section-intro">Residents are domain experts in hardware assurance who join the programme to give talks, run technical sessions, and give feedback on participant projects.</p>
-      <div class="chvp-residents">
-        <a class="chvp-resident" href="https://www.linkedin.com/in/peter-drotos-93955b187/" target="_blank" rel="noopener" aria-label="Péter Drótos on LinkedIn">
-          <img src="/images/mentors/peter-drotos.jpeg" alt="Péter Drótos" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
-          <div class="chvp-resident-info">
-            <h3>Péter Drótos</h3>
-            <p>Hardware Engineer at the Future of Life Institute. 8 years as an ASIC verification engineer at ARM.</p>
-          </div>
-        </a>
-        <a class="chvp-resident" href="https://www.linkedin.com/in/yannick-m%C3%BChlh%C3%A4user-719962224/" target="_blank" rel="noopener" aria-label="Yannick Mühlhäuser on LinkedIn">
-          <img src="/images/mentors/yannick.jpeg" alt="Yannick Mühlhäuser" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
-          <div class="chvp-resident-info">
-            <h3>Yannick Mühlhäuser</h3>
-            <p>Policy Researcher at the Future of Life Institute.</p>
-          </div>
-        </a>
-        <a class="chvp-resident" href="https://www.linkedin.com/in/naci-cankaya-26962a311/" target="_blank" rel="noopener" aria-label="Naci Cankaya on LinkedIn">
-          <img src="/images/mentors/naci-cankaya.jpeg" alt="Naci Cankaya" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
-          <div class="chvp-resident-info">
-            <h3>Naci Cankaya</h3>
-            <p>Technical AI Governance Researcher at the Machine Intelligence Research Institute.</p>
-          </div>
-        </a>
-        <a class="chvp-resident" href="https://www.linkedin.com/in/daniel-reuter-6040a821b/" target="_blank" rel="noopener" aria-label="Daniel Reuter on LinkedIn">
-          <img src="/images/mentors/daniel-reuter.jpeg" alt="Daniel Reuter" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
-          <div class="chvp-resident-info">
-            <h3>Daniel Reuter</h3>
-            <p>MATS Scholar (Machine Alignment, Transparency and Security).</p>
-          </div>
-        </a>
-        <a class="chvp-resident" href="https://www.linkedin.com/in/mehmetsencan/" target="_blank" rel="noopener" aria-label="Mehmet Sencan on LinkedIn">
-          <img src="/images/mentors/mehmet-sencan.jpeg" alt="Mehmet Sencan" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
-          <div class="chvp-resident-info">
-            <h3>Mehmet Sencan</h3>
-            <p>CEO at Earendil.</p>
-          </div>
-        </a>
-        <div class="chvp-resident">
-          <img src="/images/mentors/tom-gardiner.jpg" alt="Tom Gardiner" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
-          <div class="chvp-resident-info">
-            <h3>Tom Gardiner</h3>
-            <p>Staff Director &ndash; Intelligence Security Labs.</p>
-          </div>
-        </div>
-        <a class="chvp-resident" href="https://www.birmingham.ac.uk/staff/profiles/computer-science/academic-staff/berrang-pascal" target="_blank" rel="noopener" aria-label="Pascal Berrang at the University of Birmingham">
-          <img src="/images/mentors/pascal-berrang.jpeg" alt="Pascal Berrang" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
-          <div class="chvp-resident-info">
-            <h3>Pascal Berrang</h3>
-            <p>Associate Professor in Computer Science at the University of Birmingham.</p>
-          </div>
-        </a>
-        <div class="chvp-resident">
-          <img src="/images/mentors/will-hodgkins.jpg" alt="Will Hodgkins" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
-          <div class="chvp-resident-info">
-            <h3>Will Hodgkins</h3>
-            <p>Senior Researcher at the Institute for AI Policy and Strategy.</p>
-          </div>
-        </div>
       </div>
     </section>
 
@@ -3505,11 +3346,98 @@
 
     <div class="divider"><div class="divider-line"></div></div>
 
+    <!-- PROGRAMME -->
+    <section class="chvp-section" id="programme">
+      <div class="chvp-programme-lead">
+        <div class="chvp-programme-copy">
+          <span class="chvp-section-label">The week</span>
+          <h2>How it works</h2>
+          <p class="chvp-section-intro">Six days of talks, working sessions, and project work with researchers and practitioners building hardware assurance infrastructure. By Day 6, you present what you&rsquo;ve worked on.</p>
+        </div>
+        <div class="chvp-programme-image">
+          <img src="/images/hardware_image.jpg" alt="Participants demoing hardware verification work on a development board at Meridian" loading="lazy" decoding="async" width="2400" height="1600">
+        </div>
+      </div>
+
+      <div class="chvp-timeline">
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase"><small>Before the week</small>4 weeks</span>
+          <div>
+            <p class="chvp-timeline-title">Preparation</p>
+            <p class="chvp-timeline-desc">Structured preparation so the cohort starts Day 1 with shared context. Four weeks out, an opening call and core reading list.<br>Two weeks out, small-group discussions to work through the readings and surface project interests.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase"><small>Day</small>01</span>
+          <div>
+            <p class="chvp-timeline-title">Arrive and orient</p>
+            <p class="chvp-timeline-desc">Welcome and introductions. Hardware orientation and an introduction to AI verification. Meet the residents and the cohort, then start project work.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase"><small>Day</small>02</span>
+          <div>
+            <p class="chvp-timeline-title">Threat models and proposals</p>
+            <p class="chvp-timeline-desc">Threat models for chip-level verification, including how operators might try to defeat it. The proposals that have emerged so far, from compute accounting to location verification.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase"><small>Day</small>03</span>
+          <div>
+            <p class="chvp-timeline-title">Tamper resistance and confidential computing</p>
+            <p class="chvp-timeline-desc">Tamper resistance, confidential computing, root-of-trust primitives. Afternoons are project work plus drop-in office hours with the residents.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase"><small>Day</small>04</span>
+          <div>
+            <p class="chvp-timeline-title">Inference verification and cryptography</p>
+            <p class="chvp-timeline-desc">Inference verification, attestation protocols, and cryptographic approaches including zero-knowledge proofs. Afternoons are project work plus one-to-one project reviews and feedback from the residents.</p>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase"><small>Day</small>05</span>
+          <div>
+            <p class="chvp-timeline-title">Who is building what</p>
+            <p class="chvp-timeline-desc">Organisations building in this space present their current work, the technical bottlenecks they are facing, and what they need. Time reserved for direct conversations about collaboration and hiring.</p>
+            <div class="chvp-timeline-logos">
+              <span class="chvp-timeline-logos-label">Talks from</span>
+              <a class="chvp-timeline-logo" href="https://futureoflife.org/" target="_blank" rel="noopener" aria-label="Future of Life Institute">
+                <img src="/images/orgs/fli.png" alt="Future of Life Institute" loading="lazy" class="chvp-logo-light" onerror="this.parentElement.style.display='none'">
+              </a>
+              <a class="chvp-timeline-logo" href="https://amododesign.com/" target="_blank" rel="noopener" aria-label="Amodo">
+                <img src="/images/orgs/amodo.png" alt="Amodo" loading="lazy" class="chvp-logo-light" onerror="this.parentElement.style.display='none'">
+              </a>
+              <a class="chvp-timeline-logo" href="https://tampersec.com/" target="_blank" rel="noopener" aria-label="TamperSec">
+                <img src="/images/orgs/tampersec.png" alt="TamperSec" loading="lazy" class="chvp-logo-light">
+              </a>
+              <a class="chvp-timeline-logo" href="https://seldonlab.com/" target="_blank" rel="noopener" aria-label="Seldon Lab">
+                <img src="/images/orgs/seldon.png" alt="Seldon Lab" loading="lazy" class="chvp-logo-light">
+              </a>
+              <a class="chvp-timeline-logo" href="https://coefficientgiving.org/" target="_blank" rel="noopener" aria-label="Coefficient Giving">
+                <img src="/images/orgs/coefficient.png" alt="Coefficient Giving" loading="lazy" class="chvp-logo-light">
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="chvp-timeline-item">
+          <span class="chvp-timeline-phase"><small>Day</small>06</span>
+          <div>
+            <p class="chvp-timeline-title">Present and plan what comes next</p>
+            <p class="chvp-timeline-desc">Present your work to peers, residents, and representatives from organisations building in the space.</p>
+            <p class="chvp-timeline-desc">The afternoon turns to what comes after the week. How to apply for <a href="https://coefficientgiving.org/funds/global-catastrophic-risks-opportunities/career-development-and-transition-funding/" target="_blank" rel="noopener">Coefficient Giving&rsquo;s Career Development and Transition Funding</a> if you&rsquo;re considering moving into the field, <a href="https://bluedot.org/programs/rapid-grants" target="_blank" rel="noopener">BlueDot Impact&rsquo;s Rapid Grants</a> (up to $10,000) for kicking off your own project, and time to plan with the organisations represented in the room.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"><div class="divider-line"></div></div>
+
     <!-- OPEN PROBLEMS -->
     <section class="chvp-section">
       <span class="chvp-section-label">What you'd work on</span>
       <h2>Open problems</h2>
-      <p class="chvp-section-intro">Some examples of open problems. Participants spend the week tackling one and present their work on Day 6.</p>
+      <p class="chvp-section-intro">Some examples of open problems. Participants spend the week tackling one of these, or an idea of their own, and present their work on Day 6.</p>
 
       <div class="chvp-problems">
         <article class="chvp-problem">
@@ -3532,15 +3460,116 @@
           <h3>Workload classification from hardware telemetry</h3>
           <p>Can you determine what a chip is doing from external signals like power draw, memory access patterns, and network traffic, without seeing the workload itself?</p>
         </article>
-        <article class="chvp-problem chvp-problem--center">
-          <span class="chvp-problem-num">05</span>
-          <h3>Your own idea</h3>
-          <p>Use the pre-work to scope it. Use the week to build the first version, with feedback from the residents and peers.</p>
-        </article>
       </div>
     </section>
 
-    <div class="divider"><div class="divider-line"></div></div>
+    <section class="chvp-section chvp-gallery-shell" aria-label="Programme gallery">
+      <p class="chvp-gallery-kicker">Edition one · Cambridge · August 2026</p>
+      <div class="chvp-gallery-frame">
+        <div class="chvp-gallery">
+          <figure class="chvp-gallery-item chvp-gallery-item--wide">
+            <img src="/images/hap-2026/hap26-cohort.jpg" alt="The 2026 cohort outside Churchill College after the final presentations" loading="lazy" decoding="async" width="2000" height="1336">
+          </figure>
+          <figure class="chvp-gallery-item">
+            <img src="/images/hap-2026/hap26-talk.jpg" alt="A resident giving a chip IP and RTL verification talk" loading="lazy" decoding="async" width="1800" height="1202">
+          </figure>
+          <figure class="chvp-gallery-item">
+            <img src="/images/hap-2026/hap26-testbed.jpg" alt="Participants working around the programme testbed" loading="lazy" decoding="async" width="1800" height="1202">
+          </figure>
+          <figure class="chvp-gallery-item">
+            <img src="/images/hap-2026/hap26-churchill.jpg" alt="A final project presentation at Churchill College" loading="lazy" decoding="async" width="1800" height="1202">
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="chvp-section chvp-testimonials" aria-label="What participants said">
+      <h2>What participants said</h2>
+      <div class="chvp-quotes">
+        <blockquote class="chvp-quote">
+          <p>&ldquo;This programme is the best way to meet all the important people trying to make hardware assurance possible, and to work with professionals and experts on hardware security.&rdquo;</p>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-thomas-headshot.jpg" alt="" width="48" height="48" loading="lazy"><cite>Thomas Pierson &middot; Carnegie Mellon University</cite></div>
+        </blockquote>
+        <blockquote class="chvp-quote">
+          <p>&ldquo;A flagship programme in verification. Well organised, with high-level participants and residents, and very impactful for my research and strategy.&rdquo;</p>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-anna.jpg" alt="" width="44" height="44" loading="lazy"><cite>Anna Katariina Wisakanto &middot; Senior Researcher at CARMA</cite></div>
+        </blockquote>
+        <blockquote class="chvp-quote">
+          <p>&ldquo;A great opportunity to test your appetite for this field at small scale, as part of a cohort of diverse and talented individuals.&rdquo;</p>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-liam.jpg" alt="" width="44" height="44" loading="lazy"><cite>Liam Hamill &middot; Former software engineer at Arm</cite></div>
+        </blockquote>
+        <blockquote class="chvp-quote">
+          <p>&ldquo;The people joining the programme had great energy and the organisation of the full week was amazing.&rdquo;</p>
+          <div class="chvp-quote-person"><img src="/images/hap-2026/testimonial-robert.jpg" alt="" width="44" height="44" loading="lazy"><cite>Robert Neijenhuis &middot; ASML</cite></div>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- Residents -->
+    <section class="chvp-section">
+      <span class="chvp-section-label">Residents</span>
+      <h2>Who you'll work with</h2>
+      <p class="chvp-section-intro">Residents are domain experts in hardware-enabled verification who join the programme to give talks, run technical sessions, and give feedback on participant projects.</p>
+      <div class="chvp-residents">
+        <a class="chvp-resident" href="https://www.linkedin.com/in/peter-drotos-93955b187/" target="_blank" rel="noopener" aria-label="Péter Drótos on LinkedIn">
+          <img src="/images/mentors/peter-drotos.jpeg" alt="Péter Drótos" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Péter Drótos</h3>
+            <p>Hardware Engineer at the Future of Life Institute. Eight years as an ASIC verification engineer at Arm.</p>
+          </div>
+        </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/yannick-m%C3%BChlh%C3%A4user-719962224/" target="_blank" rel="noopener" aria-label="Yannick Mühlhäuser on LinkedIn">
+          <img src="/images/mentors/yannick.jpeg" alt="Yannick Mühlhäuser" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Yannick Mühlhäuser</h3>
+            <p>Policy Researcher at the Future of Life Institute and the Oxford AI Governance Initiative.</p>
+          </div>
+        </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/naci-cankaya-26962a311/" target="_blank" rel="noopener" aria-label="Naci Cankaya on LinkedIn">
+          <img src="/images/mentors/naci-cankaya.jpeg" alt="Naci Cankaya" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Naci Cankaya</h3>
+            <p>Technical AI Governance Researcher at the Machine Intelligence Research Institute.</p>
+          </div>
+        </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/daniel-reuter-6040a821b/" target="_blank" rel="noopener" aria-label="Daniel Reuter on LinkedIn">
+          <img src="/images/mentors/daniel-reuter.jpeg" alt="Daniel Reuter" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Daniel Reuter</h3>
+            <p>MATS Scholar (Machine Alignment, Transparency and Security).</p>
+          </div>
+        </a>
+        <a class="chvp-resident" href="https://www.linkedin.com/in/mehmetsencan/" target="_blank" rel="noopener" aria-label="Mehmet Sencan on LinkedIn">
+          <img src="/images/mentors/mehmet-sencan.jpeg" alt="Mehmet Sencan" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Mehmet Sencan</h3>
+            <p>Founder and CEO at Earendil.</p>
+          </div>
+        </a>
+        <div class="chvp-resident">
+          <img src="/images/mentors/tom-gardiner.jpg" alt="Tom Gardiner" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Tom Gardiner</h3>
+            <p>Staff Director &ndash; Intelligence Security Labs.</p>
+          </div>
+        </div>
+        <a class="chvp-resident" href="https://www.birmingham.ac.uk/staff/profiles/computer-science/academic-staff/berrang-pascal" target="_blank" rel="noopener" aria-label="Pascal Berrang at the University of Birmingham">
+          <img src="/images/mentors/pascal-berrang.jpeg" alt="Pascal Berrang" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Pascal Berrang</h3>
+            <p>Associate Professor in Computer Science at the University of Birmingham.</p>
+          </div>
+        </a>
+        <div class="chvp-resident">
+          <img src="/images/mentors/will-hodgkins.jpg" alt="Will Hodgkins" class="chvp-resident-photo" width="144" height="144" loading="lazy" decoding="async">
+          <div class="chvp-resident-info">
+            <h3>Will Hodgkins</h3>
+            <p>Senior Researcher at the Institute for AI Policy and Strategy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- APPLY -->
     <section class="chvp-eoi" id="apply">
@@ -3588,13 +3617,7 @@
       init() {
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-        const elements = document.querySelectorAll([
-          '.chvp-twin-panels',
-          '.chvp-programme-lead',
-          '.chvp-gallery-frame',
-          '.chvp-testimonials',
-          '.chvp-eoi-card'
-        ].join(','));
+        const elements = document.querySelectorAll('main > .chvp-section, .chvp-eoi');
 
         const observer = new IntersectionObserver(entries => {
           entries.forEach(entry => {
@@ -3602,10 +3625,15 @@
             entry.target.classList.add('is-visible');
             observer.unobserve(entry.target);
           });
-        }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+        }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
 
         elements.forEach(element => {
+          const top = element.getBoundingClientRect().top;
           element.classList.add('chvp-soft-reveal');
+          if (top < window.innerHeight * 0.9) {
+            element.classList.add('is-visible');
+            return;
+          }
           observer.observe(element);
         });
       }
@@ -3640,14 +3668,14 @@
 
             remainingPages.forEach((page, index) => {
               const slot = index + 1;
-              const tilt = slot % 2 ? '0.85deg' : '-0.65deg';
-              const y = slot % 2 ? '-0.08rem' : '0.12rem';
+              const tilt = slot % 2 ? '0.7deg' : '-0.55deg';
+              const y = slot % 2 ? '-0.06rem' : '0.1rem';
 
               page.style.setProperty('--deck-slot', slot);
               page.style.setProperty('--deck-y', y);
               page.style.setProperty('--deck-tilt', tilt);
               page.style.zIndex = pages.length - index;
-              page.title = 'Bring this source forward';
+              page.title = 'Open this source';
             });
           };
 
@@ -3657,33 +3685,21 @@
             let previewTimer;
 
             page.addEventListener('pointerenter', () => {
-              if (page.classList.contains('is-active')) return;
               window.clearTimeout(previewTimer);
+              if (page.classList.contains('is-active')) return;
               previewTimer = window.setTimeout(() => {
-                page.classList.add('is-preview');
-              }, 220);
+                setActivePage(page);
+              }, 180);
             });
 
             page.addEventListener('pointerleave', () => {
               window.clearTimeout(previewTimer);
-              page.classList.remove('is-preview');
             });
 
             page.addEventListener('focus', () => {
               if (!page.classList.contains('is-active')) {
-                page.classList.add('is-preview');
+                setActivePage(page);
               }
-            });
-
-            page.addEventListener('blur', () => {
-              page.classList.remove('is-preview');
-            });
-
-            page.addEventListener('click', event => {
-              if (page.classList.contains('is-active')) return;
-
-              event.preventDefault();
-              setActivePage(page);
             });
           });
         });
