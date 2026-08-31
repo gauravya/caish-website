@@ -98,6 +98,18 @@
 
 # Redirect /gaurav to booking page
 [[redirects]]
+  from = "/hap"
+  to = "/hardware"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/hap/*"
+  to = "/hardware"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/gaurav"
   to = "https://calendar.caish.org/gaurav/meet"
   status = 301
