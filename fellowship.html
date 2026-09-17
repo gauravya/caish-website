@@ -38,7 +38,7 @@
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
   <!-- Critical CSS - Inline for instant first paint -->
   <style>
@@ -68,7 +68,7 @@
   <!-- Styles (async) -->
   <noscript><link rel="stylesheet" href="/styles.css?v=3df3c1ef"></noscript>
 
-  <link rel="stylesheet" href="/fellowship.css?v=0d2e9d55">
+  <link rel="stylesheet" href="/fellowship.css?v=ea94e65e">
 
   <!-- Enhancements -->
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
@@ -149,32 +149,27 @@
   <div class="ambient-glow" aria-hidden="true"></div>
   <main>
   <section class="page-header fellowship-header" id="main-content">
-    <div class="fellowship-hero-top">
-      <h1>The Alignment Fellowship</h1>
-      <div class="fellowship-intro">
-        <p class="fellowship-summary">A five-week course introducing students and working professionals to the fundamental concepts in AI safety.</p>
-        <p class="fellowship-location">In person in Cambridge. Free to attend.</p>
-        <div class="fellowship-hero-actions">
-          <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagq1tlxzlpcQi1rc/form" class="btn-primary" target="_blank" rel="noopener">Register interest</a>
-          <p class="fellowship-status">Applications closed. Register your interest for the next cohort.</p>
-        </div>
+    <div class="fellowship-hero-copy">
+      <p class="fellowship-eyebrow">Cambridge AI Safety Hub</p>
+      <h1>The Alignment <em>Fellowship</em></h1>
+      <p class="fellowship-summary">A five-week course introducing students and working professionals to the fundamental concepts in AI safety.</p>
+      <div class="fellowship-hero-actions">
+        <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagq1tlxzlpcQi1rc/form" class="btn-primary" target="_blank" rel="noopener">Register interest</a>
+        <p class="fellowship-status">Applications closed</p>
       </div>
+      <ul class="fellowship-facts" aria-label="Programme overview">
+        <li>In person, Cambridge</li><li>3–5 hours a week</li><li>Free to attend</li>
+      </ul>
     </div>
-    <div class="fellowship-facts" aria-label="Programme overview">
-      <div><span class="fellowship-fact-number">5</span><span class="fellowship-fact-copy">weeks of readings and small-group discussions</span></div>
-      <div><span class="fellowship-fact-number">3–5</span><span class="fellowship-fact-copy">hours a week, across sessions and preparation</span></div>
-    </div>
-    <div class="fellowship-photo-strip" aria-label="At Meridian, Cambridge">
-      <figure><img src="/images/meridian-1.jpg" alt="People in conversation in the Meridian event space" width="5616" height="3744" fetchpriority="high" decoding="async"></figure>
-      <figure><img src="/images/meridian-3.jpg" alt="People talking around a table at Meridian" width="5616" height="3744" decoding="async"></figure>
-      <figure><img src="/images/meridian-2.jpg" alt="A participant working at a desk at Meridian" width="5616" height="3744" decoding="async"></figure>
+    <div class="fellowship-photo-story" aria-label="At Meridian, Cambridge">
+      <figure class="fellowship-photo-main"><img src="/images/meridian-3.jpg" alt="People talking around a table at Meridian" width="5616" height="3744" fetchpriority="high" decoding="async"></figure>
+      <figure class="fellowship-photo-conversation"><img src="/images/meridian-1.jpg" alt="People in conversation in the Meridian event space" width="5616" height="3744" decoding="async"></figure>
+      <figure class="fellowship-photo-study"><img src="/images/meridian-2.jpg" alt="A participant working at a desk at Meridian" width="5616" height="3744" decoding="async"></figure>
+      <p class="fellowship-photo-caption">At Meridian, Cambridge</p>
     </div>
   </section>
 
-  <section class="fellowship-section">
-    <div class="fellowship-content">
-
-
+  <section class="fellowship-about">
       <div class="fellowship-overview" id="programme">
         <div><h2>What the fellowship is</h2><p class="fellowship-tagline"><em>How do we navigate the next decade safely?</em></p></div>
         <div>
@@ -182,6 +177,12 @@
           <p>Both tracks cover how AI systems might become misaligned with human goals, how they might acquire power, and what's at stake if they do.</p>
         </div>
       </div>
+  </section>
+
+  <section class="fellowship-section">
+    <div class="fellowship-content">
+
+
       <div class="fellowship-section-heading" id="tracks"><h2>Two tracks</h2></div>
       <div class="fellowship-tracks">
         <div class="track">
