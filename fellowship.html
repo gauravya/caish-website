@@ -38,7 +38,7 @@
   <link rel="preload" href="https://fonts.gstatic.com/s/spacemono/v14/i7dPIFZifjKcF5UAWdDRYEF8RQ.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&display=swap" rel="stylesheet">
 
   <!-- Critical CSS - Inline for instant first paint -->
   <style>
@@ -68,7 +68,7 @@
   <!-- Styles (async) -->
   <noscript><link rel="stylesheet" href="/styles.css?v=3df3c1ef"></noscript>
 
-  <link rel="stylesheet" href="/fellowship.css?v=1">
+  <link rel="stylesheet" href="/fellowship.css?v=0d2e9d55">
 
   <!-- Enhancements -->
   <script src="/enhancements.js?v=6290bc0f" defer fetchpriority="low"></script>
@@ -149,28 +149,25 @@
   <div class="ambient-glow" aria-hidden="true"></div>
   <main>
   <section class="page-header fellowship-header" id="main-content">
-    <div class="fellowship-intro">
-      <p class="fellowship-eyebrow">Cambridge AI Safety Hub</p>
-      <h1>The Alignment<br>Fellowship</h1>
-      <p class="fellowship-tagline"><em>How do we navigate the next decade safely?</em></p>
-      <p class="fellowship-summary">A five-week course introducing students and working professionals to the fundamental concepts in AI safety.</p>
-      <div class="fellowship-hero-actions">
-        <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagq1tlxzlpcQi1rc/form" class="btn-primary" target="_blank" rel="noopener">Register interest</a>
-        <span class="fellowship-status">Applications closed</span>
+    <div class="fellowship-hero-top">
+      <h1>The Alignment Fellowship</h1>
+      <div class="fellowship-intro">
+        <p class="fellowship-summary">A five-week course introducing students and working professionals to the fundamental concepts in AI safety.</p>
+        <p class="fellowship-location">In person in Cambridge. Free to attend.</p>
+        <div class="fellowship-hero-actions">
+          <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagq1tlxzlpcQi1rc/form" class="btn-primary" target="_blank" rel="noopener">Register interest</a>
+          <p class="fellowship-status">Applications closed. Register your interest for the next cohort.</p>
+        </div>
       </div>
     </div>
-    <figure class="fellowship-cover">
-      <img src="/images/meridian-3.jpg" alt="People talking around a table at Meridian" width="5616" height="3744" fetchpriority="high" decoding="async">
-      <figcaption>At Meridian, Cambridge</figcaption>
-    </figure>
-    <dl class="fellowship-facts">
-      <div><dt>Format</dt><dd>In person, Cambridge</dd></div>
-      <div><dt>Duration</dt><dd>Five weeks</dd></div>
-      <div><dt>Commitment</dt><dd>3–5 hours a week</dd></div>
-      <div><dt>Cost</dt><dd>Free to attend</dd></div>
-    </dl>
-    <div class="fellowship-jump-links" aria-label="On this page">
-      <a href="#programme">The programme</a><a href="#tracks">The tracks</a><a href="#past-fellows">Past fellows</a><a href="#fellowship-faq-title">Common questions</a>
+    <div class="fellowship-facts" aria-label="Programme overview">
+      <div><span class="fellowship-fact-number">5</span><span class="fellowship-fact-copy">weeks of readings and small-group discussions</span></div>
+      <div><span class="fellowship-fact-number">3–5</span><span class="fellowship-fact-copy">hours a week, across sessions and preparation</span></div>
+    </div>
+    <div class="fellowship-photo-strip" aria-label="At Meridian, Cambridge">
+      <figure><img src="/images/meridian-1.jpg" alt="People in conversation in the Meridian event space" width="5616" height="3744" fetchpriority="high" decoding="async"></figure>
+      <figure><img src="/images/meridian-3.jpg" alt="People talking around a table at Meridian" width="5616" height="3744" decoding="async"></figure>
+      <figure><img src="/images/meridian-2.jpg" alt="A participant working at a desk at Meridian" width="5616" height="3744" decoding="async"></figure>
     </div>
   </section>
 
@@ -179,7 +176,7 @@
 
 
       <div class="fellowship-overview" id="programme">
-        <h2>What the fellowship is</h2>
+        <div><h2>What the fellowship is</h2><p class="fellowship-tagline"><em>How do we navigate the next decade safely?</em></p></div>
         <div>
           <p>Each week, you'll do assigned readings and meet to discuss them with a small cohort. Depending on your background and interest, we offer a technical track and a governance track.</p>
           <p>Both tracks cover how AI systems might become misaligned with human goals, how they might acquire power, and what's at stake if they do.</p>
@@ -233,10 +230,6 @@
 
       <p class="fellowship-meals">Meals are provided for each session.</p>
 
-      <div class="meridian-gallery">
-        <figure><img src="/images/meridian-1.jpg" alt="People in conversation in the Meridian event space" loading="lazy" decoding="async" width="5616" height="3744"></figure>
-        <figure><img src="/images/meridian-2.jpg" alt="A participant working at a desk at Meridian" loading="lazy" decoding="async" width="5616" height="3744"></figure>
-      </div>
 
       <h2 class="fellowship-expectations-title">What we expect from you</h2>
       <p>We invest significant time and resources into each cohort, with talks from leading researchers, one-on-one career support, dinners, and access to the Cambridge AI safety community. In return, we ask that you invest too.</p>
@@ -497,14 +490,18 @@
         </div>
         <p class="faq-footer">If you have questions that are not addressed here, please email hello (at) caish (dot) org.</p>
       </div>
-      <div class="fellowship-application">
+
+    </div>
+  </section>
+  <section class="fellowship-application">
+    <div class="fellowship-application-inner">
+      <div class="fellowship-application-copy">
         <h2>Applications closed</h2>
         <p>Register your interest for the next cohort.</p>
-        <div class="btn-wrapper">
+      </div>
+      <div class="btn-wrapper">
           <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagq1tlxzlpcQi1rc/form" class="btn-primary" target="_blank" rel="noopener">Register interest</a>
         </div>
-      </div>
-
     </div>
   </section>
   </main>
@@ -557,7 +554,7 @@
         const toggle = document.getElementById('fellows-toggle');
         const setExpanded = (expanded) => {
           cols.forEach(col => col.querySelectorAll('.fellow').forEach((fellow, index) => {
-            fellow.hidden = !expanded && index >= 3;
+            fellow.hidden = !expanded && index >= 4;
           }));
           toggle.setAttribute('aria-expanded', String(expanded));
           toggle.textContent = expanded ? 'Show fewer fellows' : 'View all fellows';
