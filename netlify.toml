@@ -149,6 +149,13 @@
   status = 301
   force = true
 
+# Opening talk — short link to the current term's Luma event (302 so it can be repointed)
+[[redirects]]
+  from = "/talk"
+  to = "https://luma.com/dw0ym13f"
+  status = 302
+  force = true
+
 # Hiring page — keep old careers links working
 [[redirects]]
   from = "/careers"
