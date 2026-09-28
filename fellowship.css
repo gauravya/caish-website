@@ -161,9 +161,11 @@ body.fellowship-page {
 .fellowship-testimonials { width: 100%; max-width: var(--max-width); margin: 0 auto; padding: 44px 40px 8px; }
 .testimonials-inner { border-top: 1px solid var(--fellowship-rule); padding-top: 36px; }
 .fellowship-page .testimonials-inner h2 { font-size: clamp(1.8rem,2.7vw,2.2rem); line-height: 1.25; margin: 0 0 28px; }
-.testimonials-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
-.testimonial { display: flex; flex-direction: column; min-width: 0; margin: 0; padding-right: 32px; }
-.testimonial + .testimonial { padding-left: 32px; padding-right: 0; border-left: 1px solid var(--fellowship-line); }
+.testimonials-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); }
+.testimonial { display: flex; flex-direction: column; min-width: 0; margin: 0; padding: 0 24px; }
+.testimonial:first-child { padding-left: 0; }
+.testimonial:last-child { padding-right: 0; }
+.testimonial + .testimonial { border-left: 1px solid var(--fellowship-line); }
 .testimonial-mark { display: block; height: 44px; font-family: var(--fellowship-serif); font-size: 4rem; font-weight: 400; line-height: 1; color: var(--fellowship-rule); }
 .fellowship-page .testimonial blockquote { margin: 0 0 28px; padding: 0; border: 0; background: none; }
 .fellowship-page .testimonial blockquote p { font-family: var(--fellowship-serif); font-size: clamp(1.15rem,1.8vw,1.35rem); line-height: 1.55; letter-spacing: -.01em; color: var(--fellowship-ink); margin: 0; }
@@ -270,6 +272,10 @@ body.fellowship-page {
 .fellowship-overview::after { top: auto; bottom: -1px; }
 
 @media(max-width:1000px) {
+  .testimonials-grid { grid-template-columns: repeat(2,minmax(0,1fr)); row-gap: 28px; }
+  .testimonial:nth-child(2) { padding-right: 0; }
+  .testimonial:last-child { grid-column: 1 / -1; padding: 28px 0 0; border-left: 0; border-top: 1px solid var(--fellowship-line); }
+  .testimonial:last-child blockquote { max-width: 64ch; }
   .fellowship-page .nav-links { display: none; }
   .fellowship-page .nav-toggle { display: block; }
   .fellowship-page .fellowship-header { gap: 36px; }
@@ -315,7 +321,7 @@ body.fellowship-page {
   .fellowship-testimonials { padding: 32px 24px 0; }
   .testimonials-inner { padding-top: 28px; }
   .testimonials-grid { grid-template-columns: 1fr; gap: 28px; }
-  .testimonial { padding-right: 0; }
+  .testimonial { padding: 0; }
   .testimonial + .testimonial { padding: 28px 0 0; border-left: 0; border-top: 1px solid var(--fellowship-line); }
   .fellowship-page .testimonial blockquote { margin-bottom: 22px; }
   .fellowship-page .feature { grid-template-columns: 28px minmax(0,1fr); gap: 14px; }
