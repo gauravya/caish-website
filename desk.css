@@ -1,0 +1,497 @@
+/* Refinements to the existing Alignment Desk layout and typefaces. */
+body.desk-page { background: #faf8f4; }
+.desk-page::after { display: none; }
+.desk-page .page-header.fellowship-header { padding-bottom: 1.75rem; }
+.desk-page .fellowship-header h1 { margin-bottom: 1rem; }
+.desk-page .desk-facts { row-gap: .5rem; margin-top: 1.1rem; }
+.desk-page .desk-actions { gap: .8rem; margin-top: 1.6rem; }
+.desk-page .desk-actions .btn-primary { box-shadow: none; animation: none; }
+.desk-page .desk-actions .btn-secondary { background: transparent; border-color: #cdc9c3; }
+.desk-page .desk-deadline { font-size: .8125rem; color: #555; margin-top: 1rem; }
+.desk-page .divider-line { background: #dedbd6; height: 1px; }
+.desk-page .desk-intro { display: grid; grid-template-columns: 1.3fr 1fr; align-items: center; gap: 3rem; margin-bottom: 2.5rem; }
+.desk-page .desk-intro-copy p { font-size: .95rem; line-height: 1.9; }
+.desk-page .desk-intro-copy p:last-child { margin-bottom: 0; }
+.desk-page .desk-intro .fellowship-image { float: none; width: 100%; max-width: 330px; margin: 0 0 0 auto; }
+.desk-page #participants { scroll-margin-top: 100px; }
+.desk-page #who-this-is-for, .desk-page #what-this-is { scroll-margin-top: 100px; }
+.desk-page .desk-audience-copy { width: 100%; max-width: none; margin: 0; }
+.desk-page .desk-audience-row {
+  display: grid;
+  grid-template-columns: 10rem minmax(0, 1fr);
+  gap: 2rem;
+  padding: 1.3rem 0;
+  border-top: 1px solid #ded8cf;
+}
+.desk-page .desk-audience-row:last-child { border-bottom: 1px solid #ded8cf; }
+.desk-page .desk-audience-row dt {
+  font: 400 1.05rem/1.65 'Libre Baskerville', Georgia, serif;
+  color: #39352f;
+}
+.desk-page .desk-audience-row dd {
+  min-width: 0;
+  margin: 0;
+  color: #595550;
+  font-size: .9rem;
+  line-height: 1.85;
+}
+@media (max-width: 600px) {
+  .desk-page .desk-audience-row { grid-template-columns: 1fr; gap: .4rem; padding: 1.15rem 0; }
+}
+.desk-page .desk-audience-copy a,
+.desk-page .desk-participant-bio a {
+  color: #704c3d;
+  text-decoration: underline;
+  text-decoration-color: #b5a599;
+  text-underline-offset: .18em;
+}
+.desk-page .desk-audience-copy a:hover,
+.desk-page .desk-participant-bio a:hover { color: #39352f; text-decoration-color: currentColor; }
+.desk-page .fellowship-content > h2 { margin-top: 3rem; margin-bottom: 1.4rem; }
+.desk-page .desk-participants { gap: 1.4rem; margin: 1.5rem 0 3rem; }
+.desk-page .desk-participant, .desk-page .desk-participant:hover, .desk-page .desk-guest {
+  background: #fff; border: 1px solid #dcdad6; border-radius: 10px; box-shadow: none; transform: none;
+}
+.desk-page .desk-participant { display: flex; flex-direction: column; gap: 1.2rem; padding: 1.5rem; transition: border-color .15s ease; }
+.desk-page .desk-participant:hover { border-color: #bcb8b2; }
+.desk-page .desk-person-header { display: flex; align-items: center; gap: 1rem; }
+.desk-page .desk-participant-photo { flex: 0 0 64px; }
+.desk-page .desk-participant-photo img { width: 64px; height: 64px; border-radius: 7px; }
+.desk-page .desk-person-header h3 { font-size: 1.1rem; line-height: 1.4; margin: 0; }
+.desk-page .desk-participant .desk-participant-bio { font-size: .875rem; line-height: 1.75; color: #555; margin: 0; }
+.desk-page .desk-participant-posts { margin-top: auto; padding-top: .3rem; text-align: left; }
+.desk-page .desk-posts-label { color: #62605c; font-size: .625rem; margin-bottom: .5rem; }
+.desk-page .desk-writing-links { list-style: none; margin: 0; padding: 0; }
+.desk-page .desk-writing-links li { border-top: 1px solid #eeece8; font-size: .78rem; line-height: 1.6; }
+.desk-page .desk-writing-links a { display: block; color: #754d40; padding: .6rem 0; text-decoration: none; }
+.desk-page .desk-writing-links li:last-child a { padding-bottom: 0; }
+.desk-page .desk-writing-links a:hover { text-decoration: underline; text-underline-offset: 3px; }
+.desk-page .desk-guest { padding: 1rem 1.2rem; flex-wrap: wrap; gap: .7rem; }
+.desk-page .desk-post:has(a) { background: #f6f5f2; border-color: #d6cec6; }
+.desk-page .expectation { background: #fff; box-shadow: none; border: 1px solid #dedbd6; border-radius: 10px; }
+.desk-page .expectation p { color: #555; font-size: .875rem; line-height: 1.75; }
+.desk-page .meridian-gallery img { border-radius: 8px; box-shadow: none; }
+.desk-page .desk-project { box-shadow: none; color: #555; }
+@media (min-width: 761px) and (max-width: 1000px) {
+  .desk-page .desk-intro { gap: 2rem; grid-template-columns: 1.2fr 1fr; }
+  .desk-page .expectations-list--three { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .desk-page .expectations-list--three .expectation:last-child { grid-column: 1 / -1; }
+}
+@media (max-width: 760px) {
+  .desk-page .desk-intro { grid-template-columns: 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+  .desk-page .desk-intro .fellowship-image { max-width: 270px; margin: 0 auto; }
+  .desk-page .desk-participant { padding: 1.25rem; }
+  .desk-page .desk-participants { grid-template-columns: 1fr; }
+  .desk-page .expectations-list { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .desk-page .desk-participant { transition: none; }
+}
+
+/* Shared alignment and restrained detail across the existing sections. */
+.desk-page .desk-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 1.35rem;
+  width: 100%;
+}
+.desk-page .desk-section-heading::after {
+  content: '';
+  flex: 1;
+  min-width: 1.5rem;
+  height: 1px;
+  background: #dcd8d2;
+}
+.desk-page .desk-section-heading > span:first-child { flex-shrink: 0; }
+.desk-page .desk-cohort {
+  order: 3;
+  flex-shrink: 0;
+  color: #726b64;
+  font: .7rem/1.5 'Space Mono', monospace;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+.desk-page .desk-intro-copy p { color: #454340; }
+.desk-page .desk-actions .btn-primary {
+  min-height: 48px;
+  min-width: 108px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background: #895442;
+  transition: background-color .18s, border-color .18s;
+}
+.desk-page .desk-actions .btn-primary::before,
+.desk-page .desk-actions .btn-primary::after { display: none; }
+.desk-page .desk-actions .btn-primary:hover { background: #724333; transform: none; box-shadow: none; }
+.desk-page .desk-actions .btn-secondary { background: transparent; border-color: #bdb6ad; }
+.desk-page .desk-actions .btn-secondary:hover { background: #f1eee8; border-color: #96887b; }
+.desk-page main a:focus-visible { outline: 2px solid #895442; outline-offset: 4px; }
+.desk-page .desk-participant,
+.desk-page .desk-participant:hover { border-color: #dcd8d2; border-radius: 9px; }
+.desk-page .desk-person-header { gap: 1.15rem; }
+.desk-page .desk-participant-photo { flex-basis: 72px; }
+.desk-page .desk-participant-photo img {
+  width: 72px;
+  height: 72px;
+  border: 1px solid #e9e5df;
+  border-radius: 6px;
+  background: #f6f4f0;
+}
+.desk-page .desk-person-header h3 { font-size: 1.15rem; }
+.desk-page .desk-posts-label { font-size: .67rem; letter-spacing: .12em; margin-bottom: .65rem; }
+.desk-page .desk-writing-links li { font-size: .825rem; border-top-color: #e9e5df; }
+.desk-page .desk-writing-links a {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: .75rem;
+  color: #704c3d;
+  padding: .7rem 0;
+  transition: color .15s, background-color .15s;
+}
+.desk-page .desk-writing-links a::after {
+  margin-left: 0 !important;
+  font-size: .85rem !important;
+  opacity: .7 !important;
+}
+.desk-page .desk-writing-links a:hover { background: #faf8f5; color: #493225; }
+.desk-page .desk-writing-links li:last-child a { padding-bottom: .25rem; }
+@supports (grid-template-rows: subgrid) {
+  .desk-page .desk-participant {
+    display: grid;
+    grid-row: span 3;
+    grid-template-rows: subgrid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.2rem;
+  }
+  .desk-page .desk-participant-posts { margin-top: 0; }
+}
+.desk-page .desk-quote {
+  background: none;
+  border-left: 1px solid #cfc8bf;
+  border-radius: 0;
+  padding: .25rem 0 .25rem 1.5rem;
+  margin: 1.75rem 0 2.75rem;
+}
+.desk-page .desk-quote p { font-size: 1.12rem; line-height: 1.75; }
+.desk-page .desk-quote cite { font-size: .75rem; color: #625c56; }
+.desk-page .desk-gallery-small { max-width: none; gap: 1.4rem; margin-top: 2rem; margin-bottom: 2.75rem; }
+.desk-page .desk-gallery-small img { aspect-ratio: 3 / 2; height: auto; object-fit: cover; }
+.desk-page .desk-gallery-single { max-width: 680px; margin-top: 2rem; margin-bottom: 2.75rem; }
+.desk-page .meridian-gallery img { border: 1px solid #e2ddd6; border-radius: 7px; }
+.desk-page .expectations-list { gap: 1.4rem; }
+.desk-page .expectations-list--two { max-width: none; }
+.desk-page .expectation { padding: 1.4rem; border-radius: 9px; }
+.desk-page .expectation h3 { font-size: 1rem; margin: 0 0 .85rem; line-height: 1.5; }
+/* Project formats read as a list, with a clear title and one-line description. */
+.desk-page #projects { scroll-margin-top: 100px; }
+.desk-page .desk-projects {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 3.25rem;
+  row-gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 1.75rem 0 2.5rem;
+}
+.desk-page .desk-project {
+  padding: 1.25rem 0 1.45rem;
+  border: 0;
+  border-top: 1px solid #dcd8d2;
+  border-radius: 0;
+  background: transparent;
+  min-width: 0;
+}
+.desk-page .desk-project h3 {
+  font: 400 1.1rem/1.45 'Libre Baskerville', Georgia, serif;
+  letter-spacing: -.015em;
+  color: #292723;
+  margin: 0 0 .6rem;
+}
+.desk-page .desk-project p {
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.75;
+  color: #595550;
+}
+@media (max-width: 600px) {
+  .desk-page .desk-projects { grid-template-columns: 1fr; margin-top: 1.5rem; }
+  .desk-page .desk-project { padding: 1.1rem 0 1.2rem; }
+  .desk-page .desk-project h3 { font-size: 1.05rem; }
+}
+.desk-page .fellowship-application {
+  max-width: none;
+  padding: 2rem 0 .75rem;
+  margin: 3.5rem 0 1.5rem;
+  background: transparent;
+  border: 0;
+  border-top: 1px solid #39352f;
+  border-radius: 0;
+  text-align: left;
+  scroll-margin-top: 100px;
+}
+.desk-page .fellowship-application h2 {
+  font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+  line-height: 1.4;
+  letter-spacing: -.025em;
+  margin: 0 0 1.75rem;
+  text-align: left;
+}
+.desk-page .desk-apply-columns {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 3rem;
+}
+.desk-page .desk-apply-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0;
+}
+.desk-page .desk-apply-together { border-left: 1px solid #dcd8d2; padding-left: 3rem; }
+.desk-page .desk-apply-copy h3 {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0 0 .6rem;
+}
+.desk-page .fellowship-application p {
+  max-width: 50ch;
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.8;
+  color: #595550;
+  text-align: left;
+}
+.desk-page .fellowship-application p + p { margin-top: 1rem; }
+.desk-page .fellowship-application .desk-apply-deadline { font-size: .75rem; color: #39352f; }
+.desk-page .fellowship-application .desk-actions { margin-top: auto; justify-content: flex-start; }
+@media (max-width: 760px) {
+  .desk-page .desk-section-heading { gap: .85rem; text-align: left; }
+  .desk-page .desk-section-heading > span:first-child { flex-shrink: 1; }
+  .desk-page .desk-cohort { font-size: .625rem; }
+  .desk-page .desk-participant { display: flex; grid-row: auto; }
+  .desk-page .desk-participant-photo { flex-basis: 64px; }
+  .desk-page .desk-participant-photo img { width: 64px; height: 64px; }
+  .desk-page .desk-person-header h3 { font-size: 1.1rem; }
+  .desk-page .desk-participant-posts { margin-top: .1rem; }
+  .desk-page .desk-quote { padding: 1.25rem; }
+  .desk-page .desk-quote p { font-size: 1rem; }
+  .desk-page .desk-gallery-small { gap: 1rem; }
+  .desk-page .fellowship-application { padding: 1.75rem 0 .5rem; margin-top: 2.5rem; }
+  .desk-page .desk-apply-columns { grid-template-columns: 1fr; gap: 1.75rem; }
+  .desk-page .desk-apply-together { border-left: 0; border-top: 1px solid #dcd8d2; padding: 1.75rem 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .desk-page .desk-actions .btn-primary, .desk-page .desk-writing-links a { transition: none; }
+}
+@media (max-width: 600px) {
+  .desk-page .page-header.fellowship-header { padding-left: 1.5rem; padding-right: 1.5rem; text-align: left; }
+  .desk-page .fellowship-header h1,
+  .desk-page .fellowship-header .fellowship-tagline,
+  .desk-page .desk-deadline { text-align: left; }
+  .desk-page .desk-facts { flex-direction: column; align-items: flex-start; gap: .2rem; }
+  .desk-page .desk-facts li + li::before { display: none; }
+  .desk-page .desk-actions .btn-primary { width: 100%; }
+}
+
+/* A simpler opening, with programme details and applications grouped together. */
+.desk-page .page-header.fellowship-header {
+  padding-top: 7.5rem;
+  padding-bottom: 2.25rem;
+  text-align: left;
+}
+.desk-page .fellowship-header h1 {
+  display: block;
+  margin: 0;
+  font-size: clamp(2.25rem, 4.3vw, 3.25rem);
+  font-weight: 400;
+  line-height: 1.18;
+  letter-spacing: -.045em;
+}
+.desk-page .fellowship-header h1::after { display: none; }
+.desk-page .fellowship-header .fellowship-tagline {
+  margin: .8rem 0 0;
+  font-size: 1.25rem;
+  font-style: normal;
+  line-height: 1.6;
+  letter-spacing: -.015em;
+  color: #595550;
+}
+.desk-page .fellowship-header .desk-facts {
+  gap: .65rem 0;
+  margin: 1.8rem 0 0;
+  padding: 1rem 0;
+  border-top: 1px solid #dedbd6;
+  border-bottom: 1px solid #dedbd6;
+}
+.desk-page .fellowship-header .desk-facts li {
+  font-size: .8rem;
+  line-height: 1.5;
+  color: #595550;
+}
+.desk-page .fellowship-header .desk-facts li + li {
+  padding-left: 1.5rem;
+  margin-left: 1.5rem;
+  border-left: 1px solid #d5d0c9;
+}
+.desk-page .fellowship-header .desk-facts li + li::before { display: none; }
+.desk-page .desk-header-application {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-top: 1.4rem;
+}
+.desk-page .desk-header-application .desk-actions { margin: 0; gap: .75rem; }
+.desk-page .desk-actions .btn-primary {
+  min-height: 46px;
+  min-width: 112px;
+  padding: .7rem 1.25rem;
+  border-radius: 4px;
+  font-size: .8125rem;
+  letter-spacing: 0;
+  text-transform: none;
+  background: #292723;
+  border-color: #292723;
+}
+.desk-page .desk-actions .btn-primary:hover { background: #45413b; border-color: #45413b; }
+.desk-page .desk-actions .btn-secondary { background: transparent; color: #39352f; border-color: #c8c2b9; }
+.desk-page .desk-actions .btn-secondary:hover { background: #f1eee8; border-color: #96887b; }
+.desk-page .desk-header-application .desk-deadline {
+  margin: 0;
+  flex-shrink: 0;
+  font-size: .75rem;
+  line-height: 1.65;
+  text-align: right;
+  color: #6a645d;
+}
+@media (max-width: 760px) {
+  .desk-page .desk-header-application { align-items: flex-start; flex-direction: column; gap: 1rem; }
+  .desk-page .desk-header-application .desk-deadline { text-align: left; }
+  .desk-page .desk-header-application .desk-deadline br { display: none; }
+}
+@media (max-width: 600px) {
+  .desk-page .page-header.fellowship-header { padding-top: 6.5rem; padding-bottom: 1.75rem; }
+  .desk-page .fellowship-header h1 { max-width: 13ch; font-size: 2.5rem; line-height: 1.2; }
+  .desk-page .fellowship-header .fellowship-tagline { max-width: 26ch; font-size: 1.1rem; margin-top: .85rem; }
+  .desk-page .fellowship-header .desk-facts { margin-top: 1.5rem; gap: .45rem; }
+  .desk-page .fellowship-header .desk-facts li + li { padding-left: 0; margin-left: 0; border: 0; }
+  .desk-page .desk-header-application .desk-actions { width: 100%; gap: .6rem; }
+  .desk-page .desk-header-application .desk-deadline { font-size: .72rem; }
+}
+
+/* Writers and their published pieces share a single ruled row. */
+.desk-page .desk-participants {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin: 1.75rem 0 3rem;
+}
+.desk-page .desk-participant,
+.desk-page .desk-participant:hover {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1.05fr) minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
+  grid-template-areas: "portrait name writing" "portrait biography writing";
+  grid-row: auto;
+  justify-items: stretch;
+  column-gap: 2rem;
+  row-gap: .75rem;
+  padding: 2rem 0;
+  border: 0;
+  border-top: 1px solid #d5d0c9;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+.desk-page .desk-participant-photo { grid-area: portrait; align-self: start; }
+.desk-page .desk-participant-photo img {
+  display: block;
+  width: 96px;
+  height: 96px;
+  border: 1px solid #ded8cf;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.desk-page .desk-participant > h3 {
+  grid-area: name;
+  margin: 0;
+  text-align: left;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  letter-spacing: -.015em;
+}
+.desk-page .desk-participant .desk-participant-bio {
+  grid-area: biography;
+  font-size: .8125rem;
+  line-height: 1.8;
+  color: #625d56;
+  margin: 0;
+}
+.desk-page .desk-participant-posts {
+  grid-area: writing;
+  margin: 0;
+  padding: .15rem 0 0;
+}
+.desk-page .desk-posts-label { display: block; margin: 0 0 .7rem; }
+.desk-page .desk-writing-links li { border-top: 1px solid #e2ddd5; }
+.desk-page .desk-writing-links li:first-child { border-top: 0; }
+.desk-page .desk-writing-links a {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: .95rem;
+  line-height: 1.65;
+  color: #39352f;
+  padding: .7rem 0;
+}
+.desk-page .desk-writing-links li:first-child a { padding-top: 0; }
+.desk-page .desk-writing-links a:hover { background: transparent; color: #704c3d; }
+.desk-page .desk-more-participants > summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 56px;
+  padding: 1rem 0;
+  border-top: 1px solid #d5d0c9;
+  border-bottom: 1px solid #d5d0c9;
+  list-style: none;
+  color: #39352f;
+  font-size: .8125rem;
+  cursor: pointer;
+}
+.desk-page .desk-more-participants > summary::-webkit-details-marker { display: none; }
+.desk-page .desk-more-participants > summary::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  margin-right: .3rem;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+}
+.desk-page .desk-more-participants > summary:hover { color: #704c3d; }
+.desk-page .desk-more-participants > summary:focus-visible { outline: 2px solid #895442; outline-offset: 4px; }
+.desk-page .desk-participants-hide { display: none; }
+.desk-page .desk-more-participants[open] .desk-participants-show { display: none; }
+.desk-page .desk-more-participants[open] .desk-participants-hide { display: inline; }
+.desk-page .desk-more-participants[open] > summary::after { transform: translateY(2px) rotate(225deg); }
+.desk-page .desk-more-participants-list > .desk-participant:first-child { border-top: 0; }
+@media (max-width: 760px) {
+  .desk-page .desk-participant,
+  .desk-page .desk-participant:hover {
+    grid-template-columns: 76px minmax(0, 1fr);
+    grid-template-rows: auto auto auto;
+    grid-template-areas: "portrait name" "biography biography" "writing writing";
+    column-gap: 1.15rem;
+    row-gap: 1.15rem;
+    padding: 1.6rem 0 1.9rem;
+  }
+  .desk-page .desk-participant-photo img { width: 76px; height: 76px; }
+  .desk-page .desk-participant > h3 { align-self: center; }
+  .desk-page .desk-participant-posts { padding-top: .2rem; }
+  .desk-page .desk-participant .desk-participant-bio { font-size: .875rem; }
+  .desk-page .desk-writing-links a { font-size: 1rem; }
+}
