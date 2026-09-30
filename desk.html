@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="The Alignment Desk - A writing accelerator for AI safety. A structured writing programme for members of the Cambridge community.">
+  <meta name="description" content="The Alignment Desk is a structured writing programme for people in Cambridge or London who want to develop their thinking on AI safety and share it through published writing.">
   <title>Alignment Desk | Cambridge AI Safety Hub</title>
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://caish.org/desk">
   <meta property="og:title" content="Alignment Desk | Cambridge AI Safety Hub">
-  <meta property="og:description" content="A writing accelerator for AI safety - A structured writing programme for members of the Cambridge community.">
+  <meta property="og:description" content="A structured writing programme for people in Cambridge or London who want to develop their thinking on AI safety and share it through published writing.">
   <meta property="og:image" content="https://caish.org/images/og-image.png">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://caish.org/desk">
   <meta name="twitter:title" content="Alignment Desk | Cambridge AI Safety Hub">
-  <meta name="twitter:description" content="A writing accelerator for AI safety - A structured writing programme for members of the Cambridge community.">
+  <meta name="twitter:description" content="A structured writing programme for people in Cambridge or London who want to develop their thinking on AI safety and share it through published writing.">
   <meta name="twitter:image" content="https://caish.org/images/og-image.png">
 
   <!-- Favicon -->
@@ -62,6 +62,28 @@
     .fellowship-hero img{width:100%;height:auto;display:block;border-radius:12px;object-fit:cover}
   </style>
 
+  <style>
+    .desk-page .fellowship-header h1{margin-bottom:.9rem}
+    .desk-page .fellowship-header .fellowship-tagline{margin:.35rem 0 0;line-height:1.5}
+    .desk-facts{display:flex;flex-wrap:wrap;gap:.3rem 1.4rem;list-style:none;margin:.9rem 0 0;padding:0}
+    .desk-facts li{font-size:.75rem;color:#4a4a4a;position:relative}
+    .desk-facts li+li::before{content:"";position:absolute;left:-.75rem;top:50%;width:3px;height:3px;border-radius:50%;background:#9a9a9a}
+    .desk-actions{display:flex;flex-wrap:wrap;align-items:center;gap:.75rem;margin-top:1.5rem}
+    .desk-actions--centre{justify-content:center}
+    .desk-actions .btn-primary{padding:.8rem 1.6rem}
+    .desk-deadline{font-size:.75rem;color:#6a6a6a;margin:.9rem 0 0;line-height:1.5}
+    .desk-page .page-header.fellowship-header{padding-bottom:1.5rem}
+    .desk-participants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}
+    .desk-participant{grid-template-columns:88px 1fr;gap:1.1rem;padding:1.25rem;align-content:start}
+    .desk-participant-photo img{width:88px;height:88px;border-radius:10px}
+    .desk-participant-info h3{font-size:1rem}
+    .desk-participant-bio{font-size:.8rem}
+    .desk-participant{transition:transform .2s ease,box-shadow .2s ease}
+    .desk-participant:hover{transform:translateY(-2px);box-shadow:0 16px 28px rgba(0,0,0,.06)}
+    @media(max-width:760px){.desk-participants{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){.desk-participant,.desk-participant:hover{transition:none;transform:none}}
+  </style>
+
   <!-- Styles (async) -->
   <noscript><link rel="stylesheet" href="/styles.css?v=3df3c1ef"></noscript>
 
@@ -76,8 +98,9 @@
       });
     }
   </script>
+  <link rel="stylesheet" href="/desk.css?v=20260930-rows-1">
 </head>
-<body class="fellowship-page">
+<body class="fellowship-page desk-page">
   <a href="#main-content" class="skip-link">Skip to main content</a>
   <nav>
     <div class="nav-inner">
@@ -145,270 +168,191 @@
   <main>
   <section class="page-header fellowship-header" id="main-content">
     <h1>The Alignment Desk</h1>
-    <p class="fellowship-tagline"><em>A writing accelerator for AI safety</em></p>
+    <p class="fellowship-tagline">A writing accelerator for AI safety</p>
+    <ul class="desk-facts" aria-label="Programme overview">
+      <li>In person, Cambridge</li><li>Saturdays at Meridian</li><li>Free to attend</li>
+    </ul>
+    <div class="desk-header-application">
+      <div class="desk-actions">
+        <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagZBh0IPqpsrBgy6/form?prefill_term=Michaelmas+(2026)&amp;hide_term=true" class="btn-primary" target="_blank" rel="noopener">Apply</a>
+        <a href="https://luma.com/89pfvnf2" class="btn-primary btn-secondary" target="_blank" rel="noopener">RSVP to the apply-athon</a>
+      </div>
+      <p class="desk-deadline">Applications close at 12pm<br> on Sunday 18 October.</p>
+    </div>
   </section>
 
   <div class="divider"><div class="divider-line"></div></div>
 
   <section class="fellowship-section desk-section">
     <div class="fellowship-content">
-      <div class="fellowship-image">
+      <div class="desk-intro"><div class="desk-intro-copy"><p>The Alignment Desk is a structured writing programme for people in Cambridge or London who want to develop their thinking on AI safety and share it through published writing.</p><p>A small cohort meets on Saturdays at Meridian in Cambridge. You'll work on your own projects, with feedback from the group and weekly goals to help you finish them. We expect each participant to publish three pieces during term.</p></div><div class="fellowship-image">
         <img src="/images/writing-hero.png" alt="Writing desk workspace" loading="lazy" decoding="async" width="600" height="400">
-      </div>
+      </div></div>
 
-      <p>The Alignment Desk is a structured writing programme for people in Cambridge with existing exposure to AI safety who want to produce and publish serious work.</p>
+      <h2 class="desk-section-heading" id="what-this-is"><span>What this is</span></h2>
+      <dl class="desk-audience-copy">
+        <div class="desk-audience-row">
+          <dt>Dedicated writing time</dt>
+          <dd>Weekly Saturday sessions at the Meridian Office. Quiet, structured, and distraction-light. Whiteboards are available in separate rooms for collaboration.</dd>
+        </div>
+        <div class="desk-audience-row">
+          <dt>Accountability</dt>
+          <dd>You commit to a project at the start of term and report progress each week. The cohort is small, and progress is visible.</dd>
+        </div>
+        <div class="desk-audience-row">
+          <dt>Fast feedback</dt>
+          <dd>During breaks, participants can sanity-check arguments, get quick red-teams, or talk through ideas that are stuck.</dd>
+        </div>
+        <div class="desk-audience-row">
+          <dt>Access to the ecosystem</dt>
+          <dd>Where useful, we can help connect participants with researchers, policy professionals, or others in the Cambridge AI safety community. We will also invite relevant experts into the office to give feedback on drafts.</dd>
+        </div>
+        <div class="desk-audience-row">
+          <dt>Publishing your work</dt>
+          <dd>We expect everyone to publish three pieces during term. If you do not meet this requirement, we will ask you to leave the programme.</dd>
+        </div>
+      </dl>
 
-      <p>A small cohort meets weekly at the Meridian Office. Participants work on their own projects, set weekly goals, and hold each other accountable. Each participant is expected to publish three pieces during term.</p>
-
-      <h2>Participants Lent 2026</h2>
+      <h2 class="desk-section-heading" id="participants"><span>Participants from Lent&nbsp;2026</span></h2>
 
       <div class="desk-participants">
-        <div class="desk-participant">
-          <div class="desk-participant-photo">
-            <img src="/images/cain.png" alt="Cain Hillier" loading="lazy" decoding="async" width="200" height="200">
+        <article class="desk-participant">
+          <div class="desk-participant-photo"><img src="/images/cain.png" alt="Cain Hillier" loading="lazy" decoding="async" width="64" height="64"></div><h3>Cain Hillier</h3>
+          <p class="desk-participant-bio">Now a <a href="https://www.tarbellcenter.org/fellows" target="_blank" rel="noopener">Tarbell Fellow</a>. He joined the programme as an MPhil student in Global Risk &amp; Resilience at the Centre for the Study of Existential Risk. Previously a Technical Writer at Schneider Electric and Junior Researcher at the European Institute of Asian Studies. Bylines in East Asia Forum, EIAS and APEC features.</p>
+          <div class="desk-participant-posts"><span class="desk-posts-label">Writing</span><ul class="desk-writing-links"><li><a href="https://cainhillier.substack.com/p/capitol-hill-climbing" target="_blank" rel="noopener">Capitol Hill Climbing</a></li><li><a href="https://cainhillier.substack.com/p/feeling-the-elephant-what-can-and" target="_blank" rel="noopener">Feeling the Elephant</a></li><li><a href="https://cainhillier.substack.com/p/you-probably-dont-know-how-pressure" target="_blank" rel="noopener">You (Probably) Don’t Know How Pressure Politics Work</a></li></ul></div>
+        </article>
+        <article class="desk-participant">
+          <div class="desk-participant-photo"><img src="/images/henry.png" alt="Henry Colbert" loading="lazy" decoding="async" width="64" height="64"></div><h3>Henry Colbert</h3>
+          <p class="desk-participant-bio">Masters in Mathematics from TU Munich and Bachelors from the University of Cambridge. Previously a quantitative trader in US Blue Chip ETFs, now pivoting into AI safety research through the ERA fellowship.</p>
+          <div class="desk-participant-posts"><span class="desk-posts-label">Writing</span><ul class="desk-writing-links"><li><a href="https://www.lesswrong.com/posts/Km28joWnihcGEKirG/inoculation-prompting-open-questions-and-my-research" target="_blank" rel="noopener">Inoculation Prompting</a></li><li><a href="https://www.lesswrong.com/posts/Hg8hy6GpsPhk5xbFa/emergent-misalignment-and-the-anthropic-dispute" target="_blank" rel="noopener">Emergent Misalignment and the Anthropic Dispute</a></li></ul></div>
+        </article>
+        <details class="desk-more-participants">
+          <summary>
+            <span class="desk-participants-show">Show 6 more participants</span>
+            <span class="desk-participants-hide">Show fewer participants</span>
+          </summary>
+          <div class="desk-more-participants-list">
+            <article class="desk-participant">
+              <div class="desk-participant-photo"><img src="/images/Hiskias.png" alt="Hiskias Dingeto" loading="lazy" decoding="async" width="64" height="64"></div><h3>Hiskias Dingeto</h3>
+              <p class="desk-participant-bio">AI researcher with a PhD focused on AI security and adversarial robustness. Works on model failure modes, interpretability, and alignment, with a focus on how training objectives shape internal representations.</p>
+              <div class="desk-participant-posts"><span class="desk-posts-label">Writing</span><ul class="desk-writing-links"><li><a href="https://open.substack.com/pub/hisku/p/the-interpretability-illusion-why" target="_blank" rel="noopener">The Interpretability Illusion</a></li><li><a href="https://hisku.substack.com/p/a-taxonomy-of-training-time-interpretability" target="_blank" rel="noopener">A Taxonomy of Training-Time Interpretability</a></li><li><a href="https://hisku.substack.com/p/training-for-interpretability-lessons?r=574i0g&utm_campaign=post&utm_medium=web&triedRedirect=true" target="_blank" rel="noopener">Training for Interpretability</a></li></ul></div>
+            </article>
+            <article class="desk-participant">
+              <div class="desk-participant-photo"><img src="/images/libby.png" alt="Libby Simmons" loading="lazy" decoding="async" width="64" height="64"></div><h3>Libby Simmons</h3>
+              <p class="desk-participant-bio">MPhil student in the Ethics of AI, Data and Algorithms at the University of Cambridge. Background in technology ethics and moral philosophy, with experience as an AI Analyst. Specialises in predictive AI, surveillance tech, fairness metrics, and AI governance.</p>
+              <div class="desk-participant-posts"><span class="desk-posts-label">Writing</span><ul class="desk-writing-links"><li><a href="https://open.substack.com/pub/almostinthemachine/p/international-ai-safety-report-2026" target="_blank" rel="noopener">International AI Safety Report 2026</a></li><li><a href="https://substack.com/@almostinthemachine/note/p-189482530" target="_blank" rel="noopener">The complications of conceptualising ‘honest AI’</a></li><li><a href="https://substack.com/home/post/p-190943586" target="_blank" rel="noopener">Claude’s Constitution</a></li></ul></div>
+            </article>
+            <article class="desk-participant">
+              <div class="desk-participant-photo"><img src="/images/joseph.png" alt="Joseph Hewson" loading="lazy" decoding="async" width="64" height="64"></div><h3>Joseph Hewson</h3>
+              <p class="desk-participant-bio">Recent Mathematics Masters graduate, now upskilling in AI safety. Participated in ARBOx3 at the Oxford AI Safety Initiative.</p>
+              <div class="desk-participant-posts"><span class="desk-posts-label">Writing</span><ul class="desk-writing-links"><li><a href="https://open.substack.com/pub/josephhewson1/p/agent-properties-for-similarity-based" target="_blank" rel="noopener">Agent Properties for Similarity-Based Cooperation</a></li><li><a href="https://josephhewson1.substack.com/p/program-games-for-llms" target="_blank" rel="noopener">Program Games for LLMs</a></li><li><a href="https://josephhewson1.substack.com/p/foundations-of-cooperative-ai-through" target="_blank" rel="noopener">Reading &quot;Foundations of Cooperative AI&quot; Through an LLM Lens</a></li></ul></div>
+            </article>
+            <article class="desk-participant">
+              <div class="desk-participant-photo"><img src="/images/zihao.png" alt="Zihao Liu" loading="lazy" decoding="async" width="64" height="64"></div><h3>Zihao Liu</h3>
+              <p class="desk-participant-bio">2nd year Engineering student at Cambridge and Technical Officer at the Cambridge AI Builder Club. Background in full-stack software engineering, focused on bridging AI safety theory and engineering practice.</p>
+              <div class="desk-participant-posts"><span class="desk-posts-label">Writing</span><ul class="desk-writing-links"><li><a href="https://zihaoliu.substack.com/p/the-engineering-foundations-in-empirical" target="_blank" rel="noopener">The Engineering Foundations in Empirical AI Safety</a></li><li><a href="https://open.substack.com/pub/zihaoliu/p/safety-tax-guardrail-libraries-vs" target="_blank" rel="noopener">Safety Tax</a></li><li><a href="https://zihaoliu.substack.com/p/quantifying-the-safety-tax-where" target="_blank" rel="noopener">Quantifying the Safety Tax</a></li></ul></div>
+            </article>
+            <article class="desk-participant">
+              <div class="desk-participant-photo"><img src="/images/zach.png" alt="Zach Liu" loading="lazy" decoding="async" width="64" height="64"></div><h3>Zach Liu</h3>
+              <p class="desk-participant-bio">Third year undergrad engineer at Cambridge. Research interests include value alignment and how goal-directed behaviour emerges from RL. Helping out at CAISH since 2023, working on operations. Previously worked at Amazon doing software engineering, the Singapore AI Safety Institute researching hallucination detection, and a bit of singular learning theory.</p>
+              <div class="desk-participant-posts"><span class="desk-posts-label">Writing</span><ul class="desk-writing-links"><li><a href="https://drive.google.com/file/d/1OuL8RmTES2E7tQEwEAIMB1k1ir7ui0gr/view" target="_blank" rel="noopener">CDPO (PDF)</a></li><li><a href="https://drive.google.com/file/d/1l0JiDMXoUyYJlQXibl_9sLOu_IDx0m4Y/view" target="_blank" rel="noopener">Paper 2 (PDF)</a></li></ul></div>
+            </article>
+            <article class="desk-participant">
+              <div class="desk-participant-photo"><img src="/images/Shih.jpg" alt="Shih Ee Whang" loading="lazy" decoding="async" width="64" height="64"></div><h3>Shih Ee Whang</h3>
+              <p class="desk-participant-bio">2nd year Engineering student at Cambridge, currently exploring LLM finetuning and generalisation under a SPAR project. Interested in investigating technical solutions through a pragmatic lens through Alignment Desk. Background in robotics and software engineering.</p>
+              <div class="desk-participant-posts"><span class="desk-posts-label">Writing</span><ul class="desk-writing-links"><li><a href="https://shihee.substack.com/p/write-down-the-problem-the-state" target="_blank" rel="noopener">Write Down the Problem</a></li><li><a href="https://medium.com/@whangse123/ai-safety-in-pragmatic-terms-ffa22c9a819a" target="_blank" rel="noopener">AI safety, in pragmatic terms</a></li></ul></div>
+            </article>
           </div>
-          <div class="desk-participant-info">
-            <h3>Cain Hillier</h3>
-            <p class="desk-participant-bio">MPhil student in Global Risk &amp; Resilience at the Centre for the Study of Existential Risk. Previously a Technical Writer at Schneider Electric and Junior Researcher at the European Institute of Asian Studies. Bylines in East Asia Forum, EIAS and APEC features.</p>
-            <div class="desk-participant-posts">
-              <span class="desk-posts-label">Posts</span>
-              <ul class="desk-posts-list">
-                <li class="desk-post"><a href="https://cainhillier.substack.com/p/capitol-hill-climbing" target="_blank" rel="noopener">Post 1</a></li>
-                <li class="desk-post"><a href="https://cainhillier.substack.com/p/feeling-the-elephant-what-can-and" target="_blank" rel="noopener">Post 2</a></li>
-                <li class="desk-post"><a href="https://cainhillier.substack.com/p/you-probably-dont-know-how-pressure" target="_blank" rel="noopener">Post 3</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="desk-participant">
-          <div class="desk-participant-photo">
-            <img src="/images/henry.png" alt="Henry Colbert" loading="lazy" decoding="async" width="200" height="200">
-          </div>
-          <div class="desk-participant-info">
-            <h3>Henry Colbert</h3>
-            <p class="desk-participant-bio">Masters in Mathematics from TU Munich and Bachelors from the University of Cambridge. Previously a quantitative trader in US Blue Chip ETFs, now pivoting into AI safety research through the ERA fellowship.</p>
-            <div class="desk-participant-posts">
-              <span class="desk-posts-label">Posts</span>
-              <ul class="desk-posts-list">
-                <li class="desk-post"><a href="https://www.lesswrong.com/posts/Km28joWnihcGEKirG/inoculation-prompting-open-questions-and-my-research" target="_blank" rel="noopener">Post 1</a></li>
-                <li class="desk-post"><a href="https://www.lesswrong.com/posts/Hg8hy6GpsPhk5xbFa/emergent-misalignment-and-the-anthropic-dispute" target="_blank" rel="noopener">Post 2</a></li>
-                <li class="desk-post desk-post--upcoming">Post 3</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="desk-participant">
-          <div class="desk-participant-photo">
-            <img src="/images/Hiskias.png" alt="Hiskias Dingeto" loading="lazy" decoding="async" width="200" height="200">
-          </div>
-          <div class="desk-participant-info">
-            <h3>Hiskias Dingeto</h3>
-            <p class="desk-participant-bio">AI researcher with a PhD focused on AI security and adversarial robustness. Works on model failure modes, interpretability, and alignment, with a focus on how training objectives shape internal representations.</p>
-            <div class="desk-participant-posts">
-              <span class="desk-posts-label">Posts</span>
-              <ul class="desk-posts-list">
-                <li class="desk-post"><a href="https://open.substack.com/pub/hisku/p/the-interpretability-illusion-why" target="_blank" rel="noopener">Post 1</a></li>
-                <li class="desk-post"><a href="https://hisku.substack.com/p/a-taxonomy-of-training-time-interpretability" target="_blank" rel="noopener">Post 2</a></li>
-                <li class="desk-post"><a href="https://hisku.substack.com/p/training-for-interpretability-lessons?r=574i0g&utm_campaign=post&utm_medium=web&triedRedirect=true" target="_blank" rel="noopener">Post 3</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="desk-participant">
-          <div class="desk-participant-photo">
-            <img src="/images/libby.png" alt="Libby Simmons" loading="lazy" decoding="async" width="200" height="200">
-          </div>
-          <div class="desk-participant-info">
-            <h3>Libby Simmons</h3>
-            <p class="desk-participant-bio">MPhil student in the Ethics of AI, Data and Algorithms at the University of Cambridge. Background in technology ethics and moral philosophy, with experience as an AI Analyst. Specialises in predictive AI, surveillance tech, fairness metrics, and AI governance.</p>
-            <div class="desk-participant-posts">
-              <span class="desk-posts-label">Posts</span>
-              <ul class="desk-posts-list">
-                <li class="desk-post"><a href="https://open.substack.com/pub/almostinthemachine/p/international-ai-safety-report-2026" target="_blank" rel="noopener">Post 1</a></li>
-                <li class="desk-post"><a href="https://substack.com/@almostinthemachine/note/p-189482530" target="_blank" rel="noopener">Post 2</a></li>
-                <li class="desk-post"><a href="https://substack.com/home/post/p-190943586" target="_blank" rel="noopener">Post 3</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="desk-participant">
-          <div class="desk-participant-photo">
-            <img src="/images/joseph.png" alt="Joseph Hewson" loading="lazy" decoding="async" width="200" height="200">
-          </div>
-          <div class="desk-participant-info">
-            <h3>Joseph Hewson</h3>
-            <p class="desk-participant-bio">Recent Mathematics Masters graduate, now upskilling in AI safety. Participated in ARBOx3 at the Oxford AI Safety Initiative.</p>
-            <div class="desk-participant-posts">
-              <span class="desk-posts-label">Posts</span>
-              <ul class="desk-posts-list">
-                <li class="desk-post"><a href="https://open.substack.com/pub/josephhewson1/p/agent-properties-for-similarity-based" target="_blank" rel="noopener">Post 1</a></li>
-                <li class="desk-post"><a href="https://josephhewson1.substack.com/p/program-games-for-llms" target="_blank" rel="noopener">Post 2</a></li>
-                <li class="desk-post"><a href="https://josephhewson1.substack.com/p/foundations-of-cooperative-ai-through" target="_blank" rel="noopener">Post 3</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="desk-participant">
-          <div class="desk-participant-photo">
-            <img src="/images/zihao.png" alt="Zihao Liu" loading="lazy" decoding="async" width="200" height="200">
-          </div>
-          <div class="desk-participant-info">
-            <h3>Zihao Liu</h3>
-            <p class="desk-participant-bio">2nd year Engineering student at Cambridge and Technical Officer at the Cambridge AI Builder Club. Background in full-stack software engineering, focused on bridging AI safety theory and engineering practice.</p>
-            <div class="desk-participant-posts">
-              <span class="desk-posts-label">Posts</span>
-              <ul class="desk-posts-list">
-                <li class="desk-post"><a href="https://zihaoliu.substack.com/p/the-engineering-foundations-in-empirical" target="_blank" rel="noopener">Post 1</a></li>
-                <li class="desk-post"><a href="https://open.substack.com/pub/zihaoliu/p/safety-tax-guardrail-libraries-vs" target="_blank" rel="noopener">Post 2</a></li>
-                <li class="desk-post"><a href="https://zihaoliu.substack.com/p/quantifying-the-safety-tax-where" target="_blank" rel="noopener">Post 3</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="desk-participant">
-          <div class="desk-participant-photo">
-            <img src="/images/zach.png" alt="Zach Liu" loading="lazy" decoding="async" width="200" height="200">
-          </div>
-          <div class="desk-participant-info">
-            <h3>Zach Liu</h3>
-            <p class="desk-participant-bio">Third year undergrad engineer at Cambridge. Research interests include value alignment and how goal-directed behavior emerges from RL. Helping out at CAISH since 2023, working on operations. Previously worked at Amazon doing software engineering, the Singapore AI Safety Institute researching hallucination detection, and a bit of singular learning theory.</p>
-            <div class="desk-participant-posts">
-              <span class="desk-posts-label">Posts</span>
-              <ul class="desk-posts-list">
-                <li class="desk-post"><a href="https://drive.google.com/file/d/1OuL8RmTES2E7tQEwEAIMB1k1ir7ui0gr/view" target="_blank" rel="noopener">Post 1</a></li>
-                <li class="desk-post"><a href="https://drive.google.com/file/d/1l0JiDMXoUyYJlQXibl_9sLOu_IDx0m4Y/view" target="_blank" rel="noopener">Post 2</a></li>
-                <li class="desk-post desk-post--upcoming">Post 3</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        <div class="desk-participant">
-          <div class="desk-participant-photo">
-            <img src="/images/Shih.jpg" alt="Shih Ee Whang" loading="lazy" decoding="async" width="200" height="200">
-          </div>
-          <div class="desk-participant-info">
-            <h3>Shih Ee Whang</h3>
-            <p class="desk-participant-bio">2nd year Engineering student at Cambridge, currently exploring LLM finetuning and generalisation under a SPAR project. Interested in investigating technical solutions through a pragmatic lens through Alignment Desk. Background in robotics and software engineering.</p>
-            <div class="desk-participant-posts">
-              <span class="desk-posts-label">Posts</span>
-              <ul class="desk-posts-list">
-                <li class="desk-post"><a href="https://shihee.substack.com/p/write-down-the-problem-the-state" target="_blank" rel="noopener">Post 1</a></li>
-                <li class="desk-post"><a href="https://medium.com/@whangse123/ai-safety-in-pragmatic-terms-ffa22c9a819a" target="_blank" rel="noopener">Post 2</a></li>
-                <li class="desk-post desk-post--upcoming">Post 3</li>
-              </ul>
-            </div>
-          </div>
-        </div>
+        </details>
       </div>
 
-      <h2>Guest Posts</h2>
-
-      <div class="desk-guests">
-        <div class="desk-guest">
-          <h3>Gaurav Yadav</h3>
-          <ul class="desk-posts-list">
-            <li class="desk-post"><a href="https://dhaniya.substack.com/p/two-buckets" target="_blank" rel="noopener">Post 1</a></li>
-          </ul>
-        </div>
-        <div class="desk-guest">
-          <h3>Puria Radmard</h3>
-          <ul class="desk-posts-list">
-            <li class="desk-post desk-post--upcoming">Post 1</li>
-          </ul>
-        </div>
-        <div class="desk-guest">
-          <h3>Jacob Schaal</h3>
-          <ul class="desk-posts-list">
-            <li class="desk-post desk-post--upcoming">Post 1</li>
-          </ul>
-        </div>
-        <div class="desk-guest">
-          <h3>Carter Rogers</h3>
-          <ul class="desk-posts-list">
-            <li class="desk-post"><a href="https://shakingthrough.substack.com/p/ai-and-mundane-risk?r=2m9lk&utm_campaign=post&utm_medium=web&triedRedirect=true" target="_blank" rel="noopener">Post 1</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <h2>Why writing?</h2>
+      <h2 class="desk-section-heading"><span>Why writing?</span></h2>
 
       <p>Writing forces you to confront gaps in your understanding that remain hidden when you are just reading or thinking. It is also how people in this community come to know your work.</p>
 
-      <p>For many aspiring writers, the biggest challenge isn't a shortage of ideas, but turning those ideas into finished pieces. Developing a habit of regular output is often what makes the difference between wanting to contribute and doing so.</p>
+      <p>For many aspiring writers, the biggest challenge is turning ideas into finished pieces. Developing a habit of regular output is often what makes the difference between wanting to contribute and doing so.</p>
 
       <blockquote class="desk-quote">
         <p>"Writing is the single biggest difference-maker between reading a lot and efficiently developing real views on important topics."</p>
         <cite><a href="https://www.cold-takes.com/learning-by-writing/" target="_blank" rel="noopener">Holden Karnofsky, Learning By Writing</a></cite>
       </blockquote>
 
-      <h2>Who this is for</h2>
+      <h2 class="desk-section-heading" id="who-this-is-for"><span>Who this is for</span></h2>
 
-      <p>The Alignment Desk is best suited to people who already have context in AI safety, whether technical or governance, and want to develop and publish ideas relevant to the field. This may include people aiming for research, policy, operations, communications, or other AI safety adjacent roles.</p>
+      <dl class="desk-audience-copy">
+        <div class="desk-audience-row">
+          <dt>Location</dt>
+          <dd>You're based in Cambridge or London and can attend our Saturday sessions at Meridian in Cambridge.</dd>
+        </div>
+        <div class="desk-audience-row">
+          <dt>Preparation</dt>
+          <dd>Strong applicants will usually have completed our <a href="/fellowship">Alignment Fellowship</a> or a similar programme. Independent reading of core AI safety material, such as <a href="https://bluedot.org/courses/agi-strategy" target="_blank" rel="noopener">BlueDot's AGI Strategy curriculum</a>, is also good preparation.</dd>
+        </div>
+        <div class="desk-audience-row">
+          <dt>What we hope you'll leave with</dt>
+          <dd>By the end of term, you should have published pieces that show how you think about AI safety and that you can use as work samples when applying for jobs.</dd>
+        </div>
+      </dl>
 
       <div class="meridian-gallery desk-gallery-small">
         <img src="/images/meridian-4.jpg" alt="Meridian Office collaborative space" loading="lazy" decoding="async" width="5616" height="3744">
         <img src="/images/meridian-5.jpg" alt="Participants working at Meridian" loading="lazy" decoding="async" width="5616" height="3744">
       </div>
 
-      <h2>What this is</h2>
+      <h2 class="desk-section-heading" id="projects"><span>What kind of projects?</span></h2>
 
-      <div class="expectations-list expectations-list--three">
-        <div class="expectation">
-          <h4>Dedicated writing time</h4>
-          <p>Weekly Saturday sessions at the Meridian Office. Quiet, structured, and distraction-light. Whiteboards are available in separate rooms for collaboration.</p>
+      <p>We are flexible on format. What matters is that you have a concrete output in mind.</p>
+
+      <ul class="desk-projects" aria-label="Example writing projects">
+        <li class="desk-project">
+          <h3>Literature review</h3>
+          <p>Review existing work on a technical or governance topic.</p>
+        </li>
+        <li class="desk-project">
+          <h3>Explainer or tutorial</h3>
+          <p>Explain a topic through an interactive piece or tutorial.</p>
+        </li>
+        <li class="desk-project">
+          <h3>Research critique</h3>
+          <p>Steelman or red-team a research agenda.</p>
+        </li>
+        <li class="desk-project">
+          <h3>Original argument</h3>
+          <p>Develop an argument, research note or proposal.</p>
+        </li>
+        <li class="desk-project">
+          <h3>Distillation</h3>
+          <p>Present existing work for a new audience.</p>
+        </li>
+        <li class="desk-project">
+          <h3>Career reflection</h3>
+          <p>Write publicly about your career plans or uncertainties.</p>
+        </li>
+      </ul>
+
+      <section class="fellowship-application" aria-labelledby="apply-title">
+        <h2 id="apply-title">Apply for Michaelmas 2026</h2>
+        <div class="desk-apply-columns">
+          <div class="desk-apply-column">
+            <div class="desk-apply-copy">
+              <p>The application takes about 10 to 15 minutes. We ask about your background and for a sense of what you might write about.</p>
+              <p class="desk-apply-deadline">Applications close at <time datetime="2026-10-18T12:00:00+01:00">12pm on Sunday 18 October.</time></p>
+            </div>
+            <div class="desk-actions">
+              <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagZBh0IPqpsrBgy6/form?prefill_term=Michaelmas+(2026)&amp;hide_term=true" class="btn-primary" target="_blank" rel="noopener">Apply</a>
+            </div>
+          </div>
+          <div class="desk-apply-column desk-apply-together">
+            <div class="desk-apply-copy">
+              <h3>Saturday apply-athon</h3>
+              <p>Come to the apply-athon at Meridian on Saturday 17 October, 11am to 2pm, and work on your application alongside others.</p>
+            </div>
+            <div class="desk-actions">
+              <a href="https://luma.com/89pfvnf2" class="btn-primary btn-secondary" target="_blank" rel="noopener">RSVP to the apply-athon</a>
+            </div>
+          </div>
         </div>
-        <div class="expectation">
-          <h4>Accountability</h4>
-          <p>You commit to a project at the start of term and report progress each week. The cohort is small, and progress is visible.</p>
-        </div>
-        <div class="expectation">
-          <h4>Fast feedback</h4>
-          <p>During breaks, participants can sanity-check arguments, get quick red-teams, or talk through ideas that are stuck.</p>
-        </div>
-      </div>
-
-      <div class="expectations-list expectations-list--two">
-        <div class="expectation">
-          <h4>Access to the ecosystem</h4>
-          <p>Where useful, we can help connect participants with researchers, policy professionals, or others in the Cambridge AI safety community. We will also invite relevant experts into the office to give feedback on drafts.</p>
-        </div>
-        <div class="expectation">
-          <h4>Clear output expectations</h4>
-          <p>Three published pieces during term. Imperfect and published beats perfect and private.</p>
-        </div>
-      </div>
-
-      <div class="meridian-gallery desk-gallery-single">
-        <img src="/images/meridian-6.jpg" alt="Writing session at Meridian Office" loading="lazy" decoding="async" width="5616" height="3744">
-      </div>
-
-      <h2>What kind of projects?</h2>
-
-      <p>We are flexible on format. What matters is that you have a concrete output in mind. Examples include:</p>
-
-      <div class="desk-projects">
-        <div class="desk-project">A literature review of a technical or governance topic</div>
-        <div class="desk-project">An interactive explainer or tutorial</div>
-        <div class="desk-project">A steelman or red-team of a research agenda</div>
-        <div class="desk-project">An original argument, research note, or proposal</div>
-        <div class="desk-project">A distillation of existing work for a new audience</div>
-        <div class="desk-project">A public reflection on career plans or uncertainties</div>
-      </div>
-
-      <div class="fellowship-application">
-        <h2>Interested in the next cohort?</h2>
-        <p>Applications are currently closed. Register your interest to hear when applications open next.</p>
-        <div class="btn-wrapper">
-          <a href="https://airtable.com/appJHPLBwGSa1eM4g/pag6UQQuXqxPOdPqE/form" class="btn-primary" target="_blank" rel="noopener">Register Interest</a>
-        </div>
-      </div>
+      </section>
     </div>
   </section>
   </main>

@@ -1,19 +1,220 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Redirecting…</title>
-    <meta http-equiv="refresh" content="0; url=https://airtable.com/appJHPLBwGSa1eM4g/pagtFiylLCUQnea4i/form" />
-    <script>
-      // Use replace so the back button doesn't land on this page.
-      window.location.replace("https://airtable.com/appJHPLBwGSa1eM4g/pagtFiylLCUQnea4i/form");
-    </script>
-  </head>
-  <body>
-    <p>Redirecting to the application form…</p>
-    <p>
-      If you are not redirected, <a href="https://airtable.com/appJHPLBwGSa1eM4g/pagtFiylLCUQnea4i/form">click here</a>.
-    </p>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apply | Cambridge AI Safety Hub</title>
+  <meta name="description" content="Apply to the Alignment Fellowship or the Alignment Desk for Michaelmas 2026.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://caish.org/apply">
+  <meta property="og:title" content="Apply | Cambridge AI Safety Hub">
+  <meta property="og:description" content="Apply to the Alignment Fellowship or the Alignment Desk for Michaelmas 2026.">
+  <meta property="og:image" content="https://caish.org/images/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="/images/favicon.png">
+  <link rel="apple-touch-icon" href="/images/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      background: #000; color: #f2f2f2;
+      font-family: 'Space Mono', ui-monospace, monospace;
+      -webkit-font-smoothing: none; overflow-x: hidden;
+    }
+    canvas#space {
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      image-rendering: pixelated; image-rendering: crisp-edges; z-index: 0;
+    }
+    .pixel { font-family: 'Press Start 2P', 'Space Mono', monospace; }
+
+    .console {
+      position: relative; z-index: 1; min-height: 100%;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: max(32px, env(safe-area-inset-top)) 20px max(32px, env(safe-area-inset-bottom));
+      text-align: center;
+    }
+    .console::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(ellipse 46rem 30rem at 50% 50%, rgba(0,0,0,.92) 0, rgba(0,0,0,.75) 45%, rgba(0,0,0,0) 75%);
+    }
+    .home {
+      position: fixed; top: max(18px, env(safe-area-inset-top)); left: 20px; z-index: 2;
+      font-size: 10px; color: #9a9a9a; text-decoration: none; letter-spacing: .05em;
+    }
+    .home:hover, .home:focus-visible { color: #fff; }
+    .kicker { font-size: 10px; color: #9a9a9a; letter-spacing: .12em; margin-bottom: 22px; }
+    h1 { font-size: clamp(18px, 4.2vw, 32px); line-height: 1.5; font-weight: 400; margin-bottom: 14px; }
+    .sub { font-size: 14px; color: #bdbdbd; max-width: 38ch; line-height: 1.6; margin-bottom: 40px; }
+
+    .choices { display: grid; grid-template-columns: repeat(2, minmax(0, 300px)); gap: 28px; }
+    .choice {
+      --face: #111; position: relative; display: flex; flex-direction: column; align-items: center; gap: 18px;
+      padding: 26px 20px 24px; color: #f2f2f2; text-decoration: none; background: var(--face);
+      /* Stepped border and drop give the chunky 8-bit edge */
+      box-shadow:
+        0 -4px 0 0 #f2f2f2, 0 4px 0 0 #f2f2f2, -4px 0 0 0 #f2f2f2, 4px 0 0 0 #f2f2f2,
+        0 12px 0 0 #3a3a3a, -4px 8px 0 0 #3a3a3a, 4px 8px 0 0 #3a3a3a;
+      transition: transform .06s steps(2), box-shadow .06s steps(2), background-color .1s;
+    }
+    .choice:hover, .choice:focus-visible { --face: #1c1c1c; outline: none; }
+    .choice:focus-visible .btn { box-shadow: 0 0 0 4px #000, 0 0 0 8px #f2f2f2; }
+    .choice:active, .choice.pressed {
+      transform: translateY(8px);
+      box-shadow:
+        0 -4px 0 0 #f2f2f2, 0 4px 0 0 #f2f2f2, -4px 0 0 0 #f2f2f2, 4px 0 0 0 #f2f2f2,
+        0 4px 0 0 #3a3a3a;
+    }
+    .btn {
+      width: 64px; height: 64px; border-radius: 50%;
+      display: grid; place-items: center; font-size: 20px; color: #000; background: #f2f2f2;
+      box-shadow: inset -4px -6px 0 0 #9a9a9a, 0 6px 0 0 #3a3a3a;
+    }
+    .choice:active .btn, .choice.pressed .btn { box-shadow: inset -2px -2px 0 0 #9a9a9a; transform: translateY(4px); }
+    .name { font-size: 12px; line-height: 1.9; letter-spacing: .02em; }
+    .meta { font-size: 12px; color: #9a9a9a; line-height: 1.6; }
+    .hint { font-size: 9px; color: #6a6a6a; margin-top: 30px; letter-spacing: .08em; }
+
+    .extras { margin-top: 44px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; color: #bdbdbd; }
+    .extras a { color: #f2f2f2; text-underline-offset: .3em; }
+    .extras a:hover { color: #fff; }
+
+    @media (max-width: 640px) {
+      .choices { grid-template-columns: minmax(0, 320px); gap: 34px; }
+      .hint { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .choice, .btn { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="space" aria-hidden="true"></canvas>
+  <a href="/" class="home pixel">&lt; CAISH</a>
+
+  <main class="console">
+    <p class="kicker pixel">MICHAELMAS 2026</p>
+    <h1 class="pixel">Choose your programme</h1>
+    <p class="sub">Both programmes close at 12pm on Sunday 18 October.</p>
+
+    <div class="choices">
+      <a class="choice" id="choice-a" href="https://airtable.com/appJHPLBwGSa1eM4g/pagtFiylLCUQnea4i/form?prefill_term=Michaelmas+2026&amp;hide_term=true">
+        <span class="btn pixel" aria-hidden="true">A</span>
+        <span class="name pixel">Alignment<br>Fellowship</span>
+        <span class="meta">Five weeks of readings and discussion.</span>
+      </a>
+      <a class="choice" id="choice-b" href="https://airtable.com/appJHPLBwGSa1eM4g/pagZBh0IPqpsrBgy6/form?prefill_term=Michaelmas+(2026)&amp;hide_term=true">
+        <span class="btn pixel" aria-hidden="true">B</span>
+        <span class="name pixel">Alignment<br>Desk</span>
+        <span class="meta">A term of writing and publishing.</span>
+      </a>
+    </div>
+    <p class="hint pixel">PRESS A OR B</p>
+
+    <div class="extras">
+      <p>Apply alongside others at the <a href="https://luma.com/89pfvnf2" target="_blank" rel="noopener">apply-athon on Saturday 17 October</a>.</p>
+      <p>Read more about the <a href="/fellowship">Fellowship</a> or the <a href="/desk">Desk</a>.</p>
+    </div>
+  </main>
+
+  <script>
+    // Keyboard: A and B press the matching button, like a handheld console.
+    document.addEventListener('keydown', e => {
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
+      const el = { a: 'choice-a', b: 'choice-b' }[e.key.toLowerCase()];
+      if (!el) return;
+      const btn = document.getElementById(el);
+      btn.classList.add('pressed');
+      setTimeout(() => { btn.classList.remove('pressed'); window.location.href = btn.href; }, 140);
+    });
+
+    // Starfield with a twinkling 8-bit CAISH logo, drawn to a small buffer and scaled up.
+    (() => {
+      const canvas = document.getElementById('space');
+      const ctx = canvas.getContext('2d');
+      const still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const PX = 3;
+      const LOGO = [
+        '....................######..............................',
+        '................#############......................####.',
+        '.............##################................########.',
+        '.........#######################...........############.',
+        '.........########################.....################..',
+        '........##########################..##################..',
+        '........##############...##########..################...',
+        '.......############.........########.################...',
+        '.......#######...........##..#######..###########.......',
+        '.......##...............####..#######.######............',
+        '.......................######.#######.###...............',
+        '......................#######..######...................',
+        '.....................#########.######...................',
+        '.....................########..######...................',
+        '....................########...######...................',
+        '....................#######....######...................',
+        '...................#######.....######...................',
+        '...................#######....#######...................',
+        '...................#######...########...................',
+        '...................######...########....................',
+        '...................######..#########....................',
+        '...................######..########.....................',
+        '...................#######.#######......................',
+        '...............###.#######..#####.......................',
+        '...........#######..#######..###.............####.......',
+        '.......############.########..#..........#######........',
+        '...################..########........###########........',
+        '..##################.##########...##############........',
+        '..##################..#########################.........',
+        '.###############.......########################.........',
+        '.##########.............######################..........',
+        '.######..................##################.............',
+        '.##........................############.................',
+        '.............................######.....................'
+      ];
+      const LW = LOGO[0].length, LH = LOGO.length;
+      let w, h, stars = [], cells = [], scale = 2, ox = 0, oy = 0;
+
+      const rand = (a, b) => a + Math.random() * (b - a);
+      // The logo is one solid shape; a few pixels at a time catch a brief glint.
+      LOGO.forEach((row, y) => { for (let x = 0; x < LW; x++) if (row[x] === '#') cells.push({ x, y }); });
+      let pulse = 0, glints = [];
+
+      const resize = () => {
+        w = Math.ceil(innerWidth / PX); h = Math.ceil(innerHeight / PX);
+        canvas.width = w; canvas.height = h;
+        stars = Array.from({ length: Math.round(w * h / 380) }, () => ({ x: rand(0, w) | 0, y: rand(0, h) | 0, t: rand(0, 6.28), s: rand(0.01, 0.04) }));
+        // Sit in the upper right, clear of the buttons; smaller on narrow screens.
+        scale = w > 360 ? 2 : 1;
+        ox = Math.round(Math.min(w - LW * scale - 8, w * 0.84 - LW * scale / 2));
+        oy = Math.round(Math.max(10, h * 0.16 - LH * scale / 2));
+      };
+      const draw = () => {
+        ctx.fillStyle = '#000'; ctx.fillRect(0, 0, w, h);
+        for (const s of stars) {
+          s.t += still ? 0 : s.s;
+          const v = 90 + Math.round(80 * (0.5 + 0.5 * Math.sin(s.t)));
+          ctx.fillStyle = `rgb(${v},${v},${v})`; ctx.fillRect(s.x, s.y, 1, 1);
+        }
+        pulse += still ? 0 : 0.012;
+        const base = 128 + Math.round(28 * Math.sin(pulse));
+        ctx.fillStyle = `rgb(${base},${base},${base})`;
+        for (const c of cells) ctx.fillRect(ox + c.x * scale, oy + c.y * scale, scale, scale);
+        if (!still) {
+          if (glints.length < 3 && Math.random() < 0.04) glints.push({ c: cells[(Math.random() * cells.length) | 0], life: 1 });
+          for (const g of glints) {
+            const v = base + Math.round((255 - base) * Math.sin(g.life * Math.PI));
+            ctx.fillStyle = `rgb(${v},${v},${v})`;
+            ctx.fillRect(ox + g.c.x * scale, oy + g.c.y * scale, scale, scale);
+            g.life -= 0.03;
+          }
+          glints = glints.filter(g => g.life > 0);
+        }
+        if (!still) requestAnimationFrame(draw);
+      };
+      addEventListener('resize', () => { resize(); if (still) draw(); });
+      resize(); draw();
+    })();
+  </script>
+</body>
 </html>
