@@ -2194,6 +2194,40 @@
       filter: saturate(1) contrast(1.02);
     }
 
+    /* 2026 film beside the title. Summary sits under the title, the button under the film. */
+    .chvp-hero-film {
+      min-width: 0;
+      margin: 0;
+      overflow: hidden;
+      border-radius: 2px;
+      background: #0b0f14;
+    }
+
+    .chvp-hero-film video {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1920 / 948;
+      background: #0b0f14;
+    }
+
+    @media (min-width: 901px) {
+      .chvp-hero-top {
+        grid-template-columns: minmax(0, 1fr) minmax(24rem, 1fr);
+        column-gap: clamp(3rem, 5vw, 5rem);
+        row-gap: clamp(2rem, 3vw, 2.75rem);
+      }
+
+      .chvp-hero-intro {
+        display: contents;
+      }
+
+      .chvp-hero-copy { grid-column: 1; grid-row: 1; }
+      .chvp-hero-film { grid-column: 2; grid-row: 1; align-self: end; }
+      .chvp-hero-summary { grid-column: 1; grid-row: 2; margin: 0; }
+      .chvp-hero-actions { grid-column: 2; grid-row: 2; margin-top: 0.35rem; }
+    }
+
     .chvp-section {
       padding-top: clamp(2.25rem, 2.8vw, 3rem);
       padding-bottom: clamp(2.25rem, 2.8vw, 3rem);
@@ -3231,6 +3265,11 @@
         <div class="chvp-hero-copy">
           <h1>Hardware Assurance Programme</h1>
         </div>
+        <figure class="chvp-hero-film">
+          <video controls playsinline preload="none" poster="/images/hap-2026/hap26-film-poster.jpg" width="1920" height="948" title="Hardware Assurance Programme 2026">
+            <source src="https://pub-fd3e7e854dc549da85f015f509d5ec9a.r2.dev/hap-2026.mp4" type="video/mp4">
+          </video>
+        </figure>
         <div class="chvp-hero-intro">
           <p class="chvp-hero-summary">A six-day programme for people developing hardware-enabled verification of what chips are computing, where they are operating and at what scale.</p>
           <div class="chvp-hero-actions">
