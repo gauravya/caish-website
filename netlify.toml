@@ -83,16 +83,16 @@
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate, stale-while-revalidate=86400"
 
-# Old HAP participant directory slug
+# Old HAP participant directory slug (directory now lives at /participants)
 [[redirects]]
   from = "/hap-2026-participants-3b604ec9ee"
-  to = "/hap/"
+  to = "/participants/"
   status = 301
   force = true
 
 [[redirects]]
   from = "/hap-2026-participants-3b604ec9ee/*"
-  to = "/hap/:splat"
+  to = "/participants/:splat"
   status = 301
   force = true
 
